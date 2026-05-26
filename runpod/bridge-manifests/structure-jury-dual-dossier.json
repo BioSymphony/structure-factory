@@ -1,0 +1,317 @@
+{
+  "access": {
+    "full_ssh_scp_required": false,
+    "http_proxy_required": true,
+    "public_services_require_auth": false,
+    "ssh_public_key_ref": "",
+    "ssh_required": false,
+    "tcp_ports_required": true
+  },
+  "artifact_egress": {
+    "archive_path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+    "mode": "workspace_archive",
+    "requires_network_volume": false,
+    "requires_object_store_upload": false,
+    "requires_scp": false
+  },
+  "budget": {
+    "max_estimated_cost_usd": 0,
+    "max_runtime_minutes": 120
+  },
+  "closeout": {
+    "delete_pod_if_network_volume_attached": true,
+    "linear_outcome_required": true,
+    "prefer_billing_api_cost": true,
+    "record_artifact_hashes": true,
+    "record_cost_estimate": true,
+    "record_runtime_minutes": true,
+    "retain_pod": false,
+    "stop_or_delete_pod": true
+  },
+  "compute_profile": "cpu-public-structure-jury-under-2h",
+  "expected_artifacts": [
+    {
+      "artifact_id": "status",
+      "path": "runpod-execution/status.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "campaign_summary",
+      "path": "runpod-execution/artifacts/campaign-summary.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "report_html",
+      "path": "runpod-execution/artifacts/report.html",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "report_md",
+      "path": "runpod-execution/artifacts/report.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "dossier_manifest",
+      "path": "runpod-execution/artifacts/dossier_manifest.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "data_intake",
+      "path": "runpod-execution/artifacts/data-intake-ledger.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "executed_commands",
+      "path": "runpod-execution/artifacts/executed-commands.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "contract_self_check",
+      "path": "runpod-execution/artifacts/validation/contract-self-check.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "map_model_fit",
+      "path": "runpod-execution/artifacts/validation/map_model_fit.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "stage_contract_check",
+      "path": "runpod-execution/artifacts/validation/stage-contract-check.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "figure_evidence_matrix",
+      "path": "runpod-execution/artifacts/figures/evidence-matrix.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "figure_maturity_ladder",
+      "path": "runpod-execution/artifacts/figures/maturity-ladder.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "t2r14_report",
+      "path": "runpod-execution/artifacts/targets/t2r14/artifacts/report.html",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "t2r14_ligand_figure",
+      "path": "runpod-execution/artifacts/targets/t2r14/artifacts/figures/ligand-neighborhoods.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "poltheta_report",
+      "path": "runpod-execution/artifacts/targets/poltheta/artifacts/report.html",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "poltheta_density_figure",
+      "path": "runpod-execution/artifacts/targets/poltheta/artifacts/figures/density-support.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "claim_ledger",
+      "path": "runpod-execution/artifacts/claim_ledger.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "methods",
+      "path": "runpod-execution/artifacts/methods.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "provenance",
+      "path": "runpod-execution/artifacts/provenance.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "artifact_archive",
+      "path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+      "required": true,
+      "sha256_required": true
+    }
+  ],
+  "launch_authorization": {
+    "approved_at": "PENDING",
+    "approved_by": "PENDING-OPERATOR-GATE",
+    "linear_issue_url": "PENDING-TRACKER-ISSUE",
+    "scope": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+    "source": "templates/operator-wave-runbook.md"
+  },
+  "manifest_kind": "symphony_runpod_launch",
+  "monitoring": {
+    "max_silent_minutes": 10,
+    "poll_interval_seconds": 15,
+    "record_pod_fields": [
+      "id",
+      "desiredStatus",
+      "lastStartedAt",
+      "lastStatusChange",
+      "costPerHr",
+      "adjustedCostPerHr",
+      "machine.dataCenterId",
+      "portMappings"
+    ],
+    "requires_log_artifact": true,
+    "requires_status_file": true,
+    "requires_workload_heartbeat": true
+  },
+  "provider": {
+    "adapter": "runpod_pod_v1",
+    "name": "runpod"
+  },
+  "public_template_note": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+  "public_template_status": "non_launchable_public_template",
+  "remote_launch_allowed": false,
+  "repo": {
+    "commit_or_snapshot": "inline:structure-jury-dual-dossier-v1",
+    "commit_or_snapshot_pin_policy": "Execution-ready packets must pin an immutable public-safe source ref outside public git.",
+    "source": "inline_commands",
+    "url_or_path": "inline",
+    "workdir": "/workspace/repo"
+  },
+  "run_id": "bsf-demo-structure-jury-dual-dossier",
+  "runpod": {
+    "cloudType": "SECURE",
+    "containerDiskInGb": 30,
+    "dataCenterIds": [],
+    "env": {
+      "STRUCTURE_FACTORY_RUN_ID": "bsf-demo-structure-jury-dual-dossier"
+    },
+    "gpuCount": 0,
+    "gpuTypeIds": [],
+    "imageDigestRequiredForReal": true,
+    "imageName": "python:3.12-slim",
+    "name": "bsf-demo-structure-jury",
+    "networkVolumeId": "",
+    "ports": [
+      "8000/http",
+      "8000/tcp"
+    ],
+    "templateId": "",
+    "volumeInGb": 0,
+    "volumeMountPath": "/workspace"
+  },
+  "safety": {
+    "license_policy": "open tooling only; no CryoSPARC/Phenix/ChimeraX/MotionCor/Rosetta/AlphaFold3",
+    "no_literal_secrets": true,
+    "private_data_policy": "public PDB/EMDB only; no private data",
+    "public_template_policy": "No secrets, concrete provider resources, private volume assumptions, prior-run artifacts, accepted-license state, or launchable startup payloads are encoded in this public manifest.",
+    "raw_data_policy": "no raw movies or particle stacks"
+  },
+  "schema_version": 1,
+  "startup": {
+    "commands": [
+      "set -euo pipefail",
+      "echo 'Public non-launchable template. Rebuild a private/operator-gated launch packet from tracked source before execution.'",
+      "exit 64"
+    ],
+    "heartbeat_file": "runpod-execution/monitor_events.ndjson",
+    "inspection": {
+      "hold_after_success_seconds": 0,
+      "http_artifact_server_port": null
+    },
+    "log_file": "runpod-execution/logs/startup.log",
+    "mode": "dockerStartCmd",
+    "status_file": "runpod-execution/status.json"
+  },
+  "validation_commands": [
+    "python3 -m json.tool runpod-execution/status.json >/dev/null",
+    "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nroot = Path('runpod-execution')\nbase = root / 'artifacts'\nstatus = json.loads((root / 'status.json').read_text())\nsummary = json.loads((base / 'campaign-summary.json').read_text())\ncontract = json.loads((base / 'validation' / 'contract-self-check.json').read_text())\nmanifest = json.loads((base / 'dossier_manifest.json').read_text())\nledger = json.loads((base / 'data-intake-ledger.json').read_text())\nassert status['ok'] is True\nassert summary['ok'] is True\nassert summary['target_count'] == 2\nassert contract['ok'] is True, contract['errors']\nassert manifest['raw_data_downloaded'] is False\nassert manifest['license_gated_tools_used'] == []\nassert ledger['raw_movies_downloaded'] is False\nfor rel in ['report.html', 'report.md', 'figures/evidence-matrix.svg', 'figures/maturity-ladder.svg', 'targets/t2r14/artifacts/report.html', 'targets/poltheta/artifacts/report.html', 'targets/poltheta/artifacts/validation/map_model_fit.json', 'runpod-execution.tar.gz']:\n    assert (base / rel).is_file(), rel\nPY"
+  ],
+  "worker_coordination": {
+    "linear_issue_lock_required": true,
+    "read_only_monitors_allowed": true,
+    "resource_name_prefix": "bsf-demo-structure-jury",
+    "single_mutating_worker": true
+  },
+  "workload": {
+    "checkpoint_policy": {
+      "mode": "stage-progress-jsonl"
+    },
+    "description": "Two-target public deposited-structure jury for T2R14 and pol theta",
+    "scale": "small",
+    "shards": [
+      {
+        "shard_id": "dual-public-dossier"
+      }
+    ],
+    "stage_contract": {
+      "claim_level": "candidate",
+      "done_markers": [
+        "runpod-execution/status.json reports completed",
+        "runpod-execution/artifacts/validation/contract-self-check.json reports ok true",
+        "runpod-execution/artifacts/runpod-execution.tar.gz exists"
+      ],
+      "exact_commands": [
+        "python3 scripts/structure_factory/structure_jury_dossier.py --out runpod-execution --json"
+      ],
+      "expected_outputs": [
+        "runpod-execution/status.json",
+        "runpod-execution/artifacts/campaign-summary.json",
+        "runpod-execution/artifacts/report.html",
+        "runpod-execution/artifacts/dossier_manifest.json",
+        "runpod-execution/artifacts/validation/contract-self-check.json",
+        "runpod-execution/artifacts/validation/map_model_fit.json",
+        "runpod-execution/artifacts/validation/stage-contract-check.json",
+        "runpod-execution/artifacts/figures/evidence-matrix.svg",
+        "runpod-execution/artifacts/figures/maturity-ladder.svg",
+        "runpod-execution/artifacts/targets/t2r14/artifacts/report.html",
+        "runpod-execution/artifacts/targets/t2r14/artifacts/figures/ligand-neighborhoods.svg",
+        "runpod-execution/artifacts/targets/poltheta/artifacts/report.html",
+        "runpod-execution/artifacts/targets/poltheta/artifacts/figures/density-support.svg",
+        "runpod-execution/artifacts/claim_ledger.md",
+        "runpod-execution/artifacts/methods.md",
+        "runpod-execution/artifacts/provenance.md",
+        "runpod-execution/artifacts/runpod-execution.tar.gz"
+      ],
+      "fail_closed": true,
+      "inputs": [
+        "PDB 9W0Q public mmCIF and RCSB metadata",
+        "PDB 9ASJ public mmCIF",
+        "EMDB EMD-43816 public deposited map",
+        "wwPDB public validation XML for 9ASJ"
+      ],
+      "resume_policy": "Disposable demo pod. If interrupted, delete pod and relaunch the same manifest; public-data outputs are deterministic enough for demo comparison.",
+      "route_proof": {
+        "artifact_validation": [
+          "validation command reads runpod-execution/status.json, runpod-execution/artifacts/campaign-summary.json, runpod-execution/artifacts/validation/contract-self-check.json, runpod-execution/artifacts/dossier_manifest.json, and runpod-execution/artifacts/data-intake-ledger.json",
+          "expected artifacts include runpod-execution/artifacts/report.html, runpod-execution/artifacts/figures/evidence-matrix.svg, runpod-execution/artifacts/targets/poltheta/artifacts/validation/map_model_fit.json, and runpod-execution/artifacts/runpod-execution.tar.gz"
+        ],
+        "claim_boundaries": [
+          "runpod-execution/artifacts/claim_ledger.md must include insufficient_evidence boundaries for final mechanism and publication-ready validation",
+          "campaign claim level remains candidate for deposited public-data dossier evidence; raw reconstruction and licensed-tool refinement are out of scope"
+        ],
+        "input_materialization": [
+          "runpod-execution/artifacts/data-intake-ledger.json joins PDB 9W0Q, PDB 9ASJ, EMDB EMD-43816, and wwPDB validation XML materialized files with bytes and sha256",
+          "runpod-execution/artifacts/validation/input-audit.json records no missing operator items before target dossier execution"
+        ],
+        "tool_invocation": [
+          "python3 scripts/structure_factory/structure_jury_dossier.py --out runpod-execution --json",
+          "runpod-execution/artifacts/executed-commands.jsonl records campaign_input_audit, t2r14_dossier, poltheta_dossier, campaign_join, claim_audit, and archive stages"
+        ]
+      },
+      "timeout_minutes": 120
+    }
+  }
+}

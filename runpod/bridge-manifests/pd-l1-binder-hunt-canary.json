@@ -1,0 +1,374 @@
+{
+  "access": {
+    "full_ssh_scp_required": false,
+    "http_proxy_required": false,
+    "public_services_require_auth": false,
+    "ssh_public_key_ref": "",
+    "ssh_required": false,
+    "tcp_ports_required": false
+  },
+  "artifact_egress": {
+    "archive_path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+    "mode": "workspace_archive",
+    "requires_network_volume": false,
+    "requires_object_store_upload": false,
+    "requires_scp": false
+  },
+  "budget": {
+    "max_estimated_cost_usd": 0,
+    "max_runtime_minutes": 480,
+    "terminate_after_minutes": 540
+  },
+  "campaign_id": "pd-l1-pd1-binder-design",
+  "campaign_manifest_ref": "examples/supercharger/pd-l1-binder-design-manifest.json",
+  "closeout": {
+    "delete_pod_if_network_volume_attached": false,
+    "linear_outcome_required": true,
+    "prefer_billing_api_cost": true,
+    "record_artifact_hashes": true,
+    "record_cost_estimate": true,
+    "record_runtime_minutes": true,
+    "retain_pod": false,
+    "stop_or_delete_pod": true
+  },
+  "compute_profile": "gpu-genie3-boltz-design-jury-under-8h",
+  "expected_artifacts": [
+    {
+      "artifact_id": "status",
+      "path": "runpod-execution/status.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "stage_progress",
+      "path": "runpod-execution/artifacts/stage-progress.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "executed_commands",
+      "path": "runpod-execution/artifacts/executed-commands.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "target_intake",
+      "path": "runpod-execution/artifacts/validation/target_intake.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "runtime_gate",
+      "path": "runpod-execution/artifacts/validation/runtime_gate.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "genie3_install",
+      "path": "runpod-execution/artifacts/validation/genie3_install.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "genie3_weights_fetch",
+      "path": "runpod-execution/artifacts/validation/genie3_weights_fetch.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "weights_manifest",
+      "path": "runpod-execution/artifacts/weights_manifest.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "genie3_generation_canary",
+      "path": "runpod-execution/artifacts/validation/genie3_generation_canary.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "boltz_crosscheck_canary",
+      "path": "runpod-execution/artifacts/validation/boltz_crosscheck_canary.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "candidate_jury_json",
+      "path": "runpod-execution/artifacts/candidate_jury.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "candidate_jury_md",
+      "path": "runpod-execution/artifacts/candidate_jury.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "candidate_jury_top32",
+      "path": "runpod-execution/artifacts/candidate_jury_top32.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "claim_ledger",
+      "path": "runpod-execution/artifacts/claim_ledger.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "operator_closeout",
+      "path": "runpod-execution/artifacts/operator_closeout.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "report_html",
+      "path": "runpod-execution/artifacts/report/index.html",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "artifact_index",
+      "path": "runpod-execution/artifacts/artifact_index.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "artifact_archive",
+      "path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+      "required": true,
+      "sha256_required": true
+    }
+  ],
+  "launch_authorization": {
+    "approved_at": "PENDING",
+    "approved_by": "PENDING-OPERATOR-GATE",
+    "linear_issue_url": "PENDING-TRACKER-ISSUE",
+    "operator_must_NOT_set_env": [
+      "GENIE3_DOWNLOAD_TRAINING_DATA=1",
+      "GENIE3_ALLOW_TRAINING_DATA=1"
+    ],
+    "operator_must_set_env": [
+      "GENIE3_DOWNLOAD_WEIGHTS=1",
+      "GENIE3_OPERATOR_GATE_ACK=dependency_and_weight_terms_reviewed",
+      "GENIE3_ALLOW_COLABFOLD_PARAMS=1"
+    ],
+    "preconditions": [
+      "the genie3-no-download-toolcheck issue closed as Done with claim_level=candidate",
+      "runpod-global-doctor structure-factory-pd-l1-binder-hunt passes",
+      "make ai-design-stack-check passes",
+      "PD-L1 target_window_dossier.json committed at campaigns/pd-l1-pd1-binder-design/target_window_dossier.json with five hotspots populated (Y56, E58, R113, M115, Y123)"
+    ],
+    "scope": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+    "source": "templates/operator-wave-runbook.md"
+  },
+  "launch_manifest_ref": "runpod/bridge-manifests/pd-l1-binder-hunt-canary.json",
+  "license_gates": [
+    "Genie 3 dependency review (Apache 2.0 reported; ColabFold + IPSAE flagged)",
+    "Boltz license review (MIT)",
+    "ColabFold MSA service public-target-only posture confirmed in operator_closeout"
+  ],
+  "manifest_kind": "symphony_runpod_launch",
+  "monitoring": {
+    "max_silent_minutes": 30,
+    "poll_interval_seconds": 30,
+    "record_pod_fields": [
+      "id",
+      "desiredStatus",
+      "lastStartedAt",
+      "lastStatusChange",
+      "costPerHr",
+      "adjustedCostPerHr",
+      "machine.dataCenterId",
+      "portMappings"
+    ],
+    "required_signals": [
+      "provider_actual_status",
+      "runtime_uptime_seconds",
+      "image_pull_success_or_failure",
+      "stage_progress_heartbeat"
+    ],
+    "requires_log_artifact": true,
+    "requires_status_file": true,
+    "requires_workload_heartbeat": true
+  },
+  "provider": {
+    "adapter": "runpod_pod_v1",
+    "name": "runpod"
+  },
+  "public_template_note": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+  "public_template_status": "non_launchable_public_template",
+  "remote_launch_allowed": false,
+  "repo": {
+    "commit_or_snapshot": "inline:pd-l1-binder-hunt",
+    "commit_or_snapshot_pin_policy": "Execution-ready packets must pin an immutable public-safe source ref outside public git.",
+    "source": "inline_commands",
+    "url_or_path": "inline",
+    "workdir": "/workspace"
+  },
+  "run_id": "structure-factory-pd-l1-binder-hunt-8h",
+  "runpod": {
+    "cloudType": "COMMUNITY",
+    "computeType": "GPU",
+    "containerDiskInGb": 80,
+    "env": {
+      "BOLTZ_CACHE": "/workspace/structure-factory/weights/boltz",
+      "GENIE3_ALLOW_COLABFOLD_PARAMS": "1",
+      "GENIE3_ALLOW_TRAINING_DATA": "0",
+      "GENIE3_CACHE": "/workspace/structure-factory/weights/genie3",
+      "GENIE3_DOWNLOAD_TRAINING_DATA": "0",
+      "GENIE3_DOWNLOAD_WEIGHTS": "1",
+      "GENIE3_OPERATOR_GATE_ACK": "dependency_and_weight_terms_reviewed",
+      "STRUCTURE_FACTORY_BOLTZ_VERSION": "2.2.1",
+      "STRUCTURE_FACTORY_EXECUTION_PROFILE": "genie3-boltz-design-jury",
+      "STRUCTURE_FACTORY_EXTENDED_CAP": "38",
+      "STRUCTURE_FACTORY_GENIE3_BINDER_MAX_LEN": "90",
+      "STRUCTURE_FACTORY_GENIE3_BINDER_MIN_LEN": "60",
+      "STRUCTURE_FACTORY_GENIE3_DIR_SCALE": "2",
+      "STRUCTURE_FACTORY_GENIE3_HF_REVISION": "9ae31ebb8c56eebdc05ab282a8fd3f6a6d2a03a2",
+      "STRUCTURE_FACTORY_GENIE3_N_SAMPLE": "32",
+      "STRUCTURE_FACTORY_GENIE3_PINNED_SHA": "5214459c42e69b01fadfc7d7ebda09d8e5082115",
+      "STRUCTURE_FACTORY_LANE": "pd-l1-binder-hunt",
+      "STRUCTURE_FACTORY_PRIMARY_ACCESSION": "4ZQK",
+      "STRUCTURE_FACTORY_RUN_ID": "structure-factory-pd-l1-binder-hunt-8h",
+      "STRUCTURE_FACTORY_TARGET_WINDOW": "pd-l1-binder-window"
+    },
+    "gpuCount": 1,
+    "gpuTypeIds": [
+      "NVIDIA GeForce RTX 4090"
+    ],
+    "imageDigestRequiredForReal": true,
+    "imageName": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
+    "name": "structure-factory-pd-l1-binder-hunt",
+    "ports": [
+      "8000/http"
+    ],
+    "registryAuth": {
+      "policy_note": "stock_pytorch_image",
+      "provider": "dockerhub",
+      "required": false
+    },
+    "templateId": "",
+    "vcpuCount": 8,
+    "volumeInGb": 0,
+    "volumeMountPath": "/workspace"
+  },
+  "safety": {
+    "license_policy": "Genie 3 (Apache 2.0 reported) + Boltz (MIT) + public RCSB API + public HuggingFace metadata. ColabFold MSA service for public targets only. No private data, no commercial deployment, no therapeutic claims.",
+    "no_literal_secrets": true,
+    "private_data_policy": "public PDB/EMDB only; PD-L1 (UniProt Q9NZQ7) is public; 4ZQK is public; no unpublished sequences",
+    "public_template_policy": "No secrets, concrete provider resources, private volume assumptions, prior-run artifacts, accepted-license state, or launchable startup payloads are encoded in this public manifest."
+  },
+  "schema_version": 1,
+  "shard": {
+    "campaign": "pd-l1-pd1-binder-design",
+    "primary_accession": "4ZQK",
+    "target_window": "pd-l1-binder-window"
+  },
+  "stage_contract_ref": "runpod/stage-contracts/pd-l1-binder-hunt.stage-contract.json",
+  "startup": {
+    "commands": [
+      "set -euo pipefail",
+      "echo 'Public non-launchable template. Rebuild a private/operator-gated launch packet from tracked source before execution.'",
+      "exit 64"
+    ],
+    "heartbeat_file": "runpod-execution/logs/startup.log",
+    "inspection": {
+      "hold_after_success_seconds": 0,
+      "http_artifact_server_port": null
+    },
+    "log_file": "runpod-execution/logs/startup.log",
+    "mode": "dockerStartCmd",
+    "status_file": "runpod-execution/status.json"
+  },
+  "validation_commands": [
+    "python3 -m json.tool /workspace/runpod-execution/status.json >/dev/null",
+    "test -f /workspace/runpod-execution/artifacts/candidate_jury.json",
+    "test -f /workspace/runpod-execution/artifacts/candidate_jury_top32.json",
+    "test -f /workspace/runpod-execution/artifacts/claim_ledger.json",
+    "test -f /workspace/runpod-execution/artifacts/operator_closeout.md",
+    "test -f /workspace/runpod-execution/artifacts/validation/contract-self-check.json"
+  ],
+  "wave": "pd-l1-binder-hunt",
+  "worker_coordination": {
+    "linear_issue_lock_required": true,
+    "read_only_monitors_allowed": true,
+    "resource_name_prefix": "structure-factory-pd-l1-binder-hunt",
+    "single_mutating_worker": true
+  },
+  "workload": {
+    "checkpoint_policy": {
+      "mode": "stage-progress-jsonl"
+    },
+    "description": "PD-L1 / PD-1 binder hunt: fail-closed stages from runpod/stage-contracts/pd-l1-binder-hunt.stage-contract.json. Up to 256 Genie 3-generated binder candidates (8 problems x n_sample=32 with direction_scale=2.0 hotspot steering), sequence-level pre-filter trims to top 32 for Boltz cofold cross-check, candidate jury ranks final. Inline_commands airgap pattern; no NV attached, no clone, no registry auth. Operator RunPod network volume (referenced via STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID) reserved for future warm-cache waves.",
+    "scale": "small",
+    "shards": [
+      {
+        "shard_id": "pd-l1-binder-hunt-shard-1"
+      }
+    ],
+    "stage_contract": {
+      "claim_level": "candidate",
+      "done_markers": [
+        "runpod-execution/status.json reports ok true",
+        "runpod-execution/artifacts/operator_closeout.md exists with one of six terminal states",
+        "runpod-execution/artifacts/candidate_jury_top32.json exists with at most 32 entries",
+        "runpod-execution/artifacts/runpod-execution.tar.gz exists"
+      ],
+      "exact_commands": [
+        "python3 -m pip install --no-cache-dir 'boltz==2.2.1'",
+        "python3 /workspace/pd_l1_binder_hunt.py --out /workspace/runpod-execution/artifacts --mvd-root /workspace/runpod-execution/mvd --stage all --json"
+      ],
+      "expected_outputs": [
+        "runpod-execution/status.json",
+        "runpod-execution/artifacts/stage-progress.jsonl",
+        "runpod-execution/artifacts/executed-commands.jsonl",
+        "runpod-execution/artifacts/validation/target_intake.json",
+        "runpod-execution/artifacts/validation/runtime_gate.json",
+        "runpod-execution/artifacts/validation/genie3_install.json",
+        "runpod-execution/artifacts/validation/genie3_weights_fetch.json",
+        "runpod-execution/artifacts/weights_manifest.json",
+        "runpod-execution/artifacts/validation/genie3_generation_canary.json",
+        "runpod-execution/artifacts/validation/boltz_crosscheck_canary.json",
+        "runpod-execution/artifacts/candidate_jury.json",
+        "runpod-execution/artifacts/candidate_jury.md",
+        "runpod-execution/artifacts/candidate_jury_top32.json",
+        "runpod-execution/artifacts/claim_ledger.json",
+        "runpod-execution/artifacts/operator_closeout.md",
+        "runpod-execution/artifacts/report/index.html",
+        "runpod-execution/artifacts/artifact_index.json",
+        "runpod-execution/artifacts/runpod-execution.tar.gz"
+      ],
+      "fail_closed": true,
+      "inputs": [
+        "Two runner scripts embedded inline (lzma+base64) \u2014 no fetch required",
+        "PD-L1 binder design manifest embedded inline (base64); PD-L1 target_window_dossier.json ships in-repo",
+        "4ZQK coordinates fetched at runtime from RCSB (~0.5 MB public) inside the runner",
+        "Genie 3 source archive fetched at runtime from GitHub at the lane-pinned SHA (~13 MB public)",
+        "Genie 3 weights fetched at runtime from HuggingFace at the lane-pinned revision (operator-gated)",
+        "Boltz wheel fetched at runtime from PyPI"
+      ],
+      "resume_policy": "Each stage is invokable individually via --stage <id>; partial-summary written on failed/timeout. Mid-run pod restart should run --stage all again; completed stages are detected via their checkpoint_marker JSON files.",
+      "route_proof": {
+        "artifact_validation": [
+          "validation_commands check status.json + candidate_jury_top32 + claim_ledger + operator_closeout + contract-self-check"
+        ],
+        "claim_boundaries": [
+          "claim_level cap is candidate; downgrades to insufficient_evidence/blocked on stage failures",
+          "operator_closeout.md MUST set exactly one of six terminal states from the umbrella issue",
+          "Boltz cofold cap: top 32 backbones (sequence-level pre-filter selects from 256 Genie 3 outputs)"
+        ],
+        "input_materialization": [
+          "PD-L1 dossier ships in-repo at campaigns/pd-l1-pd1-binder-design/target_window_dossier.json (no on-pod MVD step)",
+          "Genie 3 weights downloaded via huggingface-cli at pinned revision; sha256 recorded in weights_manifest.json"
+        ],
+        "tool_invocation": [
+          "python3 /workspace/pd_l1_binder_hunt.py --out /workspace/runpod-execution/artifacts --mvd-root /workspace/runpod-execution/mvd --stage all --json"
+        ]
+      },
+      "timeout_minutes": 480
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "graph_id": "supercharger-fixture-evidence-graph",
+  "nodes": [
+    {
+      "id": "benchmark_set",
+      "path": "examples/supercharger/benchmark-set.json",
+      "evidence_mode": "fixture_or_demo"
+    },
+    {
+      "id": "calibration_summary",
+      "path": "examples/supercharger/calibration-summary.json",
+      "evidence_mode": "fixture_or_demo"
+    }
+  ],
+  "edges": [
+    {
+      "from": "benchmark_set",
+      "to": "calibration_summary",
+      "relationship": "constrains_claim_ceiling"
+    }
+  ]
+}

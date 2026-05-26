@@ -1,0 +1,291 @@
+{
+  "access": {
+    "full_ssh_scp_required": false,
+    "http_proxy_required": true,
+    "public_services_require_auth": false,
+    "ssh_public_key_ref": "",
+    "ssh_required": false,
+    "tcp_ports_required": false
+  },
+  "artifact_egress": {
+    "archive_path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+    "mode": "workspace_archive",
+    "requires_network_volume": false,
+    "requires_object_store_upload": false,
+    "requires_scp": false
+  },
+  "budget": {
+    "max_estimated_cost_usd": 0,
+    "max_runtime_minutes": 90,
+    "terminate_after_minutes": 105
+  },
+  "campaign_id": "pd-l1-pd1-binder-design",
+  "campaign_manifest_ref": "campaigns/pd-l1-pd1-binder-design/",
+  "closeout": {
+    "delete_pod_if_network_volume_attached": false,
+    "linear_outcome_required": true,
+    "prefer_billing_api_cost": true,
+    "record_artifact_hashes": true,
+    "record_cost_estimate": true,
+    "record_runtime_minutes": true,
+    "retain_pod": false,
+    "stop_or_delete_pod": true
+  },
+  "compute_profile": "gpu-secure-rfdiffusion-canary-under-2h",
+  "expected_artifacts": [
+    {
+      "artifact_id": "status",
+      "path": "runpod-execution/status.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "rfdiffusion_manifest",
+      "path": "runpod-execution/artifacts/rfdiffusion/rfdiffusion_manifest.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "mpnn_sequences_fasta",
+      "path": "runpod-execution/artifacts/mpnn/sequences.fasta",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "contract_self_check",
+      "path": "runpod-execution/artifacts/validation/contract-self-check.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "stage_progress",
+      "path": "runpod-execution/artifacts/stage-progress.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "executed_commands",
+      "path": "runpod-execution/artifacts/executed-commands.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "rfdiffusion_design_log",
+      "path": "runpod-execution/artifacts/logs/rfdiffusion_design.log",
+      "required": false,
+      "sha256_required": false
+    },
+    {
+      "artifact_id": "artifact_archive",
+      "path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+      "required": true,
+      "sha256_required": true
+    }
+  ],
+  "launch_authorization": {
+    "approved_at": "PENDING",
+    "approved_by": "PENDING-OPERATOR-GATE",
+    "linear_issue_url": "PENDING-TRACKER-ISSUE",
+    "scope": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+    "source": "templates/operator-wave-runbook.md"
+  },
+  "launch_manifest_ref": "runpod/bridge-manifests/pd-l1-rfdiffusion-canary-inline.json",
+  "license_gates": [],
+  "manifest_kind": "symphony_runpod_launch",
+  "monitoring": {
+    "max_silent_minutes": 15,
+    "poll_interval_seconds": 30,
+    "record_pod_fields": [
+      "id",
+      "desiredStatus",
+      "lastStartedAt",
+      "lastStatusChange",
+      "costPerHr",
+      "adjustedCostPerHr",
+      "machine.dataCenterId",
+      "portMappings"
+    ],
+    "required_signals": [
+      "provider_actual_status",
+      "runtime_uptime_seconds",
+      "image_pull_success_or_failure",
+      "stage_progress_heartbeat"
+    ],
+    "requires_log_artifact": true,
+    "requires_status_file": true,
+    "requires_workload_heartbeat": true
+  },
+  "provider": {
+    "adapter": "runpod_pod_v1",
+    "name": "runpod"
+  },
+  "public_template_note": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+  "public_template_status": "non_launchable_public_template",
+  "remote_launch_allowed": false,
+  "repo": {
+    "commit_or_snapshot": "inline:pd-l1-rfdiffusion",
+    "commit_or_snapshot_pin_policy": "Execution-ready packets must pin an immutable public-safe source ref outside public git.",
+    "source": "inline_commands",
+    "url_or_path": "inline",
+    "workdir": "/workspace/bio-symphony-structure-factory"
+  },
+  "run_id": "structure-factory-pd-l1-rfdiffusion-canary",
+  "runpod": {
+    "allowedCudaVersions": [
+      "12.4",
+      "12.5",
+      "12.6",
+      "12.7",
+      "12.8"
+    ],
+    "cloudType": "COMMUNITY",
+    "computeType": "GPU",
+    "containerDiskInGb": 60,
+    "env": {
+      "STRUCTURE_FACTORY_CAMPAIGN_ID": "pd-l1-pd1-binder-design",
+      "STRUCTURE_FACTORY_COFOLD_MAX": "4",
+      "STRUCTURE_FACTORY_COFOLD_SEQS_PER_DESIGN": "1",
+      "STRUCTURE_FACTORY_EXECUTION_PROFILE": "rfdiffusion-binder-design",
+      "STRUCTURE_FACTORY_REPO_ROOT": "/workspace/bio-symphony-structure-factory",
+      "STRUCTURE_FACTORY_REPO_SOURCE": "inline_commands",
+      "STRUCTURE_FACTORY_RFDIFFUSION_CONTIGS": "A19-127/0 60-90",
+      "STRUCTURE_FACTORY_RFDIFFUSION_HOTSPOTS": "A122,A125,A113,A121,A123",
+      "STRUCTURE_FACTORY_RFDIFFUSION_NUM_DESIGNS": "4",
+      "STRUCTURE_FACTORY_RFDIFFUSION_SEED": "0",
+      "STRUCTURE_FACTORY_RFDIFFUSION_WEIGHTS_DIR": "/workspace/software/weights/rfdiffusion",
+      "STRUCTURE_FACTORY_RUN_ID": "structure-factory-pd-l1-rfdiffusion-canary",
+      "STRUCTURE_FACTORY_SOFTWARE_ROOT": "/workspace/software",
+      "STRUCTURE_FACTORY_STAGE_CONTRACT": "/workspace/bio-symphony-structure-factory/runpod/stage-contracts/pd-l1-rfdiffusion.stage-contract.json",
+      "STRUCTURE_FACTORY_TARGET_PDB": "/workspace/bio-symphony-structure-factory/campaigns/pd-l1-pd1-binder-design/structure_inputs/4ZQK_chainA_19-127.pdb",
+      "STRUCTURE_FACTORY_VOLUME_ROOT": "/workspace/structure-factory"
+    },
+    "gpuCount": 1,
+    "gpuTypeIds": [
+      "NVIDIA L40S"
+    ],
+    "imageDigestRequiredForReal": true,
+    "imageName": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
+    "image_capabilities": [
+      "git"
+    ],
+    "name": "structure-factory-pd-l1-rfdiffusion-canary",
+    "ports": [
+      "8888/http",
+      "8000/http"
+    ],
+    "registryAuth": {
+      "policy_note": "stock_pytorch_image",
+      "provider": "dockerhub",
+      "required": false
+    },
+    "templateId": "",
+    "vcpuCount": 8,
+    "volumeInGb": 0,
+    "volumeMountPath": "/workspace"
+  },
+  "safety": {
+    "license_policy": "RFdiffusion (BSD) + ProteinMPNN (MIT) only; no AlphaFold 3, no licensed prediction tools",
+    "no_literal_secrets": true,
+    "private_data_policy": "public PDB only: PD-L1 target slice derived from 4ZQK chain A (UniProt Q9NZQ7 19-127); no private patient data, no licensed databases",
+    "public_template_policy": "No secrets, concrete provider resources, private volume assumptions, prior-run artifacts, accepted-license state, or launchable startup payloads are encoded in this public manifest."
+  },
+  "schema_version": 1,
+  "shard": {
+    "designer": "rfdiffusion",
+    "pdb_accession": "4ZQK",
+    "target_label": "PD-L1",
+    "target_window": "19-127"
+  },
+  "stage_contract_ref": "runpod/stage-contracts/pd-l1-rfdiffusion.stage-contract.json",
+  "startup": {
+    "commands": [
+      "set -euo pipefail",
+      "echo 'Public non-launchable template. Rebuild a private/operator-gated launch packet from tracked source before execution.'",
+      "exit 64"
+    ],
+    "heartbeat_file": "runpod-execution/monitor_events.ndjson",
+    "inspection": {
+      "hold_after_success_seconds": 0,
+      "http_artifact_server_port": null
+    },
+    "log_file": "runpod-execution/artifacts/logs/startup.log",
+    "mode": "dockerStartCmd",
+    "progress": {
+      "http_status_server_port": 8888,
+      "include_log_tail": false,
+      "log_tail_bytes": 4096
+    },
+    "status_file": "runpod-execution/status.json"
+  },
+  "validation_commands": [
+    "python3 -m json.tool runpod-execution/status.json >/dev/null",
+    "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nbase = Path('runpod-execution/artifacts')\nstatus = json.loads(Path('runpod-execution/status.json').read_text())\ncontract = json.loads((base / 'validation' / 'contract-self-check.json').read_text())\nassert status['ok'] is True, status\nassert contract['ok'] is True, contract\nfor rel in ['rfdiffusion/rfdiffusion_manifest.json', 'mpnn/sequences.fasta', 'stage-progress.jsonl', 'executed-commands.jsonl']:\n    assert (base / rel).is_file(), rel\nrfd = json.loads((base / 'rfdiffusion' / 'rfdiffusion_manifest.json').read_text())\nassert rfd['num_designs_produced'] >= 1, rfd\nPY"
+  ],
+  "wave": "design",
+  "worker_coordination": {
+    "linear_issue_lock_required": true,
+    "read_only_monitors_allowed": true,
+    "resource_name_prefix": "structure-factory-pd-l1-rfdiffusion",
+    "single_mutating_worker": true
+  },
+  "workload": {
+    "checkpoint_policy": {
+      "mode": "stage-progress-jsonl"
+    },
+    "description": "PD-L1 RFdiffusion binder-design canary (inline_commands payload): 8 backbones against 4ZQK chain A with the 5 strict hotspots (A122,A125,A113,A121,A123), followed by ProteinMPNN sequence design. Plumbing validation before the full 256-design wave.",
+    "scale": "small",
+    "shards": [
+      {
+        "shard_id": "pd-l1-rfdiffusion-canary"
+      }
+    ],
+    "stage_contract": {
+      "claim_level": "candidate",
+      "done_markers": [
+        "runpod-execution/status.json reports ok",
+        "runpod-execution/artifacts/validation/contract-self-check.json reports ok true",
+        "runpod-execution/artifacts/rfdiffusion/rfdiffusion_manifest.json exists and num_designs_produced >= 1",
+        "runpod-execution/artifacts/mpnn/sequences.fasta exists and is non-empty"
+      ],
+      "exact_commands": [
+        "bash runpod/entrypoints/pd-l1-rfdiffusion.sh"
+      ],
+      "expected_outputs": [
+        "runpod-execution/status.json",
+        "runpod-execution/artifacts/rfdiffusion/rfdiffusion_manifest.json",
+        "runpod-execution/artifacts/mpnn/sequences.fasta",
+        "runpod-execution/artifacts/validation/contract-self-check.json",
+        "runpod-execution/artifacts/stage-progress.jsonl",
+        "runpod-execution/artifacts/executed-commands.jsonl"
+      ],
+      "fail_closed": true,
+      "inputs": [
+        "Target PDB materialized at runtime from public RCSB 4ZQK chain A residues 19-127",
+        "RFdiffusion Complex_base_ckpt.pt baked on campaign NV at /workspace/software/weights/rfdiffusion",
+        "Hotspot list: A122,A125,A113,A121,A123"
+      ],
+      "resume_policy": "Disposable single-shot GPU pod. Re-fire the same inline manifest on failure; the entrypoint is idempotent at the install layer (NV-cached) and stochastic at the design layer (seed pinned).",
+      "route_proof": {
+        "artifact_validation": [
+          "validation_commands check status.json and contract-self-check.json both report ok true",
+          "expected_artifacts include rfdiffusion/rfdiffusion_manifest.json, mpnn/sequences.fasta, contract-self-check.json, stage-progress.jsonl, executed-commands.jsonl, and the artifact_archive",
+          "rfdiffusion_manifest.json reports num_designs_produced >= 1 with sha256 for every design_*.pdb"
+        ],
+        "claim_boundaries": [
+          "claim_level stays at candidate; produced backbones+sequences are inputs to a downstream Boltz iPTM jury, not a binder claim",
+          "no AlphaFold 3, no licensed prediction tools; RFdiffusion is the IPD BSD release, ProteinMPNN is the Baker lab MIT release"
+        ],
+        "input_materialization": [
+          "Target PDB SHA captured in validation/input-audit.json; chain/resnum range echoed back",
+          "Stage contract inlined alongside entrypoint; SHA captured in validation/manifest-preflight.json",
+          "RFdiffusion weights manifest written by the entrypoint; fail-closes if Complex_base_ckpt.pt is absent on NV"
+        ],
+        "tool_invocation": [
+          "bash runpod/entrypoints/pd-l1-rfdiffusion.sh",
+          "executed-commands.jsonl records the exact scripts/run_inference.py invocation, the install commands, and the protein_mpnn_run.py invocations with exit codes"
+        ]
+      },
+      "timeout_minutes": 90
+    }
+  }
+}

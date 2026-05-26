@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "memory_id": "supercharger-public-safe-memory-fixture",
+  "campaign_id": "supercharger-fixtures",
+  "memory_type": "method_calibration",
+  "summary": "No-download Supercharger fixtures can exercise screening, calibration, and provider closeout contracts, but they cannot support validated biological claims.",
+  "evidence_refs": [
+    "examples/supercharger/benchmark-set.json",
+    "examples/supercharger/calibration-summary.json"
+  ],
+  "public_safe": true
+}

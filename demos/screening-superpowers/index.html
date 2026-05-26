@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Screening Superpowers Dashboard - BioSymphony Structure Factory</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-grid">
+      <div>
+        <p class="eyebrow">BioSymphony Structure Factory</p>
+        <h1>Screening Superpowers</h1>
+      </div>
+      <div class="run-strip" id="runStatus">
+        Waiting for fixture artifacts
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-band">
+      <div class="hero-copy">
+        <p class="kicker">No-download fixture browser</p>
+        <h2>Turn a screening run folder into an inspectable candidate ledger.</h2>
+        <p>
+          Rankings, claims, failures, tranches, method disagreement, and
+          candidate dossiers share one evidence ceiling. Invalid controls stay
+          visible beside promoted candidates.
+        </p>
+        <div class="hero-actions" aria-label="Artifact loading controls">
+          <button class="primary-action" id="loadRuntimeButton" type="button">Load runtime fixture</button>
+          <label class="secondary-action" for="artifactFolderInput">Load artifact folder</label>
+          <input id="artifactFolderInput" type="file" webkitdirectory directory multiple />
+        </div>
+      </div>
+      <div class="fixture-window" aria-label="Fixture artifact flow">
+        <div class="window-top">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="pipeline-grid">
+          <div class="pipeline-node">Manifest</div>
+          <div class="pipeline-node">Prep</div>
+          <div class="pipeline-node">Jury</div>
+          <div class="pipeline-node">Rank</div>
+          <div class="pipeline-node accent">Dossier</div>
+        </div>
+        <div class="signal-plot" aria-hidden="true">
+          <span style="height: 42%"></span>
+          <span style="height: 66%"></span>
+          <span style="height: 30%"></span>
+          <span style="height: 78%"></span>
+          <span style="height: 52%"></span>
+          <span style="height: 88%"></span>
+        </div>
+        <p class="window-note">Candidate-only evidence. Invalid controls remain visible.</p>
+      </div>
+    </section>
+
+    <section class="summary-band" id="summaryBand"></section>
+
+    <section class="split-band">
+      <article>
+        <div class="section-heading">
+          <p>Consensus</p>
+          <h2>Ranked fixture candidates</h2>
+        </div>
+        <div id="rankingTable"></div>
+      </article>
+      <aside>
+        <div class="section-heading">
+          <p>Method posture</p>
+          <h2>Lane status</h2>
+        </div>
+        <div id="methodLanes"></div>
+      </aside>
+    </section>
+
+    <section class="dossier-band">
+      <div class="section-heading">
+        <p>Promotion</p>
+        <h2>Candidate dossiers and claim guardrails</h2>
+      </div>
+      <div class="dossier-grid" id="dossierGrid"></div>
+      <div class="claim-ledger" id="claimLedger"></div>
+    </section>
+
+    <section class="split-band learning-band">
+      <article>
+        <div class="section-heading">
+          <p>Active learning</p>
+          <h2>Next tranche logic</h2>
+        </div>
+        <div id="trancheList"></div>
+      </article>
+      <aside>
+        <div class="section-heading">
+          <p>Failure and rescue</p>
+          <h2>Controls that did not vanish</h2>
+        </div>
+        <div id="rescueQueue"></div>
+      </aside>
+    </section>
+
+    <section class="artifact-band">
+      <div class="artifact-heading">
+        <div class="section-heading">
+          <p>Artifact browser</p>
+          <h2>Inspect every loaded file</h2>
+        </div>
+        <label class="search-label">
+          <span>Filter</span>
+          <input id="artifactSearch" type="search" placeholder="metrics, dossier, jsonl" />
+        </label>
+      </div>
+      <div class="artifact-browser">
+        <nav id="artifactList" aria-label="Loaded artifacts"></nav>
+        <pre id="artifactPreview" tabindex="0"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

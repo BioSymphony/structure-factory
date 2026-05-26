@@ -1,0 +1,229 @@
+{
+  "access": {
+    "full_ssh_scp_required": false,
+    "http_proxy_required": true,
+    "public_services_require_auth": false,
+    "ssh_public_key_ref": "",
+    "ssh_required": false,
+    "tcp_ports_required": true
+  },
+  "artifact_egress": {
+    "archive_path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+    "mode": "workspace_archive",
+    "requires_network_volume": false,
+    "requires_object_store_upload": false,
+    "requires_scp": false
+  },
+  "budget": {
+    "max_estimated_cost_usd": 0,
+    "max_runtime_minutes": 45
+  },
+  "closeout": {
+    "delete_pod_if_network_volume_attached": true,
+    "linear_outcome_required": true,
+    "prefer_billing_api_cost": true,
+    "record_artifact_hashes": true,
+    "record_cost_estimate": true,
+    "record_runtime_minutes": true,
+    "retain_pod": false,
+    "stop_or_delete_pod": true
+  },
+  "compute_profile": "cpu-public-open-tools-under-1h",
+  "expected_artifacts": [
+    {
+      "artifact_id": "status",
+      "path": "runpod-execution/status.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "summary",
+      "path": "runpod-execution/artifacts/demo-summary.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "report_html",
+      "path": "runpod-execution/artifacts/report.html",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "report_md",
+      "path": "runpod-execution/artifacts/report.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "dossier_manifest",
+      "path": "runpod-execution/artifacts/dossier_manifest.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "coordinate_summary",
+      "path": "runpod-execution/artifacts/coordinate-summary.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "contact_matrix",
+      "path": "runpod-execution/artifacts/interchain-contact-matrix.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "ligand_neighborhoods",
+      "path": "runpod-execution/artifacts/ligand-neighborhoods.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "claim_ledger",
+      "path": "runpod-execution/artifacts/claim_ledger.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "methods",
+      "path": "runpod-execution/artifacts/methods.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "provenance",
+      "path": "runpod-execution/artifacts/provenance.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "figure_contacts",
+      "path": "runpod-execution/artifacts/figures/interchain-contact-heatmap.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "figure_inventory",
+      "path": "runpod-execution/artifacts/figures/chain-residue-inventory.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "figure_ligands",
+      "path": "runpod-execution/artifacts/figures/ligand-neighborhoods.svg",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "artifact_archive",
+      "path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+      "required": true,
+      "sha256_required": true
+    }
+  ],
+  "launch_authorization": {
+    "approved_at": "PENDING",
+    "approved_by": "PENDING-OPERATOR-GATE",
+    "linear_issue_url": "PENDING-TRACKER-ISSUE",
+    "scope": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+    "source": "templates/operator-wave-runbook.md"
+  },
+  "manifest_kind": "symphony_runpod_launch",
+  "monitoring": {
+    "max_silent_minutes": 5,
+    "poll_interval_seconds": 15,
+    "record_pod_fields": [
+      "id",
+      "desiredStatus",
+      "lastStartedAt",
+      "lastStatusChange",
+      "costPerHr",
+      "adjustedCostPerHr",
+      "machine.dataCenterId",
+      "portMappings"
+    ],
+    "requires_log_artifact": true,
+    "requires_status_file": true,
+    "requires_workload_heartbeat": true
+  },
+  "provider": {
+    "adapter": "runpod_pod_v1",
+    "name": "runpod"
+  },
+  "public_template_note": "Public template only. This file documents the expected provider bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy outside public git.",
+  "public_template_status": "non_launchable_public_template",
+  "remote_launch_allowed": false,
+  "repo": {
+    "commit_or_snapshot": "inline:t2r14-open-dossier-v1",
+    "commit_or_snapshot_pin_policy": "Execution-ready packets must pin an immutable public-safe source ref outside public git.",
+    "source": "inline_commands",
+    "url_or_path": "inline",
+    "workdir": "/workspace/repo"
+  },
+  "run_id": "bsf-demo-t2r14-open-dossier",
+  "runpod": {
+    "cloudType": "SECURE",
+    "containerDiskInGb": 10,
+    "dataCenterIds": [],
+    "env": {
+      "STRUCTURE_FACTORY_RUN_ID": "bsf-demo-t2r14-open-dossier"
+    },
+    "gpuCount": 0,
+    "gpuTypeIds": [],
+    "imageDigestRequiredForReal": true,
+    "imageName": "python:3.12-slim",
+    "name": "bsf-demo-t2r14-open-dossier",
+    "networkVolumeId": "",
+    "ports": [
+      "8000/http",
+      "8000/tcp"
+    ],
+    "templateId": "",
+    "volumeInGb": 0,
+    "volumeMountPath": "/workspace"
+  },
+  "safety": {
+    "license_policy": "open tooling only; no CryoSPARC/Phenix/ChimeraX/MotionCor/Rosetta/AlphaFold3",
+    "no_literal_secrets": true,
+    "private_data_policy": "public PDB/EMDB only; no private data",
+    "public_template_policy": "No secrets, concrete provider resources, private volume assumptions, prior-run artifacts, accepted-license state, or launchable startup payloads are encoded in this public manifest."
+  },
+  "schema_version": 1,
+  "startup": {
+    "commands": [
+      "set -euo pipefail",
+      "echo 'Public non-launchable template. Rebuild a private/operator-gated launch packet from tracked source before execution.'",
+      "exit 64"
+    ],
+    "heartbeat_file": "runpod-execution/monitor_events.ndjson",
+    "inspection": {
+      "hold_after_success_seconds": 0,
+      "http_artifact_server_port": null
+    },
+    "log_file": "runpod-execution/logs/startup.log",
+    "mode": "dockerStartCmd",
+    "status_file": "runpod-execution/status.json"
+  },
+  "validation_commands": [
+    "python3 -m json.tool runpod-execution/status.json >/dev/null",
+    "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nbase = Path('runpod-execution/artifacts')\nstatus = json.loads(Path('runpod-execution/status.json').read_text())\nmanifest = json.loads((base / 'dossier_manifest.json').read_text())\nsummary = json.loads((base / 'coordinate-summary.json').read_text())\nassert status['ok'] is True\nassert manifest['pdb_id'] == '9W0Q'\nassert manifest['raw_data_downloaded'] is False\nassert manifest['license_gated_tools_used'] == []\nassert summary['metadata']['resolution_angstrom'] == 3.2\nfor rel in ['report.html', 'figures/interchain-contact-heatmap.svg', 'figures/chain-residue-inventory.svg', 'figures/ligand-neighborhoods.svg', 'claim_ledger.md', 'provenance.md']:\n    assert (base / rel).is_file(), rel\nPY"
+  ],
+  "worker_coordination": {
+    "linear_issue_lock_required": true,
+    "read_only_monitors_allowed": true,
+    "resource_name_prefix": "bsf-demo-t2r14",
+    "single_mutating_worker": true
+  },
+  "workload": {
+    "checkpoint_policy": {
+      "mode": "stage-progress-jsonl"
+    },
+    "description": "Public PDB/EMDB open-tool dossier for 2026 T2R14 cryo-EM structure",
+    "scale": "small",
+    "shards": [
+      {
+        "shard_id": "single-dossier"
+      }
+    ]
+  }
+}

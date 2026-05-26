@@ -1,0 +1,45 @@
+{
+  "schema_version": "structure-factory-candidate-jury-v1",
+  "campaign_id": "pd-l1-binder-design-public",
+  "claim_ceiling": "computational_candidate",
+  "evidence_mode": "synthetic_demo",
+  "ranking_policy": {
+    "primary": "cofold_confidence_proxy",
+    "secondary": ["interface_confidence_proxy", "failure_status"],
+    "note": "Example rows demonstrate schema shape only; they are not real binders."
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "id": "demo-candidate-001",
+      "evidence_mode": "synthetic_demo",
+      "claim_level": "computational_candidate",
+      "generation_lane": "example_generation_canary",
+      "cofold_status": "completed",
+      "scores": {
+        "cofold_confidence_proxy": 0.62,
+        "interface_confidence_proxy": 0.41
+      },
+      "sequence_ref": "omitted_from_public_demo",
+      "artifact_refs": []
+    },
+    {
+      "rank": 2,
+      "id": "demo-candidate-002",
+      "evidence_mode": "synthetic_demo",
+      "claim_level": "insufficient_evidence",
+      "generation_lane": "example_generation_canary",
+      "cofold_status": "failed",
+      "scores": {
+        "cofold_confidence_proxy": null,
+        "interface_confidence_proxy": null
+      },
+      "sequence_ref": "omitted_from_public_demo",
+      "artifact_refs": []
+    }
+  ],
+  "non_claims": [
+    "Example candidates are not wet-lab validated.",
+    "No binding, inhibition, selectivity, safety, or therapeutic claim is made."
+  ]
+}

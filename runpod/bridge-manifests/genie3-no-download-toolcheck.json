@@ -1,0 +1,277 @@
+{
+  "access": {
+    "full_ssh_scp_required": false,
+    "http_proxy_required": false,
+    "public_services_require_auth": false,
+    "ssh_public_key_ref": "",
+    "ssh_required": false,
+    "tcp_ports_required": false
+  },
+  "artifact_egress": {
+    "archive_path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+    "mode": "workspace_archive",
+    "requires_network_volume": false,
+    "requires_object_store_upload": false,
+    "requires_scp": false
+  },
+  "budget": {
+    "max_estimated_cost_usd": 0,
+    "max_runtime_minutes": 50,
+    "terminate_after_minutes": 60
+  },
+  "campaign_id": "genie3-toolcheck",
+  "campaign_manifest_ref": "modules/lane-modules/genie3.toolcheck.v1.json",
+  "closeout": {
+    "delete_pod_if_network_volume_attached": false,
+    "linear_outcome_required": true,
+    "prefer_billing_api_cost": true,
+    "record_artifact_hashes": true,
+    "record_cost_estimate": true,
+    "record_runtime_minutes": true,
+    "retain_pod": false,
+    "stop_or_delete_pod": true
+  },
+  "compute_profile": "gpu-genie3-toolcheck-under-1h",
+  "expected_artifacts": [
+    {
+      "artifact_id": "status",
+      "path": "runpod-execution/status.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "stage_progress",
+      "path": "runpod-execution/artifacts/stage-progress.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "executed_commands",
+      "path": "runpod-execution/artifacts/executed-commands.jsonl",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "host_probe",
+      "path": "runpod-execution/artifacts/validation/host_probe.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "source_download",
+      "path": "runpod-execution/artifacts/validation/source_download.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "dependency_review",
+      "path": "runpod-execution/artifacts/validation/dependency_review.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "pip_install",
+      "path": "runpod-execution/artifacts/validation/pip_install.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "smoke_commands",
+      "path": "runpod-execution/artifacts/validation/smoke_commands.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "hf_weights_probe",
+      "path": "runpod-execution/artifacts/validation/hf_weights_probe.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "versions",
+      "path": "runpod-execution/artifacts/versions.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "claim_ledger",
+      "path": "runpod-execution/artifacts/claim_ledger.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "report_md",
+      "path": "runpod-execution/artifacts/genie3_toolcheck_report.md",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "artifact_index",
+      "path": "runpod-execution/artifacts/artifact_index.json",
+      "required": true,
+      "sha256_required": true
+    },
+    {
+      "artifact_id": "artifact_archive",
+      "path": "runpod-execution/artifacts/runpod-execution.tar.gz",
+      "required": true,
+      "sha256_required": true
+    }
+  ],
+  "launch_authorization": {
+    "approved_at": "PENDING",
+    "approved_by": "PENDING-OPERATOR-GATE",
+    "linear_issue_url": "PENDING-TRACKER-ISSUE",
+    "scope": "Public template only. This file documents the expected RunPod bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy.",
+    "source": "templates/operator-wave-runbook.md"
+  },
+  "launch_manifest_ref": "runpod/bridge-manifests/genie3-no-download-toolcheck.json",
+  "license_gates": [],
+  "manifest_kind": "symphony_runpod_launch",
+  "monitoring": {
+    "max_silent_minutes": 10,
+    "poll_interval_seconds": 15,
+    "record_pod_fields": [
+      "id",
+      "desiredStatus",
+      "lastStartedAt",
+      "lastStatusChange",
+      "costPerHr",
+      "adjustedCostPerHr",
+      "machine.dataCenterId",
+      "portMappings"
+    ],
+    "required_signals": [
+      "provider_actual_status",
+      "runtime_uptime_seconds",
+      "image_pull_success_or_failure",
+      "stage_progress_heartbeat"
+    ],
+    "requires_log_artifact": true,
+    "requires_status_file": true,
+    "requires_workload_heartbeat": true
+  },
+  "provider": {
+    "adapter": "runpod_pod_v1",
+    "name": "runpod"
+  },
+  "public_template_note": "Public template only. This file documents the expected RunPod bridge-manifest shape. It is not execution-ready until a human/operator gate records current license/use context, budget, placement, a pushed public-safe commit SHA, provider credentials by reference, and cleanup policy.",
+  "public_template_status": "non_launchable_public_template",
+  "remote_launch_allowed": false,
+  "repo": {
+    "commit_or_snapshot": "inline:public-template-no-payload",
+    "commit_or_snapshot_pin_policy": "Inline payloads are not published in bridge manifests. Rebuild from tracked source scripts after operator gates pass.",
+    "source": "inline_commands",
+    "url_or_path": "inline",
+    "workdir": "/workspace"
+  },
+  "run_id": "structure-factory-genie3-no-download-toolcheck",
+  "runpod": {
+    "cloudType": "SECURE",
+    "computeType": "GPU",
+    "containerDiskInGb": 40,
+    "env": {
+      "STRUCTURE_FACTORY_EXECUTION_PROFILE": "genie3-no-download-toolcheck",
+      "STRUCTURE_FACTORY_GENIE3_PINNED_SHA": "5214459c42e69b01fadfc7d7ebda09d8e5082115",
+      "STRUCTURE_FACTORY_LANE": "genie3",
+      "STRUCTURE_FACTORY_RUN_ID": "structure-factory-genie3-no-download-toolcheck"
+    },
+    "gpuCount": 1,
+    "gpuTypeIds": [
+      "NVIDIA GeForce RTX 4090"
+    ],
+    "imageDigestRequiredForReal": true,
+    "imageName": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
+    "name": "structure-factory-genie3-toolcheck",
+    "ports": [
+      "8000/http"
+    ],
+    "registryAuth": {
+      "policy_note": "stock_pytorch_image",
+      "provider": "dockerhub",
+      "required": false
+    },
+    "templateId": "",
+    "vcpuCount": 4,
+    "volumeInGb": 0,
+    "volumeMountPath": "/workspace"
+  },
+  "safety": {
+    "license_policy": "Genie 3 source review only; pip install of public source; no weights, no inference, no design output. ColabFold/AlphaFold2/IPSAE/etc are dependency-review evidence only.",
+    "no_literal_secrets": true,
+    "private_data_policy": "no private data; toolcheck targets public source and HF revision",
+    "public_template_policy": "No secrets, concrete provider resources, private volume assumptions, prior-run artifacts, or accepted-license state are encoded in this public manifest."
+  },
+  "schema_version": 1,
+  "shard": {
+    "lane": "genie3",
+    "mode": "no-download-toolcheck"
+  },
+  "stage_contract_ref": "runpod/stage-contracts/genie3-no-download-toolcheck.stage-contract.json",
+  "startup": {
+    "commands": [
+      "set -euo pipefail",
+      "echo 'Public non-launchable template. Rebuild a private/operator-gated launch packet from tracked source before execution.'",
+      "exit 64"
+    ],
+    "heartbeat_file": "runpod-execution/logs/startup.log",
+    "inspection": {
+      "hold_after_success_seconds": 0,
+      "http_artifact_server_port": null
+    },
+    "log_file": "runpod-execution/logs/startup.log",
+    "mode": "dockerStartCmd",
+    "status_file": "runpod-execution/status.json"
+  },
+  "validation_commands": [
+    "python3 scripts/structure_factory/runpod_public_template_check.py runpod/bridge-manifests --json"
+  ],
+  "wave": "T0",
+  "worker_coordination": {
+    "linear_issue_lock_required": true,
+    "read_only_monitors_allowed": true,
+    "resource_name_prefix": "structure-factory-genie3-toolcheck",
+    "single_mutating_worker": true
+  },
+  "workload": {
+    "checkpoint_policy": {
+      "mode": "stage-progress-jsonl"
+    },
+    "description": "Genie 3 no-download toolcheck on stock pytorch GPU pod (RTX 4090). Tests source download, pip install, smoke commands, HF revision resolution.",
+    "scale": "small",
+    "shards": [
+      {
+        "shard_id": "genie3-toolcheck-shard-1"
+      }
+    ],
+    "stage_contract": {
+      "claim_level": "planning",
+      "done_markers": [
+        "runpod-execution/status.json reports completed or completed_partial",
+        "runpod-execution/artifacts/claim_ledger.json exists",
+        "runpod-execution/artifacts/genie3_toolcheck_report.md exists",
+        "runpod-execution/artifacts/runpod-execution.tar.gz exists"
+      ],
+      "exact_commands": [],
+      "expected_outputs": [],
+      "fail_closed": true,
+      "inputs": [
+        "Public template only; no inline payload is published."
+      ],
+      "resume_policy": "Disposable toolcheck pod. If interrupted, just relaunch; no persistent state, no NV. Re-run is idempotent: a fresh archive fetch and pip install attempt.",
+      "route_proof": {
+        "artifact_validation": [
+          "validation_commands check status.json + claim_ledger.json + report.md + per-stage validation/*.json"
+        ],
+        "claim_boundaries": [
+          "Public template claim level is planning; provider execution evidence is unavailable."
+        ],
+        "input_materialization": [
+          "Execution-ready payload materialization must happen outside public git after operator authorization."
+        ],
+        "tool_invocation": []
+      },
+      "timeout_minutes": 60
+    }
+  }
+}

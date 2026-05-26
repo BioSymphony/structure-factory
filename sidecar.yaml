@@ -1,0 +1,32 @@
+sidecar_id: biosymphony-structure-factory
+name: BioSymphony Structure Factory
+version: 0.1.0
+description: Modular BioSymphony sidecar for cryo-EM, structure validation, RunPod execution prep, and publication-grade structural dossiers.
+blessed_remote_provider: runpod
+entrypoints:
+  skill: .codex/skills/biosymphony-structure-factory/SKILL.md
+  agent_guide: AGENTS.md
+  modules: modules/
+  workflow_template: references/structure-factory.WORKFLOW.template.md
+validation:
+  - make preflight
+  - make registry-check
+  - make module-check
+  - make provider-check
+  - make runpod-check
+  - make runpod-public-template-check
+  - make issue-check
+  - make input-audit
+  - make screening-fanout-estimate
+  - make contract-self-check
+  - make test
+data_policy:
+  raw_data_in_git: false
+  private_data_in_git: false
+  model_weights_in_git: false
+provider_profiles:
+  - modules/provider-profiles/runpod/pod-no-download.v1.json
+  - modules/provider-profiles/local/workstation-no-download.v1.json
+  - modules/provider-profiles/ssh-hpc/slurm-no-download.v1.json
+  - modules/provider-profiles/cloud-vm/generic-gpu-vm-no-download.v1.json
+  - modules/provider-profiles/neocloud/gpu-pod-no-download.v1.json
