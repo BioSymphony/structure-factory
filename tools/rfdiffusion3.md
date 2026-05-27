@@ -61,13 +61,13 @@ Use the BioSymphony Structure Factory skill with the RFdiffusion3 tool card. For
 - A clean backbone is not a viable binder. Always run a sequence pass (ProteinMPNN or SolubleMPNN) and an independent cofold (Boltz, Chai) before promoting any candidate.
 - Backbones can clash with the target if hotspots and contigs are inconsistent; filter on clash count before sequence design to save downstream cost.
 - The all-atom variant is heavier to run; reserve it for cases where ligand or non-standard residue coordination is part of the design objective.
-- Random seeds matter: report seed plus checkpoint hash in the candidate jury so failures are reproducible.
+- Random seeds matter: report seed plus checkpoint hash in the candidate ranking so failures are reproducible.
 - iPTM alone is increasingly deprecated for binder ranking; cofold the candidates with at least one alternate validator and ipSAE-rescore the PAE matrices.
 
 ## Gates
 
-- Validate hotspot references and contig grammar against the target window dossier before expensive runs.
+- Validate hotspot references and contig grammar against the target-window file before expensive runs.
 - Keep trajectories, generated PDBs, and large metrics outside git.
 - Rebuild public launch packets from tracked source after operator approval; do not publish embedded payload manifests with private placement.
-- Cap every candidate jury at `computational_candidate` until independent (wet-lab) validation exists.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits) for RFdiffusion and the all-atom variant, current release notes, and recent preprints (biorxiv / chemrxiv) on de novo binder design or new RFdiffusion variants. Record the version pin and the date of the check in the candidate jury.
+- Cap every candidate ranking at `computational_candidate` until independent validation exists.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits) for RFdiffusion and the all-atom variant, current release notes, and recent preprints (biorxiv / chemrxiv) on de novo binder design or new RFdiffusion variants. Record the version pin and the date of the check in the candidate ranking or validation notes.

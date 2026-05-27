@@ -1,24 +1,23 @@
-# Public-Safe Agent Recipes
+# Agent Recipes
 
-These recipes are promptable workflows for agents using the Structure Factory skill. They are designed to be useful without private infrastructure and strict enough to avoid accidental secrets, private data, or inflated biological claims.
+These recipes are promptable workflows for agents using the Structure Factory skill. They are designed to be useful without private infrastructure and strict enough to avoid accidental secrets, private data, or overstated biological conclusions.
 
 For copyable end-to-end prompts, see [`docs/use-cases.md`](use-cases.md).
-For detailed claim/evidence rules and legacy schema translations, see [`docs/claim-and-evidence.md`](claim-and-evidence.md).
 
-## Exact Evidence Values
+## Exact Result Values
 
-Use the schema enum values in manifests, issue packs, and closeouts. A friendly label is fine in prose, but the exact value should stay visible.
+Use the schema enum values in manifests, task packs, and closeouts. A friendly label is fine in prose, but the exact value should stay visible.
 
 | Friendly Label | Exact Value | Use |
 | --- | --- | --- |
-| Planning | `planning` | Scaffolds, provider prep, and issue design before evidence exists |
+| Planning | `planning` | Scaffolds, provider prep, and task design before outputs exist |
 | Public demo | `public_demo` | Public deposited data demonstration |
 | Public synthetic demo | `public_synthetic_demo` | Synthetic fixture or generated demo data |
 | Computational candidate | `computational_candidate` | Candidate ranking or triage that still needs external validation |
 | Blocked | `blocked` | A lane could not proceed |
-| Insufficient evidence | `insufficient_evidence` | Evidence does not support the requested claim |
+| Insufficient support | `insufficient_support` | Outputs do not support the requested statement |
 
-If you see older machine values such as `candidate`, `processed`, `fixture_or_demo`, `validated`, or `publishable` in schema-level artifacts, translate them through [`claim-and-evidence.md`](claim-and-evidence.md) before writing public prose or a final closeout.
+If you see older machine values such as `candidate`, `processed`, `fixture_or_demo`, `validated`, `insufficient_support`, or `publishable` in schema-level artifacts, translate them to the public labels before writing public prose or a final closeout.
 
 ## Recipe: Scaffold A Campaign
 
@@ -36,7 +35,7 @@ bsf scaffold-campaign .runtime/<campaign-id> \
 Agent checklist:
 
 - keep the scaffold in `.runtime/` until public inputs are reviewed
-- set a claim ceiling before suggesting tool lanes
+- set result boundaries before suggesting tool lanes
 - use public accessions or synthetic fixtures only
 - add an operator gate before any GPU, cloud, or license-gated step
 - run `bsf validate` and `bsf audit .`
@@ -46,17 +45,17 @@ Agent checklist:
 Use when the user asks for binder design from a public structure.
 
 1. Create or validate `campaign-manifest.json`.
-2. Write a target-window dossier with public accession, chain/window, hotspot evidence, and uncertainty.
-3. Declare generation lanes and cofold/model-jury lanes.
+2. Write a target-window file with public accession, chain/window, hotspot plan, and uncertainty.
+3. Declare generation lanes and cofold/model-comparison lanes.
 4. Add expected artifacts and a fail-closed stage contract.
 5. Render tracker-neutral issues with `bsf issue-dry-run`.
-6. Keep candidate juries at `computational_candidate` claim ceiling.
+6. Keep candidate rankings at `computational_candidate` result boundary.
 
-Never claim binding, inhibition, safety, selectivity, efficacy, or therapeutic value.
+Do not present binding, inhibition, safety, selectivity, efficacy, or therapeutic value as established by this repo.
 
 ## Recipe: GPCR Or Multimer State Atlas
 
-Use when the user asks for activation states, receptor-state comparison, multimer-state evidence, or switch analysis.
+Use when the user asks for activation states, receptor-state comparison, multimer-state analysis, or switch analysis.
 
 1. Declare the receptor/state matrix and public accessions.
 2. Split work into deposited-structure, prediction, alignment, render, and synthesis lanes.
@@ -64,17 +63,17 @@ Use when the user asks for activation states, receptor-state comparison, multime
 4. Keep prediction and render outputs in ignored/provider storage until summarized.
 5. Cap prediction-only conclusions at `computational_candidate`.
 
-Good public artifacts include wave plans, issue drafts, provider contracts, accession tables, stage contracts, and report outlines.
+Good public artifacts include wave plans, task drafts, provider contracts, accession tables, stage contracts, and report outlines.
 
-## Recipe: Model Jury Or Structure Dossier
+## Recipe: Model Comparison Or Structure Mapping
 
-Use when the user has existing public model/map/structure evidence and wants review.
+Use when the user has existing public models, maps, or structures and wants review.
 
 1. Identify public accessions and allowed local references.
-2. Declare evidence mode for every artifact.
-3. Separate provider-native evidence from derived local summaries.
-4. Record missing optional tools as evidence, not failure.
-5. Produce a dossier with negative rows and uncertainty.
+2. Declare source posture for every artifact.
+3. Separate provider-native outputs from derived local summaries.
+4. Record missing optional tools as blocked or skipped, not silent success.
+5. Produce a structure report with negative rows and uncertainty.
 
 If the request starts from raw cryo-EM movies, EMPIAR subset processing, RELION/CryoSPARC reconstruction, or map-to-model build execution, create a CryoCore handoff contract. Do not present those lanes as Structure Factory-owned work.
 
@@ -94,7 +93,7 @@ Every agent closeout should include:
 
 - files changed
 - validation commands run
-- evidence mode
-- claim level
+- source posture
+- result boundary
 - privacy/security checks
 - anything blocked, partial, or intentionally not launched

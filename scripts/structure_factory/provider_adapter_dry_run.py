@@ -91,7 +91,7 @@ CANONICAL_LIFECYCLE_STATES = [
     {
         "state": "closeout_ready",
         "terminal": True,
-        "meaning": "Artifacts, checks, cost report, cleanup proof, and claim ledger are sufficient.",
+        "meaning": "Artifacts, checks, cost report, cleanup proof, and validation ledger are sufficient.",
     },
     {
         "state": "closed_partial",
@@ -122,7 +122,7 @@ COMMON_REQUIRED_ARTIFACTS = [
     "validation/contract-self-check.json",
     "stage-progress.jsonl",
     "executed-commands.jsonl",
-    "claim_ledger.json",
+    "validation_ledger.json",
     "provenance.md",
 ]
 
@@ -172,7 +172,7 @@ CLOSEOUT_REQUIREMENTS = [
     {
         "id": "contract_self_check_passed",
         "required": True,
-        "description": "Contract self-check passes for the declared evidence mode and claim level.",
+        "description": "Contract self-check passes for the declared source posture and result boundary.",
     },
     {
         "id": "cost_report_checked",
@@ -355,7 +355,7 @@ def required_artifacts_for(adapter: str, manifest: dict[str, Any]) -> dict[str, 
     return {
         "required": required,
         "required_at_closeout": unique(COMMON_REQUIRED_ARTIFACTS + (PROVIDER_CLOSEOUT_ARTIFACTS if adapter != "local_workstation_v1" else [])),
-        "promoted_when_selected": ["candidate_dossiers/"],
+        "promoted_when_selected": ["candidate_reports/"],
     }
 
 
@@ -584,7 +584,7 @@ def packet_for(
         "notes": [
             "This packet is inert and provider-neutral; it is not an authorization to launch.",
             "Provider scheduler state, pod RUNNING, or process exit alone cannot close scientific success.",
-            "Dry-run or fixture evidence must stay at fixture_or_demo/candidate claim level unless replaced by provider-native evidence.",
+            "Dry-run or fixture evidence must stay at fixture_or_demo/candidate result boundary unless replaced by provider-native evidence.",
         ],
     }
 

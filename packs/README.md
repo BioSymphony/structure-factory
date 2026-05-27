@@ -1,15 +1,15 @@
-# Issue Packs
+# Task Packs
 
-Issue packs are tracker-neutral work bundles for agents. They can be imported into Linear, GitHub Issues, Notion tasks, or another queue after public validation.
+Task packs are tracker-neutral work bundles for agents. They can be imported into Linear, GitHub Issues, Notion tasks, or another queue after public validation.
 
 Current pack:
 
-- `issue-packs/binder-design-fast-path-v0/` - four-issue binder-design scaffold covering target/window contract, generation readiness, cofold jury, and report closeout.
+- `task-packs/binder-design-fast-path-v0/` - four-task binder-design scaffold covering target/window setup, generation readiness, cofold ranking, and report review.
 
-Public issue packs should include:
+Public task packs should include:
 
 - routing label `sym:structure-factory`
-- claim ceiling
+- result boundary
 - exact public inputs
 - expected artifacts
 - owned paths
@@ -18,7 +18,7 @@ Public issue packs should include:
 - validation commands
 - `<!-- symphony:schema -->` block
 
-Do not put private tracker IDs, private URLs, provider credentials, private data, or live run logs in a public issue pack.
+Do not put private tracker IDs, private URLs, provider credentials, private data, or live run logs in a public task pack.
 
 ## How To Use A Pack
 
@@ -35,7 +35,7 @@ bsf validate examples/pd-l1-binder-design-public
 bsf issue-dry-run examples/pd-l1-binder-design-public --out .runtime/pd-l1-issues
 ```
 
-4. Review the drafts for public safety before importing them into Linear, GitHub Issues, Notion, or another tracker.
+4. Review the drafts before importing them into Linear, GitHub Issues, Notion, or another tracker.
 5. Keep cloud or GPU issues in backlog until an operator-gated runtime packet exists outside public git.
 
 For the broader workflow, see [`../docs/workflow-map.md`](../docs/workflow-map.md) and [`../docs/linear-orchestration.md`](../docs/linear-orchestration.md).

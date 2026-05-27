@@ -1,11 +1,11 @@
 # PD-L1 / PD-1 Binder Design Campaign
 
-**Status:** active demo and launch-prep campaign. This is no longer a skeleton:
-the repo contains target-window dossiers, Genie 3 and RFdiffusion lane planning,
-RunPod bridge manifests, Boltz cofold/jury runners, and redacted public jury
-summaries.
+**Status:** active public binder-design demo and launch-prep campaign. The repo
+contains the target window, public sequence references, Genie 3 and RFdiffusion
+lane planning, Boltz cofold inputs, stage contracts, and public
+candidate-ranking summaries.
 
-**Claim level:** computational candidate evidence only. The campaign makes no
+**Result boundary:** computational candidate support only. The campaign makes no
 binding, inhibition, immune-checkpoint, therapeutic, selectivity, or wet-lab
 recommendation claims.
 
@@ -19,22 +19,24 @@ experimental validation.
 
 ## What Is Useful Here
 
-- `target_window_dossier.json` and `target_window_dossier.md` define the public
-  PD-L1 interface window, hotspots, and claim caveats.
+- `target_window.json` is a legacy-named compatibility file that defines
+  the public PD-L1 interface window, hotspots, and result boundaries.
 - `boltz_inputs/` contains the public positive-control YAML input for the
   Boltz cofold validation step.
-- `juries/` contains redacted public jury summaries (synthetic schema example
-  values). Runtime artifact paths, generated structures, and generated binder
-  sequences live in operator-controlled infrastructure outside the repo.
+- `rankings/` is a compatibility path that contains public candidate-ranking
+  summaries with synthetic example values. Runtime artifact paths, generated
+  structures, and generated binder sequences live in operator-controlled
+  infrastructure outside the repo.
 - `sequences.json` lists the public reference sequences (4ZQK, 8ZNL) used by
   the campaign.
-- `report/README.md` explains why generated HTML reports are not tracked in the
+- `report/README.md` explains why generated runtime reports are not tracked in the
   public export.
 
 Wave plans (Genie 3 generation shape, Boltz cofold validation posture,
 RFdiffusion integration path) live in operator-controlled planning notes
-outside this repo. The runtime scripts and bridge manifests under
-`scripts/structure_factory/` and `runpod/` are the executable surface.
+outside this repo. Public files under `scripts/structure_factory/` and
+`runpod/` are builders, templates, and stage contracts. They are not prior run
+packets.
 
 ## Runtime Posture
 
@@ -60,10 +62,11 @@ make test
 
 This campaign folder describes a binder-design contract shape; it does not
 ship its own runners. To execute, build provider-side runners against the
-contract files (`target_window_dossier.json`, `boltz_inputs/`, `juries/`)
-in an operator-gated environment outside public git. The bridge manifests
-under `runpod/bridge-manifests/pd-l1-*.json` and stage contracts under
-`runpod/stage-contracts/pd-l1-*.json` document the launch packet shape.
+contract files (`target_window.json`, `boltz_inputs/`, `rankings/`)
+in an operator-gated environment outside public git. Bridge packets are written
+under `.runtime/bridge-manifests/` only after an operator-gated build step;
+stage contracts under `runpod/stage-contracts/pd-l1-*.json` document the
+public launch contract shape.
 
 The launch packets reference an operator-supplied runner named
 `pd_l1_binder_hunt.py` (or whatever your stack calls it). The contract's
@@ -74,8 +77,8 @@ commands to match yours.
 
 ## Useful Output Shape
 
-The evidence trail a successful run should produce: stage progress,
-executed commands, candidate jury rows, top-candidate ranking, report
-artifacts, and explicit claim ceilings. Public jury summaries in
-`juries/` show the schema; the values in the public file are synthetic
-schema-example placeholders.
+The output trail a successful run should produce: stage progress, executed
+commands, candidate rows, top-candidate ranking, report artifacts, and explicit
+result boundaries. Public candidate summaries in `rankings/` show the compatibility
+schema shape; the values in the public file are synthetic schema-example
+placeholders.

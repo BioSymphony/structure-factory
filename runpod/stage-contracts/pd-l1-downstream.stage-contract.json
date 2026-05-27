@@ -5,9 +5,9 @@
   "run_id": "structure-factory-pd-l1-downstream-cofold",
   "campaign_id": "pd-l1-pd1-binder-design",
   "wave": "downstream",
-  "execution_profile": "pd-l1-downstream-cofold-jury",
+  "execution_profile": "pd-l1-downstream-cofold-ranking",
   "progress_ledger": "/workspace/runpod-execution/artifacts/stage-progress.jsonl",
-  "success_claim": "Downstream-only continuation of the PD-L1 / PD-1 binder hunt: Boltz cofolds declared backbones from an operator-controlled runtime artifact root, then runs jury_synthesis, report, claim_audit, and contract_self_check. Claim level is at most candidate. Generated candidate manifests and structures stay outside git on the runtime volume; the runner's reconstruct_gen_info_from_disk path rebuilds gen_info before the cofold loop.",
+  "success_claim": "Downstream-only continuation of the PD-L1 / PD-1 binder hunt: Boltz cofolds declared backbones from an operator-controlled runtime artifact root, then runs ranking_synthesis, report, validation_review, and contract_self_check. Result boundary is at most candidate. Generated candidate manifests and structures stay outside git on the runtime volume; the runner's reconstruct_gen_info_from_disk path rebuilds gen_info before the cofold loop.",
   "fail_closed": true,
   "gpu_requirements": {
     "min_vram_gb": 16,
@@ -45,51 +45,50 @@
       "fail_closed": true
     },
     {
-      "stage_id": "jury_synthesis",
-      "description": "Aggregate per-candidate Boltz iPTM/PTM/complex_plddt into candidate_jury.json and candidate_jury.md; sequence-level metadata and a candidate_jury_top32.json shortlist are also emitted when the underlying jury logic has enough signal.",
+      "stage_id": "ranking_synthesis",
+      "description": "Aggregate per-candidate Boltz iPTM/PTM/complex_plddt into candidate_ranking.json and candidate_ranking.md; sequence-level metadata and a candidate_ranking_top32.json shortlist are also emitted when the underlying ranking logic has enough signal.",
       "required": true,
       "expected_outputs": [
-        "validation/jury_synthesis.json",
-        "candidate_jury.json",
-        "candidate_jury.md",
-        "candidate_jury_top32.json"
+        "validation/ranking_synthesis.json",
+        "candidate_ranking.json",
+        "candidate_ranking.md",
+        "candidate_ranking_top32.json"
       ],
       "timeout_minutes": 10,
-      "checkpoint_marker": "candidate_jury.json",
-      "done_marker": "candidate_jury.json",
+      "checkpoint_marker": "candidate_ranking.json",
+      "done_marker": "candidate_ranking.json",
       "resume_command": "bash runpod/entrypoints/pd-l1-downstream.sh",
       "fail_closed": true
     },
     {
       "stage_id": "report",
-      "description": "Emit report/README.md and report/index.html summarizing target intake, runtime gate, and the candidate jury. HTML is escaped, no external resources are fetched.",
+      "description": "Emit report/README.md summarizing target intake, runtime gate, and the candidate ranking.",
       "required": true,
       "expected_outputs": [
-        "report/index.html",
         "report/README.md"
       ],
       "timeout_minutes": 5,
-      "checkpoint_marker": "report/index.html",
-      "done_marker": "report/index.html",
+      "checkpoint_marker": "report/README.md",
+      "done_marker": "report/README.md",
       "resume_command": "bash runpod/entrypoints/pd-l1-downstream.sh",
       "fail_closed": true
     },
     {
-      "stage_id": "claim_audit",
-      "description": "Write claim_ledger.json + claim_ledger.md, methods.md, provenance.md, operator_closeout.md, and artifact_index.json. Claim level is bounded to candidate / insufficient_evidence / blocked; forbidden_claims must remain unasserted.",
+      "stage_id": "validation_review",
+      "description": "Write validation_ledger.json + validation_ledger.md, methods.md, provenance.md, operator_closeout.md, and artifact_index.json. Result boundary is bounded to candidate / insufficient_evidence / blocked; forbidden_claims must remain unasserted.",
       "required": true,
       "expected_outputs": [
-        "validation/claim_audit.json",
-        "claim_ledger.json",
-        "claim_ledger.md",
+        "validation/validation_review.json",
+        "validation_ledger.json",
+        "validation_ledger.md",
         "methods.md",
         "provenance.md",
         "operator_closeout.md",
         "artifact_index.json"
       ],
       "timeout_minutes": 5,
-      "checkpoint_marker": "claim_ledger.json",
-      "done_marker": "claim_ledger.json",
+      "checkpoint_marker": "validation_ledger.json",
+      "done_marker": "validation_ledger.json",
       "resume_command": "bash runpod/entrypoints/pd-l1-downstream.sh",
       "fail_closed": true
     },
@@ -110,11 +109,11 @@
   "expected_outputs": [
     "runpod-execution/status.json",
     "runpod-execution/artifacts/validation/boltz_crosscheck_extended.json",
-    "runpod-execution/artifacts/validation/jury_synthesis.json",
-    "runpod-execution/artifacts/candidate_jury.json",
-    "runpod-execution/artifacts/candidate_jury_top32.json",
-    "runpod-execution/artifacts/report/index.html",
-    "runpod-execution/artifacts/claim_ledger.json",
+    "runpod-execution/artifacts/validation/ranking_synthesis.json",
+    "runpod-execution/artifacts/candidate_ranking.json",
+    "runpod-execution/artifacts/candidate_ranking_top32.json",
+    "runpod-execution/artifacts/report/README.md",
+    "runpod-execution/artifacts/validation_ledger.json",
     "runpod-execution/artifacts/operator_closeout.md",
     "runpod-execution/artifacts/validation/contract-self-check.json",
     "runpod-execution/artifacts/stage-progress.jsonl",
@@ -127,7 +126,7 @@
   "done_markers": [
     "runpod-execution/status.json reports ok true",
     "runpod-execution/artifacts/validation/contract-self-check.json reports ok true",
-    "runpod-execution/artifacts/report/index.html exists and is non-empty"
+    "runpod-execution/artifacts/report/README.md exists and is non-empty"
   ],
   "claim_levels_allowed": ["candidate", "insufficient_evidence", "blocked"],
   "default_claim_level": "candidate",
@@ -137,7 +136,7 @@
   ],
   "no_false_success_notes": [
     "Boltz outputs are predicted models; campaign policy caps Boltz claims at candidate.",
-    "This pod does NOT run Genie 3 generation. It consumes operator-declared on-disk backbones from the runtime artifact root. The reconstructed gen_info MUST be persisted as validation/genie3_generation_extended.json by the runner so jury_synthesis can resolve structure_path references.",
+    "This pod does NOT run Genie 3 generation. It consumes operator-declared on-disk backbones from the runtime artifact root. The reconstructed gen_info MUST be persisted as validation/genie3_generation_extended.json by the runner so ranking_synthesis can resolve structure_path references.",
     "AlphaFold 3 substitution is forbidden by campaign policy."
   ]
 }

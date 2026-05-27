@@ -12,12 +12,12 @@ Required sections:
 - acceptance criteria
 - validation commands
 - license/capability caveats
-- final dossier shape
+- final report shape
 
 Current campaign families:
 
-- `cryoem-raw-to-atomic-dossier`
+- `cryoem-raw-to-atomic-report`
 - `screening-superpowers`
 - `pd-l1-pd1-binder-design`
-- `model-jury`
-- `publishable-figure-dossier`
+- `model-comparison`
+- `publishable-figure-report`

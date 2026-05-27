@@ -63,4 +63,4 @@ Use the BioSymphony Structure Factory skill with the ProteinMPNN tool card. For 
 - Public targets only in public examples.
 - Sequences for private targets stay in operator-controlled infrastructure.
 - Wet-lab confirmation lives downstream of this card.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.

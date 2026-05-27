@@ -8,7 +8,7 @@ data-modules/       EMPIAR/EMDB/PDB/local-secure-store inputs
 image-modules/      logical image families
 lane-modules/       tool lanes and license gates
 smoke-checks/       reusable readiness checks
-artifact-contracts/ dossier contracts
+artifact-contracts/ report and result contracts
 provider-profiles/  RunPod/local/HPC provider overlays
 ```
 

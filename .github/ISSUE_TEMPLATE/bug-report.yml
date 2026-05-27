@@ -1,7 +1,7 @@
 name: Public bug report
-description: Report a public-safe bug in validators, docs, examples, or templates.
+description: Report a bug in validators, docs, examples, or templates.
 title: "[Bug]: "
-labels: ["bug", "public-safe"]
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
@@ -18,7 +18,7 @@ body:
     id: command
     attributes:
       label: Command or workflow
-      description: Paste public-safe commands and short output excerpts only.
+      description: Paste commands and short output excerpts only.
       render: bash
     validations:
       required: true
@@ -30,10 +30,10 @@ body:
         - CLI or validator
         - Skill instructions
         - Example campaign
-        - Issue pack
+        - Multi-agent task plan
         - RunPod/cloud template
         - Documentation
-        - Other public-safe surface
+        - Other surface
     validations:
       required: true
   - type: checkboxes
@@ -45,5 +45,5 @@ body:
           required: true
         - label: I removed private biological data, unpublished sequences, model weights, generated structures, and raw data.
           required: true
-        - label: I capped scientific claims to the evidence present.
+        - label: I kept scientific conclusions tied to the outputs and validation shown here.
           required: true

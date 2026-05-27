@@ -2,15 +2,15 @@
 
 ## Thesis
 
-Structure Factory turns structural-biology objectives into reproducible evidence. For low-throughput structural interpretation, the target output is a reviewable dossier containing models, maps, figures, validation, methods, provenance, caveats, and next-experiment recommendations. For screening, the target output is a compact ranking ledger with explicit failure records and only selected candidate dossiers.
+Structure Factory turns structural-biology objectives into reproducible evidence. For low-throughput structural interpretation, the target output is a reviewable report containing models, maps, figures, validation, methods, provenance, caveats, and next-experiment recommendations. For screening, the target output is a compact ranking ledger with explicit failure records and only selected candidate reports.
 
 ## Campaign Families
 
-- `cryocore-handoff-to-dossier`: metadata-only raw cryo-EM handoff into CryoCore, then downstream deposited-evidence dossier planning once validated artifacts exist.
-- `screening-superpowers`: minimal-input structure-based screening, method-jury ranking, provider-aware fanout, and selective top-hit dossier promotion.
+- `cryocore-handoff-to-report`: metadata-only raw cryo-EM handoff into CryoCore, then downstream deposited-structure-mapping report planning once validated artifacts exist.
+- `screening-superpowers`: minimal-input structure-based screening, method-disagreement ranking, provider-aware fanout, and selective top-hit report promotion.
 - `multimer-state-atlas`: stoichiometry, symmetry, assembly state, interface, and conformational-state analysis.
-- `model-jury`: compare experimental maps/models against prediction, design, docking, or refinement lanes.
-- `publishable-figure-dossier`: structure/map-backed figure package with render scripts, sessions, captions, and visual QA.
+- `model-comparison`: compare experimental maps/models against prediction, design, docking, or refinement lanes.
+- `publishable-figure-report`: structure/map-backed figure package with render scripts, sessions, captions, and visual QA.
 
 ## Control Plane
 
@@ -33,7 +33,7 @@ Symphony executes bounded worker issues and reports artifact paths, hashes, comm
 Structure Factory should support multiple execution backends:
 
 - local macOS review and visualization
-- RunPod GPU pods for Structure Factory design, validation, dossier, and visualization work, as the blessed primary remote path
+- RunPod GPU pods for Structure Factory design, validation, report, and visualization work, as the blessed primary remote path
 - AWS Batch GPU jobs for blessed cloud scale lanes
 - SSH/HPC workers for institutional data/license boundaries
 - generic cloud VM and neocloud pod adapters when they satisfy the same provider contract
@@ -45,11 +45,11 @@ Every backend must emit the same artifact tree and pass the same input-audit and
 
 ## Artifact Shape
 
-Every serious campaign should terminate in a dossier:
+Every serious campaign should terminate in a report:
 
 ```text
-structure-dossier/
-  dossier_manifest.json
+structure-mapping/
+  report_manifest.json
   inputs/
   processing/
   maps/
@@ -59,7 +59,7 @@ structure-dossier/
   sessions/
   scripts/
   methods.md
-  claim_ledger.md
+  validation_ledger.md
   provenance.md
   next_experiments.md
 ```
@@ -77,9 +77,9 @@ screening-results/
   metrics.json
   method_summary.json
   failure_report.json
-  claim_ledger.json
-  candidate_dossiers/
+  validation_ledger.json
+  candidate_reports/
   provenance.md
 ```
 
-The dossier path is reserved for top hits, controls, method-disagreement cases, and failures worth debugging.
+The report path is reserved for top hits, controls, method-disagreement cases, and failures worth debugging.

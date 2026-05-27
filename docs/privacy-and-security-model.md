@@ -1,20 +1,20 @@
 # Privacy And Security Model
 
-Structure Factory is a public-safe control plane. It is useful because it keeps the plan, contracts, validation commands, and claim boundaries in git while keeping sensitive runtime material out of git.
+Structure Factory is a public release control plane. It is useful because it keeps the plan, contracts, validation commands, and run boundaries in git while keeping sensitive runtime material out of git.
 
-Claim boundaries are part of the privacy and security model: see [`claim-and-evidence.md`](claim-and-evidence.md) before publishing generated, predicted, derived, or provider-backed outputs.
+Run boundaries are part of the privacy and security model: generated, predicted, derived, or provider-backed outputs must be labeled according to what actually ran and what was validated.
 
-## Public-Safe By Default
+## Public By Default
 
-Public-safe files may contain:
+Public files may contain:
 
 - public accession identifiers and source links
 - synthetic fixtures
 - compact JSON manifests and schemas
-- issue templates and tracker-neutral issue drafts
+- issue templates and tracker-neutral task drafts
 - stage contracts, expected artifact names, and validation commands
 - placeholder environment variable names
-- non-claim reports and public demos
+- bounded reports and public demos
 
 ## Never Commit
 
@@ -48,7 +48,7 @@ The main risks this repo guards against are:
 - accidentally publishing private biological data
 - leaking provider credentials or resource IDs
 - shipping generated candidate structures or sequences as public fixtures
-- making therapeutic or binding claims from computational prep
+- presenting therapeutic or binding conclusions from computational prep
 - letting a public template become launchable without authorization
 - publishing dirty history after a current-tree scrub
 

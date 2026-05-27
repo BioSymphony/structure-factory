@@ -2,7 +2,7 @@
 """Run the no-download Screening Superpowers fixture.
 
 This runner deliberately uses only the Python standard library. It proves the
-contract, ledger, ranking, failure, and selective-dossier behavior without
+contract, ledger, ranking, failure, and selective-report behavior without
 claiming real docking, affinity, or structure prediction.
 """
 
@@ -166,7 +166,7 @@ def score_ligand(prep: dict[str, Any], receptors: list[dict[str, Any]], referenc
     affinity = {
         "schema_version": 1,
         "ligand_id": ligand_id,
-        "method": "screening_fixture_method_jury",
+        "method": "screening_fixture_method_comparison",
         "status": "completed",
         "molecular_weight_baseline": mw_baseline,
         "clogp_baseline": clogp_baseline,
@@ -186,8 +186,8 @@ def stage_events(status: str = "completed") -> list[dict[str, Any]]:
         "manifest_preflight",
         "input_audit",
         "ligand_prep",
-        "method_jury",
-        "ranking_and_claim_audit",
+        "method_comparison",
+        "ranking_and_validation_review",
     ]
     return [
         {
@@ -286,13 +286,14 @@ def run_fixture(manifest_path: Path, out: Path) -> dict[str, Any]:
             writer.writerow(row)
 
     promote_top_n = int(manifest.get("outputs", {}).get("promote_top_n", 2))
-    dossier_dir = out / "candidate_dossiers"
-    dossier_dir.mkdir(exist_ok=True)
+    report_dir = out / "candidate_reports"
+    report_dir.mkdir(exist_ok=True)
     promoted = []
     for rank, record in enumerate(successful[:promote_top_n], start=1):
-        dossier = {
+        report = {
             "schema_version": 1,
-            "candidate_dossier_id": f"{manifest['run_id']}-{record['ligand_id']}",
+            "candidate_report_id": f"{manifest['run_id']}-{record['ligand_id']}",
+            "candidate_report_id": f"{manifest['run_id']}-{record['ligand_id']}",
             "rank": rank,
             "ligand_id": record["ligand_id"],
             "selection_reason": "top_ranked_fixture_candidate",
@@ -300,10 +301,10 @@ def run_fixture(manifest_path: Path, out: Path) -> dict[str, Any]:
             "candidate_evidence": record,
             "claim_level": "candidate",
             "evidence_mode": "fixture_or_demo",
-            "caveat": "Deterministic fixture dossier; not real docking, affinity, or biological evidence.",
+            "caveat": "Deterministic fixture report; not real docking, affinity, or biological support.",
         }
-        path = dossier_dir / f"{record['ligand_id']}.json"
-        write_json(path, dossier)
+        path = report_dir / f"{record['ligand_id']}.json"
+        write_json(path, report)
         promoted.append(str(path.relative_to(out)))
 
     method_summary = {
@@ -343,7 +344,7 @@ def run_fixture(manifest_path: Path, out: Path) -> dict[str, Any]:
         "claim_level": "candidate",
         "evidence_mode": "fixture_or_demo",
     })
-    write_json(out / "claim_ledger.json", {
+    write_json(out / "validation_ledger.json", {
         "schema_version": 1,
         "overall_claim_level": "candidate",
         "evidence_mode": "fixture_or_demo",
@@ -354,7 +355,7 @@ def run_fixture(manifest_path: Path, out: Path) -> dict[str, Any]:
                 "evidence": ["consensus_ranking.csv", "method_summary.json", "failure_report.json"]
             },
             {
-                "claim": "Top fixture candidates were promoted to selective dossiers.",
+                "claim": "Top fixture candidates were promoted to selective reports.",
                 "level": "candidate",
                 "evidence": promoted
             },
@@ -392,7 +393,7 @@ def run_fixture(manifest_path: Path, out: Path) -> dict[str, Any]:
             "consensus_ranking.csv",
             "failure_report.json",
             "method_summary.json",
-            "claim_ledger.json",
+            "validation_ledger.json",
             "stage-progress.jsonl",
             "executed-commands.jsonl"
         ],
@@ -405,7 +406,7 @@ def run_fixture(manifest_path: Path, out: Path) -> dict[str, Any]:
         "ligands_total": len(ligands),
         "ligands_prepared": len(successful),
         "ligands_failed": len(failures),
-        "candidate_dossiers": promoted,
+        "candidate_reports": promoted,
     }
 
 

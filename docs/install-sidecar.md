@@ -8,7 +8,7 @@ Structure Factory can be used as a sibling repo, vendored folder, or mounted sid
 /path/to/work/
   bio-symphony/
   biosymphony-structure-factory-public/
-  autonomy/
+  orchestrator-workspace/
 ```
 
 ## Install Steps
@@ -45,7 +45,7 @@ make public-switch-check
 3. Copy or adapt the workflow template:
 
 ```bash
-cp references/structure-factory.WORKFLOW.template.md /path/to/autonomy/workflows/bio-symphony-structure-factory.WORKFLOW.md
+cp references/structure-factory.WORKFLOW.template.md /path/to/orchestrator-workspace/workflows/bio-symphony-structure-factory.WORKFLOW.md
 ```
 
 4. Set the Linear project slug and clone URL in the workflow.

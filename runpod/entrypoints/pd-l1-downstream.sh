@@ -3,14 +3,14 @@
 #
 # This public entrypoint is a downstream template. It expects an operator-gated
 # runtime artifact root containing a declared design_candidates/ manifest set,
-# a target-window dossier, and reviewed Boltz runtime setup. It never publishes
+# a target-window report, and reviewed Boltz runtime setup. It never publishes
 # private provider state, concrete pod IDs, accepted-license records, or
 # generated structures in git. It fires only the later stages of the runner:
 #
 #   1. boltz_crosscheck_extended  (cofold all 38 reconstructed candidates)
-#   2. jury_synthesis             (rank top binders)
+#   2. ranking_synthesis             (rank top binders)
 #   3. report                     (HTML + markdown)
-#   4. claim_audit                (claim ledger, methods, provenance, closeout)
+#   4. validation_review                (validation ledger, methods, provenance, closeout)
 #   5. contract_self_check        (final fail-closed gate)
 #
 # The runner reconstructs generation metadata from each declared
@@ -48,9 +48,9 @@ CURRENT_STAGE=""
 # stage-contract.json and the runner's STAGE_ORDER tail.
 RUNNER_STAGES=(
   "boltz_crosscheck_extended"
-  "jury_synthesis"
+  "ranking_synthesis"
   "report"
-  "claim_audit"
+  "validation_review"
   "contract_self_check"
 )
 
@@ -111,15 +111,6 @@ PY
 }
 trap on_error ERR
 
-# Best-effort http.server so the host can watch artifacts live on :8000 (the
-# manifest also exposes :8888 via progress.http_status_server_port for the
-# bridge tool's status poller).
-if [ "${STRUCTURE_FACTORY_HTTP_SERVER:-1}" = "1" ]; then
-  (cd /workspace && python3 -m http.server 8000 --bind 0.0.0.0 \
-    >> /workspace/http_server.log 2>&1) &
-  echo "[entrypoint] http.server pid=$! at /workspace:8000" >&2
-fi
-
 # The bridge tool clones / checks out the pinned SHA before this script fires.
 # Only re-bootstrap if the repo isn't already present (defensive; should not
 # normally hit this path).
@@ -171,13 +162,13 @@ if not runner.is_file():
 if not stage_contract.is_file():
     raise SystemExit(f"stage contract missing: {stage_contract}")
 if not mvd_root.is_dir():
-    raise SystemExit(f"mvd_root missing: {mvd_root} (target_window_dossier.json must be reachable here)")
+    raise SystemExit(f"mvd_root missing: {mvd_root} (target_window.json must be reachable here)")
 
-dossier = mvd_root / "target_window_dossier.json"
-if not dossier.is_file():
-    # The runner reads it via load_json(mvd_root / "target_window_dossier.json")
+report = mvd_root / "target_window.json"
+if not report.is_file():
+    # The runner reads it via load_json(mvd_root / "target_window.json")
     # and fails closed if absent — surface that here for an earlier signal.
-    raise SystemExit(f"target_window_dossier.json missing under mvd_root: {dossier}")
+    raise SystemExit(f"target_window.json missing under mvd_root: {report}")
 
 design_root = artifact_root / "design_candidates"
 candidates = []
@@ -301,9 +292,9 @@ stage_contract_path = Path(sys.argv[3])
 
 required = [
     "validation/boltz_crosscheck_extended.json",
-    "candidate_jury.json",
-    "report/index.html",
-    "claim_ledger.json",
+    "candidate_ranking.json",
+    "report/README.md",
+    "validation_ledger.json",
     "validation/contract-self-check.json",
     "stage-progress.jsonl",
     "executed-commands.jsonl",
@@ -319,7 +310,7 @@ if contract_self_check.is_file():
         contract_ok = False
 
 claim_level = None
-claim_path = root / "claim_ledger.json"
+claim_path = root / "validation_ledger.json"
 if claim_path.is_file():
     try:
         claim_level = json.loads(claim_path.read_text()).get("claim_level")

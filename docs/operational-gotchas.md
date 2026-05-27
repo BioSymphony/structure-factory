@@ -4,7 +4,7 @@ A pattern library of every blocker class we have hit across multi-stage structur
 
 The goal is to detect each class **before** a dispatch burns time and money, and to have a one-line fix ready when it does fire. Most classes have a paste-ready pre-flight probe.
 
-This catalog is target-agnostic. The lessons apply to any binder-design, cofold, model-jury, or screening campaign on managed GPU compute.
+This catalog is target-agnostic. The lessons apply to any binder-design, cofold, model-comparison, or screening campaign on managed GPU compute.
 
 ---
 
@@ -34,7 +34,7 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 | 20 | Boltz CCD partial extract     | `CCD component ALA not found` | check `mols/ALA.pkl` exists |
 | 21 | Boltz torch driver mismatch   | `NVIDIA driver too old (12040)` | `torch.__version__` vs `nvidia-smi` CUDA |
 | 22 | Boltz `--write_full_pae` off  | downstream ipSAE fails: no `pae` in NPZ | grep `--write_full_pae` in entrypoint |
-| 23 | Boltz `affinity_summary.json` | jury reads small-molecule head, not protein iPTM | read `confidence_<name>.json` only |
+| 23 | Boltz `affinity_summary.json` | ranking reads small-molecule head, not protein iPTM | read `confidence_<name>.json` only |
 | 24 | Chai-1 ESM-no-MSA default     | iPTM 0.3 lower than Boltz on identical complex | `use_esm_embeddings=False` + `msa_directory=...` |
 | 25 | ColabFold MMseqs2 rate-limit  | 20+ jobs throttled, designs stall | pre-compute target `.a3m` once |
 | 26 | Genie 3 pretrained CWD        | `FileNotFoundError: pretrained/v1/config.yaml` | `cd $GENIE3_HOME &&` before invoking |
@@ -343,8 +343,8 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 
 ### 23. Boltz `affinity_summary.json` is the wrong file for protein-protein iPTM
 
-- **Symptom:** jury iPTM column populated from the small-molecule affinity head, not the protein-protein iPTM.
-- **Pre-flight probe (in jury synthesis code):** grep for which JSON file is being read; should be `confidence_<name>.json`, not `affinity_summary.json`.
+- **Symptom:** ranking iPTM column populated from the small-molecule affinity head, not the protein-protein iPTM.
+- **Pre-flight probe (in ranking synthesis code):** grep for which JSON file is being read; should be `confidence_<name>.json`, not `affinity_summary.json`.
 - **Fix:** read `confidence_<name>.json` and use `pair_chains_iptm[binder, target]`. The affinity head is for small-molecule binding and does not apply to protein-protein interfaces.
 
 ### 24. Chai-1 silent ESM-no-MSA default
@@ -472,7 +472,7 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 
 - **Symptom:** memory or a doc says "Tool X version Y ready"; actual state was bumped by another agent and is broken. Or: a recipe in this catalog cites a benchmark / version pin that has since been superseded by a newer release.
 - **Fix:** run an NV / environment audit as the **first step of every campaign**. Update the manifest the moment any install pod modifies the volume. Never trust a written "ready" status without a live probe.
-- **Currency dimension:** also run a primary-source freshness check before reusing any known-good recipe in this catalog. Check upstream repo HEAD (releases tab + recent commits), current release notes, and recent preprints (biorxiv, chemrxiv, arxiv) for newer versions and benchmark revisions. Record the version pin you used and the date of the check in the candidate jury so a future agent can re-verify rather than re-discover. See [`tools/cofold-scoring-stack.md#currency-check-run-before-reusing-this-card`](../tools/cofold-scoring-stack.md) for a worked example of how a 2025 framework was superseded by a 2026 benchmark.
+- **Currency dimension:** also run a primary-source freshness check before reusing any known-good recipe in this catalog. Check upstream repo HEAD (releases tab + recent commits), current release notes, and recent preprints (biorxiv, chemrxiv, arxiv) for newer versions and benchmark revisions. Record the version pin you used and the date of the check in the candidate ranking so a future agent can re-verify rather than re-discover. See [`tools/cofold-scoring-stack.md#currency-check-run-before-reusing-this-card`](../tools/cofold-scoring-stack.md) for a worked example of how a 2025 framework was superseded by a 2026 benchmark.
 
 ---
 

@@ -22,7 +22,7 @@ Use the BioSymphony Structure Factory skill with the PepGLAD tool card. For targ
 
 ## Typical Inputs
 
-- Target-window dossier with chain, residue range, and hotspot evidence.
+- Target-window report with chain, residue range, and hotspot evidence.
 - Peptide length and topology constraints.
 - Optional motif: anchor residues to preserve from a known reference peptide.
 - Sample count.
@@ -58,7 +58,7 @@ Use the BioSymphony Structure Factory skill with the PepGLAD tool card. For targ
 ## Gates
 
 - Keep model weights and generated structures out of git.
-- Record version, branch, dependency posture, and seeds in the candidate jury.
+- Record version, branch, dependency posture, and seeds in the candidate ranking.
 - Close as `partial` or `blocked` if the runtime cannot reproduce the declared configuration.
-- Cap every candidate jury at `computational_candidate` until independent validation exists.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate jury.
+- Cap every candidate ranking at `computational_candidate` until independent validation exists.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.

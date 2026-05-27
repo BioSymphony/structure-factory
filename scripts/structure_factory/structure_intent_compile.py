@@ -163,7 +163,7 @@ def extract_budget(prompt: str) -> dict[str, Any]:
             "spend": spend_phrase or ("explicit zero-spend phrase" if no_paid else "default zero-spend fixture"),
             "ligands": ligand_source,
             "runtime": runtime_source,
-            "top_n": top_n_phrase or "default top-N dossier cap",
+            "top_n": top_n_phrase or "default top-N report cap",
         },
     }
 
@@ -241,7 +241,7 @@ def detect_mode(prompt: str) -> str:
     text = prompt.lower()
     if re.search(r"\b(openbind|calibrat|redocking|re-docking|cross[- ]docking|affinity benchmark)\b", text):
         return "openbind_calibration"
-    if re.search(r"\b(disagreement|disagree|discordant|discordance|method jury|model jury|consensus|compare methods)\b", text):
+    if re.search(r"\b(disagreement|disagree|discordant|discordance|method ranking|model ranking|consensus|compare methods)\b", text):
         return "method_disagreement"
     return "screen"
 
@@ -381,7 +381,7 @@ def screening_manifest(prompt: str, mode: str = "screen") -> dict[str, Any]:
         },
         "outputs": {
             "artifact_contract": "modules/artifact-contracts/screening-results.v1.json",
-            "dossier_contract": "modules/artifact-contracts/candidate-dossier.v1.json",
+            "candidate_report_contract": "modules/artifact-contracts/candidate-report.v1.json",
             "promote_top_n": budget["promote_top_n"],
         },
         "policies": {

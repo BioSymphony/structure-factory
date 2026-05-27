@@ -101,7 +101,7 @@ class ProviderCloseoutCheckTests(unittest.TestCase):
                 }
             )
         )
-        (root / "claim_ledger.json").write_text(
+        (root / "validation_ledger.json").write_text(
             json.dumps({"schema_version": 1, "overall_claim_level": "processed", "evidence_mode": "provider_native"})
         )
         (root / "provenance.md").write_text("# provenance\n")

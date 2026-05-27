@@ -28,7 +28,7 @@ Expected success:
 
 - each command exits successfully
 - fixture outputs are written under `.runtime/screening-superpowers-fixture`
-- result and active-learning checks report valid synthetic fixture evidence
+- result and active-learning checks report valid synthetic fixture outputs
 
 ## Files To Inspect
 
@@ -47,7 +47,7 @@ Expected success:
 
 Mark the run blocked or degraded if fixture checks fail, schema output is missing, a real provider launch is requested without authorization, or any private data would enter git.
 
-Outputs are written under `.runtime/` and ignored by git. Treat them as `public_synthetic_demo` evidence, not biological proof.
+Outputs are written under `.runtime/` and ignored by git. Treat them as `public_synthetic_demo` outputs, not biological proof.
 
 Before adapting the recipe to real data, declare:
 

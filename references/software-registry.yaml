@@ -133,7 +133,7 @@ software:
     runtime_artifacts: "latent_embeddings/, heterogeneity_report.json"
     citation_notes: "Record cryoDRGN version, model args, and checkpoints."
     status: planned
-    notes: "Continuous heterogeneity/model-jury lane."
+    notes: "Continuous heterogeneity/model-comparison lane."
   recovar:
     role: heterogeneity_analysis
     image_family: cryo-core
@@ -256,20 +256,20 @@ software:
     weights_source: "auto-downloaded by `boltz predict` on first run; no manual HF pull needed"
     status: pinned
     notes: |
-      Model-jury and design support lane. Used by the GPCR Activation Atlas
-      campaign (gpcr-activation-atlas, waves W2 and W5). Pinned to v2.2.1
-      (released 2025-09-08, MIT, model: Boltz-2). The `boltz` PyPI package
-      installs both Boltz-1 and Boltz-2; default model is Boltz-2.
+      Model-comparison and design support lane. Pinned to v2.2.1 (released
+      2025-09-08, MIT, model: Boltz-2). The `boltz` PyPI package installs
+      both Boltz-1 and Boltz-2; default model is Boltz-2.
 
       Weights are auto-downloaded by `boltz predict` on first invocation to
       whichever directory the `--cache` flag (or BOLTZ_CACHE env var) points
-      at. The W2 entrypoint passes `/workspace/structure-factory/weights/boltz`
-      via `--boltz-weights-dir`. NV mount is OPTIONAL — auto-download works
-      without it (adds ~5 min cold-pull per pod for first-run weights).
+      at. A provider entrypoint may pass a dedicated runtime cache such as
+      `/workspace/structure-factory/weights/boltz` via `--boltz-weights-dir`.
+      A persistent runtime cache is optional; auto-download works without it
+      but adds cold-pull time to the first pod.
 
-      The `boltz_install` stage in runpod/entrypoints/gpcr-w2-boltz-predict.sh
-      pip-installs this version when the CLI is absent. Override the version
-      via env var STRUCTURE_FACTORY_BOLTZ_VERSION.
+      Provider bootstraps should pip-install this version when the CLI is
+      absent. Override the version via env var
+      STRUCTURE_FACTORY_BOLTZ_VERSION.
   chai:
     role: biomolecular_prediction
     image_family: ai-design
@@ -309,13 +309,13 @@ software:
     citation_notes: "Record repo commit and design constraints."
     status: planned
     notes: |
-      Design lane. Used by the GPCR Activation Atlas campaign
-      (gpcr-activation-atlas, wave W5) for switch-locked variants per receptor.
-      Pin the repo commit SHA in this registry before paid execution; weights
-      cache lives at /workspace/structure-factory/weights/proteinmpnn on the
-      network volume. Status remains planned until the ai-design image vendor
-      pins the repo commit. Designed sequences are computational candidates
-      only; wet-lab use is out of campaign scope.
+      Design lane for sequence assignment after backbone generation. Pin the
+      repo commit SHA in this registry before paid execution; weights or model
+      caches belong in the runtime cache, for example
+      /workspace/structure-factory/weights/proteinmpnn on an operator-managed
+      volume. Status remains planned until the ai-design image vendor pins the
+      repo commit. Designed sequences are computational candidates only;
+      wet-lab use is out of campaign scope.
   ligandmpnn:
     role: ligand_aware_sequence_design
     image_family: ai-design
@@ -534,7 +534,7 @@ software:
     runtime_artifacts: "protenix_predictions/, protenix_manifest.json"
     citation_notes: "Record Protenix version, model/weight terms, input assemblies, and confidence outputs."
     status: planned
-    notes: "Review-required method-jury lane for protein/RNA/ligand structure work."
+    notes: "Review-required method-comparison lane for protein/RNA/ligand structure work."
   openfold3:
     role: biomolecular_prediction_and_cofolding
     image_family: ai-design
@@ -614,7 +614,7 @@ software:
     runpod_fit: adapter_only
     gpu_class: "provider-dependent"
     smoke_command: "nextflow -version"
-    runtime_artifacts: "main.nf, nextflow_report.html, provider_closeout.json"
+    runtime_artifacts: "main.nf, Nextflow runtime report, provider_closeout.json"
     citation_notes: "Record generated workflow and executor profile."
     status: planned
     notes: "Export adapter only; does not replace Structure Factory evidence contracts."
@@ -695,7 +695,7 @@ software:
     runtime_artifacts: "diffdock_poses/, pose_quality_ledger.json"
     citation_notes: "Record repo commit, weights, receptor/ligand prep, and confidence outputs."
     status: gated
-    notes: "Review-required method-jury lane; not a default scoring authority."
+    notes: "Review-required method-comparison lane; not a default scoring authority."
   dynamicbind:
     role: flexible_ligand_docking
     image_family: md-docking

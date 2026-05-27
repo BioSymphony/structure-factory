@@ -15,7 +15,6 @@ include sidecar.yaml
 include pyproject.toml
 include MANIFEST.in
 recursive-include .github *.md *.yml *.yaml
-recursive-include .codex *.md
 recursive-include docs *.md *.svg
 recursive-include examples *.md *.json
 recursive-include modules *.json *.md

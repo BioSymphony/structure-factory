@@ -1,14 +1,14 @@
 {
   "campaign_id": "structure-factory-empiar-10204-v0",
   "subgroup": "structure-factory",
-  "campaign_family": "cryocore-handoff-to-dossier",
-  "claim_level": "public_demo",
+  "campaign_family": "cryocore-handoff-to-structure-mapping",
+  "result_boundary": "public_demo",
   "status": "planning",
   "system": {
     "privacy": "public_only"
   },
   "wet_lab_execution": false,
-  "therapeutic_claims": false,
+  "therapeutic_conclusions": false,
   "target": {
     "label": "EMPIAR 10204 public CryoCore handoff smoke",
     "public_accession": "EMPIAR:10204",
@@ -26,16 +26,16 @@
     {
       "id": "metadata-intake-plan",
       "kind": "planning",
-      "claim_ceiling": "public_demo",
+      "result_boundary": "public_demo",
       "description": "Public metadata-only CryoCore handoff plan. Raw movies, maps, models, and reconstruction outputs stay outside git."
     }
   ],
-  "expected_dossier": "structure-dossier/",
+  "expected_report": "structure-mapping/",
   "expected_artifacts": [
     "campaign-manifest.json",
     "stage-contract.json",
     "public-intake-notes.md",
-    "claim-ledger.md"
+    "validation-notes.md"
   ],
   "notes": [
     "Use as a smoke handoff before large raw-data requests.",

@@ -57,4 +57,4 @@ Use the BioSymphony Structure Factory skill with the Chai-1 tool card. For targe
 - Weight download and runtime use require current upstream license terms.
 - Public targets only in public examples.
 - Multi-validator slate recommended. Do not promote candidates from Chai alone.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.

@@ -61,4 +61,4 @@ Use the BioSymphony Structure Factory skill with the Boltz tool card. For target
 - Weight download and runtime use require current upstream license terms.
 - Public targets only in public examples.
 - Real provider runs need budget, cleanup, and operator-gate approval per the campaign's provider profile.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.

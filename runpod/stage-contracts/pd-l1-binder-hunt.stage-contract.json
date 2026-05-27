@@ -6,9 +6,9 @@
   "run_id_resolution_policy": "Campaign-level template. The bridge manifest supplies the concrete run_id through STRUCTURE_FACTORY_RUN_ID.",
   "campaign_id": "pd-l1-pd1-binder-design",
   "wave": "pd-l1-binder-hunt",
-  "execution_profile": "genie3-boltz-design-jury",
+  "execution_profile": "genie3-boltz-design-ranking",
   "progress_ledger": "/workspace/runpod-execution/artifacts/stage-progress.jsonl",
-  "success_claim": "Genie 3-generated PD-L1 binder candidates against public 4ZQK are Boltz cofolded, ranked in candidate_jury.json and candidate_jury_top32.json, and capped at candidate-level computational evidence.",
+  "success_claim": "Genie 3-generated PD-L1 binder candidates against public 4ZQK are Boltz cofolded, ranked in candidate_ranking.json and candidate_ranking_top32.json, and capped at candidate-level computational evidence.",
   "fail_closed": true,
   "partial_summary": {
     "path": "partial-summary.json",
@@ -21,7 +21,7 @@
     "invalidate_on": [
       "launch_manifest_sha256_change",
       "stage_contract_sha256_change",
-      "target_window_dossier_sha256_change",
+      "target_window_sha256_change",
       "genie3_pinned_commit_sha_change",
       "genie3_hf_revision_change",
       "boltz_pinned_release_change",
@@ -31,7 +31,7 @@
   "stages": [
     {
       "stage_id": "target_intake",
-      "description": "Materialize and hash the committed PD-L1 target-window dossier plus public target slice metadata.",
+      "description": "Materialize and hash the committed PD-L1 target-window report plus public target slice metadata.",
       "required": true,
       "expected_outputs": ["validation/target_intake.json"],
       "timeout_minutes": 5,
@@ -118,41 +118,41 @@
       "fail_closed": true
     },
     {
-      "stage_id": "jury_synthesis",
-      "description": "Aggregate generated, failed, and Boltz-crosschecked candidates into candidate_jury.json, candidate_jury.md, and candidate_jury_top32.json.",
+      "stage_id": "ranking_synthesis",
+      "description": "Aggregate generated, failed, and Boltz-crosschecked candidates into candidate_ranking.json, candidate_ranking.md, and candidate_ranking_top32.json.",
       "required": true,
-      "expected_outputs": ["validation/jury_synthesis.json", "candidate_jury.json", "candidate_jury.md", "candidate_jury_top32.json"],
+      "expected_outputs": ["validation/ranking_synthesis.json", "candidate_ranking.json", "candidate_ranking.md", "candidate_ranking_top32.json"],
       "timeout_minutes": 10,
-      "checkpoint_marker": "candidate_jury.json",
-      "done_marker": "candidate_jury_top32.json",
-      "resume_command": "python3 scripts/structure_factory/pd_l1_binder_hunt.py --stage jury_synthesis --out runpod-execution/artifacts --json",
+      "checkpoint_marker": "candidate_ranking.json",
+      "done_marker": "candidate_ranking_top32.json",
+      "resume_command": "python3 scripts/structure_factory/pd_l1_binder_hunt.py --stage ranking_synthesis --out runpod-execution/artifacts --json",
       "fail_closed": true
     },
     {
       "stage_id": "report",
-      "description": "Render a public-safe report from the runtime gate and candidate jury without making binding or therapeutic claims.",
+      "description": "Render a public report from the runtime gate and candidate ranking without making binding or therapeutic claims.",
       "required": true,
-      "expected_outputs": ["report/index.html", "report/README.md"],
+      "expected_outputs": ["report/README.md"],
       "timeout_minutes": 10,
-      "checkpoint_marker": "report/index.html",
-      "done_marker": "report/index.html",
+      "checkpoint_marker": "report/README.md",
+      "done_marker": "report/README.md",
       "resume_command": "python3 scripts/structure_factory/pd_l1_binder_hunt.py --stage report --out runpod-execution/artifacts --json",
       "fail_closed": true
     },
     {
-      "stage_id": "claim_audit",
-      "description": "Emit claim_ledger, methods, provenance, operator closeout, and artifact hashes with all scientific claims capped at candidate or lower.",
+      "stage_id": "validation_review",
+      "description": "Emit validation_ledger, methods, provenance, operator closeout, and artifact hashes with all scientific claims capped at candidate or lower.",
       "required": true,
-      "expected_outputs": ["claim_ledger.json", "claim_ledger.md", "methods.md", "provenance.md", "operator_closeout.md", "artifact_index.json"],
+      "expected_outputs": ["validation_ledger.json", "validation_ledger.md", "methods.md", "provenance.md", "operator_closeout.md", "artifact_index.json"],
       "timeout_minutes": 10,
-      "checkpoint_marker": "claim_ledger.json",
+      "checkpoint_marker": "validation_ledger.json",
       "done_marker": "operator_closeout.md",
-      "resume_command": "python3 scripts/structure_factory/pd_l1_binder_hunt.py --stage claim_audit --out runpod-execution/artifacts --json",
+      "resume_command": "python3 scripts/structure_factory/pd_l1_binder_hunt.py --stage validation_review --out runpod-execution/artifacts --json",
       "fail_closed": true
     },
     {
       "stage_id": "contract_self_check",
-      "description": "Verify required jury artifacts, top-32 consistency, generated structure paths, Boltz prediction paths, weights revision, and allowed claim level.",
+      "description": "Verify required ranking artifacts, top-32 consistency, generated structure paths, Boltz prediction paths, weights revision, and allowed result boundary.",
       "required": true,
       "expected_outputs": ["validation/contract-self-check.json"],
       "timeout_minutes": 10,
@@ -166,9 +166,9 @@
     "runpod-execution/status.json",
     "runpod-execution/artifacts/stage-progress.jsonl",
     "runpod-execution/artifacts/executed-commands.jsonl",
-    "runpod-execution/artifacts/candidate_jury.json",
-    "runpod-execution/artifacts/candidate_jury_top32.json",
-    "runpod-execution/artifacts/claim_ledger.json",
+    "runpod-execution/artifacts/candidate_ranking.json",
+    "runpod-execution/artifacts/candidate_ranking_top32.json",
+    "runpod-execution/artifacts/validation_ledger.json",
     "runpod-execution/artifacts/operator_closeout.md",
     "runpod-execution/artifacts/validation/contract-self-check.json",
     "runpod-execution/artifacts/runpod-execution.tar.gz"
@@ -179,7 +179,7 @@
   "done_markers": [
     "runpod-execution/status.json reports ok true",
     "runpod-execution/artifacts/validation/contract-self-check.json reports ok true",
-    "runpod-execution/artifacts/candidate_jury_top32.json exists with at most 32 candidates"
+    "runpod-execution/artifacts/candidate_ranking_top32.json exists with at most 32 candidates"
   ],
   "claim_levels_allowed": ["candidate", "insufficient_evidence", "blocked"],
   "default_claim_level": "candidate",
@@ -190,7 +190,7 @@
   ],
   "no_false_success_notes": [
     "status.json ok true requires no failed stages and contract_self_check ok true.",
-    "candidate_jury_top32.json is a ranking artifact, not a binding claim.",
+    "candidate_ranking_top32.json is a ranking artifact, not a binding claim.",
     "Any skipped or failed upstream stage must downgrade to partial, failed, blocked, or insufficient_evidence."
   ]
 }

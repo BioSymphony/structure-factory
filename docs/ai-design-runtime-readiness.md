@@ -5,10 +5,10 @@ This note captures the RunPod-saving checks for Boltz and Genie 3 lanes. It is p
 ## Upstream Facts Checked
 
 - Boltz 2.2.1 is the current pinned version in this repo. Upstream recommends a fresh Python environment and `pip install boltz[cuda] -U`; PyPI records Python `>=3.10,<3.13` and the `cuda` extra. See [Boltz README](https://github.com/jwohlwend/boltz) and [Boltz PyPI](https://pypi.org/project/boltz/).
-- Boltz prediction input should be YAML. Upstream still accepts FASTA, but the prediction docs mark FASTA deprecated. Our W2 runner now writes `target.yaml`; W5 writes per-variant `variant.yaml`. See [Boltz prediction docs](https://github.com/jwohlwend/boltz/blob/main/docs/prediction.md).
+- Boltz prediction input should be YAML. Upstream still accepts FASTA, but the prediction docs mark FASTA deprecated. Runtime cofold lanes should write `target.yaml`; per-variant model-comparison lanes should write `variant.yaml`. See [Boltz prediction docs](https://github.com/jwohlwend/boltz/blob/main/docs/prediction.md).
 - Boltz `--cache` defaults to `~/.boltz` and respects `BOLTZ_CACHE`; Structure Factory passes `--cache` to the declared weights/cache directory so first-run downloads are visible in the artifact ledger.
 - Boltz `--use_msa_server` calls the mmseqs2/ColabFold service. Use it only for public sequences or an issue that explicitly permits external MSA service use. For private targets, set `STRUCTURE_FACTORY_BOLTZ_USE_MSA_SERVER=0`, accept lower-accuracy single-sequence mode, or provide precomputed MSAs.
-- Boltz affinity outputs are small-molecule/protein oriented. Upstream cautions that affinity predictions involving RNA/DNA targets are unreliable. For binder campaigns against RNP or nucleic-acid-containing targets, treat Boltz as a structure/interface jury first; affinity claims stay capped at `candidate`.
+- Boltz affinity outputs are small-molecule/protein oriented. Upstream cautions that affinity predictions involving RNA/DNA targets are unreliable. For binder campaigns against RNP or nucleic-acid-containing targets, treat Boltz as a structure/interface comparison first; affinity statements stay capped at `computational_candidate`.
 - Genie 3 upstream setup creates a `genie3` conda environment and installs ColabFold into that environment. See [Genie 3 setup docs](https://github.com/aqlaboratory/genie3).
 - Genie 3 upstream download defaults fetch both pretrained weights and training data; Structure Factory blocks training data by default and pins HF downloads by revision when enabled.
 - Genie 3 binder design supports single-node multi-device, multi-node sharding, beam search, iterative design, and `genie3 status`. Its evaluator writes `info.csv`, `success_info.csv`, successful binders, and successful complexes. These outputs map cleanly onto cloud shard/reduce stages.
@@ -33,7 +33,7 @@ This note captures the RunPod-saving checks for Boltz and Genie 3 lanes. It is p
 - Use public deposited structures for early demos and keep external MSA server use public-only.
 - Generate binders with Genie 3 against declared target windows, then use Boltz to re-predict target/binder complexes and score interface plausibility.
 - Treat Boltz small-molecule affinity fields as out of scope for protein/RNP binder ranking unless a future validated protocol proves otherwise.
-- Close every demo with `computational_candidate` or lower claim level until experimental or orthogonal computational validation exists.
+- Close every demo with `computational_candidate` or lower result boundary until experimental or orthogonal computational validation exists.
 
 ## Genie 3 No-Download Toolcheck (Lane Gate)
 
@@ -41,11 +41,11 @@ The Genie 3 lane is gated behind a single GPU-pod toolcheck that proves source/i
 
 Build artifacts:
 
-- `runpod/bridge-manifests/genie3-no-download-toolcheck.json` — RTX 4090, operator-defined spend cap, 60 min terminate, inline_commands airgap (no Network Volume, no git clone, no registry auth).
+- `runpod/bridge-manifests/public-nonlaunchable-template.json` — public shape-only RunPod bridge template. Build any real Genie3, Boltz, or RFdiffusion provider packet outside public git after operator approval.
 - `runpod/stage-contracts/genie3-no-download-toolcheck.stage-contract.json` — 7 fail-closed stages: host_probe, source_download, dependency_review, pip_install, smoke_commands, hf_weights_probe, emit_artifacts.
 - `scripts/structure_factory/genie3_toolcheck.py` — single-file runner; gzip+base64-embedded into dockerStartCmd by the manifest builder.
 - `scripts/structure_factory/build_genie3_toolcheck_bridge_manifest.py` — manifest builder.
-- Use the binder-design fast-path issue pack under `packs/` for an operator-gate Linear issue draft.
+- Use the binder-design fast-path task pack under `packs/` for an operator-gate Linear task draft.
 
 Local pre-flight evidence (no GPU, `--no-install` mode):
 
@@ -78,8 +78,8 @@ What a passing toolcheck does NOT prove:
 - Designs are biologically plausible.
 - The lane is ready for any specific receptor target.
 
-Each of those needs a separate, scoped run: weights download (operator-gated by `GENIE3_DOWNLOAD_WEIGHTS=1`), `genie3-public-design-canary`, then `genie3-boltz-design-jury` against a real target window.
+Each of those needs a separate, scoped run: weights download (operator-gated by `GENIE3_DOWNLOAD_WEIGHTS=1`), `genie3-public-design-canary`, then `genie3-boltz-design-ranking` against a real target window.
 
 ## Minimum-Viable Demo Pattern (No-GPU Baseline)
 
-A useful pattern for any GPU-gated lane is a Minimum-Viable Demo that completes without a GPU, an operator gate, or a provider mutation. It produces a no-download window dossier from public accession metadata so the rest of the campaign has a real target shape to consume even if the GPU lane blocks. The stretch tranche (Genie 3 generation + Boltz cross-check) then sits behind the relevant toolcheck operator gate.
+A useful pattern for any GPU-gated lane is a Minimum-Viable Demo that completes without a GPU, an operator gate, or a provider mutation. It produces a no-download window report from public accession metadata so the rest of the campaign has a real target shape to consume even if the GPU lane blocks. The stretch tranche (Genie 3 generation + Boltz cross-check) then sits behind the relevant toolcheck operator gate.

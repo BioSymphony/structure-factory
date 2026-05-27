@@ -2,10 +2,10 @@
 
 Last reviewed: 2026-05-08
 
-This note captures public-safe, visually impressive demo concepts for combining
+This note captures public, visually impressive demo concepts for combining
 Genie 3 generation with Boltz prediction/cross-checking inside Structure
 Factory. These are computational candidate demos only. They do not authorize
-wet-lab synthesis, therapeutic claims, private target use, or paid RunPod
+wet-lab synthesis, therapeutic conclusions, private target use, or paid RunPod
 execution without the normal operator gate.
 
 ## Shared Demo Contract
@@ -16,14 +16,14 @@ Every Genie 3 + Boltz demo should emit:
   target/motif source, and sample count.
 - `weights_manifest.json` for Genie 3 and any Boltz/ColabFold/AlphaFold2
   weights actually used.
-- `executed-commands.jsonl`, `versions.json`, and `claim_ledger.json`.
+- `executed-commands.jsonl`, `versions.json`, and `validation_ledger.json`.
 - `design_candidates/` with generated PDBs or FASTA/PDB pairs.
 - `boltz_crosscheck/` with per-candidate prediction artifacts and confidence.
-- `jury_summary.csv` comparing Genie 3 native scores, Boltz confidence,
+- `ranking_summary.csv` comparing Genie 3 native scores, Boltz confidence,
   self-consistency metrics, interface metrics where relevant, and failure mode.
-- A compact figure panel or HTML dossier with no `validated` language.
+- A compact Markdown summary with figure-panel references and no `validated` language.
 
-Default claim level: `computational_candidate`.
+Default result boundary: `computational_candidate`.
 
 Before any real Genie 3 + Boltz demo, run `make harness-check` locally
 and `make harness-check` inside the actual GPU image or Network Volume
@@ -36,7 +36,7 @@ gotchas and provider selection order.
 
 Use a public motif scaffolding problem from Genie 3's example set or a public
 PDB-derived motif. Genie 3 scaffolds the motif, then Boltz predicts whether the
-designed full sequence maintains a compatible fold. The dossier shows motif
+designed full sequence maintains a compatible fold. The report shows motif
 RMSD, Boltz confidence, sequence diversity, and cluster spread.
 
 Why it is impressive:
@@ -56,7 +56,7 @@ Guardrails:
 
 Run Genie 3 unconditional generation across a small length ladder, for example
 50, 100, and 150 residues with a tiny sample count. Boltz and/or ESMFold
-cross-check each design, then the dossier clusters by FoldSeek and reports fold
+cross-check each design, then the report clusters by FoldSeek and reports fold
 diversity, confidence, and model disagreement.
 
 Why it is impressive:
@@ -69,27 +69,27 @@ Guardrails:
 
 - Keep sample counts small for the first canary.
 - Do not label generated folds as novel without database search evidence.
-- Use `public_synthetic_demo` or `computational_candidate` claim level until a real search/novelty
+- Use `public_synthetic_demo` or `computational_candidate` result boundary until a real search/novelty
   lane is added.
 
 ## Demo 4: Design Disagreement Museum
 
 Generate a small mixed tranche from Genie 3: unconditional mini proteins, motif
 scaffolds, and one public binder target. Run Boltz cross-checks and collect the
-most interesting agreement and disagreement cases into a curated HTML dossier.
+most interesting agreement and disagreement cases into a curated Markdown summary.
 
 Why it is impressive:
 
-- Shows the value of a model jury instead of one-model scoring.
+- Shows the value of cross-model review instead of one-model scoring.
 - Makes failure modes visible: collapsed folds, low-confidence interfaces,
   motif drift, or high-confidence disagreements.
-- Fits Structure Factory's claim-ledger posture well.
+- Fits Structure Factory's validation-ledger posture well.
 
 Guardrails:
 
 - Do not hide failed candidates.
-- Require a row in `jury_summary.csv` for every generated candidate.
-- Claims inherit the weakest evidence mode.
+- Require a row in `ranking_summary.csv` for every generated candidate.
+- Claims inherit the weakest source posture.
 
 ## Demo 5: Public Benchmark Micro-Run
 
@@ -111,7 +111,7 @@ Guardrails:
 - MSA server use must be declared; private targets require precomputed/local
   MSAs.
 - Do not mark upstream benchmark success as Structure Factory validation unless
-  our self-check, hashes, and claim ledger pass.
+  our self-check, hashes, and validation ledger pass.
 
 ## First Wave Recommendation
 
@@ -120,9 +120,9 @@ Start with two issues:
 1. `genie3-no-download-toolcheck`: clone/pin source, validate CLI/config/import
    shape, record dependency and license findings, no weights, no GPU.
 2. `genie3-public-motif-canary`: one public motif scaffold with tiny sample
-   count, Genie 3 weights only, Boltz cross-check, full candidate claim ledger.
+   count, Genie 3 weights only, Boltz cross-check, full candidate validation ledger.
 
-Add a receptor-window dossier as a no-download planning issue against any
+Add a receptor-window report as a no-download planning issue against any
 public target window. Defer state-binder demos until the public canary proves
 source checkout, weights cache, GPU pickup, artifact collection, and Boltz
 cross-check closeout.

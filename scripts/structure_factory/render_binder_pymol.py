@@ -10,7 +10,7 @@ Runs local PyMOL headless: `pymol -cq <pml>`. CPU-only ray tracer — does not
 benefit from RunPod GPU. ~2-5 s/frame on M3 Max, ~3-5 min for 60-frame video.
 
 Inputs:
-  --jury path/to/candidate_jury.local.json
+  --ranking path/to/candidate_ranking.local.json
   --out  destination dir (created)
   --hotspots-json optional JSON with {"chain": "A", "residues": [44, 45, 47, ...]}
   --frames N (default 60)
@@ -227,7 +227,7 @@ def render_one(
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--jury", type=Path, required=True)
+    ap.add_argument("--ranking", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--repo-root", type=Path, default=Path.cwd())
     ap.add_argument("--label", default="run")
@@ -242,7 +242,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--limit", type=int, default=0,
                     help="only render first N candidates (0=all)")
     ap.add_argument("--source-field", default="boltz_prediction_cif",
-                    help="jury candidate field to render (default: boltz_prediction_cif). "
+                    help="ranking candidate field to render (default: boltz_prediction_cif). "
                          "Use 'genie3_complex_pdb' or 'rfdiffusion_backbone_pdb' to render "
                          "raw designer output instead of the Boltz cofold.")
     ap.add_argument("--mode", default="complex", choices=["complex", "binder"],
@@ -272,8 +272,8 @@ def main(argv: list[str] | None = None) -> int:
         hotspot_chain = h.get("chain", "A")
         hotspot_resnums = list(h.get("residues", []))
 
-    jury = json.loads(args.jury.read_text())
-    candidates = jury.get("candidates", [])
+    ranking = json.loads(args.ranking.read_text())
+    candidates = ranking.get("candidates", [])
     if args.limit > 0:
         candidates = candidates[: args.limit]
 

@@ -1,12 +1,12 @@
 {
   "campaign_id": "pd-l1-binder-design-public",
   "title": "PD-L1 Binder Design Public Fast Path",
-  "claim_level": "computational_candidate",
+  "result_boundary": "computational_candidate",
   "wet_lab_execution": false,
-  "therapeutic_claims": false,
+  "therapeutic_conclusions": false,
   "system": {
     "privacy": "public_or_synthetic_only",
-    "evidence_posture": "public accession metadata plus synthetic candidate-jury fixture",
+    "source_posture": "public accession metadata plus synthetic candidate-ranking fixture",
     "heavy_artifact_policy": "no generated structure files, weights, provider logs, or raw data in git"
   },
   "target": {
@@ -20,30 +20,30 @@
   "lanes": [
     {
       "id": "target_intake",
-      "purpose": "Define public target window, hotspot evidence, and input audit.",
-      "claim_ceiling": "planning"
+      "purpose": "Define public target window, hotspot plan, and input audit.",
+      "result_boundary": "planning"
     },
     {
       "id": "generation_canary",
       "purpose": "Run a tiny hotspot-conditioned binder-generation tranche before wider spend.",
-      "claim_ceiling": "computational_candidate"
+      "result_boundary": "computational_candidate"
     },
     {
-      "id": "cofold_jury",
+      "id": "cofold_ranking",
       "purpose": "Cofold generated candidates and rank with confidence and failure rows preserved.",
-      "claim_ceiling": "computational_candidate"
+      "result_boundary": "computational_candidate"
     },
     {
-      "id": "claim_audit",
-      "purpose": "Render candidate jury and report with explicit non-claims.",
-      "claim_ceiling": "computational_candidate"
+      "id": "review_report",
+      "purpose": "Render candidate ranking and report with explicit run boundaries.",
+      "result_boundary": "computational_candidate"
     }
   ],
   "expected_artifacts": [
-    "target-window-dossier.json",
+    "target-window.json",
     "stage-contract.json",
-    "candidate-jury.example.json",
-    "claim-ledger.md"
+    "candidate-ranking.example.json",
+    "validation-notes.md"
   ],
   "operator_gates": [
     "current tool license and use-context review before GPU execution",

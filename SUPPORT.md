@@ -1,6 +1,6 @@
 # Support
 
-Use public GitHub issues only for public-safe bugs, docs, examples, and feature requests.
+Use public GitHub issues only for bugs, docs, examples, and feature requests that can be discussed openly.
 
 Do not post:
 
@@ -10,7 +10,7 @@ Do not post:
 
 For vulnerabilities or accidental private-data exposure, use GitHub Private vulnerability reporting.
 
-For local validation, include only public-safe output from:
+For local validation, include only non-sensitive output from:
 
 ```bash
 bsf harness-check .

@@ -27,7 +27,7 @@ REQUIRED_FILES = [
     "evidence_graph.json",
     "selection_rationale.md",
     "failure_report.json",
-    "claim_ledger.json",
+    "validation_ledger.json",
     "stage-progress.jsonl",
     "executed-commands.jsonl",
     "provenance.md",
@@ -76,15 +76,15 @@ def validate(root: Path) -> dict[str, Any]:
     if not calibration.get("simple_baselines_included"):
         errors.append("method_summary.json must record simple baselines for OpenBind-style calibration")
 
-    claim_ledger = load_json(root / "claim_ledger.json") if (root / "claim_ledger.json").is_file() else {}
-    if claim_ledger.get("overall_claim_level") != "candidate":
-        errors.append("claim_ledger.json overall_claim_level must remain candidate for fixture evidence")
-    if claim_ledger.get("evidence_mode") != "fixture_or_demo":
-        errors.append("claim_ledger.json evidence_mode must be fixture_or_demo")
+    validation_ledger = load_json(root / "validation_ledger.json") if (root / "validation_ledger.json").is_file() else {}
+    if validation_ledger.get("overall_claim_level") != "candidate":
+        errors.append("validation_ledger.json overall_claim_level must remain candidate for fixture evidence")
+    if validation_ledger.get("evidence_mode") != "fixture_or_demo":
+        errors.append("validation_ledger.json evidence_mode must be fixture_or_demo")
 
-    dossiers = sorted((root / "candidate_dossiers").glob("*.json")) if (root / "candidate_dossiers").is_dir() else []
-    if len(dossiers) < 1:
-        errors.append("candidate_dossiers must contain at least one promoted candidate")
+    reports = sorted((root / "candidate_reports").glob("*.json")) if (root / "candidate_reports").is_dir() else []
+    if len(reports) < 1:
+        errors.append("candidate_reports must contain at least one promoted candidate")
 
     prep_records = jsonl_records(root / "ligand_prep.jsonl") if (root / "ligand_prep.jsonl").is_file() else []
     prepared = [record for record in prep_records if record.get("prep_status") == "prepared"]
@@ -102,7 +102,7 @@ def validate(root: Path) -> dict[str, Any]:
 
     evidence_graph = load_json(root / "evidence_graph.json") if (root / "evidence_graph.json").is_file() else {}
     graph_nodes = {node.get("id") for node in evidence_graph.get("nodes", []) if isinstance(node, dict)}
-    if "claim_ledger" not in graph_nodes or "consensus_ranking" not in graph_nodes:
+    if "validation_ledger" not in graph_nodes or "consensus_ranking" not in graph_nodes:
         errors.append("evidence_graph.json must link claims to ranking evidence")
 
     return {
@@ -111,7 +111,7 @@ def validate(root: Path) -> dict[str, Any]:
         "artifact_root": str(root.resolve()),
         "ranked_candidates": len(ranking_rows),
         "failed_ligands": len(failures) if isinstance(failures, list) else 0,
-        "candidate_dossiers": len(dossiers),
+        "candidate_reports": len(reports),
         "method_disagreement_cases": len(disagreement),
         "active_learning_tranches": len(tranches.get("tranches", [])) if isinstance(tranches, dict) else 0,
         "errors": errors,

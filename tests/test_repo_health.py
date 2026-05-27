@@ -37,6 +37,39 @@ class RepoHealthTests(unittest.TestCase):
         )
         return result.returncode, json.loads(result.stdout)
 
+    def test_public_export_has_no_browser_surface(self) -> None:
+        forbidden_suffixes = {".html", ".htm", ".css", ".js", ".jsx", ".ts", ".tsx"}
+        forbidden_names = {"package.json", "vite.config.js", "vite.config.ts", "next.config.js", "next.config.ts"}
+        forbidden_terms = [
+            "http.server",
+            "localhost",
+            "127.0.0.1",
+            "artifact browser",
+            "static dashboard",
+            "screening_dashboard",
+            "report.html",
+            "index.html",
+        ]
+        bad_files: list[str] = []
+        bad_terms: list[str] = []
+        this_file = Path(__file__).resolve()
+        for path in ROOT.rglob("*"):
+            if ".git" in path.parts or not path.is_file() or path.resolve() == this_file:
+                continue
+            rel = path.relative_to(ROOT).as_posix()
+            if path.suffix.lower() in forbidden_suffixes or path.name in forbidden_names:
+                bad_files.append(rel)
+                continue
+            try:
+                text = path.read_text(encoding="utf-8").lower()
+            except UnicodeDecodeError:
+                continue
+            for term in forbidden_terms:
+                if term in text:
+                    bad_terms.append(f"{rel}: {term}")
+        self.assertEqual([], bad_files)
+        self.assertEqual([], bad_terms)
+
     def test_preflight_passes(self) -> None:
         summary = self.run_json("scripts/structure_factory/preflight.py", "--repo-root", ".", "--json")
         self.assertTrue(summary["ok"], summary)
@@ -156,7 +189,7 @@ class RepoHealthTests(unittest.TestCase):
         self.assertGreaterEqual(summary["checked"], 1)
 
     def test_runpod_scope_check_blocks_sibling_campaign_volume(self) -> None:
-        manifest = json.loads((ROOT / "runpod" / "bridge-manifests" / "pd-l1-binder-hunt-canary.json").read_text())
+        manifest = json.loads((ROOT / "runpod" / "bridge-manifests" / "public-nonlaunchable-template.json").read_text())
         manifest["runpod"]["networkVolumeId"] = "PENDING-set-at-launch-from-GENECLUSTER_RUNPOD_NETWORK_VOLUME_ID"
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "bad-scope.json"
@@ -179,7 +212,7 @@ class RepoHealthTests(unittest.TestCase):
         self.assertTrue(any("GENECLUSTER" in error for error in errors), summary)
 
     def test_runpod_scope_source_ready_accepts_fetchable_local_commit(self) -> None:
-        manifest = json.loads((ROOT / "runpod" / "bridge-manifests" / "pd-l1-rfdiffusion-canary.json").read_text())
+        manifest = json.loads((ROOT / "runpod" / "bridge-manifests" / "public-nonlaunchable-template.json").read_text())
         head = subprocess.run(
             ["git", "rev-parse", "HEAD"],
             cwd=ROOT,
@@ -208,7 +241,7 @@ class RepoHealthTests(unittest.TestCase):
         self.assertTrue(json.loads(result.stdout)["ok"])
 
     def test_runpod_scope_source_ready_blocks_unfetchable_commit(self) -> None:
-        manifest = json.loads((ROOT / "runpod" / "bridge-manifests" / "pd-l1-rfdiffusion-canary.json").read_text())
+        manifest = json.loads((ROOT / "runpod" / "bridge-manifests" / "public-nonlaunchable-template.json").read_text())
         manifest["repo"]["url_or_path"] = str(ROOT)
         manifest["repo"]["commit_or_snapshot"] = "0" * 40
         with tempfile.TemporaryDirectory() as tmp:
@@ -587,14 +620,14 @@ class RepoHealthTests(unittest.TestCase):
     def test_campaign_issue_drafts_pass(self) -> None:
         summary = self.run_json(
             "scripts/structure_factory/issue_check.py",
-            "campaigns/cryoem-raw-to-atomic-dossier/linear-issues",
+            "campaigns/cryoem-raw-to-atomic-report/linear-issues",
             "--json",
         )
         self.assertTrue(summary["ok"], summary)
         self.assertGreaterEqual(summary["checked"], 1)
 
     def test_issue_file_reference_mode_detects_missing_repo_path(self) -> None:
-        issue = (ROOT / "campaigns" / "cryoem-raw-to-atomic-dossier" / "linear-issues" / "BSF-W13-PROVIDER-ADAPTER-CONTRACTS.md").read_text()
+        issue = (ROOT / "campaigns" / "cryoem-raw-to-atomic-report" / "linear-issues" / "BSF-W13-PROVIDER-ADAPTER-CONTRACTS.md").read_text()
         issue = issue.replace(
             "## Dependencies",
             "- `scripts/structure_factory/does_not_exist_chimerax_render.py` - deliberate missing path fixture\n\n## Dependencies",
@@ -626,7 +659,7 @@ class RepoHealthTests(unittest.TestCase):
         )
 
     def test_issue_check_requires_provider_section(self) -> None:
-        issue = (ROOT / "campaigns" / "cryoem-raw-to-atomic-dossier" / "linear-issues" / "BSF-W13-PROVIDER-ADAPTER-CONTRACTS.md").read_text()
+        issue = (ROOT / "campaigns" / "cryoem-raw-to-atomic-report" / "linear-issues" / "BSF-W13-PROVIDER-ADAPTER-CONTRACTS.md").read_text()
         start = issue.index("## Provider / Execution Profile")
         end = issue.index("## Acceptance Criteria")
         issue = issue[:start] + issue[end:]
@@ -667,7 +700,7 @@ class RepoHealthTests(unittest.TestCase):
                 "remote/stage_contract_check.py",
                 "remote/contract_self_check.py",
                 "stage-contract.json",
-                "modules/artifact-contracts/structure-dossier.v1.json",
+                "modules/artifact-contracts/structure-report.v1.json",
             ]:
                 self.assertTrue((out / rel).exists(), rel)
             audit = subprocess.run(

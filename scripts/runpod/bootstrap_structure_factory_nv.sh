@@ -161,7 +161,7 @@ activate_conda() {
   source "$SOFTWARE_ROOT/miniconda3/etc/profile.d/conda.sh"
 }
 
-# 2) conda env: structure-factory-cpu (used by W1, W3, W4, W7 mini-dossier work)
+# 2) conda env: structure-factory-cpu (used by CPU report and validation lanes)
 install_env_structure_factory_cpu() {
   local sentinel="$SENTINEL_ROOT/env.structure-factory-cpu.installed"
   [[ -f "$sentinel" ]] && { log "env structure-factory-cpu already installed"; return 0; }
@@ -183,7 +183,7 @@ install_env_structure_factory_cpu() {
   log "structure-factory-cpu env installed"
 }
 
-# 3) conda env: boltz (W2 + W5 inference)
+# 3) conda env: boltz (cofold and model-comparison inference)
 install_env_boltz() {
   local sentinel="$SENTINEL_ROOT/env.boltz.${BOLTZ_VERSION}.installed"
   [[ -f "$sentinel" ]] && { log "env boltz already installed (boltz==$BOLTZ_VERSION)"; return 0; }
@@ -279,7 +279,7 @@ install_env_genie3() {
   log "genie3 env installed (commit $GENIE3_ACTUAL_COMMIT)"
 }
 
-# 4) ProteinMPNN clone + deps (W5 design)
+# 4) ProteinMPNN clone + deps (sequence-design lane)
 resolve_proteinmpnn_ref() {
   local mpnn_dir="$1"
   if [[ ! -d "$mpnn_dir/.git" ]]; then
@@ -437,7 +437,7 @@ install_chimerax() {
   if [[ "$INSTALL_CHIMERAX" != "1" ]]; then
     CHIMERAX_INSTALL_STATUS="deferred"
     touch "$deferred"
-    log "ChimeraX install deferred; set INSTALL_CHIMERAX=1 and CHIMERAX_DEB_URL to an operator-verified .deb URL before W6"
+    log "ChimeraX install deferred; set INSTALL_CHIMERAX=1 and CHIMERAX_DEB_URL to an operator-verified .deb URL before render-lane promotion"
     return 0
   fi
   [[ -n "$CHIMERAX_DEB_URL" ]] || fail "INSTALL_CHIMERAX=1 requires CHIMERAX_DEB_URL; do not rely on hardcoded or scraped ChimeraX URLs"
@@ -449,7 +449,7 @@ install_chimerax() {
   curl -fsSL "$CHIMERAX_DEB_URL" -o "$tmp/chimerax.deb" || \
     fail "ChimeraX download failed - verify CHIMERAX_DEB_URL against the current UCSF download page and the operator's use posture"
   head -c 8 "$tmp/chimerax.deb" | grep -q '^!<arch>' || \
-    fail "ChimeraX download did not return a Debian archive; likely an HTML/error/terms page, so W6 remains blocked/deferred"
+    fail "ChimeraX download did not return a Debian archive; likely an HTML/error/terms page, so the render lane remains blocked/deferred"
   mkdir -p "$chimerax_root"
   ( cd "$tmp" && ar x chimerax.deb && tar xf data.tar.* -C "$chimerax_root" )
   rm -rf "$tmp"
@@ -471,7 +471,7 @@ write_software_manifest() {
   log "writing $manifest"
   cat > "$manifest" <<EOF
 {
-  "campaign": "gpcr-activation-atlas",
+  "campaign": "structure-factory-public-template",
   "network_volume_id": "STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID",
   "bootstrap_completed_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "tools": {

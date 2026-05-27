@@ -46,7 +46,7 @@
       "phenix",
       "chimerax"
     ],
-    "dossier_promotion": "top_hits_controls_disagreement_failures_only",
+    "report_promotion": "top_hits_controls_disagreement_failures_only",
     "claim_ceiling": "candidate"
   },
   "policies": {

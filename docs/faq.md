@@ -4,7 +4,7 @@ Common questions for users and agents new to Structure Factory.
 
 ## Do I need a GPU?
 
-No. The agent skill and the `bsf` CLI run on a regular laptop. Planning, scaffolding, issue-pack generation, validation, and audits happen locally with no compute beyond Python. GPU work belongs to the providers (RunPod, AWS Batch, neocloud, HPC) that Structure Factory prepares contracts for. Provider launches are operator-gated and live outside this repo.
+No. The agent skill and the `bsf` CLI run on a regular laptop. Planning, scaffolding, task-pack generation, validation, and audits happen locally with no compute beyond Python. GPU work belongs to the providers (RunPod, AWS Batch, neocloud, HPC) that Structure Factory prepares contracts for. Provider launches are operator-gated and live outside this repo.
 
 ## Do I have to run the CLI commands myself?
 
@@ -14,14 +14,13 @@ No. The intended use is to point your agent at this repo and let the agent call 
 
 Any agent runtime that can read a skill file. The repo ships:
 
-- A Codex-style skill at [`.codex/skills/biosymphony-structure-factory/SKILL.md`](../.codex/skills/biosymphony-structure-factory/SKILL.md) for Codex and compatible runtimes.
-- A portable copy at [`skills/biosymphony-structure-factory/SKILL.md`](../skills/biosymphony-structure-factory/SKILL.md) for Claude Code, Symphony workers, `/goal` stacks, and custom runtimes.
+- A portable skill at [`skills/biosymphony-structure-factory/SKILL.md`](../skills/biosymphony-structure-factory/SKILL.md) for Codex, Claude Code, Symphony workers, `/goal` stacks, and custom runtimes.
 
 If your agent can read Markdown and call a CLI, it can use this skill.
 
 ## Can I use this without Linear or any tracker?
 
-Yes. The skill works in a single agent turn for short missions. Issue packs are useful when work spans multiple agents or sessions. With no tracker, the agent writes campaign manifests, target dossiers, validation reports, and issue drafts to `.runtime/` and you read them directly.
+Yes. The skill works in a single agent turn for short missions. Task packs are useful when work spans multiple agents or sessions. With no tracker, the agent writes campaign manifests, target reports, validation reports, and task drafts to `.runtime/` and you read them directly.
 
 ## Can I run this on my laptop?
 
@@ -40,19 +39,19 @@ Run `bsf catalog . --format markdown` after `pip install -e .` for a one-screen 
 
 ## What if my agent makes a mistake?
 
-Every campaign manifest is validated by `bsf validate` before issue packs or provider contracts are generated. The `bsf audit` command checks public-safety posture (no credentials, private paths, large generated files, or known leaks). The `make harness-check` command verifies the load-bearing parts of the repo are still in place. If the agent produces a manifest the validator rejects, the work pauses until the manifest is fixed.
+Every campaign manifest is validated by `bsf validate` before task packs or provider contracts are generated. The `bsf audit` command checks release posture: no credentials, private paths, large generated files, or known leaks. The `make harness-check` command verifies the load-bearing parts of the repo are still in place. If the agent produces a manifest the validator rejects, the work pauses until the manifest is fixed.
 
 ## Does this run wet-lab protocols or clinical workflows?
 
-No. Wet-lab execution, clinical validation, and therapeutic claims live outside this repo. See [`NON_CLAIMS.md`](../NON_CLAIMS.md) and [`BIOSAFETY.md`](../BIOSAFETY.md) for the boundary.
+No. Wet-lab execution, clinical validation, and therapeutic conclusions live outside this repo. See [`NON_CLAIMS.md`](../NON_CLAIMS.md) and [`BIOSAFETY.md`](../BIOSAFETY.md) for the boundary.
 
 ## Is this a replacement for Symphony or Linear?
 
-No. Symphony coordinates workers. Linear or another tracker carries issue state. Structure Factory provides the biology-specific contracts and validation that those orchestrators dispatch against. The three layers compose: orchestrator drives, tracker holds state, Structure Factory keeps the work biology-correct and evidence-traceable.
+No. Symphony coordinates workers. Linear or another tracker carries task state. Structure Factory provides the biology-specific contracts and validation that those orchestrators dispatch against. The three layers compose: orchestrator drives, tracker holds state, Structure Factory keeps the work biology-correct and traceable.
 
-## What does "claim ceiling" mean?
+## What does "result boundary" mean?
 
-The maximum claim level a campaign output is allowed to reach. Generated or predicted biology stays at `computational_candidate` until independent validation arrives. See [`docs/claim-and-evidence.md`](claim-and-evidence.md) for the full vocabulary, and [`docs/glossary.md`](glossary.md) for short definitions.
+The strongest status a campaign output is allowed to reach. Generated or predicted biology stays at `computational_candidate` until independent validation arrives. See [`docs/glossary.md`](glossary.md) for short definitions.
 
 ## Where does the data live?
 

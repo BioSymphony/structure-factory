@@ -84,13 +84,6 @@ PY
 }
 trap on_error ERR
 
-# Best-effort http.server so the host can watch stage-progress in real time.
-if [ "${STRUCTURE_FACTORY_HTTP_SERVER:-1}" = "1" ]; then
-  (cd /workspace && python3 -m http.server 8000 --bind 0.0.0.0 \
-    >> /workspace/http_server.log 2>&1) &
-  echo "[entrypoint] http.server pid=$! at /workspace:8000" >&2
-fi
-
 if [[ ! -f "${REPO_ROOT}/${BOLTZ_YAML_REL}" && -n "${STRUCTURE_FACTORY_REPO_URL:-}" ]]; then
   bash "${ENTRYPOINT_DIR}/bootstrap-repo.sh"
 fi

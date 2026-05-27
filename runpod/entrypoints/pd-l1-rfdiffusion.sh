@@ -110,13 +110,6 @@ PY
 }
 trap on_error ERR
 
-# Best-effort http.server so the host can watch stage-progress live.
-if [ "${STRUCTURE_FACTORY_HTTP_SERVER:-1}" = "1" ]; then
-  (cd /workspace && python3 -m http.server 8888 --bind 0.0.0.0 \
-    >> /workspace/http_server.log 2>&1) &
-  echo "[entrypoint] http.server pid=$! at /workspace:8888" >&2
-fi
-
 if [[ ! -f "${REPO_ROOT}/runpod/entrypoints/pd-l1-rfdiffusion.sh" && -n "${STRUCTURE_FACTORY_REPO_URL:-}" ]]; then
   bash "${ENTRYPOINT_DIR}/bootstrap-repo.sh"
 fi
@@ -751,7 +744,7 @@ if [[ "${STRUCTURE_FACTORY_RUN_COFOLD:-1}" = "1" ]]; then
       sf_stage_fail "${CURRENT_STAGE}" "boltz_cofold runner rc=${COFOLD_RC}"
       exit "${COFOLD_RC}"
     fi
-    sf_stage_complete "${CURRENT_STAGE}" "candidate_jury.json emitted"
+    sf_stage_complete "${CURRENT_STAGE}" "candidate_ranking.json emitted"
   fi
   CURRENT_STAGE=""
 fi

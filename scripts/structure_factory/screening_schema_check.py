@@ -19,8 +19,8 @@ SCHEMA_FILES = {
     "benchmark": "benchmark.v1.schema.json",
     "benchmark-set": "benchmark-set.v1.schema.json",
     "calibration-summary": "calibration-summary.v1.schema.json",
-    "candidate-dossier": "candidate-dossier.v1.schema.json",
-    "claim-ledger": "claim-ledger.v1.schema.json",
+    "candidate-report": "candidate-report.v1.schema.json",
+    "validation-ledger": "validation-ledger.v1.schema.json",
     "cleanup-proof": "cleanup-proof.v1.schema.json",
     "cloud-shard-ledger": "cloud-shard-ledger.v1.schema.json",
     "cost-report": "cost-report.v1.schema.json",
@@ -44,7 +44,7 @@ SCHEMA_FILES = {
 DEFAULT_EXAMPLE_DIR = Path("examples/screening-superpowers")
 DEFAULT_FIXTURE_ROOT = Path(".runtime/screening-superpowers-fixture")
 DEFAULT_SCHEMA_DIR = Path("modules/schemas")
-DEFAULT_SUPERCHARGER_DIR = Path("examples/supercharger")
+DEFAULT_ORCHESTRATION_FIXTURES_DIR = Path("examples/orchestration-fixtures")
 
 
 def load_json(path: Path) -> Any:
@@ -340,7 +340,7 @@ def default_jobs(
     example_dir: Path,
     fixture_root: Path,
     include_fixture: bool,
-    supercharger_dir: Path,
+    orchestration_fixtures_dir: Path,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     jobs: list[dict[str, Any]] = [
         {
@@ -365,87 +365,94 @@ def default_jobs(
             "required": True,
         },
         {
-            "path": supercharger_dir / "benchmark.json",
+            "path": orchestration_fixtures_dir / "benchmark.json",
             "schema": "benchmark",
             "format": "json",
-            "label": "supercharger benchmark contract",
+            "label": "orchestration fixture benchmark contract",
             "required": True,
         },
         {
-            "path": supercharger_dir / "benchmark-set.json",
+            "path": orchestration_fixtures_dir / "benchmark-set.json",
             "schema": "benchmark-set",
             "format": "json",
-            "label": "supercharger benchmark set contract",
+            "label": "orchestration fixture benchmark set contract",
             "required": True,
         },
         {
-            "path": supercharger_dir / "method-adapter.json",
+            "path": orchestration_fixtures_dir / "method-adapter.json",
             "schema": "method-adapter",
             "format": "json",
-            "label": "supercharger method adapter registry",
+            "label": "orchestration fixture method adapter registry",
             "required": True,
         },
         {
-            "path": supercharger_dir / "active-learning.json",
+            "path": orchestration_fixtures_dir / "active-learning.json",
             "schema": "active-learning",
             "format": "json",
-            "label": "supercharger active learning plan",
+            "label": "orchestration fixture active learning plan",
             "required": True,
         },
         {
-            "path": supercharger_dir / "active-learning-tranches.json",
+            "path": orchestration_fixtures_dir / "active-learning-tranches.json",
             "schema": "active-learning-tranches",
             "format": "json",
-            "label": "supercharger active learning tranches",
+            "label": "orchestration fixture active learning tranches",
             "required": True,
         },
         {
-            "path": supercharger_dir / "design-tranche.json",
+            "path": orchestration_fixtures_dir / "design-tranche.json",
             "schema": "design-tranche",
             "format": "json",
-            "label": "supercharger design tranche",
+            "label": "orchestration fixture design tranche",
             "required": True,
         },
         {
-            "path": supercharger_dir / "receptor-state-registry.json",
+            "path": orchestration_fixtures_dir / "receptor-state-registry.json",
             "schema": "receptor-state-registry",
             "format": "json",
-            "label": "supercharger receptor state registry",
+            "label": "orchestration fixture receptor state registry",
             "required": True,
         },
         {
-            "path": supercharger_dir / "calibration-summary.json",
+            "path": orchestration_fixtures_dir / "calibration-summary.json",
             "schema": "calibration-summary",
             "format": "json",
-            "label": "supercharger calibration summary",
+            "label": "orchestration fixture calibration summary",
             "required": True,
         },
         {
-            "path": supercharger_dir / "cloud-shard-ledger.json",
+            "path": orchestration_fixtures_dir / "cloud-shard-ledger.json",
             "schema": "cloud-shard-ledger",
             "format": "json",
-            "label": "supercharger cloud shard ledger",
+            "label": "orchestration fixture cloud shard ledger",
             "required": True,
         },
         {
-            "path": supercharger_dir / "evidence-graph.json",
+            "path": orchestration_fixtures_dir / "evidence-graph.json",
             "schema": "evidence-graph",
             "format": "json",
-            "label": "supercharger evidence graph",
+            "label": "orchestration fixture evidence graph",
             "required": True,
         },
         {
-            "path": supercharger_dir / "artifact-index.json",
+            "path": orchestration_fixtures_dir / "artifact-index.json",
             "schema": "artifact-index",
             "format": "json",
-            "label": "supercharger artifact index",
+            "label": "orchestration fixture artifact index",
             "required": True,
         },
         {
-            "path": supercharger_dir / "scientific-memory.json",
+            "path": orchestration_fixtures_dir / "scientific-memory.json",
             "schema": "scientific-memory",
             "format": "json",
-            "label": "supercharger scientific memory",
+            "label": "orchestration fixture scientific memory",
+            "required": True,
+        },
+        {
+            "path": orchestration_fixtures_dir / "pd-l1-binder-design-manifest.json",
+            "schema": "protein-binder-design-manifest",
+            "format": "json",
+            "label": "orchestration fixture protein binder design manifest",
             "required": True,
         },
     ]
@@ -462,7 +469,7 @@ def default_jobs(
         ("screening_manifest.json", "screening-manifest", "json", "fixture screening manifest"),
         ("receptor_ensemble_manifest.json", "receptor-ensemble", "json", "fixture receptor ensemble"),
         ("metrics.json", "screening-results", "json", "fixture screening results summary"),
-        ("claim_ledger.json", "claim-ledger", "json", "fixture claim ledger"),
+        ("validation_ledger.json", "validation-ledger", "json", "fixture validation ledger"),
         ("stage-progress.jsonl", "stage-progress", "jsonl", "fixture stage progress"),
         ("provider_run.json", "provider-run", "json", "fixture provider run"),
         ("provider-run.json", "provider-run", "json", "fixture provider run"),
@@ -488,14 +495,14 @@ def default_jobs(
                 "required": False,
             })
 
-    dossier_dir = fixture_root / "candidate_dossiers"
-    if dossier_dir.is_dir():
-        for path in sorted(dossier_dir.glob("*.json")):
+    report_dir = fixture_root / "candidate_reports"
+    if report_dir.is_dir():
+        for path in sorted(report_dir.glob("*.json")):
             jobs.append({
                 "path": path,
-                "schema": "candidate-dossier",
+                "schema": "candidate-report",
                 "format": "json",
-                "label": "fixture candidate dossier",
+                "label": "fixture candidate report",
                 "required": False,
             })
 
@@ -553,7 +560,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--schema-dir", type=Path, default=DEFAULT_SCHEMA_DIR)
     parser.add_argument("--example-dir", type=Path, default=DEFAULT_EXAMPLE_DIR)
-    parser.add_argument("--supercharger-dir", type=Path, default=DEFAULT_SUPERCHARGER_DIR)
+    parser.add_argument(
+        "--orchestration-fixtures-dir",
+        dest="orchestration_fixtures_dir",
+        type=Path,
+        default=DEFAULT_ORCHESTRATION_FIXTURES_DIR,
+    )
     parser.add_argument("--fixture-root", type=Path, default=DEFAULT_FIXTURE_ROOT)
     parser.add_argument("--no-fixture", action="store_true")
     parser.add_argument("--file", type=Path, action="append", default=[])
@@ -598,7 +610,7 @@ def main() -> int:
             args.example_dir,
             args.fixture_root,
             not args.no_fixture,
-            args.supercharger_dir,
+            args.orchestration_fixtures_dir,
         )
 
     results = run_jobs(validator, schemas, jobs) if not schema_errors else []

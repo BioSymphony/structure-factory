@@ -21,7 +21,7 @@
 ## Provider / Execution Profile
 
 - provider: `<runpod | local | aws | ssh-hpc | generic-cloud | neocloud | provider-neutral>`
-- execution profile: `<no-download-smoke | raw-subset-open | raw-subset-gated | map-model-dossier | other>`
+- execution profile: `<no-download-smoke | raw-subset-open | raw-subset-gated | map-model-report | other>`
 - setup posture: `<public image | private image | runtime bootstrap | runpod network volume bootstrap | local install | hpc module | neocloud volume | n/a>`
 - writable volume/env: `<STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID | local path | hpc path | n/a>`
 - operator gate required: `<yes/no>`
@@ -52,8 +52,8 @@
 - worker lane: `<codex | claude | trusted-after-run>`
 - closeout state: `<Done | In Review | Blocked | Todo>`
 - final comment must include: `<!-- symphony-outcome -->`
-- evidence mode: `<provider_native | derived | fixture_or_demo | report_only | blocked_or_insufficient>`
-- claim level: `<planning | public_demo | public_synthetic_demo | computational_candidate | blocked | insufficient_evidence>`
+- source posture: `<provider_native | derived | fixture_or_demo | report_only | blocked_or_insufficient>`
+- result boundary: `<planning | public_demo | public_synthetic_demo | computational_candidate | blocked | insufficient_support>`
 - artifact packet: `<path or n/a>`
 - hash ledger: `<path or n/a>`
 - cost report: `<path or n/a>`

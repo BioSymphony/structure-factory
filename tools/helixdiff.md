@@ -17,12 +17,12 @@ Public scaffold: yes. Runtime use requires current source, dependency, and weigh
 ## Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill with the HelixDiff tool card. For target <PDB:ID> with target-window dossier <path>, prepare a short-helix design lane. Specify peptide length range (15-40 aa), helical motif or contact constraints, ProteinMPNN sequence pass on the receptor context, and the cofold + interface checks downstream.
+Use the BioSymphony Structure Factory skill with the HelixDiff tool card. For target <PDB:ID> with target-window report <path>, prepare a short-helix design lane. Specify peptide length range (15-40 aa), helical motif or contact constraints, ProteinMPNN sequence pass on the receptor context, and the cofold + interface checks downstream.
 ```
 
 ## Typical Inputs
 
-- Target-window dossier with chain, residue range, and hotspot evidence.
+- Target-window report with chain, residue range, and hotspot evidence.
 - Desired peptide length range (typically 15-40 aa).
 - Helical motif constraints (e.g., amphipathic, leucine-zipper-like, or template-derived).
 - Optional public template peptide for initialization.
@@ -33,7 +33,7 @@ Use the BioSymphony Structure Factory skill with the HelixDiff tool card. For ta
 - Candidate helical peptide backbones (PDB) outside git.
 - Per-candidate geometry: helix length, hotspot contact count, clash count.
 - Sequence-design handoff manifest (typically ProteinMPNN with the receptor as context).
-- Cofold jury input manifest for the validator slate.
+- Cofold ranking input manifest for the validator slate.
 
 ## Repo And References
 
@@ -62,4 +62,4 @@ Use the BioSymphony Structure Factory skill with the HelixDiff tool card. For ta
 - Require orthogonal cofold + interface checks before shortlist promotion.
 - Do not publish generated sequences or structures unless explicitly curated and audited.
 - Keep weights, trajectories, and per-design metrics outside git.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.

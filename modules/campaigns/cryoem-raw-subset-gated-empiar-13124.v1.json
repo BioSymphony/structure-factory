@@ -2,7 +2,7 @@
   "schema_version": 1,
   "module_type": "campaign_manifest",
   "campaign_id": "structure-factory-empiar-13124-raw-subset-gated",
-  "campaign_family": "cryoem-raw-to-atomic-dossier",
+  "campaign_family": "cryoem-raw-to-atomic-report",
   "run_profile": "raw_subset_gated",
   "data_modules": [
     "modules/data-modules/empiar-13124.raw-subset.v1.json"
@@ -24,7 +24,7 @@
   "smoke_suites": [
     "modules/smoke-checks/gpu-storage-artifact.v1.json"
   ],
-  "artifact_contract": "modules/artifact-contracts/structure-dossier.v1.json",
+  "artifact_contract": "modules/artifact-contracts/structure-report.v1.json",
   "raw_subset_plan": {
     "data_module": "modules/data-modules/empiar-13124.raw-subset.v1.json",
     "subset_profile": "raw_movies_100",

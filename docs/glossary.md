@@ -1,6 +1,6 @@
 # Glossary
 
-Structural biology and Structure Factory terms a newcomer or general-purpose agent may want defined before reading further. Definitions are short on purpose. For deeper context see [`docs/capabilities.md`](capabilities.md), [`docs/claim-and-evidence.md`](claim-and-evidence.md), and [`docs/agentic-biology-harness.md`](agentic-biology-harness.md).
+Structural biology and Structure Factory terms a newcomer or general-purpose agent may want defined before reading further. Definitions are short on purpose. For deeper context see [`docs/capabilities.md`](capabilities.md) and [`docs/agentic-biology-harness.md`](agentic-biology-harness.md).
 
 ## Biology And Public Data
 
@@ -16,8 +16,8 @@ Structural biology and Structure Factory terms a newcomer or general-purpose age
 
 - **Binder design.** Generating candidate molecules (peptide, protein, or small ligand) intended to bind a target.
 - **Cofold.** Predicting the structure of two or more molecules together (target plus candidate) to evaluate the interface.
-- **Model jury.** A set of independent structural predictions (across tools or seeds) compared to triage candidates.
-- **Candidate jury.** A ranked list of designed candidates with confidence metrics, failure rows, and provenance.
+- **Model comparison.** A set of independent structural predictions (across tools or seeds) compared to triage candidates.
+- **Candidate ranking.** A ranked list of designed candidates with confidence metrics, failure rows, and provenance.
 - **Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, ProteinMPNN.** Protein design tools. See [`tools/`](../tools/) for usage cards.
 - **Boltz, Chai.** Cofolding and structure-prediction tools. See [`tools/cofold-scoring-stack.md`](../tools/cofold-scoring-stack.md).
 - **ChimeraX.** Structure visualization and rendering toolkit.
@@ -31,32 +31,31 @@ Structural biology and Structure Factory terms a newcomer or general-purpose age
 
 ## Structure Factory Vocabulary
 
-- **Campaign manifest.** The top-level JSON describing a Structure Factory campaign: target, lanes, expected artifacts, claim ceiling.
-- **Campaign mode.** One of `binder-design`, `structure-dossier`, `model-jury`, `screening`. Selects the lane shapes and issue templates.
-- **Dossier.** A bundled evidence and metadata package about one subject in the campaign, designed to be reviewed by a human or downstream agent without re-deriving the work. Common variants:
-  - **Target-window dossier.** Accession, chain or window, uncertainty notes, hotspot evidence, and provenance for the protein the campaign designs against.
-  - **Structural dossier.** A deposited PDB or EMDB structure packaged with accession provenance, validation plan, figure outline, and claim audit.
-  - **Map-model dossier.** A cryo-EM density map (EMDB) paired with its atomic model (PDB), validation outputs, and figure plan.
-  - **Candidate dossier.** A bundle for one or more designed candidates with metrics, structures, failure rows, and provenance.
+- **Campaign manifest.** The top-level JSON describing a Structure Factory campaign: target, lanes, expected artifacts, result boundary.
+- **Campaign mode.** One of `binder-design`, `structure-mapping`, `model-comparison`, `screening`. Selects the lane shapes and task templates.
+- **Structure report.** A bundled metadata and validation package about one subject in the campaign, designed to be reviewed by a human or downstream agent without re-deriving the work. Common variants:
+  - **Target-window report.** Accession, chain or window, uncertainty notes, hotspot plan, and provenance for the protein the campaign designs against.
+  - **Structural report.** A deposited PDB or EMDB structure packaged with accession provenance, validation plan, figure outline, and validation notes.
+  - **Map-model report.** A cryo-EM density map (EMDB) paired with its atomic model (PDB), validation outputs, and figure plan.
+  - **Candidate report.** A bundle for one or more designed candidates with metrics, structures, failure rows, and provenance.
 - **Stage contract.** A JSON document declaring the sequence of fail-closed stages for a provider run.
 - **Stage ledger.** Append-only record of stage events emitted during a real provider run (for example `stage-progress.jsonl`).
-- **Issue pack.** A tracker-neutral set of issues ready for Linear, GitHub Issues, Notion, or any queue.
+- **Task pack.** A tracker-neutral set of tasks ready for Linear, GitHub Issues, Notion, or any queue.
 - **Bridge manifest.** A non-launchable RunPod template that captures pod shape, budget, and posture for review.
 - **Launch manifest.** A provider-specific launchable artifact built from a bridge manifest plus operator approval.
-- **Claim ledger.** A record of what a campaign is allowed to claim, with evidence references.
+- **Validation notes.** A record of what a campaign can support, what remains blocked, and what requires later validation.
 
 ## Posture And Gates
 
-- **Claim level.** The category of claim an output supports. Common values: `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `blocked`, `insufficient_evidence`. Full list in [`docs/claim-and-evidence.md`](claim-and-evidence.md).
-- **Claim ceiling.** The maximum claim level a campaign output is allowed to reach.
-- **Evidence mode.** The source posture of evidence for a closeout. Common values: `public_data`, `synthetic_demo`, `generated_candidate`, `derived`, `provider_native`, `report_only`, `blocked`, `insufficient_evidence`.
+- **Result boundary.** The strongest category an output supports. Common values: `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `blocked`, `insufficient_support`.
+- **Source posture.** Where a closeout's inputs came from. Common values: `public_data`, `synthetic_demo`, `generated_candidate`, `derived`, `provider_native`, `report_only`, `blocked`, `insufficient_support`.
 - **Operator gate.** A human approval checkpoint required before a step proceeds. Common before paid compute, raw data download, or license-gated tools.
 - **License gate.** A check that a tool's terms and use context are satisfied before installation or runtime.
 - **Runtime gate.** A check that the runtime environment can actually execute a tool (weights present, dependencies installed, GPU available).
 - **Fail-closed.** A stage that aborts the run if any check fails.
 - **Input audit.** A scripted check that the inputs to a stage are public, accessible, and within posture.
-- **Closeout.** The final artifact bundle of a campaign: manifests, artifacts, hashes, validation summary, evidence mode, claim level.
-- **Downgrade.** Lowering a claim level when promised evidence is partial or missing.
+- **Closeout.** The final artifact bundle of a campaign: manifests, artifacts, hashes, validation summary, source posture, and result boundary.
+- **Partial closeout.** A closeout that marks missing or incomplete outputs honestly instead of calling them success.
 
 ## Compute And Providers
 
@@ -67,8 +66,8 @@ Structural biology and Structure Factory terms a newcomer or general-purpose age
 
 ## Ecosystem
 
-- **BioSymphony.** The umbrella for public-safe biology agent harnesses.
-- **CryoCore.** The BioSymphony subsystem that owns raw cryo-EM intake, EMPIAR processing, RELION or CryoSPARC reconstruction, and map-to-model build. Structure Factory hands off raw work to CryoCore and consumes its deposited evidence downstream.
+- **BioSymphony.** The umbrella for biology agent harnesses.
+- **CryoCore.** The BioSymphony subsystem that owns raw cryo-EM intake, EMPIAR processing, RELION or CryoSPARC reconstruction, and map-to-model build. Structure Factory hands off raw work to CryoCore and consumes its deposited structures downstream.
 - **Symphony.** A multi-worker orchestration layer that dispatches agents against Linear issues.
 - **`/goal` stack.** A user-facing goal orchestrator that translates a request into a sequence of agent steps.
 - **`bsf`.** The Structure Factory command-line interface. Built into the agent skill workflow and usable directly by humans.

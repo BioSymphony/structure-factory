@@ -10,7 +10,7 @@ This directory contains provider-facing prep artifacts for Structure Factory Run
 - `launch-manifests/no-download-smoke.json`: first smoke-run manifest.
 - `launch-manifests/raw-subset-open.json`: EMPIAR-13124 100-movie open-tool subset plan.
 - `launch-manifests/raw-subset-gated.json`: EMPIAR-13124 100-movie CryoSPARC/MotionCor3-gated subset plan.
-- `launch-manifests/map-model-dossier.json`: EMDB/PDB-only dossier plan.
+- `launch-manifests/map-model-report.json`: EMDB/PDB-only report plan.
 - `stage-contracts/*.stage-contract.json`: stage IDs, outputs, timeouts, checkpoints, resume commands, and fail-closed rules.
 - `entrypoints/`: RunPod startup scripts for repo clone, tool checks, license gates, raw-subset scaffolding, and small-artifact export.
 - `launch-manifests/*`: every profile must require `validation/input-audit.json`, `stage-progress.jsonl`, `validation/stage-contract-check.json`, and `validation/contract-self-check.json`.

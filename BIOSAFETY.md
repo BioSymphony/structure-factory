@@ -1,6 +1,6 @@
 # Biosafety
 
-This repository is for dry-lab planning, computational triage, and evidence packaging. It does not perform biosafety review and does not authorize wet-lab work.
+This repository is for dry-lab planning, computational triage, and validation planning. It does not perform biosafety review and does not authorize wet-lab work.
 
 ## Scope
 
@@ -15,7 +15,7 @@ Public examples must avoid:
 - pathogen engineering instructions
 - operational wet-lab protocols
 - unpublished sequences or private constructs
-- claims that a computational binder is safe or effective
+- statements that a computational binder is safe or effective
 - language that bypasses institutional review
 
 ## Frameworks To Consult
@@ -26,4 +26,4 @@ Public examples must avoid:
 - applicable national select-agent and restricted-organism lists
 - the operator's institutional biosafety committee
 
-See [`NON_CLAIMS.md`](NON_CLAIMS.md) for scientific claim boundaries.
+See [`NON_CLAIMS.md`](NON_CLAIMS.md) for scientific boundaries.

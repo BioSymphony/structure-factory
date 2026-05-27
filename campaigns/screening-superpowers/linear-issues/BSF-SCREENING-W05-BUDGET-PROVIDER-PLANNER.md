@@ -47,7 +47,7 @@ Turn extracted budget and provider phrases into bounded fanout plans before any 
 ## Acceptance Criteria
 
 - [ ] Compiler extracts max spend, runtime, ligand count, top-N, and provider mentions from simple prompts.
-- [ ] Fanout estimate runs before expensive transfer, docking, cofolding, or dossier promotion.
+- [ ] Fanout estimate runs before expensive transfer, docking, cofolding, or report promotion.
 - [ ] Paid provider requests remain blocked until operator gate details are present.
 
 ## Validation Commands

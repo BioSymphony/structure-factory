@@ -4,9 +4,9 @@ Thanks for helping improve `biosymphony-structure-factory`.
 
 ## Ground Rules
 
-- Public-safe synthetic or public-accession examples only.
+- Public synthetic or public-accession examples only.
 - Do not add private biological data, generated structure archives, provider logs, credentials, or local operator notes.
-- Keep claim levels explicit.
+- Keep result boundaries explicit.
 - Keep validators dependency-free at runtime unless an optional adapter is clearly separated.
 - Prefer compact ledgers and manifests over large generated artifacts.
 - Run `make release-check` before opening a pull request.
@@ -15,15 +15,15 @@ Thanks for helping improve `biosymphony-structure-factory`.
 
 1. Create `examples/<campaign-id>/`.
 2. Add `campaign-manifest.json`.
-3. Add a compact target-window or input dossier.
+3. Add a compact target-window or input file.
 4. Add `stage-contract.json` if the example has long-running or GPU stages.
-5. Add `candidate-jury.example.json` only when claim levels and evidence modes are clear.
-6. Add `README.md` describing scope, public data sources, and non-claims.
+5. Add `candidate-ranking.example.json` only when result boundaries and source posture are clear.
+6. Add `README.md` describing scope, public data sources, and run boundaries.
 7. Run `make release-check`.
 
-## Adding An Issue Pack
+## Adding A Task Pack
 
-Issue packs should stay tracker-neutral. Use IDs like `BSF-BINDER-W00` rather than private tracker IDs. A private workflow can map those IDs to Linear, GitHub Issues, or another system after public validation.
+Task packs should stay tracker-neutral. Use IDs like `BSF-BINDER-W00` rather than private tracker IDs. A private workflow can map those IDs to Linear, GitHub Issues, or another system after public validation.
 
 ## Adding A Tool Card
 
@@ -37,10 +37,10 @@ Issue packs should stay tracker-neutral. Use IDs like `BSF-BINDER-W00` rather th
 
 - Keep `src/biosymphony_structure_factory` dependency-free.
 - Add focused tests under `tests/`.
-- Keep errors strict for public-safety blockers and warnings for optional capability gaps.
+- Keep errors strict for release blockers and warnings for optional capability gaps.
 - Update `docs/cli-reference.md` when CLI behavior changes.
 
-## Public-Safety Review
+## Public Release Review
 
 Before opening a pull request, run:
 
@@ -58,4 +58,4 @@ If `gitleaks` is unavailable locally, say so in the PR and rely on CI or a maint
 - ASCII text by default.
 - Stdlib-only runtime code.
 - Small, deterministic tests.
-- Warnings for guidance gaps, errors for public-safety or structural blockers.
+- Warnings for guidance gaps, errors for release or structural blockers.

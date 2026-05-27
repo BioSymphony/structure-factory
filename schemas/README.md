@@ -2,12 +2,12 @@
 
 Canonical JSON schemas live under `modules/schemas/`.
 
-Use them to validate public-safe campaign and artifact surfaces such as:
+Use them to validate public campaign and artifact surfaces such as:
 
 - active-learning tranches
 - artifact indexes
-- candidate dossiers
-- claim ledgers
+- candidate reports
+- validation ledgers
 - cloud shard ledgers
 - provider runs
 - receptor ensembles
@@ -16,4 +16,4 @@ Use them to validate public-safe campaign and artifact surfaces such as:
 
 The root `schemas/` directory exists as a stable discovery pointer for public users and packaging metadata.
 
-Some compatibility schemas include older machine values such as `candidate`, `processed`, `fixture_or_demo`, `validated`, or `publishable`. Public docs and closeouts should translate those through [`../docs/claim-and-evidence.md`](../docs/claim-and-evidence.md).
+Some compatibility schemas include older machine values such as `candidate`, `processed`, `fixture_or_demo`, `validated`, or `publishable`. Public docs and closeouts should translate those through [`../docs/result-boundaries.md`](../docs/result-boundaries.md).

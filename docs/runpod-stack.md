@@ -20,14 +20,14 @@ biosymphony-structure-md-docking
 no-download-smoke   zero biological downloads; validates repo, GPU, storage, toolcheck, artifact manifest
 raw-subset-open     CryoCore handoff profile for EMPIAR-13124 deterministic raw-movie subset; open tools only
 raw-subset-gated    CryoCore handoff profile for the same raw subset; enables gated tools only when runtime secrets exist
-map-model-dossier   EMDB/PDB deposited-evidence downloads only; no raw movies
+map-model-report   Public EMDB/PDB map/model downloads only; no raw movies
 ```
 
 All non-smoke profiles are scratch-only by default. They export only small artifacts and delete raw/intermediate scratch after the operator-reviewed run.
 
 ## First Test Mode
 
-Use RunPod Pods, not Serverless, for the first Structure Factory test. The smoke pod should clone a public-safe repo or operator-approved snapshot at a pinned commit, run local Python checks, record GPU visibility, write a manifest to `/workspace/structure-factory/runs/<run-id>/`, and exit without downloading EMPIAR data.
+Use RunPod Pods, not Serverless, for the first Structure Factory test. The smoke pod should clone a public repo or operator-approved snapshot at a pinned commit, run local Python checks, record GPU visibility, write a manifest to `/workspace/structure-factory/runs/<run-id>/`, and exit without downloading EMPIAR data.
 
 Do not interpret `desiredStatus: RUNNING` as execution progress. The closeout needs provider actual status, runtime uptime, image pull success or failure, and `stage-progress.jsonl` events. A pod that cannot pull the selected image has not started the Structure Factory workflow, even if the provider is still trying to run it.
 
@@ -70,7 +70,7 @@ Container disk is scratch only. Anything that should survive termination must be
 ## Storage Policy
 
 - Use a dedicated Structure Factory RunPod Network Volume for Structure Factory writable state. Public docs/templates should use the runtime env reference `STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID`; operator-gated bridge manifests may carry the resolved owned volume ID after scope validation.
-- Do not reuse GeneCluster, BioProspector, DOE, or other sibling campaign volumes for writable state. A sibling volume may be mounted read-only only when a tracked issue explicitly authorizes it.
+- Do not reuse sibling campaign volumes for writable state. A sibling volume may be mounted read-only only when a tracked issue explicitly authorizes it.
 - Use persistent RunPod network volumes for datasets, maps, particle stacks, model weights, tool caches, and long-running outputs.
 - Use container disk only for temporary scratch.
 - Emit run manifests with software versions, GPU type, image digest, volume paths, and artifact hashes.
@@ -94,7 +94,7 @@ Recent S1 bootstrap work exposed five rules that should be treated as launch gat
 - Network Volume filesystems can be much slower for many-small-file writes than container scratch. Conda/pip installs, source checkouts, and weight extraction need conservative time estimates, caches, tarball extraction, or prebuilt images when repeated.
 - Long installs need recurring heartbeats. A package manager sitting at a silent "installing packages" phase is not proof of death or progress; emit bootstrap heartbeats and stage progress on a fixed interval.
 - Upstream refs and URLs must be verified before heavy work. Git refs are resolved before large pip/conda installs, and binary downloads are checked for expected archive magic before extraction.
-- License/GUI tools such as ChimeraX are optional downstream gates by default. If the verified download route is unclear, mark ChimeraX `deferred` and let W1-W5/W7 proceed while W6 stays blocked.
+- License/GUI tools such as ChimeraX are optional downstream gates by default. If the verified download route is unclear, mark ChimeraX `deferred` and let non-render planning, cofold, and report lanes proceed while the render lane stays blocked.
 - Zero-uptime pod plateaus are lifecycle failures, not scientific failures. Record them separately from workload exit status so a later retry can still succeed without hiding the provider-start degradation.
 - Fanout launchers need a canary shard. The first shard must exercise the same launch, proxy probe, artifact egress, hash verification, cleanup, and summary path before the remaining pods are fired.
 - Shell launchers running under `set -euo pipefail` must parse optional JSON/JSONL and status probes defensively. Missing evidence should be recorded as an explicit failed/partial status, not crash the fanout controller before cleanup.
@@ -141,11 +141,11 @@ The first milestone should prove:
 - subset processing or documented dry run
 - artifact manifest
 - validation gates
-- figure dossier skeleton
+- figure report skeleton
 
 ## First Honest Raw Subset
 
-The first CryoCore raw-data handoff shape is `EMPIAR-13124`, mouse heavy-chain apoferritin. Structure Factory may keep the metadata, budget, handoff, and downstream dossier contract; CryoCore owns the downloader, motion/CTF, classification, reconstruction, and map-to-model execution.
+The first CryoCore raw-data handoff shape is `EMPIAR-13124`, mouse heavy-chain apoferritin. Structure Factory may keep the metadata, budget, handoff, and downstream report contract; CryoCore owns the downloader, motion/CTF, classification, reconstruction, and map-to-model execution.
 
 Non-cheating rules:
 

@@ -35,7 +35,7 @@ Expected success:
 ## Files To Inspect
 
 - `runpod/launch-manifests/no-download-smoke.json`
-- `runpod/bridge-manifests/genie3-no-download-toolcheck.json`
+- `runpod/bridge-manifests/public-nonlaunchable-template.json`
 - `runpod/stage-contracts/`
 - `docs/runpod-stack.md`
 
@@ -68,4 +68,4 @@ After a private/operator-gated provider run, pull artifacts into an ignored loca
 PROVIDER_ARTIFACT_ROOT=.runtime/provider-artifacts/<run-id> make provider-closeout-check
 ```
 
-Real execution closeout should include `validation/artifact-pull-report.json`, `cost_report.json`, `cleanup_proof.json`, stage progress, expected artifacts, hashes, and a claim ledger. Provider `RUNNING` or a process exit code is not closeout evidence by itself.
+Real execution closeout should include `validation/artifact-pull-report.json`, `cost_report.json`, `cleanup_proof.json`, stage progress, expected artifacts, hashes, and validation notes. Provider `RUNNING` or a process exit code is not closeout proof by itself.

@@ -6,14 +6,14 @@ repo:
   subgroup: structure-factory
   owns:
     - CryoCore handoff contracts for raw cryo-EM requests
-    - deposited PDB/EMDB evidence validation
+    - public PDB/EMDB structure-mapping reports
+    - agent-ready binder-design and screening task plans
     - multimer and conformational-state atlases
     - RunPod structural-biology execution stack
-    - publication-grade structural figure dossiers
+    - structural figure and report packaging
   does_not_own:
     - raw cryo-EM movie intake, EMPIAR subset execution, reconstruction, or map-to-model build lanes
     - BioSymphony-wide contracts
-    - GeneCluster workflows
-    - Mechanistic Variant Atlas workflows outside Structure Factory model-jury integration
+    - other BioSymphony domain workflows outside Structure Factory integration points
     - global Symphony/Linear operations
   core_change_policy: "Open a separate biosymphony-core issue before editing the HQ repo."

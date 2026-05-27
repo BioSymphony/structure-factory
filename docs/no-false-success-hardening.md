@@ -147,7 +147,7 @@ The first command is a no-launch prep check and may report blockers without fail
 
 Fallbacks are allowed only when they are explicit. If a run falls back from RunPod to local, private image to install-at-boot, real data to mock, teammate to subagent, or full route to rescue route, closeout status must be `partial`, `degraded`, `blocked`, or `failed`.
 
-`contract_self_check.py` rejects silent fallback markers and rejects undegraded success after fallback. When any stage fails or closes partial, the runner writes `partial-summary.json` with completed stages, failed stage, resume command, artifact status, and downgraded claim level. A summary stage placed after an expensive context lane is not enough; the trap/watcher path has to write the partial summary even if later stages never run.
+`contract_self_check.py` rejects silent fallback markers and rejects undegraded success after fallback. When any stage fails or closes partial, the runner writes `partial-summary.json` with completed stages, failed stage, resume command, artifact status, and downgraded result boundary. A summary stage placed after an expensive context lane is not enough; the trap/watcher path has to write the partial summary even if later stages never run.
 
 ## Stale Output Guards
 

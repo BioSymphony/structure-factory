@@ -1,25 +1,25 @@
 # Capabilities
 
-Structure Factory is the workflow layer around structural biology agents. It helps an agent take a target, accession, or campaign idea and produce concrete files, issue packs, run contracts, artifact checks, and evidence reports that workers and operators can pick up.
+Structure Factory is the workflow layer around structural biology agents. It helps an agent take a target, accession, or campaign idea and turn it into concrete lanes for binder design, protein modeling, structure mapping, screening, rendering, and cloud-scale execution.
 
-The public repo provides the reusable scaffolds, fixtures, provider contracts, and report shapes that drive these campaigns. Operator-gated execution (live credentials, paid runs, raw private data, generated structures, accepted-license state) runs through the user's own infrastructure outside public git, using the same contracts.
+The repo provides reusable scaffolds, fixtures, provider contracts, and report shapes that drive these campaigns. Live credentials, paid runs, generated structures, accepted-license state, and raw private data stay in the user's own runtime infrastructure.
 
-Raw cryo-EM movie intake, EMPIAR subset execution, RELION or CryoSPARC reconstruction, and map-to-model build execution belong to BioSymphony CryoCore. Structure Factory keeps metadata-only handoff contracts and downstream deposited-evidence, design, validation, and report workflows.
+Raw cryo-EM movie intake, EMPIAR subset execution, RELION or CryoSPARC reconstruction, and map-to-model build execution belong to BioSymphony CryoCore. Structure Factory owns the handoff, downstream structure-mapping workflow, design lanes, validation checks, and report/figure packaging.
 
 ## What You Can Build
 
 | Capability | What It Does | Public Repo Support | Private/Runtime Adds |
 | --- | --- | --- | --- |
-| Binder-design campaign | Defines target window, hotspots, generation lanes, cofold triage, candidate jury, and claim ledger | `examples/pd-l1-binder-design-public`, `recipes/pd-l1-binder-design-fast-path.md`, `bsf scaffold-campaign --mode binder-design` | actual generated structures, model weights, provider artifacts, experimental follow-up |
-| Protein design lane | Plans Genie/RFdiffusion-style generation and Boltz/Chai-style cofold checks | tool cards, stage contracts, issue pack fields, provider templates | reviewed installs, weights, GPU execution, generated candidate packets |
-| Cofold/model jury | Ranks candidate models with explicit confidence, failure rows, and non-claims | `candidate-jury.example.json`, issue drafts, claim/evidence guide | real prediction outputs and derived jury reports |
-| GPCR or multimer state atlas | Splits receptor/state work into deposited-structure dossiers, prediction lanes, alignment, switch reports, and renders | `bsf scaffold-campaign --mode structure-dossier`, tool cards (cofold-scoring-stack, chimerax, proteinmpnn) | provider-backed Boltz/MPNN/ChimeraX outputs and figure packets |
-| PDB/EMDB evidence dossier | Builds accession provenance, validation plan, figure outline, and report contract for deposited structure evidence | `recipes/map-model-dossier-public-data.md`, structure-dossier scaffold mode | fetched deposited maps/models, validation outputs, figure renders |
+| Binder-design campaign | Defines target window, hotspots, generation lanes, cofold triage, and candidate ranking | `examples/pd-l1-binder-design-public`, `recipes/pd-l1-binder-design-fast-path.md`, `bsf scaffold-campaign --mode binder-design` | generated structures, model weights, provider artifacts, experimental follow-up |
+| Protein design lane | Plans Genie/RFdiffusion-style generation and Boltz/Chai-style cofold checks | tool cards, stage contracts, task fields, provider templates | reviewed installs, weights, GPU execution, generated candidate packets |
+| Cofold/model comparison | Compares candidate models with confidence summaries and failure rows | model-output schemas, task drafts, validation guide | real prediction outputs and derived comparison reports |
+| GPCR or multimer state atlas | Splits receptor/state work into prediction lanes, alignment, switch reports, and renders | scaffold mode, tool cards (cofold-scoring-stack, chimerax, proteinmpnn) | provider-backed Boltz/MPNN/ChimeraX outputs and figure packets |
+| PDB/EMDB structure mapping | Builds accession provenance, validation plan, figure outline, and map/model workflow | `recipes/`, structure-mapping scaffold mode | fetched deposited maps/models, validation outputs, figure renders |
 | CryoCore handoff contract | Captures raw-data accession, raw/subset gate, expected artifacts, operator approval, and ownership boundary | `examples/empiar-10204-v0`, input-audit checks, metadata-only stage contracts | CryoCore-owned raw downloads, reconstruction artifacts, provider storage, map/model build outputs |
-| Screening and active learning | Demonstrates ligand/receptor fixtures, fanout estimates, result schemas, candidate dossiers, and cloud shard ledgers | `examples/screening-superpowers`, `make screening-check`, provider adapter dry-run | real libraries, real docking/cofolding, paid cloud fanout |
+| Screening and active learning | Demonstrates ligand/receptor fixtures, fanout estimates, result schemas, candidate reports, and cloud shard ledgers | `examples/screening-superpowers`, `make screening-check`, provider adapter dry-run | real libraries, real docking/cofolding, paid cloud fanout |
 | Cloud/GPU execution prep | Defines RunPod/AWS/local/HPC/neocloud provider profiles, runtime gates, launch preflight, and closeout requirements | `docs/compute-backends.md`, `runpod/`, `make runpod-public-template-check`, `make launch-bundle` | actual pod/job creation, secrets, runtime logs, artifact pulls, cleanup proof |
-| Linear/Symphony issue packs | Converts campaigns into durable agent tasks with owned paths, dependencies, validation commands, and outcome schema | `bsf issue-dry-run`, `packs/`, `docs/linear-orchestration.md` | live tracker state, private comments, operator approval records |
-| Evidence and report packaging | Produces claim-bounded report shapes with provenance, hashes, artifact indexes, and downgrade rules | claim/evidence guide, templates, release checks | source artifact archives, hash ledgers, cost reports, cleanup records |
+| Linear/Symphony task plans | Converts campaigns into durable agent tasks with owned paths, dependencies, validation commands, and outcome schema | `bsf issue-dry-run`, `packs/`, `docs/linear-orchestration.md` | live tracker state, private comments, operator approval records |
+| Report and figure packaging | Produces report shapes with provenance, hashes, artifact indexes, and review rules | templates, release checks | source artifact archives, hash ledgers, cost reports, cleanup records |
 
 ## Fast Starts
 
@@ -38,25 +38,25 @@ bsf validate .runtime/pd-l1-binder-demo
 Agent prompt:
 
 ```text
-Use the BioSymphony Structure Factory skill. Build a binder-design campaign plan for PDB 4ZQK with target-window dossier, generation lanes, cofold/model-jury checks, issue drafts, and a claim ledger. Do not launch compute.
+Use the BioSymphony Structure Factory skill. Build a binder-design campaign plan for PDB 4ZQK with a target window, design lanes, cofold/model-comparison checks, task drafts, and candidate ranking. Do not launch compute.
 ```
 
-### Structure Dossier
+### Structure Mapping
 
 ```bash
 bsf scaffold-campaign .runtime/map-model-demo \
   --campaign-id map-model-demo \
-  --target-label "Public PDB/EMDB evidence dossier demo" \
+  --target-label "Public PDB/EMDB structure mapping demo" \
   --public-accession "PDB:4ZQK" \
-  --window "deposited public structure evidence" \
-  --mode structure-dossier
+  --window "deposited public structure window" \
+  --mode structure-mapping
 bsf validate .runtime/map-model-demo
 ```
 
 Agent prompt:
 
 ```text
-Use the Structure Factory skill. Turn this public PDB/EMDB accession into a deposited-evidence dossier plan with provenance, validation commands, expected artifacts, figure outline, and claim boundaries. If the request involves raw cryo-EM processing or reconstruction, create a CryoCore handoff instead of claiming Structure Factory owns the lane.
+Use the Structure Factory skill. Turn this public PDB/EMDB accession into a structure-mapping plan with provenance, validation commands, expected artifacts, and figure outline. If the request involves raw cryo-EM processing or reconstruction, create a CryoCore handoff instead of treating that lane as Structure Factory-owned.
 ```
 
 ### Screening Fixture
@@ -88,11 +88,11 @@ Agent prompt:
 Use the Structure Factory skill. Prepare a provider-neutral GPU execution contract with budget, cleanup, runtime-secret references, expected artifacts, and closeout checks. Do not create pods or jobs.
 ```
 
-## Closeout Posture
+## Run Results
 
-Every campaign closes with an evidence mode and a claim level so artifacts and reports are reviewable across agents and reviewers. Generated or predicted biological outputs sit at `computational_candidate` until independent validation lands. Full vocabulary is in [`claim-and-evidence.md`](claim-and-evidence.md).
+Every campaign records what ran, what files were produced, which stages passed, and what still needs independent validation. Generated or predicted biological outputs remain computational candidates until downstream validation lands.
 
-The public repo makes campaigns ready for execution and review. Live provider runs (artifacts, hashes, logs, cost reports, cleanup proof, claim ledger) live in operator-controlled infrastructure outside public git, summarized safely back into reports when appropriate.
+The repo makes campaigns ready for execution and review. Live provider runs (artifacts, hashes, logs, cost reports, cleanup proof, and run summaries) live in operator-controlled infrastructure outside public git.
 
 ## Hard-Earned Operational Knowledge
 

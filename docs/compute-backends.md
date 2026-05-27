@@ -4,10 +4,10 @@ Structure Factory separates the control plane from the execution plane.
 
 - Linear owns the scientific contract, dependencies, risk gates, and acceptance criteria.
 - Symphony owns bounded worker dispatch and closeout comments.
-- Structure Factory owns manifests, modules, validators, and evidence contracts.
+- Structure Factory owns manifests, modules, validators, and validation contracts.
 - Compute providers only run a selected execution profile and emit artifacts.
 
-RunPod Pods are the primary blessed remote path. AWS Batch GPU jobs are the blessed cloud scale path. Other backends, including neocloud and generic cloud VMs, must satisfy the same input-audit, artifact, cleanup, and contract-self-check rules before a worker can claim success.
+RunPod Pods are the primary blessed remote path. AWS Batch GPU jobs are the blessed cloud scale path. Other backends, including neocloud and generic cloud VMs, must satisfy the same input-audit, artifact, cleanup, and contract-self-check rules before a worker can mark success.
 
 For the newcomer route map, see [`workflow-map.md`](workflow-map.md). The public repository supports cloud planning and readiness checks, but real provider mutation belongs in a private/operator-gated execution packet after explicit approval.
 
@@ -15,19 +15,19 @@ For the newcomer route map, see [`workflow-map.md`](workflow-map.md). The public
 
 | Phase | Stored In Public Git | Stored Outside Public Git |
 | --- | --- | --- |
-| Local contract | campaign manifest, target-window dossier, claim ledger, stage contract | private target notes, unpublished sequences, local data |
-| Tracker plan | tracker-neutral issue drafts, validation commands, risk notes | private tracker URLs, live comments with secrets, operator approvals |
+| Local contract | campaign manifest, target-window file, validation notes, stage contract | private target notes, unpublished sequences, local data |
+| Tracker plan | tracker-neutral task drafts, validation commands, risk notes | private tracker URLs, live comments with secrets, operator approvals |
 | Provider prep | non-launching templates, provider profiles, scope checks, runtime-secret reference names | real pod IDs, concrete placement, accepted-license state, credentials |
 | Provider run | expected artifact list, schema, closeout checklist | logs, raw outputs, generated structures, model weights, provider archives |
-| Closeout | compact report, hashes, provenance summary, claim level | heavy artifacts and private evidence packets |
+| Closeout | compact report, hashes, provenance summary, result boundary | heavy artifacts and private result packets |
 
 The useful public workflow is:
 
 ```text
-local scaffold -> issue pack -> provider profile -> public template check -> private operator launch -> verified closeout
+local scaffold -> task pack -> provider profile -> public template check -> private operator launch -> verified closeout
 ```
 
-Provider `RUNNING`, scheduler success, or a process exit code is not enough. A cloud run is useful only after expected artifacts are fetched, parsed, hashed, scanned, cleanup is proven, and the claim ledger is updated.
+Provider `RUNNING`, scheduler success, or a process exit code is not enough. A cloud run is useful only after expected artifacts are fetched, parsed, hashed, scanned, cleanup is proven, and the validation notes are updated.
 
 ## Setup Postures
 
@@ -49,9 +49,9 @@ GHCR is not mandatory. It is one convenient private-image posture. For Structure
 
 | Backend | Class | Intended Use | Status |
 | --- | --- | --- | --- |
-| RunPod | `pod` | No-download smoke, CryoCore handoff prep, gated tools, PDB/EMDB evidence dossiers, AI-design runtime | Blessed primary |
+| RunPod | `pod` | No-download smoke, CryoCore handoff prep, gated tools, PDB/EMDB structure mapping, AI-design runtime | Blessed primary |
 | AWS Batch | `batch_job` | Cloud scale lanes, multi-shard GPU jobs, RunPod fallback when AWS credentials/budget are authorized | Blessed cloud scale |
-| Local workstation | `workstation` | Repo validation, figure review, small deposited-evidence checks, GUI review | Supported for prep/local-lite |
+| Local workstation | `workstation` | Repo validation, figure review, small deposited-structure checks, GUI review | Supported for prep/local-lite |
 | SSH/HPC | `slurm_job` | Institutional GPU or CPU batch lanes where licenses/data stay on site | Adapter-ready |
 | Generic cloud VM | `cloud_vm` | Bring-your-own GPU VM with mounted disk/object storage | Adapter-ready |
 | Neocloud GPU pod | `gpu_pod` | Preferred RunPod-like GPU pod providers with private image and scratch volume support | Preferred adapter-ready |
@@ -71,7 +71,7 @@ Every provider profile should declare:
 - `execution_ready_requires`
 - provider-specific storage, GPU, image, scheduler, or connection fields
 
-Every provider must support the same evidence flow:
+Every provider must support the same verification flow:
 
 ```text
 manifest -> input_audit -> materialized inputs -> tool/run artifacts -> contract_self_check -> Linear outcome
@@ -81,25 +81,25 @@ manifest -> input_audit -> materialized inputs -> tool/run artifacts -> contract
 
 - Provider success is not scientific success.
 - A submitted job, launched pod, passing process exit code, or `--full-run` flag is intent only.
-- Real execution fails if required evidence contains `mock_gpu`, `mock_tools`, or `dry_run`.
+- Real execution fails if required outputs contain `mock_gpu`, `mock_tools`, or `dry_run`.
 - Raw-download profiles require explicit operator authorization, not just an environment default.
-- Heavy data stays in the provider workspace, volume, or institutional storage. Git and Linear receive only manifests, small reports, provenance, hashes, and claim ledgers.
+- Heavy data stays in the provider workspace, volume, or institutional storage. Git and Linear receive only manifests, small reports, provenance, hashes, and validation notes.
 
 ## Backend-Specific Notes
 
 ### RunPod
 
-Use the concrete `runpod/` launch kit. RunPod is the reference pod provider and the blessed primary remote path. Keep image credentials and license secrets in RunPod runtime configuration. Write durable artifacts under `/workspace/structure-factory/runs/<run-id>/`.
+Use the `runpod/` launch kit for public templates, stage contracts, and preflight checks. RunPod is the reference pod provider and the blessed primary remote path. Keep image credentials and license secrets in RunPod runtime configuration. Write durable artifacts under `/workspace/structure-factory/runs/<run-id>/`.
 
-For Structure Factory-owned volumes, use `STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID` in public docs/templates. Operator-gated concrete bridge manifests may carry the resolved owned volume ID after scope validation. Do not reuse sibling campaign volumes such as GeneCluster for writable state. Before paid mutation, run `make runpod-scope-check` and verify the target pod/volume appears in the Structure Factory manifest or pod ledger.
+For Structure Factory-owned volumes, use `STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID` in public docs/templates. Operator-gated provider packets may carry the resolved owned volume ID after scope validation. Do not reuse sibling campaign volumes for writable state. Before paid mutation, run `make runpod-scope-check` and verify the target pod/volume appears in the Structure Factory manifest or pod ledger.
 
 ### AWS Batch
 
-Use AWS Batch as the blessed cloud scale path when the issue declares AWS credentials, budget, job queue, compute environment, artifact export bucket, and cleanup evidence. AWS EC2 debug VMs are supported but are not blessed unless wrapped by the AWS Batch profile and the same input-audit and contract-self-check gates.
+Use AWS Batch as the blessed cloud scale path when the task declares AWS credentials, budget, job queue, compute environment, artifact export bucket, and cleanup proof. AWS EC2 debug VMs are supported but are not blessed unless wrapped by the AWS Batch profile and the same input-audit and contract-self-check gates.
 
 ### Local Workstation
 
-Use local execution for prep, validation, visual review, and tiny deposited-evidence or figure tasks. A user with substantial local CPU/GPU/storage may run larger lanes locally, but only when the issue declares local materialization paths, data-retention policy, and cleanup expectations. Do not download raw EMPIAR subsets locally unless a separate CryoCore-owned issue explicitly authorizes it. Local mock GPU is prep evidence only.
+Use local execution for prep, validation, visual review, and tiny deposited-structure or figure tasks. A user with substantial local CPU/GPU/storage may run larger lanes locally, but only when the task declares local materialization paths, data-retention policy, and cleanup expectations. Do not download raw EMPIAR subsets locally unless a separate CryoCore-owned task explicitly authorizes it. Local mock GPU is prep output only.
 
 ### SSH/HPC
 
@@ -111,7 +111,7 @@ Use when the provider can support public or operator-gated repo checkout, public
 
 ## AI-Design Selection Order
 
-For Boltz and Genie-style AI design lanes, use this default order unless an issue says otherwise:
+For Boltz and Genie-style AI design lanes, use this default order unless a task says otherwise:
 
 1. RunPod with the Structure Factory Network Volume or digest-pinned image.
 2. AWS Batch for cloud scale or multi-shard fallback.

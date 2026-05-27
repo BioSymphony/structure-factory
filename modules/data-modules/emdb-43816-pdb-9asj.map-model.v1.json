@@ -3,7 +3,7 @@
   "module_type": "data_module",
   "id": "emdb-43816-pdb-9asj",
   "source": "EMDB_PDB",
-  "profile": "map_model_dossier",
+  "profile": "map_model_report",
   "public_status": "public",
   "title": "DNA polymerase theta helicase domain with AMP-PNP",
   "source_urls": {
@@ -27,11 +27,11 @@
     "download_to": "/workspace/structure-factory/scratch/map-model/emdb-43816-pdb-9asj"
   },
   "artifact_expectations": [
-    "dossier_manifest.json",
+    "report_manifest.json",
     "validation/map_model_fit.json",
     "figures/",
     "methods.md",
-    "claim_ledger.md",
+    "validation_ledger.md",
     "provenance.md"
   ],
   "ledger_fields": [

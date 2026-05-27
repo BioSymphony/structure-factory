@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Prediction, design, and model-jury lanes that compare generated structures against experimental evidence.
+Prediction, design, and model-comparison lanes that compare generated structures against experimental evidence.
 
 ## Candidate Contents
 

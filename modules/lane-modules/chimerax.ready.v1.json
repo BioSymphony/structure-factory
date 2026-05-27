@@ -21,5 +21,5 @@
   ],
   "image_family": "model-build",
   "campaign_use": [],
-  "notes": "Distinct from chimerax.license-gate.v1.json (the upstream gate probe). The .ready variant assumes the operator has confirmed noncommercial use (or recorded a commercial license override) per the tooling-and-licensing doc and adds W6 render-readiness checks. Status remains gated; operator must clear noncommercial confirmation before W6 promotion."
+  "notes": "Distinct from chimerax.license-gate.v1.json (the upstream gate probe). The .ready variant assumes the operator has confirmed noncommercial use (or recorded a commercial license override) per the tooling-and-licensing doc and adds render-readiness checks. Status remains gated; operator must clear noncommercial confirmation before render-lane promotion."
 }

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 
-ALLOWED_CLAIM_LEVELS = {
+ALLOWED_RESULT_BOUNDARIES = {
     "planning",
     "public_demo",
     "public_synthetic_demo",
@@ -20,9 +20,41 @@ ALLOWED_CLAIM_LEVELS = {
     "candidate",
     "blocked",
     "insufficient_evidence",
+    "insufficient_support",
 }
 
-PUBLIC_CAMPAIGN_CLAIM_LEVELS = ALLOWED_CLAIM_LEVELS - {"candidate"}
+PUBLIC_CAMPAIGN_RESULT_BOUNDARIES = ALLOWED_RESULT_BOUNDARIES - {"candidate", "insufficient_evidence"}
+
+LEGACY_RESULT_BOUNDARY_ALIASES = {
+    "insufficient_evidence": "insufficient_support",
+}
+
+ALLOWED_SOURCE_POSTURES = {
+    "synthetic_demo",
+    "public_data",
+    "generated_candidate",
+    "blocked",
+    "insufficient_support",
+    "insufficient_evidence",
+    "report_only",
+    "provider_native",
+    "derived",
+}
+
+MODE_ALIASES = {
+    "model-comparison": "model-comparison",
+    "structure-report": "structure-mapping",
+}
+
+CAMPAIGN_MODES = [
+    "binder-design",
+    "model-comparison",
+    "structure-mapping",
+    "screening",
+    # Backward-compatible aliases for older generated manifests and scripts.
+    "model-comparison",
+    "structure-report",
+]
 
 ALLOWED_PRIVACY = {
     "public_only",
@@ -46,6 +78,7 @@ SKIP_DIRS = {
 }
 
 FORBIDDEN_EXACT_NAME_PARTS = {
+    ".codex",
     ".env",
     ".env.local",
     "_book",
@@ -81,6 +114,8 @@ FORBIDDEN_SUFFIXES = {
     ".fna",
     ".fq",
     ".gif",
+    ".html",
+    ".htm",
     ".h5",
     ".hdf",
     ".hdf5",
@@ -114,6 +149,11 @@ FORBIDDEN_SUFFIXES = {
     ".gz",
     ".xz",
     ".zst",
+    ".css",
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx",
     ".7z",
     ".bz2",
     ".rar",
@@ -126,9 +166,7 @@ TEXT_SUFFIXES = {
     "",
     ".cfg",
     ".cff",
-    ".css",
     ".csv",
-    ".html",
     ".in",
     ".ini",
     ".json",
@@ -165,7 +203,7 @@ REQUIRED_HARNESS_FILES = [
     "docs/assets/README.md",
     "docs/capabilities.md",
     "docs/cli-reference.md",
-    "docs/claim-and-evidence.md",
+    "docs/result-boundaries.md",
     "docs/workflow-map.md",
     "docs/use-cases.md",
     "docs/faq.md",
@@ -181,15 +219,13 @@ REQUIRED_HARNESS_FILES = [
     "docs/compute-backends.md",
     "docs/runpod-stack.md",
     "docs/tooling-and-licensing.md",
-    "packs/issue-packs/binder-design-fast-path-v0/pack.yaml",
+    "packs/task-packs/binder-design-fast-path-v0/pack.yaml",
     "packs/README.md",
     "references/agent-handoff.md",
     "runpod/README.md",
     "schemas/README.md",
-    "scripts/install-codex-skill.sh",
     "skills/biosymphony-structure-factory/SKILL.md",
     "skills/README.md",
-    ".codex/skills/biosymphony-structure-factory/SKILL.md",
     "templates/github-issue.md",
     "templates/operator-wave-runbook.md",
     "tools/README.md",
@@ -197,7 +233,7 @@ REQUIRED_HARNESS_FILES = [
     "docs/assets/structure-factory-loop.svg",
     "docs/assets/newcomer-paths.svg",
     "docs/assets/workflow-ladder.svg",
-    "examples/supercharger/README.md",
+    "examples/orchestration-fixtures/README.md",
 ]
 
 HARNESS_TEXT_REQUIREMENTS = {
@@ -206,7 +242,7 @@ HARNESS_TEXT_REQUIREMENTS = {
         "Symphony",
         "RunPod",
         "skill",
-        "claim ledger",
+        "candidate ranking",
         "How To Use This",
         "Start Here",
         "Hand A Mission To An Agent",
@@ -227,7 +263,7 @@ HARNESS_TEXT_REQUIREMENTS = {
         "BioSymphony Structure Factory Agent Guide",
         "public_synthetic_demo",
         "computational_candidate",
-        "Closeout requires artifacts, hashes, and a claim audit",
+        "Closeout requires artifacts, hashes, and validation notes",
     ],
     "BIOSAFETY.md": [
         "Biosafety",
@@ -239,7 +275,7 @@ HARNESS_TEXT_REQUIREMENTS = {
         "Copyable Agent Prompts",
         "Binder-Design Triage",
         "Provider Prep Without Launch",
-        "Public-Release Safety Review",
+        "Public-Release Review",
     ],
     "docs/faq.md": [
         "Do I need a GPU?",
@@ -251,8 +287,8 @@ HARNESS_TEXT_REQUIREMENTS = {
     "docs/glossary.md": [
         "Glossary",
         "Campaign manifest",
-        "Claim ceiling",
-        "Evidence mode",
+        "Result boundary",
+        "Source posture",
         "pLDDT",
         "iPTM",
         "Stage contract",
@@ -273,12 +309,11 @@ HARNESS_TEXT_REQUIREMENTS = {
         "make public-switch-check",
     ],
     "docs/agent-recipes.md": [
-        "Public-Safe Agent Recipes",
+        "Agent Recipes",
         "docs/use-cases.md",
-        "Exact Evidence Values",
+        "Exact Result Values",
         "computational_candidate",
         "bsf scaffold-campaign",
-        "claim ceiling",
         "operator gate",
     ],
     "docs/capabilities.md": [
@@ -297,7 +332,6 @@ HARNESS_TEXT_REQUIREMENTS = {
     ],
     "docs/skill-install.md": [
         "Install The Structure Factory Skill",
-        "scripts/install-codex-skill.sh",
         "make harness-check",
     ],
     "docs/standalone-agent-workflow.md": [
@@ -313,16 +347,16 @@ HARNESS_TEXT_REQUIREMENTS = {
         "bsf harness-check",
         "bsf doctor",
     ],
-    "docs/claim-and-evidence.md": [
-        "Claim And Evidence Guide",
+    "docs/result-boundaries.md": [
+        "Result Boundaries And Source Posture",
         "computational_candidate",
-        "Evidence Modes",
+        "Source Posture",
         "Legacy Schema Values",
-        "Provider state is not an evidence mode",
+        "Provider state is not source posture",
     ],
     "docs/privacy-and-security-model.md": [
         "Privacy And Security Model",
-        "Public-safe",
+        "public release",
         "Never commit",
         "Launch templates",
     ],
@@ -332,7 +366,7 @@ HARNESS_TEXT_REQUIREMENTS = {
         "Use It With An Agent",
         "bsf scaffold-campaign",
         "make public-switch-check",
-        "public-safe",
+        "validated campaign scaffold",
     ],
     "recipes/README.md": [
         "Recipes",
@@ -342,11 +376,11 @@ HARNESS_TEXT_REQUIREMENTS = {
     "docs/public-switch-checklist.md": [
         "make public-switch-check",
         "clean root commit",
-        "RunPod bridge manifests",
+        "RunPod public templates",
         "Remote Gate",
     ],
     "docs/tool-and-skill-radar.md": [
-        "public-safe planning snapshot",
+        "planning snapshot",
         "Runtime Gated",
         "Review Required",
         "Export Priorities",
@@ -363,17 +397,10 @@ HARNESS_TEXT_REQUIREMENTS = {
         "RunPod",
         "Claude-lane",
         "stage contract",
-        "candidate jury",
-        "claim",
+        "candidate ranking",
+        "agent lanes",
     ],
     "skills/biosymphony-structure-factory/SKILL.md": [
-        "sym:structure-factory",
-        "RunPod",
-        "Symphony",
-        "Linear",
-        "make harness-check",
-    ],
-    ".codex/skills/biosymphony-structure-factory/SKILL.md": [
         "sym:structure-factory",
         "RunPod",
         "Symphony",
@@ -385,7 +412,7 @@ HARNESS_TEXT_REQUIREMENTS = {
         "RunPod",
         "Operator authorization",
         "cleanup proof",
-        "claim ceiling",
+        "result boundary",
     ],
 }
 
@@ -436,7 +463,71 @@ def reject_public_unsafe_input(name: str, value: str) -> None:
             continue
         match = pattern.search(value)
         if match:
-            raise ValueError(f"{name} contains public-safety marker {check_id}: {match.group(0)[:80]}")
+            raise ValueError(f"{name} contains release-blocking marker {check_id}: {match.group(0)[:80]}")
+
+
+def normalize_mode(mode: str) -> str:
+    return MODE_ALIASES.get(mode, mode)
+
+
+def normalize_result_boundary(value: Any) -> Any:
+    if isinstance(value, str):
+        return LEGACY_RESULT_BOUNDARY_ALIASES.get(value, value)
+    return value
+
+
+def get_result_boundary(mapping: dict[str, Any], legacy_key: str = "claim_level") -> Any:
+    return normalize_result_boundary(mapping.get("result_boundary", mapping.get(legacy_key)))
+
+
+def get_source_posture(mapping: dict[str, Any]) -> Any:
+    return mapping.get("source_posture", mapping.get("evidence_mode"))
+
+
+PUBLIC_TEXT_REPLACEMENTS = (
+    ("public", "public"),
+    ("claim-bounded", "reviewable"),
+    ("candidate_ranking_top32", "candidate_ranking_top32"),
+    ("candidate_ranking", "candidate_ranking"),
+    ("validation_ledger", "validation_ledger"),
+    ("validation ledger", "validation ledger"),
+    ("result review", "validation review"),
+    ("validation_review", "validation_review"),
+    ("Result boundary", "Result boundary"),
+    ("result boundary", "result boundary"),
+    ("Claim Level", "Result Boundary"),
+    ("claim ceiling", "result boundary"),
+    ("claim_ceiling", "result_boundary"),
+    ("claims", "conclusions"),
+    ("Claims", "Conclusions"),
+    ("claim", "statement"),
+    ("Claim", "Statement"),
+    ("evidence mode", "source posture"),
+    ("Evidence mode", "Source posture"),
+    ("evidence", "support"),
+    ("Evidence", "Support"),
+    ("insufficient_evidence", "insufficient_support"),
+    ("model-comparison", "model-comparison"),
+    ("method-ranking", "method-comparison"),
+    ("ranking_synthesis", "ranking_synthesis"),
+    ("ranking", "ranking"),
+    ("Ranking", "Ranking"),
+    ("candidate reports", "candidate reports"),
+    ("candidate_reports", "candidate_reports"),
+    ("reports", "reports"),
+    ("Reports", "Reports"),
+    ("report", "report"),
+    ("Report", "Report"),
+)
+
+
+def public_text(value: Any) -> Any:
+    if not isinstance(value, str):
+        return value
+    text = value
+    for old, new in PUBLIC_TEXT_REPLACEMENTS:
+        text = text.replace(old, new)
+    return text
 
 
 def validate_campaign_id(campaign_id: str) -> None:
@@ -449,7 +540,7 @@ def validate_campaign_id(campaign_id: str) -> None:
 
 def scaffold_lanes(mode: str) -> list[dict[str, Any]]:
     shared = {
-        "claim_ceiling": "computational_candidate",
+        "result_boundary": "computational_candidate",
         "runtime_gate": "operator_required_before_gpu_or_license_gated_execution",
     }
     if mode == "binder-design":
@@ -457,7 +548,7 @@ def scaffold_lanes(mode: str) -> list[dict[str, Any]]:
             {
                 "id": "target-window-contract",
                 "kind": "planning",
-                "description": "Public accession, residue window, hotspots, and non-claims.",
+                "description": "Public accession, residue window, hotspots, and run boundaries.",
                 **shared,
             },
             {
@@ -467,28 +558,28 @@ def scaffold_lanes(mode: str) -> list[dict[str, Any]]:
                 **shared,
             },
             {
-                "id": "cofold-jury",
-                "kind": "model_jury",
-                "description": "Cofold and scoring jury contract for generated candidates.",
+                "id": "cofold-ranking",
+                "kind": "model_comparison",
+                "description": "Cofold and scoring contract for ranked generated candidates.",
                 **shared,
             },
         ]
-    if mode == "model-jury":
+    if mode == "model-comparison":
         return [
             {
-                "id": "evidence-intake",
+                "id": "model-inputs",
                 "kind": "planning",
-                "description": "Public model or structure inputs, quality metrics, and claim ceiling.",
+                "description": "Public model or structure inputs, quality metrics, and run boundaries.",
                 **shared,
             },
             {
-                "id": "jury-contract",
-                "kind": "model_jury",
+                "id": "comparison-contract",
+                "kind": "model_comparison",
                 "description": "Cross-tool scoring, disagreement, failure, and provenance contract.",
                 **shared,
             },
         ]
-    if mode == "structure-dossier":
+    if mode == "structure-mapping":
         return [
             {
                 "id": "accession-contract",
@@ -497,9 +588,9 @@ def scaffold_lanes(mode: str) -> list[dict[str, Any]]:
                 **shared,
             },
             {
-                "id": "dossier-build",
-                "kind": "report_or_jury",
-                "description": "Structure evidence dossier with figures, provenance, and non-claims.",
+                "id": "mapping-report",
+                "kind": "structure_mapping",
+                "description": "Structure mapping report with figures, provenance, and next-step checks.",
                 **shared,
             },
         ]
@@ -508,7 +599,7 @@ def scaffold_lanes(mode: str) -> list[dict[str, Any]]:
             {
                 "id": "screening-contract",
                 "kind": "planning",
-                "description": "Public receptor/ligand scope, fanout estimate, and evidence ceiling.",
+                "description": "Public receptor/ligand scope, fanout estimate, and result boundaries.",
                 **shared,
             },
             {
@@ -532,6 +623,7 @@ def scaffold_campaign(
     force: bool = False,
 ) -> dict[str, Any]:
     validate_campaign_id(campaign_id)
+    mode = normalize_mode(mode)
     for name, value in {
         "target_label": target_label,
         "public_accession": public_accession,
@@ -547,9 +639,9 @@ def scaffold_campaign(
     campaign = {
         "schema_version": 1,
         "campaign_id": campaign_id,
-        "title": f"{target_label} public-safe {mode} campaign",
+        "title": f"{target_label} {mode} campaign",
         "mode": mode,
-        "claim_level": "planning",
+        "result_boundary": "planning",
         "system": {
             "privacy": "public_or_synthetic_only",
             "repo_role": "control_plane",
@@ -562,37 +654,37 @@ def scaffold_campaign(
         },
         "lanes": scaffold_lanes(mode),
         "expected_artifacts": [
-            "target-window-dossier.json",
-            "claim-ledger.md",
+            "target-window.json",
+            "validation-notes.md",
             "stage-contract.json",
-            "candidate-jury.example.json or dossier-summary.md after evidence exists",
+            "candidate-ranking.example.json or run-summary.md after outputs exist",
         ],
         "wet_lab_execution": False,
-        "therapeutic_claims": False,
+        "therapeutic_conclusions": False,
         "operator_gate_required_before_execution": True,
     }
 
     stage_contract = {
         "schema_version": 1,
         "campaign_id": campaign_id,
-        "claim_ceiling": "computational_candidate",
+        "result_boundary": "computational_candidate",
         "fail_closed": True,
         "privacy": "public_or_synthetic_only",
         "operator_gate_required": True,
         "progress_ledger": "stage-progress.jsonl",
-        "partial_success_policy": "Missing, partial, or unverifiable evidence must downgrade to blocked or insufficient_evidence.",
+        "partial_success_policy": "Missing, partial, or unverifiable outputs must close as blocked or insufficient_support.",
         "stages": [
             {
                 "id": lane["id"],
                 "mode": lane["kind"],
                 "required_artifacts": [],
-                "success_evidence": "declared artifacts, hashes, validation output, and claim ceiling",
+                "success_support": "declared artifacts, hashes, validation output, and result boundary",
             }
             for lane in campaign["lanes"]
         ],
     }
 
-    target_dossier = {
+    target_window = {
         "schema_version": 1,
         "campaign_id": campaign_id,
         "target_label": target_label,
@@ -600,7 +692,7 @@ def scaffold_campaign(
         "window": window,
         "privacy": "public_or_synthetic_only",
         "hotspots_or_regions": [],
-        "evidence_notes": [
+        "source_notes": [
             "Add public-source citations, residue numbering notes, and uncertainty here.",
             "Do not add unpublished sequences, private structures, or generated candidate coordinates.",
         ],
@@ -610,7 +702,7 @@ def scaffold_campaign(
 
 Campaign ID: `{campaign_id}`
 
-This is a public-safe Structure Factory scaffold for `{mode}` work. It is a control-plane starter: manifests, stage contracts, claim boundaries, and expected artifacts only.
+This is a Structure Factory scaffold for `{mode}` work. It is a planning starter: manifests, stage contracts, run boundaries, and expected artifacts only.
 
 ## Public Inputs
 
@@ -618,9 +710,9 @@ This is a public-safe Structure Factory scaffold for `{mode}` work. It is a cont
 - public accession: `{public_accession}`
 - window: `{window}`
 
-## Claim Ceiling
+## Result Boundary
 
-Planning or computational-candidate evidence only. This scaffold does not claim binding, inhibition, selectivity, safety, efficacy, clinical relevance, or therapeutic value.
+Planning or computational-candidate outputs only. This scaffold does not establish binding, inhibition, selectivity, safety, efficacy, clinical relevance, or therapeutic value.
 
 ## Next Local Checks
 
@@ -638,23 +730,23 @@ bsf audit .
 - keep credentials, provider IDs, private paths, generated structures, and logs outside git
 """
 
-    claim_ledger = f"""# Claim Ledger
+    validation_notes = f"""# Validation Notes
 
 Campaign ID: `{campaign_id}`
 
-| Claim | Status | Evidence Mode | Notes |
+| Statement | Status | Source Posture | Notes |
 | --- | --- | --- | --- |
 | Target/window selected for planning | draft | public_or_synthetic_only | Back this with public accession notes before execution. |
-| Generated candidates bind or modulate target | not claimed | insufficient_evidence | Requires downstream computational evidence and experimental validation. |
-| Therapeutic, safety, efficacy, or clinical value | not claimed | insufficient_evidence | Out of scope for this repo. |
+| Generated candidates bind or modulate target | not stated | insufficient_support | Requires downstream computational checks and experimental validation. |
+| Therapeutic, safety, efficacy, or clinical value | not stated | insufficient_support | Out of scope for this repo. |
 """
 
     files = {
         "campaign-manifest.json": json.dumps(campaign, indent=2, sort_keys=True) + "\n",
         "stage-contract.json": json.dumps(stage_contract, indent=2, sort_keys=True) + "\n",
-        "target-window-dossier.json": json.dumps(target_dossier, indent=2, sort_keys=True) + "\n",
+        "target-window.json": json.dumps(target_window, indent=2, sort_keys=True) + "\n",
         "README.md": readme,
-        "claim-ledger.md": claim_ledger,
+        "validation-notes.md": validation_notes,
     }
     written: list[str] = []
     for name, content in files.items():
@@ -709,7 +801,7 @@ def audit_tree(root: Path) -> tuple[bool, list[Finding]]:
         for check_id, pattern in CONTENT_PATTERNS:
             match = pattern.search(text)
             if match:
-                findings.append(Finding("error", check_id, rel, f"matched public-safety pattern: {match.group(0)[:80]}"))
+                findings.append(Finding("error", check_id, rel, f"matched release-blocking pattern: {match.group(0)[:80]}"))
         if rel.startswith("runpod/bridge-manifests/"):
             for marker in ["base64 -d", "gunzip", "xz -d", '"approved_at": "20', "US-KS-"]:
                 if marker in text:
@@ -732,16 +824,16 @@ def validate_campaign(campaign_dir: Path) -> tuple[bool, list[Finding]]:
     campaign_id = manifest.get("campaign_id")
     if not isinstance(campaign_id, str) or not campaign_id:
         findings.append(Finding("error", "campaign-id", rel_manifest, "campaign_id must be a non-empty string"))
-    claim_level = manifest.get("claim_level")
-    if claim_level not in PUBLIC_CAMPAIGN_CLAIM_LEVELS:
-        findings.append(Finding("error", "claim-level", rel_manifest, f"claim_level must be one of {sorted(PUBLIC_CAMPAIGN_CLAIM_LEVELS)}"))
+    result_boundary = get_result_boundary(manifest)
+    if result_boundary not in PUBLIC_CAMPAIGN_RESULT_BOUNDARIES:
+        findings.append(Finding("error", "result-boundary", rel_manifest, f"result_boundary must be one of {sorted(PUBLIC_CAMPAIGN_RESULT_BOUNDARIES)}"))
     privacy = manifest.get("system", {}).get("privacy")
     if privacy not in ALLOWED_PRIVACY:
         findings.append(Finding("error", "privacy", rel_manifest, f"system.privacy must be one of {sorted(ALLOWED_PRIVACY)}"))
     if manifest.get("wet_lab_execution") is not False:
         findings.append(Finding("error", "wet-lab-boundary", rel_manifest, "wet_lab_execution must be false in public examples"))
-    if manifest.get("therapeutic_claims") is not False:
-        findings.append(Finding("error", "therapeutic-boundary", rel_manifest, "therapeutic_claims must be false in public examples"))
+    if manifest.get("therapeutic_conclusions", manifest.get("therapeutic_claims")) is not False:
+        findings.append(Finding("error", "therapeutic-boundary", rel_manifest, "therapeutic_conclusions must be false in public examples"))
 
     target = manifest.get("target", {})
     if not target.get("public_accession"):
@@ -754,11 +846,11 @@ def validate_campaign(campaign_dir: Path) -> tuple[bool, list[Finding]]:
         findings.append(Finding("error", "lanes", rel_manifest, "lanes[] must declare at least one planned lane"))
     else:
         for lane in lanes:
-            claim_ceiling = lane.get("claim_ceiling")
-            if not claim_ceiling:
-                findings.append(Finding("error", "lane-claim-ceiling", rel_manifest, f"lane {lane.get('id', '<missing>')} needs claim_ceiling"))
-            elif claim_ceiling not in PUBLIC_CAMPAIGN_CLAIM_LEVELS:
-                findings.append(Finding("error", "lane-claim-ceiling", rel_manifest, f"lane {lane.get('id', '<missing>')} claim_ceiling must be one of {sorted(PUBLIC_CAMPAIGN_CLAIM_LEVELS)}"))
+            lane_boundary = get_result_boundary(lane, legacy_key="claim_ceiling")
+            if not lane_boundary:
+                findings.append(Finding("error", "lane-result-boundary", rel_manifest, f"lane {lane.get('id', '<missing>')} needs result_boundary"))
+            elif lane_boundary not in PUBLIC_CAMPAIGN_RESULT_BOUNDARIES:
+                findings.append(Finding("error", "lane-result-boundary", rel_manifest, f"lane {lane.get('id', '<missing>')} result_boundary must be one of {sorted(PUBLIC_CAMPAIGN_RESULT_BOUNDARIES)}"))
 
     expected = manifest.get("expected_artifacts")
     if not isinstance(expected, list) or not expected:
@@ -777,22 +869,24 @@ def validate_campaign(campaign_dir: Path) -> tuple[bool, list[Finding]]:
     else:
         findings.append(Finding("warning", "missing-stage-contract", stage_path.as_posix(), "stage-contract.json is advised for GPU or long-running campaigns"))
 
-    jury_path = campaign_dir / "candidate-jury.example.json"
-    if jury_path.exists():
+    ranking_path = campaign_dir / "candidate-ranking.example.json"
+    legacy_ranking_path = campaign_dir / "candidate-ranking.example.json"
+    ranking_check_path = ranking_path if ranking_path.exists() else legacy_ranking_path
+    if ranking_check_path.exists():
         try:
-            jury = read_json(jury_path)
-            candidates = jury.get("candidates")
+            ranking = read_json(ranking_check_path)
+            candidates = ranking.get("candidates")
             if not isinstance(candidates, list):
-                findings.append(Finding("error", "jury-candidates", jury_path.as_posix(), "candidate jury must include candidates[]"))
+                findings.append(Finding("error", "ranking-candidates", ranking_check_path.as_posix(), "candidate ranking must include candidates[]"))
             else:
                 for candidate in candidates:
-                    candidate_claim = candidate.get("claim_level")
-                    if candidate_claim not in PUBLIC_CAMPAIGN_CLAIM_LEVELS:
-                        findings.append(Finding("error", "jury-claim-level", jury_path.as_posix(), f"candidate {candidate.get('id')} has invalid claim_level"))
-                    if candidate.get("evidence_mode") not in {"synthetic_demo", "public_data", "generated_candidate", "blocked", "insufficient_evidence"}:
-                        findings.append(Finding("error", "jury-evidence-mode", jury_path.as_posix(), f"candidate {candidate.get('id')} needs valid evidence_mode"))
+                    candidate_boundary = get_result_boundary(candidate)
+                    if candidate_boundary not in PUBLIC_CAMPAIGN_RESULT_BOUNDARIES:
+                        findings.append(Finding("error", "ranking-result-boundary", ranking_check_path.as_posix(), f"candidate {candidate.get('id')} has invalid result_boundary"))
+                    if get_source_posture(candidate) not in ALLOWED_SOURCE_POSTURES:
+                        findings.append(Finding("error", "ranking-source-posture", ranking_check_path.as_posix(), f"candidate {candidate.get('id')} needs valid source_posture"))
         except json.JSONDecodeError as exc:
-            findings.append(Finding("error", "invalid-jury-json", jury_path.as_posix(), str(exc)))
+            findings.append(Finding("error", "invalid-ranking-json", ranking_check_path.as_posix(), str(exc)))
 
     ok = not any(finding.severity == "error" for finding in findings)
     return ok, findings
@@ -818,7 +912,6 @@ def harness_check(root: Path) -> tuple[bool, list[Finding]]:
 
     for rel in [
         "skills/biosymphony-structure-factory/SKILL.md",
-        ".codex/skills/biosymphony-structure-factory/SKILL.md",
     ]:
         path = root / rel
         if not path.exists():
@@ -831,18 +924,12 @@ def harness_check(root: Path) -> tuple[bool, list[Finding]]:
             if not (root / target).exists():
                 findings.append(Finding("error", "stale-skill-reference", rel, f"skill references missing markdown file: {target}"))
 
-    codex_skill = root / ".codex/skills/biosymphony-structure-factory/SKILL.md"
-    portable_skill = root / "skills/biosymphony-structure-factory/SKILL.md"
-    if codex_skill.exists() and portable_skill.exists():
-        if codex_skill.read_text(encoding="utf-8") != portable_skill.read_text(encoding="utf-8"):
-            findings.append(Finding("error", "skill-copy-drift", portable_skill.relative_to(root).as_posix(), "portable skill must match the Codex skill"))
-
-    pack_path = root / "packs/issue-packs/binder-design-fast-path-v0/pack.yaml"
+    pack_path = root / "packs/task-packs/binder-design-fast-path-v0/pack.yaml"
     if pack_path.exists():
         text = pack_path.read_text(encoding="utf-8")
-        for needle in ["routing_label: sym:structure-factory", "claim_ceiling: computational_candidate", "issues:"]:
+        for needle in ["routing_label: sym:structure-factory", "result_boundary: computational_candidate", "issues:"]:
             if needle not in text:
-                findings.append(Finding("error", "issue-pack-contract", pack_path.relative_to(root).as_posix(), f"issue pack missing: {needle}"))
+                findings.append(Finding("error", "task-pack-contract", pack_path.relative_to(root).as_posix(), f"task pack missing: {needle}"))
 
     ok = not any(finding.severity == "error" for finding in findings)
     return ok, findings
@@ -881,7 +968,7 @@ def _collect_issue_ids(text: str) -> list[str]:
 
 TASK_RECIPES: list[dict[str, Any]] = [
     {
-        "task": "Create a public-safe Structure Factory campaign",
+        "task": "Create a Structure Factory campaign",
         "mode": "planning",
         "commands": [
             "bsf scaffold-campaign .runtime/my-demo --campaign-id my-demo --target-label '<public target>' --public-accession '<PDB:ID>' --window '<region>'",
@@ -891,7 +978,7 @@ TASK_RECIPES: list[dict[str, Any]] = [
         "remote_mutation": False,
     },
     {
-        "task": "Render tracker-neutral Symphony or Linear issue drafts",
+        "task": "Render tracker-neutral Symphony or Linear task drafts",
         "mode": "planning",
         "commands": ["bsf issue-dry-run examples/pd-l1-binder-design-public --out .runtime/pd-l1-issues"],
         "outputs": [".runtime/pd-l1-issues/*.md"],
@@ -912,11 +999,11 @@ TASK_RECIPES: list[dict[str, Any]] = [
             "bsf scaffold-campaign .runtime/my-demo --campaign-id my-demo --target-label '<public target>' --public-accession '<PDB:ID>' --window '<region>'",
             "bsf issue-dry-run .runtime/my-demo --out .runtime/my-demo-issues",
         ],
-        "outputs": ["campaign contract", "optional issue drafts", "explicit assumptions and hard gates"],
+        "outputs": ["campaign contract", "optional task drafts", "explicit assumptions and hard gates"],
         "remote_mutation": False,
     },
     {
-        "task": "Run public-release safety checks without provider access",
+        "task": "Run public-release checks without provider access",
         "mode": "release_review",
         "commands": ["make read-only-audit", "make public-switch-check"],
         "outputs": ["local validation logs", "ignored .runtime artifacts"],
@@ -960,15 +1047,20 @@ def capability_catalog(root: Path) -> dict[str, Any]:
             {
                 "path": _relative_to(root, path),
                 "campaign_id": data.get("campaign_id"),
-                "family": data.get("campaign_family"),
-                "run_profile": data.get("run_profile"),
-                "objective": data.get("scientific_objective"),
+                "family": public_text(data.get("campaign_family")),
+                "run_profile": public_text(data.get("run_profile")),
+                "objective": public_text(data.get("scientific_objective")),
                 "lane_count": len(data.get("lane_modules") or []),
                 "data_module_count": len(data.get("data_modules") or []),
                 "stage_contract_count": len(data.get("stage_contracts") or []),
                 "launch_manifest_count": len(data.get("launch_manifests") or []),
                 "providers": sorted(providers),
-                "claim_ceiling": screening_defaults.get("claim_ceiling") or policies.get("claim_ceiling"),
+                "result_boundary": public_text(
+                    screening_defaults.get("result_boundary")
+                    or policies.get("result_boundary")
+                    or screening_defaults.get("claim_ceiling")
+                    or policies.get("claim_ceiling")
+                ),
                 "operator_gate_signals": {
                     "allow_large_downloads": policies.get("allow_large_downloads"),
                     "allow_raw_cryoem_downloads": policies.get("allow_raw_cryoem_downloads"),
@@ -990,7 +1082,7 @@ def capability_catalog(root: Path) -> dict[str, Any]:
                 "campaign_id": example_path.name,
                 "title": None,
                 "mode": None,
-                "claim_level": None,
+                "result_boundary": None,
                 "privacy": None,
                 "target_label": None,
                 "public_accession": None,
@@ -1007,11 +1099,11 @@ def capability_catalog(root: Path) -> dict[str, Any]:
                         {
                             "kind": "campaign_manifest",
                             "campaign_id": data.get("campaign_id") or example_path.name,
-                            "title": data.get("title"),
-                            "mode": data.get("mode"),
-                            "claim_level": data.get("claim_level"),
+                            "title": public_text(data.get("title")),
+                            "mode": public_text(data.get("mode")),
+                            "result_boundary": public_text(get_result_boundary(data)),
                             "privacy": system.get("privacy"),
-                            "target_label": target.get("label"),
+                            "target_label": public_text(target.get("label")),
                             "public_accession": target.get("public_accession"),
                             "lane_count": len(data.get("lanes") or []),
                             "expected_artifact_count": len(data.get("expected_artifacts") or []),
@@ -1026,10 +1118,10 @@ def capability_catalog(root: Path) -> dict[str, Any]:
                         {
                             "kind": "screening_manifest",
                             "campaign_id": data.get("campaign_id") or example_path.name,
-                            "title": intent.get("natural_language_goal") or target.get("name"),
-                            "mode": intent.get("mode") or "screening",
-                            "claim_level": intent.get("claim_ceiling"),
-                            "target_label": target.get("name") or intent.get("target_hint"),
+                            "title": public_text(intent.get("natural_language_goal") or target.get("name")),
+                            "mode": public_text(intent.get("mode") or "screening"),
+                            "result_boundary": public_text(intent.get("result_boundary") or intent.get("claim_ceiling")),
+                            "target_label": public_text(target.get("name") or intent.get("target_hint")),
                         }
                     )
             if entry.get("title") is None and readme.exists():
@@ -1052,10 +1144,10 @@ def capability_catalog(root: Path) -> dict[str, Any]:
                 "path": _relative_to(root, path),
                 "contract_id": data.get("contract_id"),
                 "manifest_id": data.get("manifest_id"),
-                "execution_profile": data.get("execution_profile"),
+                "execution_profile": public_text(data.get("execution_profile")),
                 "stage_count": len(data.get("stages") or []),
                 "fail_closed": data.get("fail_closed"),
-                "success_claim": data.get("success_claim"),
+                "success_summary": public_text(data.get("success_summary") or data.get("success_claim")),
             }
         )
 
@@ -1075,20 +1167,20 @@ def capability_catalog(root: Path) -> dict[str, Any]:
             }
         )
 
-    issue_packs: list[dict[str, Any]] = []
-    for path in sorted((root / "packs" / "issue-packs").glob("*/pack.yaml")):
+    task_packs: list[dict[str, Any]] = []
+    for path in sorted((root / "packs" / "task-packs").glob("*/pack.yaml")):
         try:
             text = path.read_text(encoding="utf-8")
         except OSError as exc:
             findings.append(Finding("error", "unreadable-file", _relative_to(root, path), str(exc)))
             continue
-        issue_packs.append(
+        task_packs.append(
             {
                 "path": _relative_to(root, path),
                 "pack_id": _yaml_scalar(text, "pack_id"),
                 "title": _yaml_scalar(text, "title"),
                 "routing_label": _yaml_scalar(text, "routing_label"),
-                "claim_ceiling": _yaml_scalar(text, "claim_ceiling"),
+                "result_boundary": _yaml_scalar(text, "result_boundary") or _yaml_scalar(text, "claim_ceiling"),
                 "issue_count": len(_collect_issue_ids(text)),
                 "issue_ids": _collect_issue_ids(text),
             }
@@ -1105,7 +1197,7 @@ def capability_catalog(root: Path) -> dict[str, Any]:
         {"id": "examples-present", "ok": bool(example_campaigns), "count": len(example_campaigns)},
         {"id": "stage-contracts-present", "ok": bool(stage_contracts), "count": len(stage_contracts)},
         {"id": "provider-profiles-present", "ok": bool(provider_profiles), "count": len(provider_profiles)},
-        {"id": "issue-packs-present", "ok": bool(issue_packs), "count": len(issue_packs)},
+        {"id": "task-packs-present", "ok": bool(task_packs), "count": len(task_packs)},
         {"id": "recipes-present", "ok": bool(recipes), "count": len(recipes)},
     ]
     ok = not any(finding.severity == "error" for finding in findings) and all(check["ok"] for check in checks)
@@ -1118,14 +1210,14 @@ def capability_catalog(root: Path) -> dict[str, Any]:
             "example_campaigns": len(example_campaigns),
             "stage_contracts": len(stage_contracts),
             "provider_profiles": len(provider_profiles),
-            "issue_packs": len(issue_packs),
+            "task_packs": len(task_packs),
             "recipes": len(recipes),
             "task_recipes": len(TASK_RECIPES),
         },
         "checks": checks,
         "campaign_modules": campaign_modules,
         "example_campaigns": example_campaigns,
-        "issue_packs": issue_packs,
+        "task_packs": task_packs,
         "stage_contracts": stage_contracts,
         "provider_profiles": provider_profiles,
         "recipes": recipes,
@@ -1176,7 +1268,7 @@ def catalog_markdown(catalog: dict[str, Any]) -> str:
         f"- public examples: `{counts.get('example_campaigns', 0)}`",
         f"- stage contracts: `{counts.get('stage_contracts', 0)}`",
         f"- provider profiles: `{counts.get('provider_profiles', 0)}`",
-        f"- issue packs: `{counts.get('issue_packs', 0)}`",
+        f"- task packs: `{counts.get('task_packs', 0)}`",
         f"- recipes: `{counts.get('recipes', 0)}`",
         f"- task recipes: `{counts.get('task_recipes', 0)}`",
         "",
@@ -1208,7 +1300,7 @@ def catalog_markdown(catalog: dict[str, Any]) -> str:
     )
     lines.extend(
         _markdown_table(
-            ["Campaign", "Family", "Providers", "Lanes", "Data Modules", "Launch Manifests", "Claim Ceiling", "Path"],
+            ["Campaign", "Family", "Providers", "Lanes", "Data Modules", "Launch Manifests", "Result Boundary", "Path"],
             [
                 [
                     item.get("campaign_id"),
@@ -1217,7 +1309,7 @@ def catalog_markdown(catalog: dict[str, Any]) -> str:
                     item.get("lane_count"),
                     item.get("data_module_count"),
                     item.get("launch_manifest_count"),
-                    item.get("claim_ceiling"),
+                    item.get("result_boundary"),
                     item.get("path"),
                 ]
                 for item in catalog.get("campaign_modules", [])
@@ -1228,13 +1320,13 @@ def catalog_markdown(catalog: dict[str, Any]) -> str:
     lines.extend(["", "## Public Examples", ""])
     lines.extend(
         _markdown_table(
-            ["Example", "Kind", "Mode", "Claim Level", "Target Or Summary", "Path"],
+            ["Example", "Kind", "Mode", "Result Boundary", "Target Or Summary", "Path"],
             [
                 [
                     item.get("campaign_id"),
                     item.get("kind"),
                     item.get("mode"),
-                    item.get("claim_level"),
+                    item.get("result_boundary"),
                     item.get("target_label") or item.get("title"),
                     item.get("path"),
                 ]
@@ -1243,19 +1335,19 @@ def catalog_markdown(catalog: dict[str, Any]) -> str:
             ],
         )
     )
-    lines.extend(["", "## Issue Packs", ""])
+    lines.extend(["", "## Task Packs", ""])
     lines.extend(
         _markdown_table(
-            ["Pack", "Issues", "Claim Ceiling", "Routing Label", "Path"],
+            ["Pack", "Tasks", "Result Boundary", "Routing Label", "Path"],
             [
                 [
                     item.get("pack_id"),
                     item.get("issue_count"),
-                    item.get("claim_ceiling"),
+                    item.get("result_boundary"),
                     item.get("routing_label"),
                     item.get("path"),
                 ]
-                for item in catalog.get("issue_packs", [])
+                for item in catalog.get("task_packs", [])
                 if isinstance(item, dict)
             ],
         )
@@ -1341,7 +1433,7 @@ def render_issue(
 
 ## Summary
 
-Prepare one public-safe slice of `{campaign_id}` for agent execution, review, or tracker import. This draft is provider-neutral until an operator explicitly authorizes local, cloud, or RunPod execution.
+Prepare one scoped slice of `{campaign_id}` for agent execution, review, or tracker import. This draft is provider-neutral until an operator explicitly authorizes local, cloud, or RunPod execution.
 
 ## Inputs
 
@@ -1351,7 +1443,7 @@ Prepare one public-safe slice of `{campaign_id}` for agent execution, review, or
 - target: `{target.get("label", "unknown")}`
 - public accession: `{target.get("public_accession", "unknown")}`
 - target window: `{target.get("window", "unknown")}`
-- claim ceiling: `computational_candidate`
+- result boundary: `computational_candidate`
 
 ## Expected Artifacts
 
@@ -1363,7 +1455,7 @@ Prepare one public-safe slice of `{campaign_id}` for agent execution, review, or
 - artifact granularity: `per-campaign`
 - progress ledger: `.runtime/{campaign_id}/{issue_id}/stage-progress.jsonl`
 - resume command: `PYTHONPATH=src python3 -m biosymphony_structure_factory.cli validate {campaign_path}`
-- partial success policy: blocked, failed, or incomplete lanes must downgrade the final outcome instead of claiming success.
+- partial success policy: blocked, failed, or incomplete lanes must close honestly instead of marking success.
 
 ## Provider / Execution Profile
 
@@ -1398,8 +1490,8 @@ PYTHONPATH=src python3 -m biosymphony_structure_factory.cli audit .
 - worker lane: `codex`
 - closeout state: `In Review`
 - final comment must include: `<!-- symphony-outcome -->`
-- evidence mode: `report_only`
-- claim level: `planning`
+- source posture: `report_only`
+- result boundary: `planning`
 - artifact packet: `.runtime/{campaign_id}/{issue_id}`
 - hash ledger: `n/a`
 - cost report: `n/a`
@@ -1416,8 +1508,8 @@ Blocked by: {dependency}
 
 ## Risk Notes
 
-- Computational candidate evidence only.
-- No wet-lab, binding, therapeutic, safety, or clinical claims.
+- Computational candidate outputs only.
+- No wet-lab, binding, therapeutic, safety, or clinical conclusions.
 - GPU execution requires separate operator authorization, budget, cleanup policy, and runtime license/use-context review.
 
 ## Complexity
@@ -1433,7 +1525,7 @@ issue_id: {issue_id}
 touched_areas:
 {schema_touched}
 complexity: medium
-claim_ceiling: computational_candidate
+result_boundary: computational_candidate
 -->
 	"""
 
@@ -1442,14 +1534,14 @@ IssueSpec = tuple[str, str, list[str], list[str]]
 
 
 def issue_plan_for_campaign(campaign: dict[str, Any]) -> list[IssueSpec]:
-    mode = campaign.get("mode", "binder-design")
+    mode = normalize_mode(campaign.get("mode", "binder-design"))
     if mode == "binder-design":
         return [
             (
                 "BSF-BINDER-W00",
-                "Target Window And Claim Contract",
-                ["campaign-manifest.json", "target-window-dossier.json", "claim-ledger.md"],
-                ["Target accession and residue window are explicit.", "Claim ceiling is computational candidate.", "No private data is referenced."],
+                "Target Window And Run Boundaries",
+                ["campaign-manifest.json", "target-window.json", "validation-notes.md"],
+                ["Target accession and residue window are explicit.", "Result boundary is computational candidate.", "No private data is referenced."],
             ),
             (
                 "BSF-BINDER-W01",
@@ -1459,65 +1551,65 @@ def issue_plan_for_campaign(campaign: dict[str, Any]) -> list[IssueSpec]:
             ),
             (
                 "BSF-BINDER-W02",
-                "Cofold Jury Contract",
-                ["candidate-jury.example.json", "stage-contract.json"],
-                ["Candidate jury schema validates.", "Top-candidate ranking is evidence, not a binding claim."],
+                "Cofold Ranking Contract",
+                ["candidate-ranking.example.json", "stage-contract.json"],
+                ["Candidate ranking schema validates.", "Top-candidate ranking is not treated as binding proof."],
             ),
             (
                 "BSF-BINDER-W03",
-                "Report And Closeout",
-                ["README.md", "claim-ledger.md"],
-                ["Public report states non-claims.", "Failed or partial lanes downgrade instead of claiming success."],
+                "Report And Review",
+                ["README.md", "validation-notes.md"],
+                ["Public report stays inside the stated run boundary.", "Failed or partial lanes close honestly instead of marking success."],
             ),
         ]
-    if mode == "model-jury":
+    if mode == "model-comparison":
         return [
             (
-                "BSF-JURY-W00",
-                "Evidence Intake And Claim Contract",
-                ["campaign-manifest.json", "target-window-dossier.json", "claim-ledger.md"],
-                ["Compared models or structures are public or synthetic.", "Claim ceiling and non-claims are explicit."],
+                "BSF-MODEL-W00",
+                "Model Input And Run Boundaries",
+                ["campaign-manifest.json", "target-window.json", "validation-notes.md"],
+                ["Compared models or structures are public or synthetic.", "Run boundaries are explicit."],
             ),
             (
-                "BSF-JURY-W01",
+                "BSF-MODEL-W01",
                 "Method Disagreement And Failure Rows",
-                ["stage-contract.json", "candidate-jury.example.json"],
-                ["Jury rows preserve method disagreement.", "Failures and blocked rows are represented instead of dropped."],
+                ["stage-contract.json", "candidate-ranking.example.json"],
+                ["Comparison rows preserve method disagreement.", "Failures and blocked rows are represented instead of dropped."],
             ),
             (
-                "BSF-JURY-W02",
-                "Review Report And Claim Audit",
-                ["README.md", "claim-ledger.md"],
-                ["Report separates evidence from interpretation.", "Unsupported validation or binding claims are absent."],
+                "BSF-MODEL-W02",
+                "Review Report",
+                ["README.md", "validation-notes.md"],
+                ["Report separates tool outputs from interpretation.", "Unsupported validation or binding statements are absent."],
             ),
         ]
-    if mode == "structure-dossier":
+    if mode == "structure-mapping":
         return [
             (
-                "BSF-DOSSIER-W00",
-                "Accession And Evidence Contract",
-                ["campaign-manifest.json", "target-window-dossier.json", "claim-ledger.md"],
-                ["Public accession, entity/window, and evidence mode are explicit.", "Raw-data or reconstruction work is handed off instead of claimed here."],
+                "BSF-MAP-W00",
+                "Accession And Structure Scope",
+                ["campaign-manifest.json", "target-window.json", "validation-notes.md"],
+                ["Public accession and entity/window are explicit.", "Raw-data or reconstruction work is handed off instead of owned here."],
             ),
             (
-                "BSF-DOSSIER-W01",
+                "BSF-MAP-W01",
                 "Validation And Figure Plan",
-                ["stage-contract.json", "target-window-dossier.json"],
-                ["Expected validation artifacts are listed.", "Figures are planned as report artifacts, not evidence by themselves."],
+                ["stage-contract.json", "target-window.json"],
+                ["Expected validation artifacts are listed.", "Figures are planned as report artifacts, not standalone proof."],
             ),
             (
-                "BSF-DOSSIER-W02",
-                "Dossier Report And Closeout",
-                ["README.md", "claim-ledger.md"],
-                ["Dossier states provenance and downgrade conditions.", "Missing or partial evidence closes as blocked or insufficient_evidence."],
+                "BSF-MAP-W02",
+                "Mapping Report And Review",
+                ["README.md", "validation-notes.md"],
+                ["Report states provenance and review conditions.", "Missing or partial outputs close as blocked or insufficient_support."],
             ),
         ]
     if mode == "screening":
         return [
             (
                 "BSF-SCREEN-W00",
-                "Scope Fanout And Claim Contract",
-                ["campaign-manifest.json", "target-window-dossier.json", "claim-ledger.md"],
+                "Scope Fanout And Run Boundaries",
+                ["campaign-manifest.json", "target-window.json", "validation-notes.md"],
                 ["Receptor/ligand scope is public or synthetic.", "Fanout and cost-bearing work require an operator gate."],
             ),
             (
@@ -1528,15 +1620,15 @@ def issue_plan_for_campaign(campaign: dict[str, Any]) -> list[IssueSpec]:
             ),
             (
                 "BSF-SCREEN-W02",
-                "Results Schema And Candidate Dossiers",
-                ["stage-contract.json", "claim-ledger.md"],
-                ["Result tables preserve failures and method disagreement.", "Candidate dossiers stay computational_candidate or lower."],
+                "Results Schema And Candidate Reports",
+                ["stage-contract.json", "validation-notes.md"],
+                ["Result tables preserve failures and method disagreement.", "Candidate reports stay computational_candidate or lower."],
             ),
             (
                 "BSF-SCREEN-W03",
                 "Active Learning And Closeout",
-                ["README.md", "claim-ledger.md"],
-                ["Follow-on tranche criteria are stated.", "Partial, fixture, or dry-run evidence is downgraded."],
+                ["README.md", "validation-notes.md"],
+                ["Follow-on tranche criteria are stated.", "Partial, fixture, or dry-run outputs are labeled honestly."],
             ),
         ]
     raise ValueError(f"unsupported campaign mode for issue dry-run: {mode}")
@@ -1684,10 +1776,10 @@ def cmd_doctor(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="bsf", description="Public-safe BioSymphony Structure Factory validator")
+    parser = argparse.ArgumentParser(prog="bsf", description="BioSymphony Structure Factory public validator")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    audit = subparsers.add_parser("audit", help="scan a repo tree for public-safety blockers")
+    audit = subparsers.add_parser("audit", help="scan a repo tree for release blockers")
     audit.add_argument("root", nargs="?", default=".")
     audit.set_defaults(func=cmd_audit)
 
@@ -1695,7 +1787,7 @@ def build_parser() -> argparse.ArgumentParser:
     validate.add_argument("campaign_dir")
     validate.set_defaults(func=cmd_validate)
 
-    dry_run = subparsers.add_parser("issue-dry-run", help="render tracker-neutral Symphony/Linear issue drafts")
+    dry_run = subparsers.add_parser("issue-dry-run", help="render tracker-neutral Symphony/Linear task drafts")
     dry_run.add_argument("campaign_dir")
     dry_run.add_argument("--out", required=True)
     dry_run.set_defaults(func=cmd_issue_dry_run)
@@ -1704,13 +1796,13 @@ def build_parser() -> argparse.ArgumentParser:
     harness.add_argument("root", nargs="?", default=".")
     harness.set_defaults(func=cmd_harness_check)
 
-    catalog = subparsers.add_parser("catalog", help="summarize available campaigns, examples, issue packs, and provider contracts")
+    catalog = subparsers.add_parser("catalog", help="summarize available campaigns, examples, task templates, and provider contracts")
     catalog.add_argument("root", nargs="?", default=".")
     catalog.add_argument("--format", choices=["json", "markdown"], default="json", help="output format")
     catalog.add_argument("--out", help="optional path to also write the rendered catalog")
     catalog.set_defaults(func=cmd_catalog)
 
-    scaffold = subparsers.add_parser("scaffold-campaign", help="create a public-safe starter campaign skeleton")
+    scaffold = subparsers.add_parser("scaffold-campaign", help="create a starter campaign skeleton")
     scaffold.add_argument("out_dir")
     scaffold.add_argument("--campaign-id", required=True, help="lowercase slug, e.g. pd-l1-binder-public")
     scaffold.add_argument("--target-label", required=True, help="human-readable target label")
@@ -1718,7 +1810,7 @@ def build_parser() -> argparse.ArgumentParser:
     scaffold.add_argument("--window", required=True, help="residue/window/region description")
     scaffold.add_argument(
         "--mode",
-        choices=["binder-design", "model-jury", "structure-dossier", "screening"],
+        choices=CAMPAIGN_MODES,
         default="binder-design",
     )
     scaffold.add_argument("--force", action="store_true", help="allow writing into a non-empty output directory")

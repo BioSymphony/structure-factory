@@ -341,7 +341,7 @@ def stage_emit_artifacts(rec: Recorder, run_id: str, host: dict, source: dict, d
     }
     (rec.root / "versions.json").write_text(json.dumps(versions, indent=2, sort_keys=True) + "\n")
 
-    claim_ledger = {
+    validation_ledger = {
         "schema_version": 1,
         "run_id": run_id,
         "campaign_id": "genie3-no-download-toolcheck",
@@ -361,7 +361,7 @@ def stage_emit_artifacts(rec: Recorder, run_id: str, host: dict, source: dict, d
         ],
         "notes": "Toolcheck only. No weights downloaded. No inference. No design output.",
     }
-    (rec.root / "claim_ledger.json").write_text(json.dumps(claim_ledger, indent=2, sort_keys=True) + "\n")
+    (rec.root / "validation_ledger.json").write_text(json.dumps(validation_ledger, indent=2, sort_keys=True) + "\n")
 
     md = [
         "# Genie 3 No-Download Toolcheck Report",
@@ -371,7 +371,7 @@ def stage_emit_artifacts(rec: Recorder, run_id: str, host: dict, source: dict, d
         f"- pinned_commit: `{GENIE3_PINNED_SHA}`",
         f"- pinned_hf_revision: `{GENIE3_HF_REVISION}`",
         f"- overall_outcome: **{'OK' if overall_ok else 'PARTIAL/FAILED'}**",
-        f"- claim_level: **{claim_ledger['claim_level']}**",
+        f"- claim_level: **{validation_ledger['claim_level']}**",
         "",
         "## Stages",
         "",
@@ -424,7 +424,7 @@ def stage_emit_artifacts(rec: Recorder, run_id: str, host: dict, source: dict, d
     (rec.root / "artifact_index.json").write_text(json.dumps(index, indent=2, sort_keys=True) + "\n")
 
     rec.stage("emit_artifacts", "completed", overall_ok=overall_ok)
-    return {"overall_ok": overall_ok, "claim_level": claim_ledger["claim_level"]}
+    return {"overall_ok": overall_ok, "claim_level": validation_ledger["claim_level"]}
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -8,14 +8,14 @@
   "partial_summary": {
     "path": "partial-summary.json",
     "write_on": ["failed", "partial", "timeout"],
-    "include": ["completed_stages", "failed_stage", "resume_command", "artifact_status", "claim_level"]
+      "include": ["completed_stages", "failed_stage", "resume_command", "artifact_status", "result_boundary"]
   },
   "stages": [
     {
       "stage_id": "target_intake",
-      "description": "Verify public target accession, chain, window, and non-claims.",
+      "description": "Verify public target accession, chain, window, and run boundaries.",
       "required": true,
-      "expected_outputs": ["target-window-dossier.json"],
+      "expected_outputs": ["target-window.json"],
       "timeout_minutes": 5,
       "fail_closed": true
     },
@@ -36,26 +36,26 @@
       "fail_closed": true
     },
     {
-      "stage_id": "cofold_jury",
-      "description": "Cofold candidates and synthesize candidate jury with failures preserved.",
+      "stage_id": "cofold_ranking",
+      "description": "Cofold candidates and synthesize candidate ranking with failures preserved.",
       "required": true,
-      "expected_outputs": ["candidate-jury.json"],
+      "expected_outputs": ["candidate-ranking.json"],
       "timeout_minutes": 90,
       "fail_closed": true
     },
     {
-      "stage_id": "claim_audit",
-      "description": "Emit claim ledger and report with computational-candidate ceiling.",
+      "stage_id": "review_report",
+      "description": "Emit validation notes and report within the computational-candidate boundary.",
       "required": true,
-      "expected_outputs": ["claim-ledger.md", "report.md"],
+      "expected_outputs": ["validation-notes.md", "report.md"],
       "timeout_minutes": 10,
       "fail_closed": true
     }
   ],
-  "claim_levels_allowed": ["computational_candidate", "blocked", "insufficient_evidence"],
+  "result_boundaries_allowed": ["computational_candidate", "blocked", "insufficient_support"],
   "no_false_success_notes": [
     "Provider launch is not success.",
-    "Candidate jury is not a binding claim.",
+    "Candidate ranking is not binding proof.",
     "Failed stages must downgrade the closeout."
   ]
 }

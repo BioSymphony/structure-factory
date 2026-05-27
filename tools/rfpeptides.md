@@ -32,7 +32,7 @@ Use the BioSymphony Structure Factory skill with the RFpeptides tool card. For t
 
 - Generated peptide backbones (PDB) outside git, often shown as ribbon/cartoon rather than all-atom because side chains come from the downstream MPNN pass.
 - Per-design constraint satisfaction summary: cyclization closure RMSD, hotspot contact count, clash count.
-- Sequence-design handoff (typically ProteinMPNN in cyclic mode) and cofold-jury input manifest.
+- Sequence-design handoff (typically ProteinMPNN in cyclic mode) and cofold ranking input manifest.
 
 ## Repo And References
 
@@ -64,4 +64,4 @@ Use the BioSymphony Structure Factory skill with the RFpeptides tool card. For t
 - Do not commit generated PDBs, trajectories, or candidate batches.
 - Keep claims at `computational_candidate` until orthogonal cofold + chemistry review.
 - Rebuild public launch packets from tracked source; never publish embedded payload manifests with private synthesis routes.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on cyclic peptide design and the RFdiffusion family. Record the version pin and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on cyclic peptide design and the RFdiffusion family. Record the version pin and the date of the check in the candidate ranking or validation notes.

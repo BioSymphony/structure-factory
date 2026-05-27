@@ -1,15 +1,15 @@
 # Structure Factory Artifact Contract
 
-Serious Structure Factory campaigns must produce a dossier that can be reviewed without relying on chat history.
+Serious Structure Factory campaigns must produce a report that can be reviewed without relying on chat history.
 
 ## Required Files
 
 ```text
-structure-dossier/
-  dossier_manifest.json
+structure-report/
+  report_manifest.json
   run_manifest.json
   provenance.md
-  claim_ledger.md
+  validation_ledger.md
   methods.md
   validation/summary.md
   figures/README.md
@@ -41,13 +41,13 @@ Every biological or structural claim must include:
 
 Claims about density, ligands, affinity, conformational states, or mechanism require explicit validation evidence.
 
-## No-Download Smoke Dossier
+## No-Download Smoke Report
 
-The first RunPod prep run emits a minimal dossier shape without biological data:
+The first RunPod prep run emits a minimal report shape without biological data:
 
 ```text
-structure-dossier/
-  dossier_manifest.json
+structure-report/
+  report_manifest.json
   run_manifest.json
   validation/toolcheck.json
   validation/gpu.json

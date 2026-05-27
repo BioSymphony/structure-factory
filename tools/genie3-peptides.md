@@ -17,7 +17,7 @@ Public scaffold: yes. Runtime execution: review required for source, weights, de
 ## Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill with the Genie3 tool card. For target <PDB:ID> with target-window dossier <path>, prepare a peptide or miniprotein generation lane. Respect the length floor near 50 aa, specify hotspot and extended interface residue sets, the binder length range, the ProteinMPNN sequence pass, and the Boltz + Chai cofold handoff.
+Use the BioSymphony Structure Factory skill with the Genie3 tool card. For target <PDB:ID> with target-window report <path>, prepare a peptide or miniprotein generation lane. Respect the length floor near 50 aa, specify hotspot and extended interface residue sets, the binder length range, the ProteinMPNN sequence pass, and the Boltz + Chai cofold handoff.
 ```
 
 ## Practical Boundary
@@ -26,7 +26,7 @@ Treat very short peptides (under ~30 aa) as out-of-distribution until a campaign
 
 ## Typical Inputs
 
-- Public target structure or target-window dossier.
+- Public target structure or target-window file.
 - Hotspot and extended interface residue sets on the target.
 - Binder length range (`50-100` typical for miniproteins).
 - Runtime config generated from a manifest (problem JSON + target dataset).
@@ -38,7 +38,7 @@ Treat very short peptides (under ~30 aa) as out-of-distribution until a campaign
 - Generated backbone candidates (PDB) outside git, under `<rootdir>/<selection>/pdbs/<selection>_<sample_idx>.pdb`.
 - Generation manifest with seeds, config, source refs, weight refs, and execution time.
 - Downstream ProteinMPNN sequence-design input.
-- Cofold jury input manifest.
+- Cofold ranking input manifest.
 
 ## Repo And References
 
@@ -65,12 +65,12 @@ Treat very short peptides (under ~30 aa) as out-of-distribution until a campaign
 - `genie3 generate` writes outputs to `<rootdir>/<selection>/pdbs/<selection>_<sample_idx>.pdb`, not the README-documented `results/v0_success/successful_complexes/`. Search the entire `<rootdir>/<cid>/` subtree.
 - The binderbench dataset layout requires `problems/<sel>.json` plus `targets/{pdb,fasta,msa}/<sel>{,-chain_X}.{pdb,fasta,a3m}`. The README's per-problem JSON shape is correct; the surrounding layout is non-obvious.
 - Boltz cofold downstream needs `numpy < 2.2` due to its numba dependency, but Genie 3's `pip install -e .` upgrades numpy past 2.1. Re-pin numpy inside the Boltz stage itself, not just at startup.
-- HuggingFace weights revision pinning is required for reproducibility; record the revision in the candidate jury alongside the seed.
+- HuggingFace weights revision pinning is required for reproducibility; record the revision in the candidate ranking alongside the seed.
 
 ## Gates
 
 - Weight download requires operator authorization.
 - Public MSA service calls are allowed for public targets only.
-- Candidate claims require cofold, artifact, provenance, and claim-ledger checks before promotion.
-- Cap every candidate jury at `computational_candidate` until independent validation exists.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin (Genie version + HuggingFace weights revision) and the date of the check in the candidate jury.
+- Candidate claims require cofold, artifact, provenance, and validation-ledger checks before promotion.
+- Cap every candidate ranking at `computational_candidate` until independent validation exists.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin (Genie version + HuggingFace weights revision) and the date of the check in the candidate ranking or validation notes.

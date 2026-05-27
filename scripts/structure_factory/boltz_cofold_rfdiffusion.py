@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Boltz cofold (RFdiffusion backbone + MPNN sequence) -> candidate_jury.json."""
+"""Boltz cofold (RFdiffusion backbone + MPNN sequence) -> candidate_ranking.json."""
 
 from __future__ import annotations
 
@@ -260,7 +260,7 @@ def cofold_one(
     return rec
 
 
-def build_jury_row(
+def build_ranking_row(
     candidate_id: str,
     design_id: str,
     seq_index: int,
@@ -270,7 +270,7 @@ def build_jury_row(
     cofold_dir: Path,
     cofold_rec: dict[str, Any],
 ) -> dict[str, Any]:
-    """Single jury row matching the candidate_jury.json schema."""
+    """Single ranking row matching the candidate_ranking.json schema."""
     iptm = cofold_rec.get("interface_confidence")
     summary = cofold_rec.get("confidence_summary") or {}
     return {
@@ -319,9 +319,9 @@ def main() -> int:
                     help="Path to Boltz weights cache.")
     ap.add_argument("--per-cofold-timeout", type=int, default=900,
                     help="Per-cofold boltz timeout in seconds (default 2400).")
-    ap.add_argument("--jury-output", type=Path, default=None,
-                    help="Override candidate_jury.json output path "
-                         "(default: <artifact-root>/candidate_jury.json).")
+    ap.add_argument("--ranking-output", type=Path, default=None,
+                    help="Override candidate_ranking.json output path "
+                         "(default: <artifact-root>/candidate_ranking.json).")
     args = ap.parse_args()
 
     artifact_root: Path = args.artifact_root.resolve()
@@ -350,7 +350,7 @@ def main() -> int:
     rfd_manifest_path = rfdiff_dir / "rfdiffusion_manifest.json"
     rfd_manifest = load_json(rfd_manifest_path) if rfd_manifest_path.is_file() else {}
 
-    jury_rows: list[dict[str, Any]] = []
+    ranking_rows: list[dict[str, Any]] = []
     cofolds_run = 0
     skipped_designs: list[str] = []
 
@@ -365,7 +365,7 @@ def main() -> int:
             continue
         seqs = mpnn_by_design.get(design_id, [])[: args.max_seqs_per_design]
         if not seqs:
-            jury_rows.append({
+            ranking_rows.append({
                 "candidate_id": f"rfdiff-{design_idx + 1:03d}-s0",
                 "designer": DESIGNER,
                 "design_id": design_id,
@@ -409,7 +409,7 @@ def main() -> int:
                 "recorded_at": utc_iso(),
             })
             write_json(cofold_dir / "cofold_record.json", cofold_rec)
-            row = build_jury_row(
+            row = build_ranking_row(
                 candidate_id=candidate_id,
                 design_id=design_id,
                 seq_index=seq_index,
@@ -419,7 +419,7 @@ def main() -> int:
                 cofold_dir=cofold_dir,
                 cofold_rec=cofold_rec,
             )
-            jury_rows.append(row)
+            ranking_rows.append(row)
             cofolds_run += 1
             iptm_str = (f"{row['interface_confidence']:.4f}"
                         if isinstance(row.get("interface_confidence"), (int, float))
@@ -427,11 +427,11 @@ def main() -> int:
             print(f"[boltz_cofold_rfdiffusion] <<< {candidate_id} "
                   f"status={row['boltz_status']} iptm={iptm_str}", flush=True)
 
-    runs_ok = sum(1 for r in jury_rows if r.get("boltz_status") == "run")
-    runs_fail = sum(1 for r in jury_rows if r.get("boltz_status") == "failed")
-    runs_skip = sum(1 for r in jury_rows if r.get("boltz_status") == "skipped")
+    runs_ok = sum(1 for r in ranking_rows if r.get("boltz_status") == "run")
+    runs_fail = sum(1 for r in ranking_rows if r.get("boltz_status") == "failed")
+    runs_skip = sum(1 for r in ranking_rows if r.get("boltz_status") == "skipped")
 
-    jury = {
+    ranking = {
         "schema_version": 1,
         "campaign_id": CAMPAIGN_ID,
         "target_window": TARGET_WINDOW_ID,
@@ -451,21 +451,21 @@ def main() -> int:
             "per_cofold_timeout_seconds": args.per_cofold_timeout,
         },
         "stats": {
-            "total_rows": len(jury_rows),
+            "total_rows": len(ranking_rows),
             "cofolds_run": cofolds_run,
             "boltz_run": runs_ok,
             "boltz_failed": runs_fail,
             "boltz_skipped": runs_skip,
             "designs_skipped_by_cap": skipped_designs,
         },
-        "candidates": jury_rows,
+        "candidates": ranking_rows,
         "synthesized_at": utc_iso(),
     }
-    jury_path: Path = args.jury_output or (artifact_root / "candidate_jury.json")
-    write_json(jury_path, jury)
+    ranking_path: Path = args.ranking_output or (artifact_root / "candidate_ranking.json")
+    write_json(ranking_path, ranking)
 
-    print(f"[boltz_cofold_rfdiffusion] wrote {jury_path} "
-          f"rows={len(jury_rows)} run={runs_ok} failed={runs_fail} skipped={runs_skip}",
+    print(f"[boltz_cofold_rfdiffusion] wrote {ranking_path} "
+          f"rows={len(ranking_rows)} run={runs_ok} failed={runs_fail} skipped={runs_skip}",
           flush=True)
     # Always exit 0 — per-candidate failures are recorded, not fatal.
     return 0

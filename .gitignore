@@ -25,7 +25,7 @@ artifacts/
 outputs/
 logs/
 runpod-runs/
-figure-dossiers/
+figure-reports/
 scratch/
 *.log
 *.out
@@ -35,10 +35,6 @@ slurm-*.out
 *.local.json
 campaigns/pd-l1-pd1-binder-design/report/*.html
 campaigns/pd-l1-pd1-binder-design/visuals/v[0-9]*/
-campaigns/telomerase-holoenzyme-binder-design/report/*.html
-campaigns/telomerase-holoenzyme-binder-design/report/candidates.json
-campaigns/telomerase-holoenzyme-binder-design/visuals/v[0-9]*/
-campaigns/telomerase-holoenzyme-binder-design/visuals/*/videos/
 
 # Archives and media
 *.tar

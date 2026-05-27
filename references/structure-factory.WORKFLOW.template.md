@@ -49,7 +49,7 @@ codex:
 
 ## Public Operator Prerequisites
 
-This template is a public-safe starting point. Before using it with a real
+This template is a public starting point. Before using it with a real
 orchestrator, replace the project slug, branch/ref, workspace root, and Codex
 home placeholders with operator-owned values.
 
@@ -58,7 +58,7 @@ Required outside this repo:
 - Linear API key or another tracker adapter
 - Symphony workspace root
 - Codex home for worker sessions
-- pushed public-safe repo ref for workers to clone
+- pushed public repo ref for workers to clone
 - private/operator-gated provider launcher for any paid cloud mutation
 
 Without that private/operator stack, use this file as a workflow shape only and
@@ -74,12 +74,12 @@ Body:
 ## Required behavior
 
 - Read `AGENTS.md`, `README.md`, and relevant campaign/module docs before editing.
-- Use the repo-local `.codex/skills/biosymphony-structure-factory` skill when relevant.
+- Use `skills/biosymphony-structure-factory/SKILL.md` as the repo-local agent-instruction entry point when relevant.
 - Keep changes bounded to the issue `## Touched Areas`.
 - Do not launch RunPod, local heavy jobs, SSH/HPC jobs, cloud/neocloud instances, download raw EMPIAR data, install restricted tools, or write secrets from the worker shell. For authorized RunPod smokes, validate and prepare a launch request marker for trusted host-side closeout.
 - Run validation commands exactly as written.
 - Treat RunPod as the blessed remote path, but keep campaign science provider-neutral and preserve input-audit plus contract-self-check gates for every backend.
 - Use `$symphony-linear` for Linear comments, state changes, and handoff metadata.
 - Move completed non-RunPod prep issues directly to `Done` after self-review and validation. For trusted RunPod smokes, do not move the issue to `Done`; the host-side `after_run` closeout owns the final state after artifact proof and cleanup.
-- Write `.symphony-runpod-launch-request.json` only after local validation passes. It must include issue identifier, manifest path, max spend, requested action `create_verify_cleanup`, and claim level.
+- Write `.symphony-runpod-launch-request.json` only after local validation passes. It must include issue identifier, manifest path, max spend, requested action `create_verify_cleanup`, and result boundary.
 - Post a final Linear comment with a `<!-- symphony-outcome -->` block containing status, files touched, validation summary, and suggested action.

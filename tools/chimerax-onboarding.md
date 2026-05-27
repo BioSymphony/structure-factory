@@ -129,4 +129,4 @@ If yours doesn't, re-read [`chimerax-peptide-viz.md`](chimerax-peptide-viz.md) â
 - Reject screenshot-only closeout for real render lanes.
 - Keep generated render batches out of git; publish only curated summaries or small reviewed images.
 - Pre-stage the ChimeraX `.deb` via an operator-side transfer; the UCSF CGI cannot be reached headlessly.
-- Run a currency check before any paid render lane: upstream ChimeraX release notes (new commands, deprecated commands like `modeOldSpline`) and recent rendering / publication-figure preprints. Record the ChimeraX version and the date of the check in the candidate jury.
+- Run a currency check before any paid render lane: upstream ChimeraX release notes (new commands, deprecated commands like `modeOldSpline`) and recent rendering / publication-figure preprints. Record the ChimeraX version and the date of the check in the candidate ranking or validation notes.

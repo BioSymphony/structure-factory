@@ -15,8 +15,8 @@ PROVIDER_ARTIFACT_ROOT ?= .runtime/provider-artifacts/example-run
 	screening-module-check screening-manifest-check \
 	screening-schema-check screening-fanout-estimate screening-fixture-run \
 	screening-active-learning screening-results-check screening-check \
-	provider-adapter-dry-run-check issue-check issue-file-check demo-t2r14-check \
-	demo-poltheta-prep-check demo-structure-jury-prep-check \
+	provider-adapter-dry-run-check issue-check issue-file-check demo-t2r14-check demo-t2r14-report-check \
+	demo-poltheta-prep-check demo-poltheta-report-prep-check demo-structure-ranking-prep-check demo-structure-comparison-prep-check \
 	launch-bundle \
 	demo-genie3-toolcheck-manifest demo-genie3-toolcheck-bridge-validate \
 	demo-genie3-toolcheck-bridge-prepare demo-genie3-toolcheck-execution-packet \
@@ -196,32 +196,38 @@ provider-adapter-dry-run-check:
 	$(PYTHON) scripts/structure_factory/provider_adapter_dry_run.py examples/screening-superpowers/provider-run-spec.json --out .runtime/provider-adapter-dry-run --json
 
 demo-t2r14-check:
-	$(PYTHON) scripts/structure_factory/t2r14_open_dossier.py --out .runtime/t2r14-open-dossier-local/runpod-execution --json
-	$(PYTHON) scripts/structure_factory/build_t2r14_bridge_manifest.py
+	$(PYTHON) scripts/structure_factory/t2r14_structure_report.py --out .runtime/t2r14-structure-report-local/runpod-execution --json
+	$(PYTHON) scripts/structure_factory/build_t2r14_report_bridge_manifest.py
 	@if command -v runpod-bridge >/dev/null 2>&1; then \
-		runpod-bridge validate-manifest runpod/bridge-manifests/t2r14-open-dossier.json --json; \
-		runpod-bridge prepare runpod/bridge-manifests/t2r14-open-dossier.json --out-dir .runtime/t2r14-open-dossier-packet --json; \
+		runpod-bridge validate-manifest .runtime/bridge-manifests/t2r14-structure-report.json --json; \
+		runpod-bridge prepare .runtime/bridge-manifests/t2r14-structure-report.json --out-dir .runtime/t2r14-structure-report-packet --json; \
 	else \
-		echo "runpod-bridge not installed; local dossier and manifest builder completed."; \
+			echo "runpod-bridge not installed; local report and manifest builder completed."; \
 	fi
+
+demo-t2r14-report-check: demo-t2r14-check
 
 demo-poltheta-prep-check:
-	$(PYTHON) scripts/structure_factory/build_poltheta_bridge_manifest.py
+	$(PYTHON) scripts/structure_factory/build_poltheta_report_bridge_manifest.py
 	@if command -v runpod-bridge >/dev/null 2>&1; then \
-		runpod-bridge validate-manifest runpod/bridge-manifests/poltheta-map-model-dossier.json --json; \
-		runpod-bridge prepare runpod/bridge-manifests/poltheta-map-model-dossier.json --out-dir .runtime/poltheta-map-model-packet --json; \
+		runpod-bridge validate-manifest .runtime/bridge-manifests/poltheta-map-model-report.json --json; \
+		runpod-bridge prepare .runtime/bridge-manifests/poltheta-map-model-report.json --out-dir .runtime/poltheta-map-model-packet --json; \
 	else \
-		echo "runpod-bridge not installed; public manifest builder completed. Full dossier prep may require public map download."; \
+		echo "runpod-bridge not installed; public manifest builder completed. Full report prep may require public map download."; \
 	fi
 
-demo-structure-jury-prep-check:
-	$(PYTHON) scripts/structure_factory/build_structure_jury_bridge_manifest.py
+demo-poltheta-report-prep-check: demo-poltheta-prep-check
+
+demo-structure-ranking-prep-check:
+	$(PYTHON) scripts/structure_factory/build_dual_structure_comparison_bridge_manifest.py
 	@if command -v runpod-bridge >/dev/null 2>&1; then \
-		runpod-bridge validate-manifest runpod/bridge-manifests/structure-jury-dual-dossier.json --json; \
-		runpod-bridge prepare runpod/bridge-manifests/structure-jury-dual-dossier.json --out-dir .runtime/structure-jury-dual-dossier-packet --json; \
+		runpod-bridge validate-manifest .runtime/bridge-manifests/dual-structure-comparison.json --json; \
+		runpod-bridge prepare .runtime/bridge-manifests/dual-structure-comparison.json --out-dir .runtime/dual-structure-comparison-packet --json; \
 	else \
-		echo "runpod-bridge not installed; public structure-jury manifest builder completed."; \
+		echo "runpod-bridge not installed; public structure-comparison manifest builder completed."; \
 	fi
+
+demo-structure-comparison-prep-check: demo-structure-ranking-prep-check
 
 launch-bundle:
 	$(PYTHON) scripts/structure_factory/runpod_launch_bundle.py --manifest $(SMOKE_MANIFEST) --out .runtime/structure-factory-no-download-smoke
@@ -231,14 +237,14 @@ demo-genie3-toolcheck-manifest:
 
 demo-genie3-toolcheck-bridge-validate: demo-genie3-toolcheck-manifest
 	@if command -v runpod-bridge >/dev/null 2>&1; then \
-		runpod-bridge validate-manifest runpod/bridge-manifests/genie3-no-download-toolcheck.json --json; \
+		runpod-bridge validate-manifest .runtime/bridge-manifests/genie3-no-download-toolcheck.json --json; \
 	else \
 		echo "runpod-bridge not installed; skipped bridge validation."; \
 	fi
 
 demo-genie3-toolcheck-bridge-prepare: demo-genie3-toolcheck-manifest
 	@if command -v runpod-bridge >/dev/null 2>&1; then \
-		runpod-bridge prepare runpod/bridge-manifests/genie3-no-download-toolcheck.json --out-dir .runtime/genie3-no-download-toolcheck-packet --json; \
+		runpod-bridge prepare .runtime/bridge-manifests/genie3-no-download-toolcheck.json --out-dir .runtime/genie3-no-download-toolcheck-packet --json; \
 	else \
 		echo "runpod-bridge not installed; skipped bridge packet prepare."; \
 	fi

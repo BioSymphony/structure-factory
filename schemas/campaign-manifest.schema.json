@@ -3,16 +3,16 @@
   "$id": "https://github.com/BioSymphony/biosymphony-structure-factory-public/schemas/campaign-manifest.schema.json",
   "title": "BioSymphony Structure Factory Campaign Manifest",
   "type": "object",
-  "required": ["campaign_id", "claim_level", "system", "target", "lanes", "expected_artifacts"],
+  "required": ["campaign_id", "result_boundary", "system", "target", "lanes", "expected_artifacts"],
   "properties": {
     "campaign_id": {"type": "string", "minLength": 1},
     "title": {"type": "string"},
-    "claim_level": {
+    "result_boundary": {
       "type": "string",
-      "enum": ["planning", "public_demo", "public_synthetic_demo", "computational_candidate", "candidate", "blocked", "insufficient_evidence"]
+      "enum": ["planning", "public_demo", "public_synthetic_demo", "computational_candidate", "blocked", "insufficient_support"]
     },
     "wet_lab_execution": {"type": "boolean"},
-    "therapeutic_claims": {"type": "boolean"},
+    "therapeutic_conclusions": {"type": "boolean"},
     "system": {
       "type": "object",
       "required": ["privacy"],
@@ -33,11 +33,11 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "purpose", "claim_ceiling"],
+        "required": ["id", "purpose", "result_boundary"],
         "properties": {
           "id": {"type": "string"},
           "purpose": {"type": "string"},
-          "claim_ceiling": {"type": "string"}
+          "result_boundary": {"type": "string"}
         }
       }
     },

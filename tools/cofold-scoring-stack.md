@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Cross-check candidate binders with multiple structure-prediction opinions, then score interface confidence with a claim-bounded jury. Outputs are computational triage. Binding proof comes from wet-lab follow-up downstream of this stack.
+Cross-check candidate binders with multiple structure-prediction opinions, then score interface confidence and site geometry. Outputs are computational triage. Binding proof comes from wet-lab follow-up downstream of this stack.
 
 ## Public-Safe Status
 
@@ -42,7 +42,7 @@ Each validator emits a PAE matrix → ipSAE post-hoc rescore.
 - Candidate binder sequence(s).
 - Pre-computed target MSA (`.a3m` for Boltz YAML, parquet for Chai).
 - Optional public templates.
-- Manifest declaring claim ceiling, expected artifacts, and forbidden claims.
+- Manifest declaring result boundary, expected artifacts, and forbidden conclusions.
 
 ## Typical Outputs
 
@@ -50,7 +50,7 @@ Each validator emits a PAE matrix → ipSAE post-hoc rescore.
 - PAE matrices and confidence JSON per validator.
 - Interface score table with `ipSAE_*` and `iptm` columns per validator.
 - Consensus column (`min_ipSAE`, `cofolders_passing`).
-- Candidate jury with evidence mode and claim level.
+- Candidate ranking with source posture and result boundary.
 - Provenance, command ledger, and hash ledger.
 
 ## Minimum-Viable Invocations
@@ -206,9 +206,22 @@ iPTM remains a diagnostic column. Do not gate on `pair_chains_iptm` alone.
 For target classes that are under-represented in cofolder training distributions (the well-known case is class B GPCRs, but the same caution applies to many membrane-protein / RNP / nucleic-acid-containing assemblies), layer a **target-class-specific check** after the min-ipSAE gate:
 
 - A receptor-state classifier (e.g. Hyaline for GPCRs) gating against poses that look reasonable backbone-wise but are in the wrong functional state.
-- Peptide-side anchor checks (residues known to be critical for the target's functional binding mode) implemented as a small `agonism_gates.py`-style script.
+- Pocket-distance and anchor-contact checks for residues known to define the intended binding mode.
+- Peptide-side motif/register checks when the campaign is trying to mimic a public reference ligand.
+- Off-target or related-family checks when the campaign is selectivity-aware.
 
 Class-specific checks are layered on top of the min-ipSAE gate, not used as a substitute.
+
+For functional-state campaigns, distinguish four different questions:
+
+| Question | Example check | What it can support |
+| --- | --- | --- |
+| Is there a plausible interface? | min-ipSAE across the validator slate | computational interface support |
+| Is the interface at the intended site? | hotspot contact map, pocket-centroid distance, anchor-residue distances | site-specific triage |
+| Is the receptor in the intended state? | active/inactive geometry, state classifier, conserved-motion measurement | state-consistent triage |
+| Is the candidate biologically active? | wet-lab or downstream experimental data | outside this repo |
+
+A candidate that passes the first row but fails site or state checks should close as a misplaced or insufficiently supported computational candidate, not as a functional binder.
 
 ## Gotchas / Known Issues
 
@@ -218,6 +231,7 @@ Class-specific checks are layered on top of the min-ipSAE gate, not used as a su
 - **AF2-Multimer 5-model mean+stddev is free** and orthogonal — record it as a confidence proxy. The variance across the 5 models often catches scrambled / mis-placed designs that the top-rank model confidently reports.
 - **ABCFold does not emit a consensus rank.** Layer ipSAE (and optionally Rosetta ΔG) on top yourself.
 - **iPTM is officially deprecated for binder ranking** (Overath / Rygaard 2025). Replace headline metric with ipSAE; keep iPTM for diagnostics.
+- **Nearest-surface contact is not pocket contact.** If the design objective uses interface distance, compute distances to declared hotspots or pocket centroids as a separate gate. A peptide that contacts the wrong receptor surface is a failed candidate for a site-specific campaign even when a global interface score looks strong.
 - **ColabFold MMseqs2 server rate-limits at ~20 jobs.** Pre-compute the target MSA once and mount it; per-design submissions become near-instant.
 - **chai_lab 0.6.1 + pandas 2.2** needs a 1-line patch to `aligned_pqt.py` (groupby drops the parquet column on newer pandas). Apply post-install with a small patch script that re-adds the column after the groupby.
 - **Boltz 2.2 fused kernels regress on L40 / Ada GPUs** — pass `--no_kernels`. ~5% slower, no NaNs.
@@ -248,7 +262,7 @@ Before reusing this card's recipe in a real campaign, run a primary-source fresh
 1. **Upstream repos.** Check the releases tab and recent commits on each cofolder (jwohlwend/boltz, chaidiscovery/chai-lab, YoshitakaMo/localcolabfold, DunbrackLab/IPSAE, rigdenlab/ABCFold). Flag any major version bump since this card's last review.
 2. **bioRxiv search.** Query terms like "min-ipSAE", "binder ranking gate", "[target-class] cofold benchmark", "BindCraft", "iPTM deprecation". Recent benchmarks can supersede the consensus threshold (0.45 today is the Overath / Rygaard floor; expect future papers to refine it per target class).
 3. **arXiv search.** Query for new rescoring or energy-style methods (pTMEnergy / BECraft, etc.) that may layer cleanly on top of the same PAE matrices we already write.
-4. **Record the result.** In the candidate jury, log the cofold versions used, the gate threshold applied, and the date of this currency check. A future agent should be able to re-verify against the literature as it existed at run time rather than re-discovering it.
+4. **Record the result.** In the candidate ranking or validation notes, log the cofold versions used, the gate threshold applied, and the date of this currency check. A future agent should be able to re-verify against the literature as it existed at run time rather than re-discovering it.
 
 The Bryant 2026 finding embedded above is itself a snapshot. Expect this pattern — a benchmark paper supersedes a framework that previously looked settled — to repeat. The recipe here is what was current at last review; verify before scaling.
 
@@ -257,5 +271,6 @@ The Bryant 2026 finding embedded above is itself a snapshot. Expect this pattern
 - No private target sequence may be sent to public MSA services.
 - Affinity-like outputs stay diagnostic unless an independent validation lane supports them.
 - Consensus failure closes as `insufficient_evidence`, not success.
-- Cap every candidate jury at `computational_candidate` until independent (wet-lab) validation exists.
+- Cap every candidate ranking at `computational_candidate` until independent validation exists.
+- Treat missing target-site or functional-state checks as a support gap, even when cofold confidence is high.
 - Run the Currency Check above before any paid GPU dispatch that uses this recipe.

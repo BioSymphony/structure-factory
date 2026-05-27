@@ -24,5 +24,5 @@
     "contract_self_check",
     "explicit_operator_launch"
   ],
-  "notes": "Generic cloud VM profiles are adapter-ready only. Public mode uses a public-safe repo/image or reproducible bootstrap; private repo/image posture is operator-gated outside public git. RunPod remains the reference remote path."
+  "notes": "Generic cloud VM profiles are adapter-ready only. Public mode uses a public repo/image or reproducible bootstrap; private repo/image posture is operator-gated outside public git. RunPod remains the reference remote path."
 }

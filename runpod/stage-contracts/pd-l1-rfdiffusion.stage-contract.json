@@ -7,7 +7,7 @@
   "wave": "design",
   "execution_profile": "rfdiffusion-binder-design",
   "progress_ledger": "/workspace/runpod-execution/artifacts/stage-progress.jsonl",
-  "success_claim": "RFdiffusion backbones (canary: 8; full: 256) against PD-L1 4ZQK chain A with strict 5-hotspot constraint, followed by ProteinMPNN sequence design. Claim level is at most candidate; iPTM scoring is performed by a separate Boltz wave.",
+  "success_claim": "RFdiffusion backbones (canary: 8; full: 256) against PD-L1 4ZQK chain A with strict 5-hotspot constraint, followed by ProteinMPNN sequence design. Result boundary is at most candidate; iPTM scoring is performed by a separate Boltz wave.",
   "fail_closed": true,
   "gpu_requirements": {
     "vram_gb_min": 16,
@@ -164,6 +164,6 @@
   "no_false_success_notes": [
     "RFdiffusion (BSD) + ProteinMPNN (MIT) only; AlphaFold 3 substitution is forbidden by campaign policy.",
     "These backbones+sequences are candidates only; iPTM gating happens in a downstream Boltz cofold wave with --use_msa_server --write_full_pae.",
-    "A produced backbone is not a binder; campaign policy caps claims at candidate until a Boltz iPTM jury passes."
+    "A produced backbone is not a binder; campaign policy caps claims at candidate until a Boltz iPTM ranking passes."
   ]
 }

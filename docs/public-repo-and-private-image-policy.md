@@ -10,7 +10,7 @@ For the canonical public tool catalog and use-context guidance, see `docs/toolin
 
 Public or private git repos may contain:
 
-- Structure Factory orchestration code, manifests, validators, Dockerfiles, RunPod templates, issue drafts, and docs.
+- Structure Factory orchestration code, manifests, validators, Dockerfiles, RunPod templates, task drafts, and docs.
 - Tool names, citations, install recipes, official download URLs, accession IDs, hashes, deterministic subset rules, and placeholder environment variable names.
 - License gates that report `ready`, `skipped`, or `blocked`.
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "module_type": "artifact_contract",
   "contract_id": "screening-results.v1",
-  "purpose": "Compact high-throughput screening ledger and ranking contract. Candidate dossiers are promoted selectively, not emitted for every ligand.",
+  "purpose": "Compact high-throughput screening ledger and ranking contract. Candidate reports are promoted selectively, not emitted for every ligand.",
   "required_for_screening_smoke": [
     "screening_manifest.json",
     "validation/input-audit.json",
@@ -13,7 +13,7 @@
     "metrics.json",
     "method_summary.json",
     "failure_report.json",
-    "claim_ledger.json",
+    "validation_ledger.json",
     "stage-progress.jsonl",
     "executed-commands.jsonl",
     "provenance.md"
@@ -31,14 +31,14 @@
     "metrics.json",
     "method_summary.json",
     "failure_report.json",
-    "claim_ledger.json",
+    "validation_ledger.json",
     "stage-progress.jsonl",
     "executed-commands.jsonl",
     "cost_report.json",
     "cleanup_proof.json",
     "provenance.md"
   ],
-  "dossier_promotion_policy": {
+  "report_promotion_policy": {
     "default": "promote_selected_only",
     "promote_for": [
       "top_ranked_hits",
@@ -57,9 +57,9 @@
     "L0": "manifest_compiled",
     "L1": "inputs_materialized",
     "L2": "ligand_prep_completed",
-    "L3": "method_jury_scored",
+    "L3": "method_comparison_scored",
     "L4": "rankings_and_failures_joined",
-    "L5": "claims_audited_and_dossiers_promoted"
+    "L5": "claims_audited_and_reports_promoted"
   },
   "claim_levels": [
     "candidate",
@@ -100,7 +100,7 @@
     "private_ligand_libraries": "do_not_export",
     "model_weights": "never_export",
     "large_pose_archives": "export_manifest_only_unless_authorized",
-    "score_tables_reports_and_small_dossiers": "export_small_artifacts",
+    "score_tables_and_small_reports": "export_small_artifacts",
     "secrets_and_license_material": "never_export"
   }
 }

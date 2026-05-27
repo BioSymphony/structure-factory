@@ -16,7 +16,6 @@ PRIVATE_REPO_URL_PATTERN = re.compile(
 )
 SKIP_DIRS = {".git", ".runtime", ".venv", "venv", "__pycache__", ".pytest_cache", "build", "dist"}
 REPO_PREFIXES = (
-    ".codex/",
     ".github/",
     "campaigns/",
     "demos/",
@@ -163,6 +162,7 @@ def check(root: Path) -> dict[str, object]:
     targets = make_targets(root)
     findings: list[dict[str, str]] = []
     stale_text = [
+        ".codex/",
         ".codex/skills/structure-factory/SKILL.md",
         ".codex/skills/structure-factory",
         "--yes-create-paid-runpod",

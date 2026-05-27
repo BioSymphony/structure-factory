@@ -5,7 +5,7 @@
   "run_id": "screening-superpowers-fixture",
   "intent": {
     "mode": "screen",
-    "natural_language_goal": "Run an OpenBind-style no-download screening fixture with simple baselines, docking proxies, and selective dossiers.",
+    "natural_language_goal": "Run an OpenBind-style no-download screening fixture with simple baselines, docking proxies, and selective candidate reports.",
     "target_hint": "fixture protease pocket",
     "claim_ceiling": "candidate"
   },
@@ -44,7 +44,7 @@
   },
   "outputs": {
     "artifact_contract": "modules/artifact-contracts/screening-results.v1.json",
-    "dossier_contract": "modules/artifact-contracts/candidate-dossier.v1.json",
+    "candidate_report_contract": "modules/artifact-contracts/candidate-report.v1.json",
     "promote_top_n": 2
   },
   "policies": {

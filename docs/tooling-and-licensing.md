@@ -6,7 +6,7 @@ This is the public, human-readable tool posture for BioSymphony Structure Factor
 
 This is engineering guidance, not legal advice. Mentioning a tool in public docs is allowed; installing it, baking it into an image, running it for a user, or redistributing it requires checking the current primary license/source terms and the user's use case.
 
-For the claim vocabulary that tool outputs may support, see [`claim-and-evidence.md`](claim-and-evidence.md).
+For result-boundary vocabulary that tool outputs may support, see [`result-boundaries.md`](result-boundaries.md).
 
 ## Agent Rule
 
@@ -106,10 +106,10 @@ For these, public docs should say what the lane would do and what evidence it wo
 For no-license-application Structure Factory demos, prefer:
 
 - CryoCore handoff docs for raw/subset requests: RELION, Topaz, CTFFIND only after review, MotionCor3 after current source/build check
-- deposited PDB/EMDB evidence dossiers: ModelAngelo, gemmi, Mol*, Blender, Coot open-source, PyMOL open-source
+- deposited PDB/EMDB structure-mapping reports: ModelAngelo, gemmi, Mol*, Blender, Coot open-source, PyMOL open-source
 - heterogeneity: cryoDRGN after GPL/source-compliance review; RECOVAR only as runtime/use-context gated
 - MD/docking side lanes: OpenMM, GROMACS, AutoDock Vina, RDKit
-- AI/model-jury side lanes: Boltz, Chai after current terms check, ProteinMPNN, LigandMPNN, Genie 3 after current dependency/weights review
+- AI/model-comparison side lanes: Boltz, Chai after current terms check, ProteinMPNN, LigandMPNN, Genie 3 after current dependency/weights review
 
 ChimeraX can remain a strong visual lane for our internal/private demos when the operator's use context permits it, but it is not part of the public no-license-needed stack.
 
@@ -122,6 +122,6 @@ Any run using these tools should emit:
 - citation notes
 - license/use-context notes
 - artifact hashes
-- claim ledger separating `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `insufficient_evidence`, and `blocked`
+- validation notes separating `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `insufficient_support`, and `blocked`
 
-Outputs from open-source tools are usually usable as run artifacts, but still need provenance, version, citation, and claim boundaries. Outputs from runtime-gated tools need use-context caveats.
+Outputs from open-source tools are usually usable as run artifacts, but still need provenance, version, citation, and result boundaries. Outputs from runtime-gated tools need use-context caveats.

@@ -1,4 +1,4 @@
-"""Helpers for writing public-safe bridge-manifest templates."""
+"""Helpers for writing public bridge-manifest templates."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ PUBLIC_TEMPLATE_STATUS = "non_launchable_public_template"
 PUBLIC_TEMPLATE_NOTE = (
     "Public template only. This file documents the expected provider bridge-manifest shape. "
     "It is not execution-ready until a human/operator gate records current license/use context, "
-    "budget, placement, a pushed public-safe commit SHA, provider credentials by reference, "
+    "budget, placement, a pushed public commit SHA, provider credentials by reference, "
     "and cleanup policy outside public git."
 )
 PUBLIC_STARTUP_COMMANDS = [
@@ -39,7 +39,6 @@ def make_public_bridge_template(manifest: dict[str, Any]) -> dict[str, Any]:
     startup.setdefault("mode", "dockerStartCmd")
     inspection = startup.setdefault("inspection", {})
     inspection["hold_after_success_seconds"] = 0
-    inspection["http_artifact_server_port"] = None
 
     runpod = public.setdefault("runpod", {})
     runpod["imageDigestRequiredForReal"] = True
@@ -57,6 +56,6 @@ def make_public_bridge_template(manifest: dict[str, Any]) -> dict[str, Any]:
     repo = public.setdefault("repo", {})
     repo.setdefault(
         "commit_or_snapshot_pin_policy",
-        "Execution-ready packets must pin an immutable public-safe source ref outside public git.",
+        "Execution-ready packets must pin an immutable public source ref outside public git.",
     )
     return public

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "biosymphony-structure-factory"
 version = "0.1.0a0"
-description = "Public-safe Symphony add-on for structural biology campaign planning, binder-design triage, stage contracts, and claim-bounded evidence."
+description = "AI-agent toolkit for structural biology workflows: binder design, structure mapping, screening, protein modeling, and cloud-scale runs."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
@@ -19,8 +19,8 @@ keywords = [
   "linear",
   "symphony",
   "agentic-ai",
-  "evidence",
-  "provenance",
+  "ai-agents",
+  "structure-prediction",
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",

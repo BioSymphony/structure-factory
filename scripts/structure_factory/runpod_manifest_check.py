@@ -143,7 +143,7 @@ def validate(manifest: dict[str, Any], *, manifest_path: Path | None = None, exe
         "no-download-smoke",
         "raw-subset-open",
         "raw-subset-gated",
-        "map-model-dossier",
+        "map-model-report",
     }:
         errors.append(f"unknown execution_profile: {execution_profile}")
     if runpod.get("network_volume_required") is not True and not manifest.get("scratch_policy", {}).get("scratch_only"):
@@ -249,10 +249,10 @@ def validate(manifest: dict[str, Any], *, manifest_path: Path | None = None, exe
                 value = fanout_policy.get(key)
                 if not isinstance(value, int) or value <= 0:
                     errors.append(f"fanout_policy.{key} must be a positive integer")
-    elif not is_no_download and execution_profile == "map-model-dossier":
+    elif not is_no_download and execution_profile == "map-model-report":
         artifact_plan = manifest.get("artifact_plan", {})
         if not isinstance(artifact_plan, dict) or not artifact_plan:
-            errors.append("map-model-dossier profile requires artifact_plan")
+            errors.append("map-model-report profile requires artifact_plan")
         elif artifact_plan.get("allow_raw_cryoem_downloads") is not False:
             errors.append("artifact_plan.allow_raw_cryoem_downloads must be false")
 

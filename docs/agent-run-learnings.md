@@ -1,8 +1,8 @@
 # Agent Run Learnings
 
-This document captures public-safe lessons from recent Structure Factory agent
+This document captures public lessons from recent Structure Factory agent
 runs so future work does not depend on `.runtime/`, `internal/private/`, or
-operator memory. It intentionally records capabilities, evidence limits, and
+operator memory. It intentionally records capabilities, validation limits, and
 operational failure modes without copying heavy artifacts, provider secrets,
 private resource IDs, or raw biological data into git.
 
@@ -13,20 +13,21 @@ pre-dispatch checklist pattern). Read those before any paid GPU dispatch.
 
 ## Source Inventory
 
-Reviewed sources:
+Reviewed public sources:
 
-- `demos/t2r14-open-dossier/README.md`, `demos/poltheta-map-model-dossier/README.md`, and `demos/structure-jury-dual-dossier/README.md`.
-- `internal/private/*` files were used only as local context. Durable public-safe content is summarized here instead of linking to or copying those files.
+- T2R14 structure report: [`demos/t2r14-structure-report/README.md`](../demos/t2r14-structure-report/README.md)
+- Pol theta map/model report: [`demos/poltheta-map-model-report/README.md`](../demos/poltheta-map-model-report/README.md)
+- Dual-structure comparison report: [`demos/dual-structure-comparison/README.md`](../demos/dual-structure-comparison/README.md)
 
 ## Capabilities Proven
 
 Structure Factory has moved beyond prep-only work in these areas:
 
-- Public accession mini-dossiers: fetch public PDB/EMDB/RCSB/wwPDB inputs, materialize them outside git, hash them, build model/map inventories, compute ligand neighborhoods, generate SVG figures, and emit methods, provenance, and claim ledgers.
-- No-license CPU demos: T2R14, pol theta, and dual-dossier demos can run without CryoSPARC, Phenix, ChimeraX, MotionCor, Rosetta, AlphaFold 3, raw movies, private data, or persistent provider storage.
-- Airgapped RunPod CPU shards: per-shard mini-dossiers can run from stock `python:3.12-slim` with gzipped base64 inline code and data modules. No GitHub clone, Network Volume, or custom Docker image is required for small CPU dossier shards.
-- Inline RunPod GPU shards: Boltz verification can run from stock `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime` on L40S GPUs through `inline_commands`, again without a git clone, Network Volume, or custom Docker image.
-- Artifact pull and closeout: successful shards produce status files, artifact hashes, execution ledgers, claim ledgers, provenance, and tar archives or explicit notes when archive custody degraded.
+- Public accession mini-reports: fetch public PDB/EMDB/RCSB/wwPDB inputs, materialize them outside git, hash them, build model/map inventories, compute ligand neighborhoods, generate SVG figures, and emit methods, provenance, and validation notes.
+- No-license CPU demos: T2R14, pol theta, and dual-report demos can run without CryoSPARC, Phenix, ChimeraX, MotionCor, Rosetta, AlphaFold 3, raw movies, private data, or persistent provider storage.
+- Airgapped RunPod CPU shards: per-shard mini-reports can run from stock `python:3.12-slim` with gzipped base64 inline code and data modules. No GitHub clone, Network Volume, or custom Docker image is required for small CPU report shards.
+- Inline RunPod GPU shards: Boltz verification can run from a stock CUDA PyTorch image through `inline_commands`, again without a git clone, Network Volume, or custom Docker image.
+- Artifact pull and closeout: successful shards produce status files, artifact hashes, execution ledgers, validation notes, provenance, and tar archives or explicit notes when archive custody degraded.
 - Fanout discipline: sequential fanout with skip-done resume keeps waves under their cost cap and makes failed shards cheap to debug before wider fanout.
 
 ## RunPod Operational Lessons
@@ -39,7 +40,7 @@ Treat these as launch-contract lessons, not anecdotes:
 - REST `publicIp` and `portMappings` can lag reality. Direct proxy probes and runtime uptime were more useful than waiting on stale REST fields.
 - Generic RunPod HTTP 500 can mean payload rejection. Inline `dockerStartCmd` payloads around the API size limit produced unhelpful 500s; gzip before base64 kept payloads well below the limit.
 - Container disk limits depend on CPU flavor and vCPU count. Pin the tested flavor/vCPU/containerDisk tuple or use a selector that records the actual allocation.
-- Warm images materially reduce spend. W4 was cheaper per successful shard than W2 because the PyTorch image was already warm in the datacenter.
+- Warm images materially reduce spend. Later warm-image shards can be materially cheaper per successful run than earlier cold-image shards because the base image is already cached in the datacenter.
 - Capacity failures are normal operating cost. Budget a modest overhead for allocation failures and re-fires; strict delete gates kept provider-retry spend bounded.
 - Canaries are mandatory for paid fanout. The first shard must exercise launch, proxy probe, artifact egress, hash verification, cleanup, and summary writing before remaining shards fire.
 
@@ -59,8 +60,10 @@ The working Boltz route is specific:
 
 These are current candidate-level patterns; they are useful for future campaign design but are not wet-lab validation:
 
-- Pocket contact IoU is a useful local metric for ligand-contact recovery. It answers a different question than global backbone RMSD and should be carried as a first-class validation artifact for ligand-bound dossiers.
+- Pocket contact IoU is a useful local metric for ligand-contact recovery. It answers a different question than global backbone RMSD and should be carried as a first-class validation artifact for ligand-bound reports.
 - Receptor-only structure prediction can drift toward a canonical inactive-like fold when no ligand or partner context is supplied; ligand/partner context restores local pocket geometry.
+- Sequence-centered peptide optimization can find a receptor surface without finding the intended pocket. For site-specific or functional-state campaigns, require pocket-distance, hotspot-contact, and state-geometry checks in addition to cofold confidence.
+- Class-B GPCR-style tasks split into different biological questions: ECD-side binding, orthosteric-pocket contact, receptor-state stabilization, and biological activity. Only the first three are computational triage here; activity remains downstream validation.
 - Predicted models, ProteinMPNN designs, pocket IoU, docking-like contact recovery, or rendered figures must stay at `candidate` unless stronger structural or experimental evidence is joined.
 
 ## Evidence Integrity Lessons
@@ -70,8 +73,8 @@ Closeout quality matters as much as pod success:
 - Runtime artifacts under `.runtime/` are not source-of-truth git content. Tracked docs may summarize them, but raw artifacts, maps, model weights, CIF/PDB files, and provider records stay ignored.
 - If local rescoring changes values after pod execution, mark the evidence as `derived` or `candidate (rescored)` and preserve the source artifact hashes. Do not pretend local JSON now matches the immutable provider archive.
 - A corrupt archive or manual file-by-file pull can still be useful evidence, but it is a chain-of-custody downgrade. The report must say so and name the re-fire needed for a clean archive.
-- Public reports must distinguish provider-native artifacts from local derived rescoring. Mixed evidence should downgrade the claim level until a derived-evidence bundle or clean re-run joins hashes, code refs, commands, and outputs.
-- Claim ledgers are control artifacts, not prose. They determine what may advance to later waves and what must remain blocked, degraded, or insufficient.
+- Public reports must distinguish provider-native artifacts from local derived rescoring. Mixed evidence should downgrade the result boundary until a derived-evidence bundle or clean re-run joins hashes, code refs, commands, and outputs.
+- Validation notes and result-boundary records are control artifacts, not prose. They determine what may advance to later waves and what must remain blocked, degraded, or insufficient.
 - The final state should require fetched artifacts, hash checks, contract self-check, and verified cleanup. Pod creation, provider `RUNNING`, command exit, or screenshots alone are never success.
 
 ## Workflow And Agent Lessons
@@ -120,15 +123,15 @@ untested code paths into the live dispatch.
 
 These gaps should be resolved before presenting Structure Factory as fully production-ready:
 
-- Continue reconciling older bridge manifests with the current scope-check schema before claiming all provider manifests are green.
+- Keep committed RunPod files limited to public templates and stage contracts. Generated provider packets belong under `.runtime/bridge-manifests/` or operator-controlled storage.
 - ChimeraX and other GUI/license-sensitive render lanes remain operator-gated. Missing renderer access should block only the render lane, not upstream evidence processing.
 
-## First end-to-end Genie 3 + Boltz dossier — operational lessons
+## Genie 3 + Boltz Runbook Lessons
 
-Run profile: `genie3-boltz-design-jury` against a public protein-RNA-DNA assembly receptor window. The lessons below are target-agnostic and apply to any Genie 3 + Boltz binder-design run on a stock RunPod L40S pod, no Network Volume, no custom image.
+Run profile: `genie3-boltz-design-ranking` against a public target window. The lessons below are target-agnostic and apply to Genie 3 + Boltz binder-design runs on a stock cloud GPU runtime, no Network Volume, no custom image.
 
-- **Capability proven**: full Genie 3 binder-design + Boltz crosscheck pipeline runs end-to-end on a stock RunPod L40S pod, no Network Volume, no custom image.
-- **Claim level**: `candidate` (per the pre-registered ladder: designed → predicted → passes pre-registered Boltz threshold). All forbidden claims unasserted.
+- **Capability proven**: full Genie 3 binder-design + Boltz crosscheck pipeline runs end-to-end on a stock cloud GPU runtime, no Network Volume, no custom image.
+- **Result boundary**: `candidate` (per the pre-registered ladder: designed → predicted → passes pre-registered Boltz threshold). All forbidden claims unasserted.
 - **Cost / runtime**: the final successful run stayed within the operator-approved cap. Record exact billing and placement details in ignored closeout artifacts; tracked docs should retain only the generalized runtime shape and lessons.
 - **Pre-registered gate (BindCraft Nature 2025 + bioRxiv 2025/670059)**:
   - iPTM ≥ 0.50 — typical first-pass de novo designs against an RNA-binding cleft do not clear this gate without binder-MSA or designer swap.
@@ -146,18 +149,18 @@ Run profile: `genie3-boltz-design-jury` against a public protein-RNA-DNA assembl
   9. Boltz's `numba` dep requires `numpy ≤ 2.1`, but Genie 3's `pip install -e <source>` upgrades numpy past 2.1 mid-run. Re-pin `numpy<2.2` inside `stage_boltz_crosscheck` itself, right before invoking boltz. Idempotent. Pinning only at startup is insufficient.
   10. RunPod POST /pods has a ~64 KB hard limit on the rendered docker start payload. Inline scripts must be tar+lzma+base64 packed (vs individually gzipped) AND minified (strip docstrings + comments) to fit four runner scripts under the limit.
 - **Vendored dep gap**: `scripts/structure_factory/vendor/ipsae/ipsae.py` indexing the Boltz pLDDT array hits an off-by-one (`IndexError: index N out of bounds for axis 0 with size N`). The full PAE matrix and confidence files are correct; the wrapper just can't compute ipSAE locally yet. iPTM (from Boltz `confidence.json`) is the substitute metric until ipSAE is fixed.
-- **Memory snapshots saved** so future cofold campaigns don't repeat the bug carousel:
-  - `boltz_output_layout.md` — `--write_full_pae` flag is required; outputs nest under `boltz_results_<stem>/predictions/<stem>/`; promote to flat paths.
-  - `runner_stage_ordering_and_hf_api.md` — runtime_gate must re-probe after install; `huggingface_hub.commands` is dead; HEAD-only toolchecks miss real download failures; Genie 3 needs `cwd=<weights_dir>`.
+- **Durable runbook lessons**:
+  - Boltz output layout: `--write_full_pae` is required; outputs nest under `boltz_results_<stem>/predictions/<stem>/`; promote required artifacts to flat contract paths.
+  - Runner ordering: runtime gates must re-probe after install; HEAD-only toolchecks miss real download failures; Genie 3 needs `cwd=<weights_dir>` after weights are materialized.
 
 ## Future Capture Rule
 
-After any real or derived Structure Factory run, update this document or a linked tracked dossier with:
+After any real or derived Structure Factory run, update this document or a linked tracked report with:
 
 - run profile and source artifact classes
 - capability proven or not proven
 - budget posture, runtime class, and provider failure modes
 - exact artifact contract changes
-- claim level and evidence mode
+- result boundary and source posture
 - any degraded, partial, derived, or blocked closeout reason
 - next runbook change future agents should follow

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synthesize a Genie 3 binder-design dataset + config from a target window dossier.
+"""Synthesize a Genie 3 binder-design dataset + config from a target window report.
 
 Matches the canonical schema observed in the upstream `aqlaboratory/genie3` at
 `examples/binder_design/experiment.yaml` and
@@ -113,7 +113,7 @@ def extract_fasta(rows: list[dict[str, Any]]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--dossier", required=True, type=Path)
+    ap.add_argument("--report", required=True, type=Path)
     ap.add_argument("--target-cif", required=True, type=Path)
     ap.add_argument("--out", required=True, type=Path)
     ap.add_argument("--problem-id", default="telo-recruit-w1")
@@ -127,12 +127,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
 
-    dossier = json.loads(args.dossier.read_text())
-    iface = dossier.get("interface", {}).get("interface_residues", [])
+    report = json.loads(args.report.read_text())
+    iface = report.get("interface", {}).get("interface_residues", [])
     if not iface:
-        raise SystemExit("dossier has no interface.interface_residues")
-    chain_id = (dossier.get("target_chain_summary") or {}).get("chain_ids_auth", ["A"])[0]
-    pdb_id = dossier.get("source_pdb") or "?"
+        raise SystemExit("report has no interface.interface_residues")
+    chain_id = (report.get("target_chain_summary") or {}).get("chain_ids_auth", ["A"])[0]
+    pdb_id = report.get("source_pdb") or "?"
 
     hotspot: list[str] = []
     extended: list[str] = []

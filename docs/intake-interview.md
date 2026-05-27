@@ -52,9 +52,9 @@ If more information is needed, proceed with defaults for non-destructive prep an
 When the user does not specify:
 
 - provider: `runpod` for remote demos, `local` for prep/validation
-- execution profile: `no-download-smoke` for readiness, `map-model-dossier` for a 4-hour deposited-evidence demo, and CryoCore handoff for raw-subset work only after explicit authorization
+- execution profile: `no-download-smoke` for readiness, `map-model-report` for a 4-hour public map/model demo, and CryoCore handoff for raw-subset work only after explicit authorization
 - operator gate: `yes` for paid compute, raw downloads, cloud/neocloud launch, SSH/HPC submission, or license-gated tools
-- artifact style: small dossier with figures, methods, provenance, claim ledger, input audit, and contract self-check
+- artifact style: small report with figures, methods, provenance, validation notes, input audit, and contract self-check
 
 ## Hard Gates
 
@@ -73,7 +73,7 @@ Never ask the user to paste secrets into chat or Linear. Ask for a secure runtim
 Good intake is concise and option-oriented:
 
 ```text
-I can proceed with defaults: RunPod, 4-hour cap, PDB/EMDB evidence dossier, no raw movies.
+I can proceed with defaults: RunPod, 4-hour cap, PDB/EMDB structure-mapping report, no raw movies.
 Before I set that up, confirm only these blockers:
 1. Is RunPod launch authorized up to 4 hours?
 2. Should the output prioritize visual story figures or validation tables?
@@ -89,7 +89,7 @@ For demos, optimize for a memorable scientific artifact, not just double-checkin
 - structural story figures
 - annotated density/model panels
 - concise methods and provenance
-- claim ledger with conservative caveats
+- validation notes with conservative caveats
 - clear next-experiment suggestions
 
 Validation stays present, but it supports the story rather than becoming the story.

@@ -12,10 +12,10 @@ Make the Screening Superpowers campaign concrete for users and Symphony workers 
 
 ## Expected Artifacts
 
-- Updated campaign README that explains example inputs, output bundle, dossier purpose, dispatch posture, and no-paid vs paid gates.
-- Updated issue DAG that names W00-W03 static issue drafts and active/backlog states.
-- Updated public doc that explains how users should interpret ledgers, candidate dossiers, and claim ceilings.
-- Static W00-W03 issue drafts under `campaigns/screening-superpowers/linear-issues/`.
+- Updated campaign README that explains example inputs, output bundle, candidate-report purpose, dispatch posture, and no-paid vs paid gates.
+- Updated issue DAG that names the committed W00 draft and generated later-wave posture.
+- Updated public doc that explains how users should interpret ledgers, candidate reports, and result boundaries.
+- Static W00 issue draft under `campaigns/screening-superpowers/linear-issues/`.
 
 ## Stage / Progress Contract
 
@@ -45,8 +45,8 @@ Make the Screening Superpowers campaign concrete for users and Symphony workers 
 ## Acceptance Criteria
 
 - [ ] Users can identify the fixture inputs: screening manifest, ligand library, receptor ensemble, and campaign module.
-- [ ] Users can identify the expected ledger and dossier outputs without reading scripts.
-- [ ] Documentation states that dossiers are selective review packets, not per-ligand throughput output or binding proof.
+- [ ] Users can identify the expected ledger and candidate-report outputs without reading scripts.
+- [ ] Documentation states that candidate reports are selective review packets, not per-ligand throughput output or binding proof.
 - [ ] Documentation states how Symphony/Linear dispatch works, including routing label, issue body as contract, W00-only active state, and final `<!-- symphony-outcome -->` expectation.
 - [ ] Documentation separates no-paid fixture gates from paid/provider-backed gates.
 - [ ] Public text contains no secrets, private data, heavy artifacts, model weights, raw data, or unsupported scientific claims.
@@ -79,7 +79,7 @@ Blocked by: none
 ## Risk Notes
 
 - This issue does not authorize provider launch, public raw-data download, private data, model-weight download, restricted tool install, or paid compute.
-- Fixture and prediction-only language must stay at `candidate` claim level or below.
+- Fixture and prediction-only language must stay at `candidate` result boundary or below.
 - Do not edit scripts, schemas, generated broker output, or unrelated campaign files.
 
 ## Complexity

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Plan publication-style molecular render lanes for target windows, candidate poses, and dossier figures. ChimeraX is the operator-blessed render path for structural-biology demos: per-design PNGs, 3-panel hero figures, and labeled spin MP4s straight out of cofold output (top-N PDBs from Boltz / Chai / Genie 3 / RFdiffusion).
+Plan publication-style molecular render lanes for target windows, candidate poses, and report figures. ChimeraX is the operator-blessed render path for structural-biology demos: per-design PNGs, 3-panel hero figures, and labeled spin MP4s straight out of cofold output (top-N PDBs from Boltz / Chai / Genie 3 / RFdiffusion).
 
 ## Public-Safe Status
 
@@ -10,8 +10,8 @@ Public scaffold: yes. Runtime use is gated. ChimeraX installation, accepted term
 
 ## When To Use
 
-- Per-design hero PNGs (1600×1600, transparent background) for top candidates in a binder jury.
-- 3-panel figures (receptor / peptide / complex) for the candidate dossier.
+- Per-design hero PNGs (1600×1600, transparent background) for top ranked binder candidates.
+- 3-panel figures (receptor / peptide / complex) for the candidate report.
 - Labeled spin movies (1080×1080, ~6s at 30fps) for demo deliverables and showcase pages.
 - Inactive-vs-active state-comparison morphs for receptor-class campaigns.
 
@@ -185,7 +185,7 @@ Runs as a stage in the bridge manifest, downstream of cofold + ranking, in paral
 - Reject screenshot-only closeout for real render lanes — figures need provenance.
 - Keep generated render batches out of git; publish only curated summaries or small reviewed images.
 - Pre-stage the ChimeraX `.deb` via an operator-side transfer; the UCSF CGI cannot be reached headlessly.
-- Run a currency check before any paid GPU dispatch: upstream ChimeraX release notes (new commands, deprecated commands like `modeOldSpline`) and recent rendering / publication-figure preprints. Record the ChimeraX version and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream ChimeraX release notes (new commands, deprecated commands like `modeOldSpline`) and recent rendering / publication-figure preprints. Record the ChimeraX version and the date of the check in the candidate ranking.
 
 ## Links
 

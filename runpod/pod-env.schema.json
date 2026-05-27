@@ -27,7 +27,7 @@
     },
     "STRUCTURE_FACTORY_EXECUTION_PROFILE": {
       "type": "string",
-      "enum": ["no-download-smoke", "raw-subset-open", "raw-subset-gated", "map-model-dossier"],
+      "enum": ["no-download-smoke", "raw-subset-open", "raw-subset-gated", "map-model-report"],
       "description": "Execution profile selected by the launch manifest."
     },
     "STRUCTURE_FACTORY_ALLOW_RAW_DOWNLOADS": {
@@ -61,7 +61,7 @@
     "STRUCTURE_FACTORY_ALLOW_MAP_MODEL_DOWNLOADS": {
       "type": "string",
       "enum": ["1", "true", "yes"],
-      "description": "Required for map/model dossier profiles."
+      "description": "Required for map/model report profiles."
     },
     "STRUCTURE_FACTORY_SUBSET_PROFILE": {
       "type": "string",

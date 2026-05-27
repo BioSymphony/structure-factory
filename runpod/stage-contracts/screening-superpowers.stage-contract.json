@@ -7,7 +7,7 @@
   "wave": "W02",
   "execution_profile": "screening-no-download-smoke",
   "progress_ledger": "/workspace/structure-factory/runs/${STRUCTURE_FACTORY_RUN_ID}/stage-progress.jsonl",
-  "success_claim": "No-download screening fixture produces a compact ranking ledger, failed-ligand report, method summary, and selectively promoted candidate dossiers. Claim level is fixture_or_demo/candidate only.",
+  "success_claim": "No-download screening fixture produces a compact ranking ledger, failed-ligand report, method summary, and selectively promoted candidate reports. Result boundary is fixture_or_demo/candidate only.",
   "fail_closed": true,
   "partial_summary": {
     "path": "partial-summary.json",
@@ -40,7 +40,7 @@
     },
     {
       "stage_id": "input_audit",
-      "description": "Confirm no private data, no raw downloads, no secrets, and public-safe fixture inputs.",
+      "description": "Confirm no private data, no raw downloads, no secrets, and public fixture inputs.",
       "required": true,
       "expected_outputs": ["validation/input-audit.json"],
       "timeout_minutes": 5,
@@ -61,7 +61,7 @@
       "fail_closed": true
     },
     {
-      "stage_id": "method_jury",
+      "stage_id": "method_comparison",
       "description": "Emit deterministic fixture docking, descriptor, Boltz-proxy, simple-baseline, and disagreement records without external tools.",
       "required": true,
       "expected_outputs": ["pose_predictions.jsonl", "affinity_predictions.jsonl", "method_summary.json"],
@@ -72,20 +72,20 @@
       "fail_closed": true
     },
     {
-      "stage_id": "ranking_and_claim_audit",
-      "description": "Write consensus ranking, metrics, promoted candidate dossiers, provenance, executed command ledger, and claim ledger.",
+      "stage_id": "ranking_and_validation_review",
+      "description": "Write consensus ranking, metrics, promoted candidate reports, provenance, executed command ledger, and validation ledger.",
       "required": true,
       "expected_outputs": [
         "consensus_ranking.csv",
         "metrics.json",
-        "candidate_dossiers/",
-        "claim_ledger.json",
+        "candidate_reports/",
+        "validation_ledger.json",
         "provenance.md",
         "executed-commands.jsonl"
       ],
       "timeout_minutes": 5,
       "checkpoint_marker": "consensus_ranking.csv",
-      "done_marker": "claim_ledger.json",
+      "done_marker": "validation_ledger.json",
       "resume_command": "python3 scripts/structure_factory/screening_fixture_run.py --manifest examples/screening-superpowers/screening-manifest.json --out .runtime/screening-superpowers-fixture --json",
       "fail_closed": true
     }
@@ -95,7 +95,7 @@
   "license_gates_required": [],
   "no_false_success_notes": [
     "Fixture scores are deterministic smoke evidence, not real docking, affinity, or mechanism evidence.",
-    "Dossiers are promoted selectively from ranking outputs; every ligand does not receive a dossier.",
+    "Candidate reports are promoted selectively from ranking outputs; every ligand does not receive a report.",
     "Paid fanout requires provider-specific operator gates, budget caps, artifact hashes, and cleanup proof."
   ]
 }

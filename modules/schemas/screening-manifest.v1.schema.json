@@ -240,7 +240,7 @@
           "type": "string",
           "minLength": 1
         },
-        "dossier_contract": {
+        "candidate_report_contract": {
           "type": "string",
           "minLength": 1
         },

@@ -1,14 +1,14 @@
 # Demos
 
-Curated narratives and lightweight dashboards from completed Structure Factory campaigns. Read one of these to see what a finished mission looks like: target choice, lane structure, dossier shape, evidence mode, and the review surface an agent or scientist gets at the end.
+Curated narratives and lightweight summaries from completed Structure Factory campaigns. Read one of these to see what a finished mission looks like: target choice, lane structure, report shape, source posture, and the review surface an agent or scientist gets at the end.
 
 Demo folders stay lightweight by design. Raw data, generated structure archives, provider logs, credentials, and model weights live in operator-controlled infrastructure outside the repo.
 
 | Demo | Start Here | What You See | Evidence Mode | Local Entry |
 | --- | --- | --- | --- | --- |
-| `screening-superpowers` | Open `demos/screening-superpowers/index.html` after running the fixture | local dashboard shape for screening contracts and candidate dossiers | `public_synthetic_demo` | `make screening-check` |
-| `t2r14-open-dossier` | Read `demos/t2r14-open-dossier/README.md` | open public-coordinate dossier packet shape | `public_demo` | `make demo-t2r14-check` |
-| `poltheta-map-model-dossier` | Read `demos/poltheta-map-model-dossier/README.md` | public map/model dossier plan and prep checks | `public_demo` | `make demo-poltheta-prep-check` |
-| `structure-jury-dual-dossier` | Read `demos/structure-jury-dual-dossier/README.md` | dual model-jury dossier packet shape | `public_demo` | `make demo-structure-jury-prep-check` |
+| `screening-superpowers` | Read [screening summary](screening-superpowers/README.md) after running the fixture | local summary shape for screening contracts and candidate reports | `public_synthetic_demo` | `make screening-check` |
+| T2R14 public-coordinate report | Read [T2R14 report](t2r14-structure-report/README.md) | open public-coordinate report packet shape | `public_demo` | `make demo-t2r14-report-check` |
+| Pol theta map/model report | Read [Pol theta report](poltheta-map-model-report/README.md) | public map/model report plan and prep checks | `public_demo` | `make demo-poltheta-report-prep-check` |
+| Dual public-structure comparison | Read [structure comparison](dual-structure-comparison/README.md) | dual public-structure comparison report shape | `public_demo` | `make demo-structure-comparison-prep-check` |
 
 Any provider launch requires a private/operator-gated packet outside public git.

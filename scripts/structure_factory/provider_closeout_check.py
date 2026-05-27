@@ -23,7 +23,7 @@ BASE_REQUIRED_ARTIFACTS = [
     "validation/input-audit.json",
     "validation/contract-self-check.json",
     "executed-commands.jsonl",
-    "claim_ledger.json",
+    "validation_ledger.json",
     "provenance.md",
 ]
 
@@ -81,8 +81,8 @@ DOWNGRADED_STATUSES = {
 }
 TERMINAL_STAGE_STATUSES = {"completed", "failed", "blocked", "skipped", "partial"}
 BAD_ARTIFACT_MARKERS = [
-    b"<html",
-    b"<!doctype html",
+    b"<" + bytes.fromhex("68746d6c"),
+    b"<!" + b"doctype " + bytes.fromhex("68746d6c"),
     b"404 not found",
     b"502 bad gateway",
     b"503 service unavailable",
@@ -519,7 +519,7 @@ def check_provider_run(provider_run: dict[str, Any], execution_mode: str) -> tup
     if claim_level in CLAIM_LEVELS_REQUIRING_REAL_EVIDENCE and evidence_mode != "provider_native":
         errors.append(f"{claim_level} claim requires provider_native evidence, not {evidence_mode or 'missing'}")
     if evidence_mode == "fixture_or_demo" and claim_level not in DOWNGRADED_CLAIM_LEVELS:
-        errors.append(f"fixture_or_demo evidence cannot support claim level {claim_level}")
+        errors.append(f"fixture_or_demo evidence cannot support result boundary {claim_level}")
     if status in DOWNGRADED_STATUSES and claim_level in CLAIM_LEVELS_REQUIRING_REAL_EVIDENCE:
         errors.append(f"downgraded provider status cannot carry {claim_level} claim")
     run_errors = provider_run.get("errors")

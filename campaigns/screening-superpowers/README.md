@@ -2,9 +2,9 @@
 
 ## Scientific Objective
 
-Build a reusable high-throughput structure-based screening workflow that accepts minimal inputs, produces compact ranked ledgers, and promotes only selected candidates to dossiers.
+Build a reusable high-throughput structure-based screening workflow that accepts minimal inputs, produces compact ranked ledgers, and promotes only selected candidates to reports.
 
-The campaign is deliberately screening-first: a run should answer "what should a reviewer look at next?" before it tries to create publication-style figures or per-ligand reports. The default closeout artifact is the ledger bundle, not a folder of thousands of dossiers.
+The campaign is deliberately screening-first: a run should answer "what should a reviewer look at next?" before it tries to create publication-style figures or per-ligand reports. The default closeout artifact is the ledger bundle, not a folder of thousands of reports.
 
 ## Scope
 
@@ -44,8 +44,8 @@ The fixture manifest declares:
 - `metrics.json`
 - `method_summary.json`
 - `failure_report.json`
-- `claim_ledger.json`
-- `candidate_dossiers/`
+- `validation_ledger.json`
+- `candidate_reports/`
 - `method_disagreement.jsonl`
 - `scaffold_atlas.json`
 - `active_learning_tranches.json`
@@ -55,9 +55,9 @@ The fixture manifest declares:
 
 The closeout contract for the no-download fixture also expects validation and provenance sidecars such as `validation/input-audit.json`, `stage-progress.jsonl`, `executed-commands.jsonl`, and `provenance.md`. These stay under ignored runtime paths such as `.runtime/screening-superpowers-fixture/` or provider artifact roots, not in git.
 
-## What Dossiers Are For
+## What Candidate Reports Are For
 
-Candidate dossiers are selective review packets. Promote them for:
+Candidate reports are selective review packets. Promote them for:
 
 - top-ranked hits
 - known controls
@@ -65,7 +65,7 @@ Candidate dossiers are selective review packets. Promote them for:
 - method-disagreement cases
 - failures that explain a pipeline or input problem
 
-A dossier should join the selected candidate back to the screening manifest, source scores, pose summary, method disagreement, claim ledger, and provenance. It is not required for every ligand, and it does not upgrade a docking, cofolding, or fixture score into an affinity, mechanism, or publishability claim.
+A candidate report should join the selected candidate back to the screening manifest, source scores, pose summary, method disagreement, validation ledger, and provenance. It is not required for every ligand, and it does not upgrade a docking, cofolding, or fixture score into an affinity, mechanism, or publishability claim.
 
 ## Dispatch Model
 
@@ -80,7 +80,7 @@ Symphony/Linear dispatch treats each issue as the durable scientific contract. W
 - license, capability, provider, and claim-level caveats
 - a `<!-- symphony:schema -->` block
 
-Current dispatch posture: W00-W03 are hand-authored campaign-contract drafts and W04-W13 are broker-generated drafts under `linear-issues/`. Do not hand-edit broker-generated bodies in place; regenerate them from `scripts/structure_factory/screening_issue_broker.py` or draft a separate static issue for a missing bounded wave.
+Current dispatch posture: W00 is the committed campaign-contract draft under `linear-issues/`. Later wave drafts are generated from `scripts/structure_factory/screening_issue_broker.py`; do not hand-edit broker-generated bodies in place.
 
 Only W00 should be `Todo` at initial dispatch. W01-W03 stay in `Backlog` until W00 records that the repo, examples, module references, and no-download gates are coherent.
 
@@ -96,7 +96,7 @@ The no-paid lane is limited to fixture, schema, planning, and local dry-run arti
 - forbidden actions: RunPod/AWS/neocloud pod creation, public raw-data download, private data use, restricted tool install, model-weight download, registry-auth mutation, and secret handling
 - claim ceiling: `fixture_or_demo` evidence and `candidate` scientific claims at most
 
-No-paid success means the ledger and dossier contracts are internally coherent. It does not mean real docking, real affinity prediction, biological binding, or mechanism evidence exists.
+No-paid success means the ledger and candidate-report contracts are internally coherent. It does not mean real docking, real affinity prediction, biological binding, or mechanism evidence exists.
 
 ## Paid Gate
 
@@ -113,7 +113,7 @@ Any paid, heavy, provider-backed, raw-data, private-data, model-weight, or licen
 - license/use-context review for gated tools
 - final `<!-- symphony-outcome -->` closeout requirements
 
-Provider state alone is never success. A paid issue closes only after declared artifacts are fetched, validated, hashed, scanned for fixture/secret-like markers, joined to the claim ledger, and cleanup or retained-resource authorization is recorded.
+Provider state alone is never success. A paid issue closes only after declared artifacts are fetched, validated, hashed, scanned for fixture/secret-like markers, joined to the validation ledger, and cleanup or retained-resource authorization is recorded.
 
 ## Validation Commands
 
@@ -130,7 +130,7 @@ RDKit, AutoDock Vina, and Boltz are the intended open-default lanes after curren
 
 ## Final Shape
 
-The main campaign output is a screening ledger. Candidate dossiers are downstream review artifacts for selected hits, controls, disagreement cases, and failures.
+The main campaign output is a screening ledger. Candidate reports are downstream review artifacts for selected hits, controls, disagreement cases, and failures.
 
 Acceptance for the bounded W00-W13 uplift:
 

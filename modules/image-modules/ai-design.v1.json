@@ -2,15 +2,15 @@
   "schema_version": 1,
   "module_type": "image_module",
   "family": "ai-design",
-  "purpose": "Prediction, design, and model-jury lanes.",
-  "required_for_profiles": ["model_jury", "design_campaign"],
+  "purpose": "Prediction, design, and model-comparison lanes.",
+  "required_for_profiles": ["model_comparison", "design_campaign"],
   "candidate_tools": ["boltz", "chai", "alphafold3", "proteinmpnn", "ligandmpnn", "rfdiffusion", "genie3"],
   "execution_ready_requires": ["oci_digest", "toolcheck_pass", "license_audit", "weights_policy"],
   "lane_dependencies": [
     {
       "lane_id": "boltz",
       "lane_module": "modules/lane-modules/boltz.toolcheck.v1.json",
-      "required_for": ["model_jury", "design_campaign"],
+      "required_for": ["model_comparison", "design_campaign"],
       "weights_cache_path": "/workspace/structure-factory/weights/boltz",
       "license_class": "open_source_mit"
     },
@@ -24,7 +24,7 @@
     {
       "lane_id": "genie3",
       "lane_module": "modules/lane-modules/genie3.toolcheck.v1.json",
-      "required_for": ["genie3-design-canary", "genie3-boltz-design-jury"],
+      "required_for": ["genie3-design-canary", "genie3-boltz-design-ranking"],
       "weights_cache_path": "/workspace/structure-factory/weights/genie3",
       "license_class": "apache_2_reported_by_repo_and_hf",
       "license_gate": "dependency_and_weight_terms_review"

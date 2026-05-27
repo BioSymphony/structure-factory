@@ -2,14 +2,14 @@
 
 Snapshot date: 2026-05-15
 
-This is a public-safe planning snapshot, not legal advice and not a current license determination. Before installing, baking into an image, running, or redistributing any third-party tool, recheck the primary source terms and record the user's intended use context.
+This is a planning snapshot, not legal advice and not a current license determination. Before installing, baking into an image, running, or redistributing any third-party tool, recheck the primary source terms and record the user's intended use context.
 
 ## Ready In The Public Harness
 
-- Public campaign contracts, stage contracts, provider profiles, issue packs, validators, and audit gates.
+- Public campaign contracts, stage contracts, provider profiles, task packs, validators, and audit gates.
 - Local no-download examples for PD-L1 binder-design planning and screening fixture runs.
 - Public non-launchable RunPod bridge templates that document required fields without embedding private payloads or real approvals.
-- Codex/Symphony skills and tracker-neutral issue packs for `sym:structure-factory`.
+- Portable agent instructions and Symphony and tracker-neutral task packs for `sym:structure-factory`.
 
 ## Open Or Default Scaffolding
 
@@ -48,5 +48,5 @@ Keep these out of public git:
 
 1. Keep Makefile targets aligned with documented commands.
 2. Publish concise tool cards under `tools/` with posture, inputs, outputs, and gates.
-3. Prefer narrative demos and public-safe tables over result dumps.
+3. Prefer narrative demos and compact public tables over result dumps.
 4. Keep launch manifests as templates until a current operator gate converts them into private execution packets.

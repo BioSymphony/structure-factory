@@ -6,7 +6,7 @@ Raw cryo-EM movie intake, EMPIAR subset execution, reconstruction, and map-to-mo
 
 ## No-False-Success Rule
 
-Runner flags are intent, not evidence. A Structure Factory run is successful only when the final contract self-check joins declared inputs, materialized data, executed commands/results, and final claims.
+Runner flags are intent, not proof. A Structure Factory run is successful only when the final contract self-check joins declared inputs, materialized data, executed commands/results, and final reported conclusions.
 
 Live readiness is exact-route readiness. A package import, image tag, pod launch,
 or broad runner flag does not prove the stage can execute. The readiness record
@@ -45,7 +45,7 @@ partial closeout with a resume path, not a full failure and not a full success.
 - L2 `inputs_materialized` - data ledgers join declared inputs to concrete files or accessions.
 - L3 `execution_performed` - commands ran and emitted expected result artifacts.
 - L4 `evidence_joined` - results join back to inputs, tool versions, and processing ledgers.
-- L5 `claim_audited_dossier` - claims are assigned evidence, confidence, caveats, and reviewer status.
+- L5 `validation_reviewed_report` - outputs are assigned evidence, confidence, caveats, and reviewer status.
 
 ## Gate 0: Contract
 
@@ -63,8 +63,8 @@ partial closeout with a resume path, not a full failure and not a full success.
 - Exact executable route recorded for every stage command, such as
   `relion_refine`, `phenix.real_space_refine`, `ChimeraX`, or the repo-local
   Python entrypoint. Warning-only package checks are not live readiness.
-- Private GitHub clone path and pinned commit recorded.
-- Private registry auth reference recorded when the image is private.
+- Repository clone URL and pinned commit recorded.
+- Registry auth reference recorded when the image requires one.
 - Digest-pinned image required before real remote launch.
 - Stage contract and progress ledger paths recorded.
 - Network volume read/write check passes under `/workspace`.
@@ -92,17 +92,17 @@ partial closeout with a resume path, not a full failure and not a full success.
 - Chain assignment and biological assembly assumptions recorded.
 - Map/model agreement metrics emitted.
 
-## Gate 5: Figure Dossier
+## Gate 5: Figure Report
 
 - Figures are nonblank, labeled, reproducible, and backed by scripts/sessions.
 - Captions include contour levels, accessions, software, and caveats.
 
-## Gate 6: Claim Audit
+## Gate 6: Result Review
 
-- Every claim maps to evidence.
+- Every reported conclusion maps to supporting artifacts.
 - Unresolved weaknesses are listed.
-- Next experiments are proposed when evidence is insufficient.
-- Claim levels are explicit: `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `insufficient_evidence`, or `blocked`.
+- Next experiments are proposed when support is incomplete.
+- Result boundaries are explicit: `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `insufficient_support`, or `blocked`.
 
 ## Cryo-EM Evidence Requirements
 

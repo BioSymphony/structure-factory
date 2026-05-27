@@ -17,7 +17,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TOOLCHECK_SCRIPT = REPO_ROOT / "scripts" / "structure_factory" / "genie3_toolcheck.py"
-OUTPUT = REPO_ROOT / "runpod" / "bridge-manifests" / "genie3-no-download-toolcheck.json"
+OUTPUT = REPO_ROOT / ".runtime" / "bridge-manifests" / "genie3-no-download-toolcheck.json"
 STAGE_CONTRACT = "runpod/stage-contracts/genie3-no-download-toolcheck.stage-contract.json"
 
 RUN_ID = "structure-factory-genie3-no-download-toolcheck"
@@ -29,7 +29,7 @@ LOG_FILE = "/workspace/runpod-execution/logs/startup.log"
 PUBLIC_TEMPLATE_NOTE = (
     "Public template only. This file documents the expected RunPod bridge-manifest "
     "shape. It is not execution-ready until a human/operator gate records current "
-    "license/use context, budget, placement, a pushed public-safe commit SHA, "
+    "license/use context, budget, placement, a pushed public commit SHA, "
     "provider credentials by reference, and cleanup policy."
 )
 
@@ -45,8 +45,6 @@ def build_startup_commands(encoded_script: str) -> list[str]:
         "echo '[genie3-toolcheck] start' && date -u",
         "mkdir -p /workspace/runpod-execution/logs /workspace/runpod-execution/artifacts/validation /workspace/runpod-execution/artifacts/logs /workspace/runpod-execution/artifacts/source",
         "cd /workspace",
-        f"(python3 -m http.server 8000 --bind 0.0.0.0 > {LOG_FILE} 2>&1) &",
-        f"echo \"[$(date -u +%H:%M:%S)] http server pid=$! at /workspace:8000\" >> {LOG_FILE}",
         decode_pipe,
         f"echo \"[$(date -u +%H:%M:%S)] decoded toolcheck script\" >> {LOG_FILE}",
         f"ls -la /workspace/genie3_toolcheck.py >> {LOG_FILE}",
@@ -87,7 +85,7 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
         "campaign_id": "genie3-toolcheck",
         "campaign_manifest_ref": "modules/lane-modules/genie3.toolcheck.v1.json",
         "stage_contract_ref": STAGE_CONTRACT,
-        "launch_manifest_ref": "runpod/bridge-manifests/genie3-no-download-toolcheck.json",
+        "launch_manifest_ref": ".runtime/bridge-manifests/genie3-no-download-toolcheck.json",
         "wave": "T0",
         "run_id": RUN_ID,
         "shard": {"lane": "genie3", "mode": "no-download-toolcheck"},
@@ -121,7 +119,7 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
             "imageName": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
             "imageDigestRequiredForReal": True,
             "templateId": "",
-            "ports": ["8000/http"],
+            "ports": [],
             "registryAuth": {
                 "required": False,
                 "provider": "dockerhub",
@@ -146,14 +144,14 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
             {"artifact_id": "smoke_commands", "path": "runpod-execution/artifacts/validation/smoke_commands.json", "required": True, "sha256_required": True},
             {"artifact_id": "hf_weights_probe", "path": "runpod-execution/artifacts/validation/hf_weights_probe.json", "required": True, "sha256_required": True},
             {"artifact_id": "versions", "path": "runpod-execution/artifacts/versions.json", "required": True, "sha256_required": True},
-            {"artifact_id": "claim_ledger", "path": "runpod-execution/artifacts/claim_ledger.json", "required": True, "sha256_required": True},
+            {"artifact_id": "validation_ledger", "path": "runpod-execution/artifacts/validation_ledger.json", "required": True, "sha256_required": True},
             {"artifact_id": "report_md", "path": "runpod-execution/artifacts/genie3_toolcheck_report.md", "required": True, "sha256_required": True},
             {"artifact_id": "artifact_index", "path": "runpod-execution/artifacts/artifact_index.json", "required": True, "sha256_required": True},
             {"artifact_id": "artifact_archive", "path": "runpod-execution/artifacts/runpod-execution.tar.gz", "required": True, "sha256_required": True},
         ],
         "validation_commands": [
             "python3 -m json.tool /workspace/runpod-execution/status.json >/dev/null",
-            "test -f /workspace/runpod-execution/artifacts/claim_ledger.json",
+            "test -f /workspace/runpod-execution/artifacts/validation_ledger.json",
             "test -f /workspace/runpod-execution/artifacts/genie3_toolcheck_report.md",
             "test -f /workspace/runpod-execution/artifacts/validation/host_probe.json",
             "test -f /workspace/runpod-execution/artifacts/validation/source_download.json",
@@ -257,14 +255,14 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
                     "runpod-execution/artifacts/validation/smoke_commands.json",
                     "runpod-execution/artifacts/validation/hf_weights_probe.json",
                     "runpod-execution/artifacts/versions.json",
-                    "runpod-execution/artifacts/claim_ledger.json",
+                    "runpod-execution/artifacts/validation_ledger.json",
                     "runpod-execution/artifacts/genie3_toolcheck_report.md",
                     "runpod-execution/artifacts/artifact_index.json",
                     "runpod-execution/artifacts/runpod-execution.tar.gz",
                 ],
                 "done_markers": [
                     "runpod-execution/status.json reports completed or completed_partial",
-                    "runpod-execution/artifacts/claim_ledger.json exists",
+                    "runpod-execution/artifacts/validation_ledger.json exists",
                     "runpod-execution/artifacts/genie3_toolcheck_report.md exists",
                     "runpod-execution/artifacts/runpod-execution.tar.gz exists",
                 ],
@@ -282,7 +280,7 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
                         "Genie 3 source archive at pinned SHA fetched via urllib.request and hashed (sha256)",
                     ],
                     "artifact_validation": [
-                        "validation_commands check status.json + claim_ledger.json + report.md + per-stage validation/*.json"
+                        "validation_commands check status.json + validation_ledger.json + report.md + per-stage validation/*.json"
                     ],
                     "claim_boundaries": [
                         "claim_level cap is candidate; downgrades to insufficient_evidence on smoke failure or source/install failure"
@@ -297,7 +295,6 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
             "heartbeat_file": "runpod-execution/logs/startup.log",
             "inspection": {
                 "hold_after_success_seconds": 600 if execution_ready else 0,
-                "http_artifact_server_port": 8000 if execution_ready else None,
             },
             "commands": startup_commands,
         },
@@ -317,7 +314,7 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
             "Execution-ready payload materialization must happen outside public git after operator authorization.",
         ]
         manifest["workload"]["stage_contract"]["route_proof"]["claim_boundaries"] = [
-            "Public template claim level is planning; provider execution evidence is unavailable.",
+            "Public template result boundary is planning; provider execution evidence is unavailable.",
         ]
     return manifest
 

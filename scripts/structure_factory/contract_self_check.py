@@ -15,19 +15,19 @@ from typing import Any
 
 def find_repo_root(start: Path) -> Path:
     for parent in [start.resolve().parent, *start.resolve().parents]:
-        if (parent / "modules" / "artifact-contracts" / "structure-dossier.v1.json").exists():
+        if (parent / "modules" / "artifact-contracts" / "structure-report.v1.json").exists():
             return parent
     return start.resolve().parents[2]
 
 
 ROOT = find_repo_root(Path(__file__))
-CONTRACT_PATH = ROOT / "modules" / "artifact-contracts" / "structure-dossier.v1.json"
+CONTRACT_PATH = ROOT / "modules" / "artifact-contracts" / "structure-report.v1.json"
 
 PROFILE_REQUIREMENTS = {
     "no-download-smoke": "required_for_smoke",
     "raw-subset-open": "required_for_raw_subset_demo",
     "raw-subset-gated": "required_for_raw_subset_demo",
-    "map-model-dossier": "required_for_map_model_dossier",
+    "map-model-report": "required_for_map_model_report",
 }
 
 VALID_CLAIM_LEVELS = {
@@ -129,7 +129,7 @@ def is_missing_evidence(value: Any) -> bool:
 
 
 def required_key_for_profile(execution_profile: str) -> str:
-    return PROFILE_REQUIREMENTS.get(execution_profile, "required_for_full_dossier")
+    return PROFILE_REQUIREMENTS.get(execution_profile, "required_for_full_report")
 
 
 def artifact_path(root: Path, rel: str) -> Path:
@@ -201,19 +201,19 @@ def check_raw_join(manifest: dict[str, Any], root: Path) -> list[str]:
     return errors
 
 
-def check_claim_ledger(root: Path, required: bool) -> list[str]:
+def check_validation_ledger(root: Path, required: bool) -> list[str]:
     errors: list[str] = []
-    md_path = root / "claim_ledger.md"
-    json_path = root / "claim_ledger.json"
+    md_path = root / "validation_ledger.md"
+    json_path = root / "validation_ledger.json"
     if not md_path.exists() and not json_path.exists():
         if required:
-            errors.append("claim ledger missing")
+            errors.append("validation ledger missing")
         return errors
     if json_path.exists():
         payload = maybe_load_json(json_path)
         claims = payload.get("claims", [])
         if not isinstance(claims, list) or not claims:
-            errors.append("claim_ledger.json must contain non-empty claims list")
+            errors.append("validation_ledger.json must contain non-empty claims list")
         for index, claim in enumerate(claims):
             level = claim.get("claim_level")
             if level not in VALID_CLAIM_LEVELS:
@@ -223,7 +223,7 @@ def check_claim_ledger(root: Path, required: bool) -> list[str]:
     else:
         text = md_path.read_text().lower()
         if not any(level in text for level in VALID_CLAIM_LEVELS):
-            errors.append("claim_ledger.md must include explicit claim levels")
+            errors.append("validation_ledger.md must include explicit result boundarys")
     return errors
 
 
@@ -538,14 +538,14 @@ def self_check(manifest_path: Path, artifact_root: Path, execution_mode: str) ->
         ledger = maybe_load_json(artifact_root / "data-intake-ledger.json")
         if execution_mode == "real" and ledger.get("status") in {"planned_not_downloaded_by_scaffold", "dry_run", "mock"}:
             errors.append("real raw-subset execution cannot pass with planned/mock data-intake-ledger status")
-    if execution_profile == "map-model-dossier":
+    if execution_profile == "map-model-report":
         errors.extend(check_input_audit_join(manifest, artifact_root, real_required=execution_mode == "real"))
         errors.extend(check_data_intake_join(manifest, artifact_root, real_required=execution_mode == "real"))
         errors.extend(check_executed_commands(artifact_root, real_required=execution_mode == "real"))
-        errors.extend(check_claim_ledger(artifact_root, required=True))
+        errors.extend(check_validation_ledger(artifact_root, required=True))
         errors.extend(check_map_model_validation(artifact_root, real_required=execution_mode == "real"))
-    if execution_profile not in {"no-download-smoke", "raw-subset-open", "raw-subset-gated", "map-model-dossier"}:
-        errors.extend(check_claim_ledger(artifact_root, required=True))
+    if execution_profile not in {"no-download-smoke", "raw-subset-open", "raw-subset-gated", "map-model-report"}:
+        errors.extend(check_validation_ledger(artifact_root, required=True))
         errors.extend(check_map_model_validation(artifact_root, real_required=execution_mode == "real"))
 
     return {

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Refine and filter cofolded candidate complexes before a report or jury ranks them.
+Refine and filter cofolded candidate complexes before a report or ranking step reviews them.
 
 ## Public-Safe Status
 
@@ -18,7 +18,7 @@ Use the BioSymphony Structure Factory skill with the Refinement Stack tool card.
 
 - Cofolded complex model outside git.
 - Chain mapping and interface definition.
-- Claim ceiling and quality thresholds.
+- Result boundary and quality thresholds.
 
 ## Typical Outputs
 
@@ -32,4 +32,4 @@ Use the BioSymphony Structure Factory skill with the Refinement Stack tool card.
 - Geometry cleanup is not experimental validation.
 - Gated tools must record runtime license posture.
 - Failed refinement should downgrade the candidate, not disappear it.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate jury.
+- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.

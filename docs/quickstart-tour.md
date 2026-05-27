@@ -1,6 +1,6 @@
 # Quickstart Tour
 
-This tour shows the public-safe path from a fresh checkout to a validated campaign scaffold. It does not require a provider account, GPU, private image, model weights, or credentials.
+This tour shows the path from a fresh checkout to a validated campaign scaffold. It does not require a provider account, GPU, private image, model weights, or credentials.
 
 ![Three ways to start](assets/newcomer-paths.svg)
 
@@ -13,9 +13,9 @@ For the full local-to-Linear-to-cloud ladder, see [`workflow-map.md`](workflow-m
 | Step | Time | Useful Result |
 | --- | --- | --- |
 | Install and checks | 5 minutes | You know the public CLI, example campaign, and skill surface are intact |
-| Scaffold | 10 minutes | You have a target/data contract, stage contract, and claim ledger in `.runtime/` |
-| Agent review | 30 minutes | You have a better dossier and issue plan without remote compute |
-| Issue dry-run | 60 minutes | You have tracker-neutral work items for Linear, GitHub Issues, or another queue |
+| Scaffold | 10 minutes | You have target setup, a stage contract, and a run plan in `.runtime/` |
+| Agent review | 30 minutes | You have a better target plan and task split without remote compute |
+| Task dry-run | 60 minutes | You have tracker-neutral work items for Linear, GitHub Issues, or another queue |
 | Provider prep | Later | You have a non-launching cloud contract ready for operator review |
 
 ## Pick A Starting Mode
@@ -54,7 +54,7 @@ make harness-check
 
 These checks confirm the CLI is installed, both JSON and Markdown catalog views render, the public PD-L1 example validates, the public audit is clean, and the agent/skill harness files are present. The catalog includes task recipes so a new agent can choose a planning, issue-draft, release-review, or cloud-prep path without scanning the full repo. `make read-only-audit` avoids `.runtime/` writes for reviewers. Save `make release-check` and `make public-switch-check` for release preparation or repo handoff.
 
-## 3. Scaffold A Public-Safe Campaign
+## 3. Scaffold A Campaign
 
 Write the scaffold to ignored runtime space first:
 
@@ -69,9 +69,9 @@ bsf scaffold-campaign .runtime/my-target-demo \
 The scaffold creates:
 
 - `campaign-manifest.json`
-- `target-window-dossier.json`
+- target-window file
 - `stage-contract.json`
-- `claim-ledger.md`
+- run notes
 - `README.md`
 
 Validate it:
@@ -86,7 +86,7 @@ bsf audit .
 Copy this prompt after the scaffold exists:
 
 ```text
-Use the BioSymphony Structure Factory skill. Review .runtime/my-target-demo, improve the target-window dossier, stage contract, issue plan, and claim ledger. Keep it public-safe, do not launch remote compute, and run bsf validate plus bsf audit when done.
+Use the BioSymphony Structure Factory skill. Review .runtime/my-target-demo, improve the target window, stage contract, task plan, and run notes. Do not launch remote compute, and run bsf validate plus bsf audit when done.
 ```
 
 For more prompts, see [`docs/use-cases.md`](use-cases.md).
@@ -99,15 +99,15 @@ For a real public example, move the scaffold under `examples/<campaign-id>/` onl
 - expected artifacts are compact and text-based
 - long-running or GPU work has an operator gate
 - no generated structures, raw data, provider logs, private paths, or credentials are committed
-- every claim is capped to the evidence present
+- output labels are tied to what actually ran
 
-Then generate tracker-neutral issue drafts:
+Then generate tracker-neutral task drafts:
 
 ```bash
 bsf issue-dry-run examples/<campaign-id> --out .runtime/<campaign-id>-issues
 ```
 
-Those drafts are mode-aware: binder-design, model-jury, structure-dossier, and screening campaigns get different issue prefixes and acceptance criteria. They can be imported into Linear, GitHub Issues, Notion tasks, or another tracker. For Linear/Symphony, keep the routing label, provider fields, claim ceiling, owned paths, dependencies, validation commands, and `<!-- symphony:schema -->` block intact.
+Those drafts are mode-aware: binder-design, model comparison, structure mapping, and screening campaigns get different prefixes and acceptance criteria. They can be imported into Linear, GitHub Issues, Notion tasks, or another tracker. For Linear/Symphony, keep the routing label, provider fields, owned paths, dependencies, validation commands, and `<!-- symphony:schema -->` block intact.
 
 ## 6. Before Any Remote Run
 

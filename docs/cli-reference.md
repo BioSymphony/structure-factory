@@ -10,7 +10,7 @@ python -m pip install -e .
 
 ## `bsf scaffold-campaign`
 
-Create a public-safe campaign skeleton.
+Create a campaign skeleton.
 
 ```bash
 bsf scaffold-campaign .runtime/my-target-demo \
@@ -24,11 +24,11 @@ bsf scaffold-campaign .runtime/my-target-demo \
 Modes:
 
 - `binder-design`
-- `model-jury`
-- `structure-dossier`
+- `model-comparison`
+- `structure-mapping`
 - `screening`
 
-The command rejects obvious public-safety markers such as private workstation paths, private tracker IDs, assigned credential-like values, and literal provider resource IDs. It writes only compact text and JSON control-plane files.
+The command rejects obvious release blockers such as private workstation paths, private tracker IDs, assigned credential-like values, and literal provider resource IDs. It writes only compact text and JSON control-plane files.
 
 ## `bsf validate`
 
@@ -38,19 +38,19 @@ Validate a public campaign example.
 bsf validate examples/pd-l1-binder-design-public
 ```
 
-The validator checks public/privacy posture, claim level, target accession/window, lane claim ceilings, expected artifacts, stage contract fail-closed posture, and candidate jury evidence modes.
+The validator checks public/privacy posture, result boundaries, target accession/window, lane boundaries, expected artifacts, stage contract fail-closed posture, and candidate ranking source posture.
 
 ## `bsf issue-dry-run`
 
-Render tracker-neutral issue drafts for a validated campaign. The issue plan is
-mode-aware for `binder-design`, `model-jury`, `structure-dossier`, and
+Render tracker-neutral task drafts for a validated campaign. The issue plan is
+mode-aware for `binder-design`, `model-comparison`, `structure-mapping`, and
 `screening` campaign manifests.
 
 ```bash
 bsf issue-dry-run examples/pd-l1-binder-design-public --out .runtime/pd-l1-issues
 ```
 
-The output is ignored by git. Review it before importing into Linear, GitHub Issues, Notion tasks, or another tracker. The generated issue IDs use mode-specific prefixes such as `BSF-BINDER-*`, `BSF-JURY-*`, `BSF-DOSSIER-*`, and `BSF-SCREEN-*`.
+The output is ignored by git. Review it before importing into Linear, GitHub Issues, Notion tasks, or another tracker. The generated task IDs use mode-specific prefixes such as `BSF-BINDER-*`, `BSF-MODEL-*`, `BSF-MAP-*`, and `BSF-SCREEN-*`.
 
 ## `bsf audit`
 
@@ -78,7 +78,7 @@ Verify the public skill repo shape.
 bsf harness-check .
 ```
 
-This checks that the README, skill files, public docs, issue pack, RunPod posture, tool cards, templates, and release guidance expected by BioSymphony users are present and internally linked.
+This checks that the README, skill files, public docs, task pack, RunPod posture, tool cards, templates, and release guidance expected by BioSymphony users are present and internally linked.
 
 ## `bsf catalog`
 
@@ -92,7 +92,7 @@ bsf catalog . --format markdown
 bsf catalog . --format markdown --out .runtime/public-capability-catalog.md
 ```
 
-The catalog lists task recipes, campaign modules, public examples, issue packs,
+The catalog lists task recipes, campaign modules, public examples, task packs,
 stage contracts, provider profiles, recipes, and starter commands. It is
 intended for fresh users and agents that need to choose an entry point without
 reading the whole repository. Use JSON for automation and Markdown for reviews,

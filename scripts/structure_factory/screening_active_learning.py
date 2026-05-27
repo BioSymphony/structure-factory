@@ -96,7 +96,7 @@ def build_active_learning(root: Path) -> dict[str, Any]:
     affinity_records = read_jsonl(root / "affinity_predictions.jsonl")
     ranking_rows = read_ranking(root / "consensus_ranking.csv")
     failure_report = load_json(root / "failure_report.json") if (root / "failure_report.json").is_file() else {}
-    claim_ledger = load_json(root / "claim_ledger.json") if (root / "claim_ledger.json").is_file() else {}
+    validation_ledger = load_json(root / "validation_ledger.json") if (root / "validation_ledger.json").is_file() else {}
 
     prep_by_id = {str(record.get("ligand_id")): record for record in prep_records}
     affinity_by_id = {str(record.get("ligand_id")): record for record in affinity_records}
@@ -137,7 +137,7 @@ def build_active_learning(root: Path) -> dict[str, Any]:
                 "boltz_vs_similarity_proxy",
                 "molecular_weight_vs_clogp_baseline",
             ],
-            "recommended_action": "promote_to_dossier_or_next_tranche" if value >= 0.30 else "keep_in_background_ledger",
+            "recommended_action": "promote_to_report_or_next_tranche" if value >= 0.30 else "keep_in_background_ledger",
             "claim_level": "candidate",
             "evidence_mode": affinity.get("evidence_mode", "fixture_or_demo"),
         })
@@ -193,7 +193,7 @@ def build_active_learning(root: Path) -> dict[str, Any]:
                 "tranche_id": "method_disagreement_cases",
                 "ligand_ids": disagreement_ids,
                 "selection_axis": "method_disagreement_proxy",
-                "recommended_next_action": "promote to review dossiers and run alternate methods",
+                "recommended_next_action": "promote to review reports and run alternate methods",
             },
             {
                 "tranche_id": "failure_rescue_cases",
@@ -221,7 +221,7 @@ def build_active_learning(root: Path) -> dict[str, Any]:
             rescue_items.append({
                 "schema_version": 1,
                 "ligand_id": record["ligand_id"],
-                "failure_stage": "method_jury",
+                "failure_stage": "method_comparison",
                 "failure_reason": "high_method_disagreement",
                 "recommended_action": "route_to_alternate_scoring_or_manual_review",
                 "claim_level": "candidate",
@@ -244,21 +244,21 @@ def build_active_learning(root: Path) -> dict[str, Any]:
             {"id": "affinity_predictions", "path": "affinity_predictions.jsonl", "type": "ledger"},
             {"id": "consensus_ranking", "path": "consensus_ranking.csv", "type": "ranking"},
             {"id": "failure_report", "path": "failure_report.json", "type": "failure_ledger"},
-            {"id": "claim_ledger", "path": "claim_ledger.json", "type": "claim_ledger"},
+            {"id": "validation_ledger", "path": "validation_ledger.json", "type": "validation_ledger"},
             {"id": "active_learning_tranches", "path": "active_learning_tranches.json", "type": "selection_plan"},
             {"id": "method_disagreement", "path": "method_disagreement.jsonl", "type": "disagreement_ledger"},
         ],
         "edges": [
             {"from": "screening_manifest", "to": "ligand_prep", "relation": "declares_inputs"},
             {"from": "ligand_prep", "to": "pose_predictions", "relation": "feeds"},
-            {"from": "pose_predictions", "to": "affinity_predictions", "relation": "feeds_method_jury"},
+            {"from": "pose_predictions", "to": "affinity_predictions", "relation": "feeds_method_comparison"},
             {"from": "affinity_predictions", "to": "consensus_ranking", "relation": "ranked_by"},
             {"from": "consensus_ranking", "to": "active_learning_tranches", "relation": "selects"},
             {"from": "failure_report", "to": "active_learning_tranches", "relation": "adds_rescue_cases"},
-            {"from": "claim_ledger", "to": "consensus_ranking", "relation": "limits_claims"},
+            {"from": "validation_ledger", "to": "consensus_ranking", "relation": "limits_claims"},
         ],
-        "claim_ceiling": claim_ledger.get("overall_claim_level", "candidate"),
-        "evidence_mode": claim_ledger.get("evidence_mode", "fixture_or_demo"),
+        "claim_ceiling": validation_ledger.get("overall_claim_level", "candidate"),
+        "evidence_mode": validation_ledger.get("evidence_mode", "fixture_or_demo"),
     }
 
     write_json(root / "scaffold_atlas.json", scaffold_atlas)

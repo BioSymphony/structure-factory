@@ -29,14 +29,14 @@ This roadmap is for the next planning pass before dispatching Structure Factory 
 - Draft Linear issue bodies for the first wave only.
 - Validate contracts before any remote execution.
 - Keep all high-cost or large-download issues parked in Backlog until the no-download smoke run proves the lane.
-- Add CryoCore handoff contracts for EMPIAR-13124 50/100-movie raw-subset work and PDB/EMDB evidence dossier contracts behind explicit operator gates.
+- Add CryoCore handoff contracts for EMPIAR-13124 50/100-movie raw-subset work and PDB/EMDB structure-mapping report contracts behind explicit operator gates.
 
-## Phase 4: Tool-Jury Campaign
+## Phase 4: Tool-Ranking Campaign
 
 - Add comparison-lane documentation for RELION, CryoSPARC, Warp/M, Topaz, ModelAngelo, Phenix, cryoDRGN, and figure generation, with raw reconstruction execution handled as CryoCore-owned work.
 - Treat disagreement as an artifact that spawns review issues.
 - Keep CryoSPARC, Phenix, ChimeraX, MotionCor3, Rosetta/PyRosetta, and AlphaFold 3 runtime-gated until access exists.
 
-## Phase 5: Publication Dossier
+## Phase 5: Publication Report
 
-- Produce a full structure dossier contract with maps, models, validation, figures, methods, provenance, claim ledger, caveats, and next-experiment recommendations.
+- Produce a full structure report contract with maps, models, validation, figures, methods, provenance, validation notes, caveats, and next-experiment recommendations.

@@ -1,12 +1,12 @@
 name: Public campaign request
-description: Request a public-safe Structure Factory scaffold, example, recipe, or issue pack.
+description: Request a Structure Factory scaffold, example, recipe, or multi-agent task plan.
 title: "[Campaign]: "
-labels: ["campaign", "public-safe"]
+labels: ["campaign"]
 body:
   - type: markdown
     attributes:
       value: |
-        Public requests must use public accessions or synthetic fixtures only. Do not include private sequences, unpublished structures, patient data, generated candidate coordinates, provider IDs, or credentials.
+        Use public accessions or synthetic fixtures only. Do not include private sequences, unpublished structures, patient data, generated candidate coordinates, provider IDs, or credentials.
   - type: input
     id: target
     attributes:
@@ -37,8 +37,8 @@ body:
       label: Requested mode
       options:
         - binder-design
-        - model-jury
-        - structure-dossier
+        - model-comparison
+        - structure-mapping
         - screening
         - provider-prep only
     validations:
@@ -46,16 +46,16 @@ body:
   - type: textarea
     id: output
     attributes:
-      label: Desired public-safe output
-      description: Describe the scaffold, recipe, issue pack, or demo you want.
+      label: Desired output
+      description: Describe the scaffold, recipe, task plan, or demo you want.
     validations:
       required: true
   - type: checkboxes
-    id: claims
+    id: boundaries
     attributes:
       label: Boundaries
       options:
-        - label: This request does not ask for wet-lab, clinical, safety, efficacy, or therapeutic claims.
+        - label: This request does not ask for wet-lab, clinical, safety, efficacy, or therapeutic conclusions.
           required: true
         - label: Any GPU, provider, or license-gated execution would require a separate operator gate.
           required: true

@@ -7,4 +7,4 @@ authors:
   - name: "BioSymphony contributors"
 license: "MIT"
 repository-code: "https://github.com/BioSymphony/biosymphony-structure-factory-public"
-abstract: "A public-safe control plane for structural biology campaign planning, provider-gated execution contracts, provenance, and claim-bounded computational dossiers."
+abstract: "An agent-ready control plane for structural biology workflows: binder-design planning, structure mapping, candidate screening, provider-gated execution contracts, and reviewable computational reports."

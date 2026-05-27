@@ -52,7 +52,7 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN for soluble targets), [Cofold scoring stack](cofold-scoring-stack.md) |
 | Cofold one designed candidate against a target | [Boltz](boltz.md) or [Chai-1](chai.md) alone | [Cofold scoring stack](cofold-scoring-stack.md) for multi-validator gating |
 | Promote a candidate from a design batch | [Cofold scoring stack](cofold-scoring-stack.md) | [Refinement stack](refinement-stack.md), [ChimeraX](chimerax-peptide-viz.md) |
-| Prepare a target from public deposited evidence | [GCGR target prep](gcgr-target-prep.md) as a pattern | Plug the output target-window dossier into any designer arm |
+| Prepare a target from public deposited evidence | [GCGR target prep](gcgr-target-prep.md) as a pattern | Plug the output target-window file into any designer arm |
 
 ## Stack Pattern
 
@@ -66,7 +66,7 @@ target prep
   -> ipSAE rescore on PAE matrices
   -> consensus gate
   -> refinement
-  -> rendered dossier
+  -> rendered report
 ```
 
 The cofold scoring stack card explains how to compose Boltz, Chai-1, and AF2-Multimer into the validator slate.
@@ -75,4 +75,4 @@ The cofold scoring stack card explains how to compose Boltz, Chai-1, and AF2-Mul
 
 - iPTM alone is increasingly deprecated for binder ranking. Recent benchmarks prefer ipSAE and multi-validator consensus over single-cofolder iPTM.
 - Wet-lab confirmation lives downstream of every card here. The cards describe in silico triage and provenance, not binding proof.
-- For each new target, start with a target-prep step that pins accession, chain, hotspots, and uncertainty. The designer arms expect this dossier as input.
+- For each new target, start with a target-prep step that pins accession, chain, hotspots, and uncertainty. The designer arms expect this target-window file as input.

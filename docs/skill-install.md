@@ -1,15 +1,14 @@
 # Install The Structure Factory Skill
 
-Structure Factory ships two copies of the same skill:
+Structure Factory ships one portable agent-instruction entry point:
 
-- `.codex/skills/biosymphony-structure-factory/SKILL.md` for Codex-style repo-local discovery
-- `skills/biosymphony-structure-factory/SKILL.md` for portable installation into another agent environment
+- `skills/biosymphony-structure-factory/SKILL.md`
 
-The files are kept identical by `bsf harness-check`.
+Use that file directly from this repository, or copy the skill directory into another agent environment.
 
 ## Repo-Local Use
 
-Open an agent in the repository root and ask it to use the BioSymphony Structure Factory skill. The skill tells the agent to read the public safety, non-claims, harness, compute, licensing, and RunPod guidance before planning work.
+Open an agent in the repository root and ask it to use the BioSymphony Structure Factory skill. The skill tells the agent to read the release, boundary, harness, compute, licensing, and RunPod guidance before planning work.
 
 Validate the local skill surface:
 
@@ -17,30 +16,14 @@ Validate the local skill surface:
 make harness-check
 ```
 
-## Install Into Codex User Skills
-
-For local Codex environments that read `~/.codex/skills`, install a copy:
-
-```bash
-scripts/install-codex-skill.sh
-```
-
-Use a custom destination when needed:
-
-```bash
-scripts/install-codex-skill.sh /path/to/skills
-```
-
-The installer copies only the portable skill directory. It does not copy campaign data, run outputs, private state, or credentials.
-
-## Portable Use Outside Codex
+## Portable Use Outside This Repo
 
 For other agent systems, copy `skills/biosymphony-structure-factory/` into that system's skill or instruction directory, then point the agent at this repository as the working tree.
 
 Minimum prompt:
 
 ```text
-Use the BioSymphony Structure Factory skill. Plan public-safe structural biology work only. Keep remote execution disabled unless explicitly authorized.
+Use the BioSymphony Structure Factory skill. Plan structural biology work with public or synthetic inputs only. Keep remote execution disabled unless explicitly authorized.
 ```
 
 ## Verify After Installation
@@ -52,4 +35,4 @@ bsf harness-check .
 bsf audit .
 ```
 
-The agent should report that the skill is a planning/control-plane harness, not a license bypass, wet-lab protocol system, or evidence-free claim generator.
+The agent should report that the skill is a planning/control-plane harness, not a license bypass, wet-lab protocol system, or unsupported-result generator.

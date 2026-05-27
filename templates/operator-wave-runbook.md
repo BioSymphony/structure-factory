@@ -1,6 +1,6 @@
 # Operator Wave Runbook
 
-Use this template when a Structure Factory campaign moves from local prep into a real wave: paid compute, raw/public data intake, cloud launch, SSH/HPC submission, license-gated tools, or multi-agent dispatch. Keep the filled copy in an issue, a private operator notebook, or a public-safe campaign folder if it contains no private identifiers.
+Use this template when a Structure Factory campaign moves from local prep into a real wave: paid compute, raw/public data intake, cloud launch, SSH/HPC submission, license-gated tools, or multi-agent dispatch. Keep the filled copy in an issue, a private operator notebook, or a public campaign folder if it contains no private identifiers.
 
 Do not paste credentials, provider resource IDs, private tracker text, private workstation paths, unpublished biological data, or raw provider logs into this record.
 
@@ -14,12 +14,12 @@ Do not paste credentials, provider resource IDs, private tracker text, private w
 - execution profile:
 - setup posture:
 - operator gate issue:
-- claim ceiling:
-- evidence mode:
+- result boundary:
+- source posture:
 
 ## Pre-Wave Gate
 
-- [ ] Previous wave closed with expected artifacts, hashes, and claim level.
+- [ ] Previous wave closed with expected artifacts, hashes, and result boundary.
 - [ ] Current issue batch is bounded and dependencies are explicit.
 - [ ] Stage contract exists or the issue explains why `n/a` is acceptable.
 - [ ] Expected artifacts are listed with required/optional status.
@@ -34,7 +34,7 @@ Do not paste credentials, provider resource IDs, private tracker text, private w
 
 ## RunPod-Specific Gate
 
-RunPod is the blessed first paid-pod path for Structure Factory, but provider status is only intent. Workload evidence must come from stage progress, artifacts, hashes, and cleanup proof.
+RunPod is the blessed first paid-pod path for Structure Factory, but provider status is only intent. Workload proof must come from stage progress, artifacts, hashes, and cleanup proof.
 
 - [ ] `make runpod-scope-check` passes.
 - [ ] `make launch-preflight` or the campaign-specific launch preflight passes.
@@ -67,7 +67,7 @@ Provider profile:
 Setup posture:
 Expected artifact packet:
 Cleanup proof:
-Claim ceiling:
+Result boundary:
 Notes:
 ```
 
@@ -78,21 +78,21 @@ The wave is done only when all required items are true:
 - [ ] Tracker state matches the intended closeout state.
 - [ ] Required artifacts exist and are non-empty.
 - [ ] Hash ledger joins artifacts to declared inputs, code/ref, commands, and stage contract.
-- [ ] Validation commands passed or failures are recorded as partial, degraded, blocked, or insufficient evidence.
+- [ ] Validation commands passed or failures are recorded as partial, degraded, blocked, or insufficiently supported.
 - [ ] Provider resources were deleted or retention is explicitly authorized.
 - [ ] Cost report is recorded for paid work.
-- [ ] Claim ledger states what can and cannot be claimed.
-- [ ] Public report distinguishes provider-native, derived, fixture/demo, report-only, and insufficient evidence.
+- [ ] Validation notes state what can and cannot be concluded.
+- [ ] Public report distinguishes provider-native, derived, fixture/demo, report-only, and insufficiently supported outputs.
 
 ## Stop Conditions
 
-Stop the wave and downgrade or block closeout if any of these occur:
+Stop the wave and block or mark the closeout partial if any of these occur:
 
 - provider status shows running but no workload heartbeat or stage progress appears within the declared plateau window
 - artifact proxy returns missing, empty, malformed, or HTML error bodies
 - actual provider cost, GPU class, or runtime exceeds authorization
 - required artifact hashes are missing or do not match
-- a worker claims scientific success from pod creation, scheduler state, process exit, screenshots, or placeholder outputs
+- a worker marks scientific success from pod creation, scheduler state, process exit, screenshots, or placeholder outputs
 - private data, credentials, provider IDs, local paths, or raw logs appear in public files
 - a license-gated tool is installed, run, or redistributed without the declared user context and operator approval
 - any mutating cloud operation targets a resource outside the campaign scope

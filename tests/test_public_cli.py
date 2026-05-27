@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 import subprocess
 import sys
@@ -41,8 +43,8 @@ class PublicCliTests(unittest.TestCase):
     def test_issue_dry_run_uses_campaign_mode(self) -> None:
         expected = {
             "binder-design": "BSF-BINDER-W00",
-            "model-jury": "BSF-JURY-W00",
-            "structure-dossier": "BSF-DOSSIER-W00",
+            "model-comparison": "BSF-MODEL-W00",
+            "structure-mapping": "BSF-MAP-W00",
             "screening": "BSF-SCREEN-W00",
         }
         with tempfile.TemporaryDirectory() as tmp:
@@ -88,21 +90,24 @@ class PublicCliTests(unittest.TestCase):
     def test_scaffold_campaign_cli_rejects_private_marker(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             private_path = "/" + "Users/example/private"
-            code = main(
-                [
-                    "scaffold-campaign",
-                    str(Path(tmp) / "bad-demo"),
-                    "--campaign-id",
-                    "bad-demo",
-                    "--target-label",
-                    private_path,
-                    "--public-accession",
-                    "PDB:1ABC",
-                    "--window",
-                    "demo window",
-                ]
-            )
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                code = main(
+                    [
+                        "scaffold-campaign",
+                        str(Path(tmp) / "bad-demo"),
+                        "--campaign-id",
+                        "bad-demo",
+                        "--target-label",
+                        private_path,
+                        "--public-accession",
+                        "PDB:1ABC",
+                        "--window",
+                        "demo window",
+                    ]
+                )
             self.assertEqual(code, 2)
+            self.assertIn("private-workstation-path", output.getvalue())
 
     def test_audit_flags_private_path_fixture(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -162,10 +167,10 @@ class PublicCliTests(unittest.TestCase):
             self.assertFalse(ok)
             self.assertTrue(any(finding.check_id == "launch-payload-or-approval" for finding in findings))
 
-    def test_audit_rejects_local_jury_json(self) -> None:
+    def test_audit_rejects_local_ranking_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            path = root / "juries" / "candidate_jury.demo.local.json"
+            path = root / "rankings" / "candidate_ranking.demo.local.json"
             path.parent.mkdir()
             path.write_text('{"ok": true}\n', encoding="utf-8")
             ok, findings = audit_tree(root)
@@ -175,9 +180,9 @@ class PublicCliTests(unittest.TestCase):
     def test_audit_rejects_generated_book_output(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            path = root / "report" / "_book" / "index.html"
+            path = root / "report" / "_book" / "rendered-book-output.txt"
             path.parent.mkdir(parents=True)
-            path.write_text("<html></html>\n", encoding="utf-8")
+            path.write_text("generated book output\n", encoding="utf-8")
             ok, findings = audit_tree(root)
             self.assertFalse(ok)
             self.assertTrue(any(finding.check_id == "forbidden-name" for finding in findings))
@@ -186,7 +191,7 @@ class PublicCliTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             sequence = "ACDEFGHIKLMNPQRSTVWYACDEFGHIKLMNPQRSTVWY"
-            (root / "candidate_jury.public.json").write_text(
+            (root / "candidate_ranking.public.json").write_text(
                 json.dumps({"binder_sequence": sequence}),
                 encoding="utf-8",
             )
@@ -204,17 +209,17 @@ class PublicCliTests(unittest.TestCase):
             self.assertFalse(ok)
             self.assertTrue(any(finding.check_id == "forbidden-generated-artifact" for finding in findings))
 
-    def test_candidate_jury_is_small_json(self) -> None:
-        data = json.loads((EXAMPLE / "candidate-jury.example.json").read_text(encoding="utf-8"))
+    def test_candidate_ranking_is_small_json(self) -> None:
+        data = json.loads((EXAMPLE / "candidate-ranking.example.json").read_text(encoding="utf-8"))
         self.assertLessEqual(len(data["candidates"]), 32)
-        self.assertEqual(data["claim_ceiling"], "computational_candidate")
+        self.assertEqual(data["result_boundary"], "computational_candidate")
 
-    def test_validate_rejects_public_candidate_claim_level(self) -> None:
+    def test_validate_rejects_public_candidate_result_boundary(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            campaign_dir = Path(tmp) / "claim-escalation"
+            campaign_dir = Path(tmp) / "boundary-escalation"
             result = scaffold_campaign(
                 campaign_dir,
-                campaign_id="claim-escalation",
+                campaign_id="boundary-escalation",
                 target_label="A2A receptor",
                 public_accession="PDB:5G53",
                 window="TM6 activation microswitch",
@@ -222,13 +227,13 @@ class PublicCliTests(unittest.TestCase):
             self.assertTrue(result["ok"], result)
             manifest_path = campaign_dir / "campaign-manifest.json"
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            manifest["claim_level"] = "candidate"
-            manifest["lanes"][0]["claim_ceiling"] = "therapeutic_claim"
+            manifest["result_boundary"] = "candidate"
+            manifest["lanes"][0]["result_boundary"] = "therapeutic_value"
             manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
             ok, findings = validate_campaign(campaign_dir)
             self.assertFalse(ok)
-            self.assertTrue(any(finding.check_id == "claim-level" for finding in findings))
-            self.assertTrue(any(finding.check_id == "lane-claim-ceiling" for finding in findings))
+            self.assertTrue(any(finding.check_id == "result-boundary" for finding in findings))
+            self.assertTrue(any(finding.check_id == "lane-result-boundary" for finding in findings))
 
     def test_public_harness_surface_is_present(self) -> None:
         ok, findings = harness_check(ROOT)
@@ -247,11 +252,11 @@ class PublicCliTests(unittest.TestCase):
             any(item["campaign_id"] == "pd-l1-binder-design-public" for item in catalog["example_campaigns"]),
             catalog["example_campaigns"],
         )
-        self.assertTrue(any(item["pack_id"] == "binder-design-fast-path-v0" for item in catalog["issue_packs"]))
+        self.assertTrue(any(item["pack_id"] == "binder-design-fast-path-v0" for item in catalog["task_packs"]))
         self.assertTrue(any("bsf issue-dry-run" in command for command in catalog["entry_points"]))
         self.assertTrue(any("bsf catalog . --format markdown" in command for command in catalog["entry_points"]))
         self.assertGreaterEqual(catalog["counts"]["task_recipes"], 4)
-        self.assertTrue(any("public-safe Structure Factory campaign" in item["task"] for item in catalog["task_recipes"]))
+        self.assertTrue(any("Structure Factory campaign" in item["task"] for item in catalog["task_recipes"]))
         self.assertTrue(any("/goal" in item["task"] for item in catalog["task_recipes"]))
 
     def test_catalog_cli_can_write_json_catalog(self) -> None:
@@ -376,9 +381,9 @@ class PublicCliTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="public-builder-test-", dir=runtime_parent) as tmp:
             tmp_path = Path(tmp)
             builders = [
-                ["build_t2r14_bridge_manifest.py", "--out", str(tmp_path / "t2r14-open-dossier.json")],
-                ["build_poltheta_bridge_manifest.py", "--out", str(tmp_path / "poltheta-map-model-dossier.json")],
-                ["build_structure_jury_bridge_manifest.py", "--out", str(tmp_path / "structure-jury-dual-dossier.json")],
+                ["build_t2r14_report_bridge_manifest.py", "--out", str(tmp_path / "t2r14-structure-report.json")],
+                ["build_poltheta_report_bridge_manifest.py", "--out", str(tmp_path / "poltheta-map-model-report.json")],
+                ["build_dual_structure_comparison_bridge_manifest.py", "--out", str(tmp_path / "dual-structure-comparison.json")],
             ]
             for builder in builders:
                 subprocess.run(

@@ -18,7 +18,7 @@ Structure Factory should be reusable outside this repo as a BioSymphony sidecar:
    - `modules/image-modules/`: logical tool images such as `cryo-core`
    - `modules/lane-modules/`: RELION, CryoSPARC, Phenix, AlphaFold, etc. Raw reconstruction lanes are CryoCore handoff definitions here, not Structure Factory ownership.
    - `modules/smoke-checks/`: GPU, storage, artifact, license-gate probes
-   - `modules/artifact-contracts/`: dossier shapes
+   - `modules/artifact-contracts/`: report and result shapes
 
 3. **Provider overlays**
    - RunPod Pods

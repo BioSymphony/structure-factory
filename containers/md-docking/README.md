@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Molecular dynamics, docking, and structure-analysis support for model-jury and validation campaigns.
+Molecular dynamics, docking, and structure-analysis support for model-comparison and validation campaigns.
 
 ## Candidate Contents
 

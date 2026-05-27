@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate RunPod bridge manifests are scoped to Structure Factory resources."""
+"""Validate RunPod provider templates or packets are scoped to Structure Factory resources."""
 
 from __future__ import annotations
 

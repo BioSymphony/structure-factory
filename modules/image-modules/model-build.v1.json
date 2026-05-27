@@ -3,7 +3,7 @@
   "module_type": "image_module",
   "family": "model-build",
   "purpose": "Atomic model building, refinement, validation, and model/map review.",
-  "required_for_profiles": ["full_structure_dossier"],
+  "required_for_profiles": ["full_structure_report"],
   "candidate_tools": ["modelangelo", "phenix", "coot", "chimerax", "isolde"],
   "execution_ready_requires": ["oci_digest", "toolcheck_pass", "license_audit"],
   "lane_dependencies": [

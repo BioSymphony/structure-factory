@@ -1,11 +1,11 @@
-# Screening Superpowers Dashboard
+# Screening Superpowers Fixture Summary
 
-A static artifact browser for the Screening Superpowers fixture. After the fixture runs, open the dashboard locally to see how an agent or scientist would review consensus rankings, failure rows, method summaries, and candidate dossiers.
+CLI-first review path for the Screening Superpowers fixture. It ships Markdown and command-line summary output only. After the fixture runs, use the summary helper to review consensus rankings, failure rows, method summaries, and candidate reports.
 
 ## Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill. Run the screening-superpowers fixture, open the demos/screening-superpowers/ dashboard, and walk through the consensus ranking, failure report, method summary, and candidate dossiers. Explain how this same dashboard shape applies to a real provider-backed screening campaign.
+Run the screening-superpowers fixture and summarize the consensus ranking, failure report, method summary, and candidate reports. Explain how the same artifact shape applies to a real provider-backed screening campaign.
 ```
 
 ## Run It Yourself
@@ -16,28 +16,22 @@ Generate fixture artifacts:
 make screening-check
 ```
 
-Serve the repo root so the browser can fetch `.runtime/screening-superpowers-fixture/`:
+Print the parsed artifact summary:
 
 ```bash
-python3 -m http.server 8765
-```
-
-Open:
-
-```text
-http://localhost:8765/demos/screening-superpowers/
-```
-
-The page also supports loading a local `.runtime/screening-superpowers-fixture` folder through the file picker, useful when opening `index.html` directly.
-
-## Validation
-
-The dashboard is static: no provider calls, downloads, build step, or external JavaScript dependencies. The companion parser validates the same artifact set from the command line:
-
-```bash
-python3 scripts/structure_factory/screening_dashboard.py \
+python3 scripts/structure_factory/screening_summary.py \
   --artifact-root .runtime/screening-superpowers-fixture \
   --json
 ```
 
-Fixture scores are `fixture_or_demo` evidence intended for schema, ranking, and dossier-promotion review. Real screening hits come from provider-backed runs and stay at `computational_candidate` until independent validation arrives.
+## Validation
+
+The summary helper performs no provider calls, downloads, build step, browser launch, or external JavaScript work:
+
+```bash
+python3 scripts/structure_factory/screening_summary.py \
+  --artifact-root .runtime/screening-superpowers-fixture \
+  --json
+```
+
+Fixture scores are `fixture_or_demo` evidence intended for schema, ranking, and report-promotion review. Real screening hits come from provider-backed runs and stay at `computational_candidate` until independent validation arrives.

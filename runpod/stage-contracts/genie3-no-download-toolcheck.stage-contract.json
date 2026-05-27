@@ -9,7 +9,7 @@
   "wave": "T0",
   "execution_profile": "genie3-no-download-toolcheck",
   "progress_ledger": "/workspace/runpod-execution/artifacts/stage-progress.jsonl",
-  "success_claim": "Genie 3 source archive at the lane-pinned commit SHA fetches, pip install succeeds in the host runtime, at least one declared smoke command exits 0, and the pinned HuggingFace weights revision resolves via API HEAD without body download. Claim level is at most candidate.",
+  "success_claim": "Genie 3 source archive at the lane-pinned commit SHA fetches, pip install succeeds in the host runtime, at least one declared smoke command exits 0, and the pinned HuggingFace weights revision resolves via API HEAD without body download. Result boundary is at most candidate.",
   "fail_closed": true,
   "partial_summary": {
     "path": "partial-summary.json",
@@ -80,7 +80,7 @@
     },
     {
       "stage_id": "smoke_commands",
-      "description": "Run the lane module smoke commands in order (genie3 --help, python -m genie3.cli --help, python -c 'import genie3'). Stage is completed when at least one exits 0; otherwise terminal failed and the claim ledger downgrades to insufficient_evidence.",
+      "description": "Run the lane module smoke commands in order (genie3 --help, python -m genie3.cli --help, python -c 'import genie3'). Stage is completed when at least one exits 0; otherwise terminal failed and the validation ledger downgrades to insufficient_evidence.",
       "required": true,
       "expected_outputs": ["validation/smoke_commands.json"],
       "timeout_minutes": 10,
@@ -102,16 +102,16 @@
     },
     {
       "stage_id": "emit_artifacts",
-      "description": "Write versions.json, claim_ledger.json, genie3_toolcheck_report.md, and artifact_index.json. Computes overall_ok = source_download_ok AND (pip_install_succeeded OR pip_install_skipped) AND smoke_any_ok.",
+      "description": "Write versions.json, validation_ledger.json, genie3_toolcheck_report.md, and artifact_index.json. Computes overall_ok = source_download_ok AND (pip_install_succeeded OR pip_install_skipped) AND smoke_any_ok.",
       "required": true,
       "expected_outputs": [
         "versions.json",
-        "claim_ledger.json",
+        "validation_ledger.json",
         "genie3_toolcheck_report.md",
         "artifact_index.json"
       ],
       "timeout_minutes": 5,
-      "checkpoint_marker": "claim_ledger.json",
+      "checkpoint_marker": "validation_ledger.json",
       "done_marker": "artifact_index.json",
       "resume_command": "python3 scripts/structure_factory/genie3_toolcheck.py --out /workspace/runpod-execution/artifacts --json",
       "fail_closed": true

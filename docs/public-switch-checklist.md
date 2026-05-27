@@ -27,7 +27,7 @@ Expected state:
 Before push, verify:
 
 - No private workstation paths, private user names, private tracker URLs, concrete provider IDs, private registry names, or accepted-license records are present.
-- RunPod bridge manifests and RunPod launch manifests are public non-launchable templates. Real bridge packets with embedded payloads, concrete placement, real approvals, raw-download authorization, or provider secrets stay outside git.
+- RunPod public templates are non-launchable. Real provider packets with embedded payloads, concrete placement, real approvals, raw-download authorization, or provider secrets stay outside git.
 - Public docs use environment variable names and placeholders only. Secrets, tokens, license files, signed URLs, installer links, and provider credentials are never committed.
 - Raw cryo-EM movies, private structures, unpublished sequences, private ligand libraries, generated candidate structures, and large public datasets remain outside git.
 
@@ -37,7 +37,7 @@ The public switch should not publish private history. Use one of these paths:
 
 - Create a clean root commit from the scrubbed working tree.
 - Use a deliberate history rewrite or squash that removes private and generated artifacts from all reachable commits.
-- Recreate the public repo from the cleaned tree and verify the first public commit is public-safe.
+- Recreate the public repo from the cleaned tree and verify the first public commit contains only intended public material.
 
 Staged deletions are not enough if old commits remain reachable on the future public remote.
 
@@ -56,7 +56,7 @@ Do not push while the repo still points at a placeholder remote, a private remot
 
 Local public readiness is not remote execution readiness. A real RunPod, AWS, HPC, or neocloud run still requires:
 
-- a pushed public-safe 40-character commit SHA
+- a pushed public 40-character commit SHA
 - digest-pinned or reviewed runtime image posture
 - current license/use-context review for gated tools
 - explicit operator authorization with budget, runtime cap, and cleanup policy

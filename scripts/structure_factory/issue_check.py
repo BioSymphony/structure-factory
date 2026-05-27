@@ -29,7 +29,7 @@ VALID_EXECUTION_PROFILES = {
     "no-download-smoke",
     "raw-subset-open",
     "raw-subset-gated",
-    "map-model-dossier",
+    "map-model-report",
     # Screening Superpowers profiles
     "screening-no-download-smoke",
     "screening-wide-docking",
@@ -39,7 +39,7 @@ VALID_EXECUTION_PROFILES = {
     # AI design lane profiles (Boltz + Genie 3)
     "genie3-no-download-toolcheck",
     "genie3-public-design-canary",
-    "genie3-boltz-design-jury",
+    "genie3-boltz-design-ranking",
     "other",
 }
 VALID_ROUTING_LABELS = {
@@ -47,7 +47,6 @@ VALID_ROUTING_LABELS = {
 }
 VALID_TOOL_POSTURES = {"open-default", "review-required", "runtime-gated", "internal-only", "mixed"}
 REPO_REFERENCE_PREFIXES = (
-    ".codex/",
     "AGENTS.md",
     "Makefile",
     "README.md",

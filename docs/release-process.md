@@ -33,7 +33,7 @@ The Python package installs the `bsf` CLI. The repo assets are equally important
 - skills
 - examples
 - recipes
-- issue packs
+- task packs
 - schemas
 - docs
 - templates
