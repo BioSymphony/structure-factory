@@ -486,7 +486,6 @@ def get_source_posture(mapping: dict[str, Any]) -> Any:
 
 PUBLIC_TEXT_REPLACEMENTS = (
     ("public", "public"),
-    ("claim-bounded", "reviewable"),
     ("candidate_ranking_top32", "candidate_ranking_top32"),
     ("candidate_ranking", "candidate_ranking"),
     ("validation_ledger", "validation_ledger"),
