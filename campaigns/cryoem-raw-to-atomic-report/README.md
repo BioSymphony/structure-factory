@@ -2,7 +2,7 @@
 
 ## Objective
 
-Turn public raw cryo-EM data into a reproducible atomic-structure evidence package with maps, model, validation, publication-grade figures, methods notes, provenance, caveats, and next-experiment recommendations.
+Turn public raw cryo-EM data into a reproducible atomic-structure report package with maps, model, validation, publication-grade figures, methods notes, provenance, caveats, and next-experiment recommendations.
 
 ## Intended First Dataset
 
@@ -27,9 +27,9 @@ Use no-download metadata for the first smoke campaign, then use a deterministic 
 
 Issue drafts live in `linear-issues/`. The public export carries representative examples:
 
-- `BSF-DEMO-01-T2R14-OPEN-RUNPOD-DOSSIER.md`. T2R14 coordinate-report demo.
-- `BSF-DEMO-02-POLTHETA-MAP-MODEL-RUNPOD-DOSSIER.md`. Pol theta map-model report demo.
-- `BSF-DEMO-04-STRUCTURE-JURY-DUAL-DOSSIER.md`. Two-lane structure-ranking demo.
+- `BSF-DEMO-01-T2R14-STRUCTURE-REPORT.md`. T2R14 coordinate-report demo.
+- `BSF-DEMO-02-POLTHETA-MAP-MODEL-REPORT.md`. Pol theta map-model report demo.
+- `BSF-DEMO-04-DUAL-STRUCTURE-COMPARISON.md`. Two-lane structure-comparison demo.
 - `BSF-W13-PROVIDER-ADAPTER-CONTRACTS.md`. Provider-adapter contract example.
 
 A fuller wave-by-wave issue queue lives in operator-controlled infrastructure outside this repo. The wave plan above describes the sequence; turn each item into a tracker-neutral issue (one per wave) when planning a real run.
