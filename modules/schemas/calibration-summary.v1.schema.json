@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "module_type": "schema_contract",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "modules/schemas/calibration-summary.v1.schema.json",
+  "title": "Structure Factory calibration summary v1",
+  "type": "object",
+  "required": ["schema_version", "benchmark_id", "methods", "metrics", "claim_ceiling", "simple_baselines_included"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "benchmark_id": { "type": "string", "minLength": 1 },
+    "methods": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "metrics": { "type": "object" },
+    "claim_ceiling": { "enum": ["candidate", "calibrated", "validated"] },
+    "simple_baselines_included": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

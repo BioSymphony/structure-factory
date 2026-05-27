@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "manifest_kind": "symphony_runpod_launch",
+  "manifest_id": "structure-factory-public-nonlaunchable-template",
+  "public_template_status": "non_launchable_public_template",
+  "remote_launch_allowed": false,
+  "provider": {
+    "name": "runpod",
+    "adapter": "runpod_pod_v1"
+  },
+  "launch_authorization": {
+    "approved_at": "PENDING",
+    "approved_by": "PENDING-OPERATOR-GATE",
+    "public_repo_note": "Public bridge manifests are shape-only templates. Real provider packets with concrete placement, approvals, runtime secrets, accepted-license state, or prior-run artifacts belong outside public git."
+  },
+  "repo": {
+    "source": "git_remote_or_snapshot",
+    "url_or_path": "https://github.com/BioSymphony/biosymphony-structure-factory-public.git",
+    "commit_or_snapshot": "PENDING-PINNED-COMMIT",
+    "workdir": "/workspace/structure-factory"
+  },
+  "run_id": "structure-factory-public-template",
+  "runpod": {
+    "name": "structure-factory-public-template",
+    "dataCenterIds": [],
+    "gpuTypeIds": [],
+    "cloudType": "SECURE",
+    "networkVolumeId": "",
+    "env": {
+      "STRUCTURE_FACTORY_RUN_ID": "structure-factory-public-template",
+      "STRUCTURE_FACTORY_REPO_SOURCE": "git_remote_or_snapshot"
+    },
+    "registryAuth": {
+      "enabled": false,
+      "runtime_secret_refs": []
+    }
+  },
+  "startup": {
+    "commands": [
+      "echo 'Public non-launchable template. Rebuild a private/operator-gated launch packet from tracked source before execution.'",
+      "exit 64"
+    ]
+  },
+  "artifact_egress": {
+    "requires_network_volume": false,
+    "expected_artifacts": [],
+    "public_template_note": "Artifact roots, hashes, pod IDs, logs, and cleanup proofs are runtime closeout records and are not committed here."
+  },
+  "worker_coordination": {
+    "resource_name_prefix": "structure-factory-public-template",
+    "single_mutating_worker": true,
+    "read_only_monitors_allowed": true
+  },
+  "monitoring": {
+    "record_pod_fields": [
+      "id",
+      "name",
+      "desiredStatus",
+      "costPerHr",
+      "adjustedCostPerHr"
+    ]
+  },
+  "closeout": {
+    "stop_or_delete_pod": true,
+    "retain_pod": false,
+    "required_before_success": [
+      "artifact_manifest",
+      "hashes",
+      "cleanup_proof",
+      "result_boundary"
+    ]
+  },
+  "public_safety": {
+    "no_literal_secrets": true,
+    "no_concrete_provider_resources": true,
+    "no_private_volume_assumptions": true,
+    "no_prior_run_artifacts": true,
+    "no_accepted_license_state": true
+  }
+}
