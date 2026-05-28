@@ -6,5 +6,5 @@ date-released: "2026-05-23"
 authors:
   - name: "BioSymphony contributors"
 license: "MIT"
-repository-code: "https://github.com/BioSymphony/biosymphony-structure-factory-public"
+repository-code: "https://github.com/BioSymphony/structure-factory"
 abstract: "An agent-ready control plane for structural biology workflows: binder-design planning, structure mapping, candidate screening, provider-gated execution contracts, and reviewable computational reports."

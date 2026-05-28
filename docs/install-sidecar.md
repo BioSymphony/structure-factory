@@ -7,7 +7,7 @@ Structure Factory can be used as a sibling repo, vendored folder, or mounted sid
 ```text
 /path/to/work/
   bio-symphony/
-  biosymphony-structure-factory-public/
+  structure-factory/
   orchestrator-workspace/
 ```
 
@@ -16,13 +16,13 @@ Structure Factory can be used as a sibling repo, vendored folder, or mounted sid
 1. Clone the public repo or your private fork:
 
 ```bash
-git clone https://github.com/BioSymphony/biosymphony-structure-factory-public.git
+git clone https://github.com/BioSymphony/structure-factory.git
 ```
 
 2. Validate the sidecar:
 
 ```bash
-cd biosymphony-structure-factory-public
+cd structure-factory
 make preflight
 make registry-check
 make module-check

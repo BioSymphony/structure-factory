@@ -13,7 +13,7 @@
 #
 # Required env (bridge manifest runpod.env):
 #   STRUCTURE_FACTORY_RUN_ID                       structure-factory-pd-l1-rfdiffusion-canary
-#   STRUCTURE_FACTORY_REPO_URL                     https://github.com/BioSymphony/biosymphony-structure-factory-public.git
+#   STRUCTURE_FACTORY_REPO_URL                     https://github.com/BioSymphony/structure-factory.git
 #   STRUCTURE_FACTORY_GIT_REF                      main or pinned SHA
 #   STRUCTURE_FACTORY_VOLUME_ROOT                  /workspace/structure-factory
 #   STRUCTURE_FACTORY_REPO_ROOT                    /workspace/bio-symphony-structure-factory

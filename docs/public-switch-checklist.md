@@ -46,7 +46,7 @@ Staged deletions are not enough if old commits remain reachable on the future pu
 Only after the owner confirms the final repository name and visibility:
 
 ```bash
-git remote add origin https://github.com/BioSymphony/biosymphony-structure-factory-public.git
+git remote add origin https://github.com/BioSymphony/structure-factory.git
 git push -u origin main
 ```
 

@@ -471,7 +471,7 @@ write_software_manifest() {
   log "writing $manifest"
   cat > "$manifest" <<EOF
 {
-  "campaign": "structure-factory-public-template",
+  "campaign": "structure-factory-template",
   "network_volume_id": "STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID",
   "bootstrap_completed_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "tools": {

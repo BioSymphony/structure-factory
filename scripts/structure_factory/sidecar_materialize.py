@@ -17,7 +17,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--campaign", type=Path, required=True)
     parser.add_argument("--provider-profile", type=Path, required=True)
-    parser.add_argument("--repo-url", default="https://github.com/BioSymphony/biosymphony-structure-factory-public.git")
+    parser.add_argument("--repo-url", default="https://github.com/BioSymphony/structure-factory.git")
     parser.add_argument("--git-ref", default="structure-factory-prep-v0")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()

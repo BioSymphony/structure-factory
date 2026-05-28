@@ -49,7 +49,7 @@ Expected release state:
 - No `.local.json` runtime summaries, Quarto `_book` outputs, generated report HTML, generated candidate sequence fields, or candidate render batches are tracked.
 - Small curated public demo figures may remain only when they are referenced by public docs and contain no generated candidate sequences, private data, provider metadata, or raw structural files.
 - `runpod/bridge-manifests/*.json` remain public non-launchable shape templates only: no per-campaign provider packets, embedded payloads, concrete placement, real approvals, run logs, and no prior-run volume assumptions.
-- The public repo has clean history suitable for publishing under `BioSymphony/biosymphony-structure-factory-public`.
+- The public repo has clean history suitable for publishing under `BioSymphony/structure-factory`.
 
 See [`docs/public-switch-checklist.md`](docs/public-switch-checklist.md) for the local switch gate, privacy/security checks, clean-history requirement, and remote-push gate.
 
@@ -58,7 +58,7 @@ See [`docs/public-switch-checklist.md`](docs/public-switch-checklist.md) for the
 Before a remote push, choose the final public GitHub repository and add it explicitly:
 
 ```bash
-git remote add origin https://github.com/BioSymphony/biosymphony-structure-factory-public.git
+git remote add origin https://github.com/BioSymphony/structure-factory.git
 git push -u origin main
 ```
 

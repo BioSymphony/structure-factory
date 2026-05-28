@@ -14,7 +14,7 @@
   },
   "repo": {
     "delivery": "dry_run_only",
-    "url": "https://github.com/BioSymphony/biosymphony-structure-factory-public.git",
+    "url": "https://github.com/BioSymphony/structure-factory.git",
     "git_ref": "dry-run-not-launchable"
   },
   "providers": [

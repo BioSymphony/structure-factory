@@ -28,8 +28,8 @@ workspace:
 hooks:
   after_create: |
     rm -rf ./* ./.[!.]* 2>/dev/null || true
-    git clone --depth 1 --branch ${STRUCTURE_FACTORY_PUBLIC_REF:-main} https://github.com/BioSymphony/biosymphony-structure-factory-public.git . || {
-      git clone --depth 1 --branch ${STRUCTURE_FACTORY_PUBLIC_REF:-main} https://github.com/BioSymphony/biosymphony-structure-factory-public.git repo
+    git clone --depth 1 --branch ${STRUCTURE_FACTORY_PUBLIC_REF:-main} https://github.com/BioSymphony/structure-factory.git . || {
+      git clone --depth 1 --branch ${STRUCTURE_FACTORY_PUBLIC_REF:-main} https://github.com/BioSymphony/structure-factory.git repo
       shopt -s dotglob && mv repo/* repo/.git . 2>/dev/null; rm -rf repo
     }
     rm -f .symphony-promote-ready .symphony-promoted .symphony-promote-result .symphony-github-handoff .symphony-github-handoff-result .symphony-runpod-launch-request.json

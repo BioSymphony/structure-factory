@@ -126,8 +126,8 @@ Boundaries that this repo does not cross live in [`NON_CLAIMS.md`](NON_CLAIMS.md
 You do not need to run these to use Structure Factory. Your agent runs them. These commands are here for power users who want to peek under the hood, run locally without an orchestrator, or build tooling around the same contracts.
 
 ```bash
-git clone https://github.com/BioSymphony/biosymphony-structure-factory-public.git
-cd biosymphony-structure-factory-public
+git clone https://github.com/BioSymphony/structure-factory.git
+cd structure-factory
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e .

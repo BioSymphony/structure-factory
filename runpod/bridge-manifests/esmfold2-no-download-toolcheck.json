@@ -15,7 +15,7 @@
   },
   "repo": {
     "source": "git_remote_or_snapshot",
-    "url_or_path": "https://github.com/BioSymphony/biosymphony-structure-factory-public.git",
+    "url_or_path": "https://github.com/BioSymphony/structure-factory.git",
     "commit_or_snapshot": "PENDING-PINNED-COMMIT",
     "workdir": "/workspace/structure-factory"
   },

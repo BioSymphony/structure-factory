@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "manifest_kind": "symphony_runpod_launch",
-  "manifest_id": "structure-factory-public-nonlaunchable-template",
+  "manifest_id": "structure-factory-nonlaunchable-template",
   "public_template_status": "non_launchable_public_template",
   "remote_launch_allowed": false,
   "provider": {
@@ -15,19 +15,19 @@
   },
   "repo": {
     "source": "git_remote_or_snapshot",
-    "url_or_path": "https://github.com/BioSymphony/biosymphony-structure-factory-public.git",
+    "url_or_path": "https://github.com/BioSymphony/structure-factory.git",
     "commit_or_snapshot": "PENDING-PINNED-COMMIT",
     "workdir": "/workspace/structure-factory"
   },
-  "run_id": "structure-factory-public-template",
+  "run_id": "structure-factory-template",
   "runpod": {
-    "name": "structure-factory-public-template",
+    "name": "structure-factory-template",
     "dataCenterIds": [],
     "gpuTypeIds": [],
     "cloudType": "SECURE",
     "networkVolumeId": "",
     "env": {
-      "STRUCTURE_FACTORY_RUN_ID": "structure-factory-public-template",
+      "STRUCTURE_FACTORY_RUN_ID": "structure-factory-template",
       "STRUCTURE_FACTORY_REPO_SOURCE": "git_remote_or_snapshot"
     },
     "registryAuth": {
@@ -47,7 +47,7 @@
     "public_template_note": "Artifact roots, hashes, pod IDs, logs, and cleanup proofs are runtime closeout records and are not committed here."
   },
   "worker_coordination": {
-    "resource_name_prefix": "structure-factory-public-template",
+    "resource_name_prefix": "structure-factory-template",
     "single_mutating_worker": true,
     "read_only_monitors_allowed": true
   },

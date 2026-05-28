@@ -9,7 +9,7 @@
   "stage_contract": "runpod/stage-contracts/raw-subset-open.stage-contract.json",
   "progress_ledger": "/workspace/structure-factory/runs/structure-factory-empiar-13124-raw-subset-open-100/stage-progress.jsonl",
   "repo": {
-    "url": "https://github.com/BioSymphony/biosymphony-structure-factory-public.git",
+    "url": "https://github.com/BioSymphony/structure-factory.git",
     "git_ref": "structure-factory-prep-v0",
     "delivery": "public_git_clone"
   },
@@ -71,7 +71,7 @@
   },
   "environment": {
     "STRUCTURE_FACTORY_RUN_ID": "structure-factory-empiar-13124-raw-subset-open-100",
-    "STRUCTURE_FACTORY_REPO_URL": "https://github.com/BioSymphony/biosymphony-structure-factory-public.git",
+    "STRUCTURE_FACTORY_REPO_URL": "https://github.com/BioSymphony/structure-factory.git",
     "STRUCTURE_FACTORY_GIT_REF": "structure-factory-prep-v0",
     "STRUCTURE_FACTORY_VOLUME_ROOT": "/workspace/structure-factory",
     "STRUCTURE_FACTORY_EXECUTION_PROFILE": "raw-subset-open",

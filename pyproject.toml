@@ -39,9 +39,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/BioSymphony/biosymphony-structure-factory-public"
-Repository = "https://github.com/BioSymphony/biosymphony-structure-factory-public"
-Issues = "https://github.com/BioSymphony/biosymphony-structure-factory-public/issues"
+Homepage = "https://github.com/BioSymphony/structure-factory"
+Repository = "https://github.com/BioSymphony/structure-factory"
+Issues = "https://github.com/BioSymphony/structure-factory/issues"
 
 [project.scripts]
 bsf = "biosymphony_structure_factory.cli:main"

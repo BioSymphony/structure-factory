@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/BioSymphony/biosymphony-structure-factory-public/schemas/campaign-manifest.schema.json",
+  "$id": "https://github.com/BioSymphony/structure-factory/schemas/campaign-manifest.schema.json",
   "title": "BioSymphony Structure Factory Campaign Manifest",
   "type": "object",
   "required": ["campaign_id", "result_boundary", "system", "target", "lanes", "expected_artifacts"],
