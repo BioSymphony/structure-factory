@@ -270,6 +270,40 @@ software:
       Provider bootstraps should pip-install this version when the CLI is
       absent. Override the version via env var
       STRUCTURE_FACTORY_BOLTZ_VERSION.
+  esmfold2:
+    role: biomolecular_complex_structure_prediction
+    image_family: ai-design
+    install_method: pinned_source_or_biohub_api
+    pip_package: "esm @ git+https://github.com/Biohub/esm.git@<full-commit-sha>"
+    upstream_repo: "https://github.com/Biohub/esm"
+    upstream_model_repo: "https://huggingface.co/biohub/ESMFold2"
+    upstream_model_sha_observed_2026_05_28: "e1e189d0f5fb70c2693da2332eca4443c0ccccd6"
+    upstream_fast_model_repo: "https://huggingface.co/biohub/ESMFold2-Fast"
+    upstream_fast_model_sha_observed_2026_05_28: "0438ea0d932a314950665e0b4d0af4322ae88250"
+    upstream_esmc_model_repo: "https://huggingface.co/biohub/ESMC-6B"
+    upstream_esmc_model_sha_observed_2026_05_28: "89c554c46a44d825fbfbe3ce2a6bdc539770bdaa"
+    biohub_model_ids: "esmfold2-2026-05, esmfold2-fast-2026-05"
+    primary_source_checked: "2026-05-28; Biohub ESM README, Biohub ESMFold2 overview, Biohub/esm GitHub HEAD, and Hugging Face model metadata."
+    license_class: mit_with_third_party_notice_review
+    license_gate: third_party_notice_api_terms_and_weight_download_review
+    runpod_fit: strong_after_provider_smoke_and_fast_canary
+    gpu_class: "L40S/A100/H100 for first canary; A10-class generic cloud VM may fit small fast-model runs after Torch/CUDA proof"
+    smoke_command: "python -c 'from esm.models.esmfold2 import ESMFold2InputBuilder; print(\"esmfold2 import ok\")'"
+    runtime_artifacts: "esmfold2/prediction.cif, esmfold2/confidence_summary.json, validation/structure_validation.json, claim_ledger.json"
+    citation_notes: "Record Biohub ESM source commit, Hugging Face model revisions, API/local route, inputs, confidence outputs, and Biohub ESM citation."
+    weights_cache_default: "HF_HOME"
+    weights_cache_env_var: "HF_HOME"
+    weights_source: "Hugging Face biohub/ESMFold2 and biohub/ESMFold2-Fast, or Biohub API with secure runtime API key."
+    status: planned
+    notes: |
+      Biohub ESMFold2 lane for all-atom protein and biomolecular-complex
+      prediction. Start with the no-download toolcheck, then ESMFold2-Fast
+      public sequence canary, then foldability gallery, binder crosscheck, RNP
+      or complex canary, and Atlas scout. The preferred first cloud route uses
+      Hugging Face weights, not the Biohub API. The Biohub API remains an
+      optional/deferred route requiring runtime-secret, terms, cost, and
+      artifact-policy gates. Do not treat ESMFold2 outputs as binding,
+      therapeutic, functional, safety, or wet-lab validation evidence.
   chai:
     role: biomolecular_prediction
     image_family: ai-design

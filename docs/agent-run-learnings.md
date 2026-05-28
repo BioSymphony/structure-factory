@@ -44,6 +44,38 @@ Treat these as launch-contract lessons, not anecdotes:
 - Capacity failures are normal operating cost. Budget a modest overhead for allocation failures and re-fires; strict delete gates kept provider-retry spend bounded.
 - Canaries are mandatory for paid fanout. The first shard must exercise launch, proxy probe, artifact egress, hash verification, cleanup, and summary writing before remaining shards fire.
 
+## ESMFold2 Cloud Runbook Lessons
+
+ESMFold2 should be publicized as a staged prediction and foldability lane, not
+as an unbounded model import:
+
+- The public model routes to track are `biohub/ESMFold2` and
+  `biohub/ESMFold2-Fast`. The Biohub Platform API exists and should be linked
+  for agent awareness, but the cloud route proven for this work used Hugging
+  Face weights without calling the API.
+- Start with `esmfold2-no-download-toolcheck`: pinned Biohub `esm` source
+  resolution, package imports, CUDA/Torch probe, Hugging Face metadata revision
+  checks, and no model-weight body download.
+- Treat Biohub API access, ESMFold2 weights, ESM Atlas bulk data, and
+  protein/RNA/DNA/ligand inference as separate gates. A package metadata pass
+  is not a prediction pass.
+- Use ESMFold2-Fast first for a public sequence canary, then candidate
+  galleries, then binder foldability crosscheck, then bounded RNP/complex or
+  Atlas scouts.
+- ESMFold2-Fast still materializes the ESMC backbone. Budget and ledger the
+  first Hugging Face weight fetch, and do not bake weights into public images.
+- Python 3.12 and Torch/CUDA compatibility are first-class gates. Re-probe
+  `torch.cuda.is_available()` after installing Biohub `esm`, because source
+  installs can change the torch build.
+- Generic cloud VMs can be useful for ESMFold2 when RunPod capacity is
+  unavailable, but keep them under `generic_cloud` until the public repo has a
+  provider profile and validators. Require short-lived single-instance runs,
+  archive/hash artifact fetch, immediate termination, and post-cleanup resource
+  listing before success.
+- For binders, ESMFold2 is foldability and uncertainty evidence only. Binding
+  claims still require independent cofold/scoring controls and a conservative
+  claim ledger.
+
 ## Boltz Runner Lessons
 
 The working Boltz route is specific:

@@ -109,6 +109,15 @@ Use when data or licenses must stay inside an institution. The adapter should ge
 
 Use when the provider can support public or operator-gated repo checkout, public images or private images with runtime registry auth, reproducible bootstrap, runtime secrets, scratch/persistent storage boundaries, and artifact export. These are preferred capacity options for users who already have access, but they remain adapter-ready until provider-specific launch tooling, scope checks, cleanup proof, and artifact export have been proven. RunPod remains the reference implementation for pod-style providers.
 
+Lambda Cloud-style GPU VMs should be treated as `generic_cloud` until this
+repo carries a first-class provider profile and validator coverage for that
+API. A useful Lambda-style ESMFold2 pattern is: no persistent filesystem for
+the first canary, short-lived single instance, SSH/SCP or object-store artifact
+egress, remote archive hash check, immediate termination, and explicit
+post-terminate instance/filesystem listing before any success claim. Keep
+provider resource IDs, SSH key names, API keys, images, logs, costs, and raw
+artifacts outside public git.
+
 ## AI-Design Selection Order
 
 For Boltz and Genie-style AI design lanes, use this default order unless a task says otherwise:

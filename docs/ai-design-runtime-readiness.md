@@ -1,6 +1,6 @@
 # AI Design Runtime Readiness
 
-This note captures the RunPod-saving checks for Boltz and Genie 3 lanes. It is provider-neutral in the science contract, but the preferred execution order is RunPod, AWS Batch, neocloud/generic cloud, then local high-resource workstations.
+This note captures the RunPod-saving checks for Boltz, Genie 3, and ESMFold2 lanes. It is provider-neutral in the science contract, but the preferred execution order is RunPod, AWS Batch, neocloud/generic cloud, then local high-resource workstations.
 
 ## Upstream Facts Checked
 
@@ -12,6 +12,10 @@ This note captures the RunPod-saving checks for Boltz and Genie 3 lanes. It is p
 - Genie 3 upstream setup creates a `genie3` conda environment and installs ColabFold into that environment. See [Genie 3 setup docs](https://github.com/aqlaboratory/genie3).
 - Genie 3 upstream download defaults fetch both pretrained weights and training data; Structure Factory blocks training data by default and pins HF downloads by revision when enabled.
 - Genie 3 binder design supports single-node multi-device, multi-node sharding, beam search, iterative design, and `genie3 status`. Its evaluator writes `info.csv`, `success_info.csv`, successful binders, and successful complexes. These outputs map cleanly onto cloud shard/reduce stages.
+- Biohub's ESM README describes two execution paths for ESM models: Biohub Platform API and local Hugging Face weights. Structure Factory should mention both, but prefer Hugging Face weights for the first cloud canary because it avoids API-token and API-cost uncertainty.
+- The two ESMFold2 model routes to track are `biohub/ESMFold2` and `biohub/ESMFold2-Fast`. The fast route still uses the ESMC backbone, so first-run downloads are closer to the backbone size than to the small fast head alone.
+- Public Hugging Face metadata checked on 2026-05-28 reported `biohub/ESMFold2-Fast` revision `0438ea0d932a314950665e0b4d0af4322ae88250`, `biohub/ESMFold2` revision `e1e189d0f5fb70c2693da2332eca4443c0ccccd6`, and `biohub/ESMC-6B` revision `89c554c46a44d825fbfbe3ce2a6bdc539770bdaa`. Re-check before any paid run.
+- Biohub ESM source HEAD checked on 2026-05-28 differed from the short install ref in the public README. Operator packets must pin a full source commit SHA deliberately rather than following a floating branch.
 
 ## Repo Guardrails
 
@@ -27,6 +31,66 @@ This note captures the RunPod-saving checks for Boltz and Genie 3 lanes. It is p
 - Preferred adapter-ready: neocloud GPU pods and generic cloud VMs.
 - Supported local: users with adequate GPU/storage may run locally if the issue declares paths, privacy posture, and cleanup.
 - Not enough: provider launch success, a pod ID, or a zero exit code without artifact hashes, stage progress, and contract self-check.
+
+## ESMFold2 Cloud Readiness
+
+ESMFold2 enters Structure Factory as a staged prediction/foldability lane:
+
+1. Provider lifecycle smoke with no ESM install, no model weights, no API call,
+   and no biological input.
+2. `esmfold2-no-download-toolcheck`: source/package/import probes and
+   Hugging Face metadata checks only.
+3. Hugging Face weights fast canary on one public sequence using
+   `biohub/ESMFold2-Fast`.
+4. Gallery, binder foldability crosscheck, RNP/complex canary, or Atlas scout
+   only after the fast canary has fetched, hashed, and validated artifacts.
+
+The Biohub API route is useful to document for future agents, but it is
+optional/deferred in this repo. API execution requires a runtime-only token,
+terms review, explicit cost posture, request/response artifact policy, and a
+separate closeout that says the API was used.
+
+For RunPod, use the same ladder as the other Structure Factory lanes: public
+template -> private/operator-gated packet -> launch preflight -> paid create
+-> artifact/hash/cleanup closeout. The public template for this lane is
+`runpod/bridge-manifests/esmfold2-no-download-toolcheck.json`; it is not
+launchable.
+
+For generic cloud VMs, including Lambda Cloud-style capacity, keep the provider
+under `generic_cloud` until a real provider profile exists. The useful pattern
+is a single short-lived GPU VM, no persistent filesystem for the first canary,
+runtime bootstrap to Python 3.12, post-install Torch/CUDA re-probe, archive
+only declared artifacts, hash the archive after fetch, terminate immediately,
+and verify no matching instance or filesystem remains.
+
+Minimum ESMFold2 artifact contract:
+
+- `status.json`
+- `stage-progress.jsonl`
+- `executed-commands.jsonl`
+- `validation/host_probe.json`
+- `validation/source_install.json`
+- `validation/package_probe.json`
+- `validation/model_metadata_probe.json`
+- `validation/weights_manifest.json` when weights are materialized
+- `esmfold2/prediction.cif` for real prediction runs
+- `esmfold2/confidence_summary.json`
+- `validation/structure_validation.json`
+- `methods.md`, `provenance.md`, `claim_ledger.json`, and `artifact_index.json`
+
+What an ESMFold2 canary proves:
+
+- the selected provider can bootstrap the runtime
+- the selected model revisions can be materialized or found in cache
+- the run emits parseable structure and confidence artifacts
+- the artifact egress and cleanup path works
+
+What it does not prove:
+
+- binding, function, mechanism, stability, expression, specificity, safety, or
+  therapeutic value
+- broad support for every protein/RNA/DNA/ligand input class
+- readiness for fanout before a one-sequence canary has closed cleanly
 
 ## Binder Demo Implications
 

@@ -71,7 +71,7 @@ Full menu in [`docs/capabilities.md`](docs/capabilities.md) and [`docs/use-cases
 
 **Compute.** Local workstation (no GPU required for planning), RunPod pods, AWS Batch and EC2 GPU, neocloud GPU pods, generic cloud VMs, and SSH or HPC. Each provider has a profile that carries budget, cleanup, license-gate, and closeout requirements.
 
-**Tools and lanes referenced or integrated.** Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, and ProteinMPNN for design. Boltz, Chai, and cofold-scoring stacks for prediction. ChimeraX and MD or docking lanes for refinement and rendering. Target-prep utilities and screening adapters for end-to-end campaigns. Add your own through [`tools/`](tools/) cards.
+**Tools and lanes referenced or integrated.** Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, and ProteinMPNN for design. Boltz, Chai, ESMFold2, and cofold-scoring stacks for prediction and foldability review. ChimeraX and MD or docking lanes for refinement and rendering. Target-prep utilities and screening adapters for end-to-end campaigns. Add your own through [`tools/`](tools/) cards.
 
 **Trackers.** Linear and GitHub Issues are supported through tracker-neutral task templates. Notion and custom queues consume the same shapes.
 

@@ -52,7 +52,7 @@ Symphony with Linear coordination is documented in [`docs/linear-orchestration.m
 ## Tools And Lanes In Scope
 
 - Design: Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, ProteinMPNN.
-- Cofolding and scoring: Boltz, Chai, and cofold-scoring stacks.
+- Cofolding, prediction, and scoring: Boltz, Chai, ESMFold2, and cofold-scoring stacks.
 - Refinement and rendering: ChimeraX, MD, and docking pipelines.
 - Target prep: target-window builders, GCGR target prep.
 - Screening: screening-superpowers fixture and candidate report shapes.

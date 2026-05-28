@@ -24,11 +24,12 @@ Each card follows the same shape:
 
 - [ProteinMPNN](proteinmpnn.md). Backbone-to-sequence design. Includes SolubleMPNN for soluble targets.
 
-### Cofold And Scoring
+### Cofold, Structure Prediction, And Scoring
 
 - [Cofold scoring stack](cofold-scoring-stack.md). Multi-validator slate plus ipSAE rescore. Reads from the individual cards below.
 - [Boltz](boltz.md). Open biomolecular cofold with confidence and full PAE outputs.
 - [Chai-1](chai.md). Open biomolecular cofold with MSA-driven prediction.
+- [ESMFold2](esmfold2.md). Biohub structure prediction and foldability review lane, with Hugging Face weights as the first cloud canary route and Biohub API as optional/deferred.
 
 ### Refinement And Visualization
 
@@ -51,6 +52,7 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Sequence-centered peptide optimization | [EvoBind](evobind.md) | Optional [ProteinMPNN](proteinmpnn.md) consistency check, [Cofold scoring stack](cofold-scoring-stack.md) |
 | Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN for soluble targets), [Cofold scoring stack](cofold-scoring-stack.md) |
 | Cofold one designed candidate against a target | [Boltz](boltz.md) or [Chai-1](chai.md) alone | [Cofold scoring stack](cofold-scoring-stack.md) for multi-validator gating |
+| Check foldability or uncertainty for a public sequence/candidate | [ESMFold2](esmfold2.md) | [Cofold scoring stack](cofold-scoring-stack.md) when interface or binder claims are requested |
 | Promote a candidate from a design batch | [Cofold scoring stack](cofold-scoring-stack.md) | [Refinement stack](refinement-stack.md), [ChimeraX](chimerax-peptide-viz.md) |
 | Prepare a target from public deposited evidence | [GCGR target prep](gcgr-target-prep.md) as a pattern | Plug the output target-window file into any designer arm |
 
@@ -62,6 +64,7 @@ A common end-to-end binder campaign:
 target prep
   -> designer (RFdiffusion3 | RFpeptides | HelixDiff | PepGLAD | EvoBind | Genie3)
   -> sequence design (ProteinMPNN or SolubleMPNN)
+  -> foldability/uncertainty review (ESMFold2 where useful)
   -> cofold slate (Boltz + Chai-1 + AF2-Multimer)
   -> ipSAE rescore on PAE matrices
   -> consensus gate

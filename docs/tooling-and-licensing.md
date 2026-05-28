@@ -81,6 +81,7 @@ These can be useful and can be mentioned publicly, but agents should not treat t
 - Large public weights, maps, databases, or reference bundles even when redistribution is technically permitted.
 - RFdiffusion and related design-model weights unless the current code and weight terms are reviewed for the intended use.
 - Genie 3 and related setup/evaluation dependencies until the repo, Hugging Face weights, ColabFold/AlphaFold2 parameters, ProteinMPNN, IPSAE, FoldSeek, TMscore/TMalign, DSSP helper, CUDA/JAX, and any MSA-server use are recorded for the intended use. Structure Factory bootstrap requires an explicit `GENIE3_ALLOW_COLABFOLD_PARAMS=1` acknowledgement before upstream setup can download AlphaFold2 multimer parameters.
+- Biohub ESMFold2 / ESMFold2-Fast / ESMC-6B until the current Biohub source, Hugging Face model cards, third-party notices, Biohub API terms, Python/Torch runtime, and weight-cache posture are recorded for the intended use. Public docs may mention and scaffold the lane, but weights, API tokens, generated structures, and provider logs stay outside public git.
 
 Review-required does not mean forbidden. It means do not bake, run, or close as open until the current terms are recorded.
 
@@ -109,7 +110,7 @@ For no-license-application Structure Factory demos, prefer:
 - deposited PDB/EMDB structure-mapping reports: ModelAngelo, gemmi, Mol*, Blender, Coot open-source, PyMOL open-source
 - heterogeneity: cryoDRGN after GPL/source-compliance review; RECOVAR only as runtime/use-context gated
 - MD/docking side lanes: OpenMM, GROMACS, AutoDock Vina, RDKit
-- AI/model-comparison side lanes: Boltz, Chai after current terms check, ProteinMPNN, LigandMPNN, Genie 3 after current dependency/weights review
+- AI/model-comparison side lanes: Boltz, Chai after current terms check, ESMFold2 after current source/weights/API review, ProteinMPNN, LigandMPNN, Genie 3 after current dependency/weights review
 
 ChimeraX can remain a strong visual lane for our internal/private demos when the operator's use context permits it, but it is not part of the public no-license-needed stack.
 
