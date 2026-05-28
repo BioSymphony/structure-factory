@@ -37,17 +37,11 @@ You do not need to run CLI commands yourself. The CLI exists so the agent has re
 
 ## Hand A Mission To An Agent
 
-```text
-Use the BioSymphony Structure Factory skill. Run a binder-design campaign against PDB 4ZQK with a target window, hotspot-conditioned design lanes, Boltz cofold triage, candidate ranking, and a cloud run plan. Dispatch via Symphony with Linear using three workers.
-```
+> Use the BioSymphony Structure Factory skill. Run a binder-design campaign against PDB 4ZQK with a target window, hotspot-conditioned design lanes, Boltz cofold triage, candidate ranking, and a cloud run plan. Dispatch via Symphony with Linear using three workers.
 
-```text
-Use the Structure Factory skill. Build a GPCR activation-state atlas from public PDB accessions, split into receptor and state waves, prepare prediction and render lanes, and produce per-state summaries. Coordinate through Linear.
-```
+> Use the Structure Factory skill. Build a GPCR activation-state atlas from public PDB accessions, split into receptor and state waves, prepare prediction and render lanes, and produce per-state summaries. Coordinate through Linear.
 
-```text
-Use the Structure Factory skill. Take this EMPIAR raw subset, hand off raw processing to CryoCore, and own the downstream map-to-model workflow and figure pack. Run locally first, then prepare an AWS Batch contract for the render lane.
-```
+> Use the Structure Factory skill. Take this EMPIAR raw subset, hand off raw processing to CryoCore, and own the downstream map-to-model workflow and figure pack. Run locally first, then prepare an AWS Batch contract for the render lane.
 
 More prompts in [`docs/use-cases.md`](docs/use-cases.md). Tool and lane reference in [`tools/`](tools/).
 
@@ -61,17 +55,21 @@ More prompts in [`docs/use-cases.md`](docs/use-cases.md). Tool and lane referenc
 | PDB or EMDB structure mapping | [`recipes/`](recipes/) | accession provenance, validation plan, figure outlines, multi-tool model comparison |
 | Cryo-EM raw-to-atomic handoff | [`examples/empiar-10204-v0`](examples/empiar-10204-v0) | metadata handoff to CryoCore, downstream map-to-model workflow, figure pack |
 | Multi-tool model comparison | [`tools/cofold-scoring-stack.md`](tools/cofold-scoring-stack.md) | comparison of Boltz, Chai, RFdiffusion, and Genie3 outputs with confidence and failure rows |
-| Provider-ready cloud campaign | [`runpod/`](runpod/) and [`docs/compute-backends.md`](docs/compute-backends.md) | launch contracts for RunPod, AWS Batch, neocloud, generic cloud VM, or HPC, with budget and cleanup |
+| Provider-ready cloud campaign | [`runpod/`](runpod/) and [`docs/compute-backends.md`](docs/compute-backends.md) | launch contracts for RunPod and other neoclouds, AWS Batch, generic cloud VM, or HPC, with budget and cleanup |
 
 Full menu in [`docs/capabilities.md`](docs/capabilities.md) and [`docs/use-cases.md`](docs/use-cases.md).
+
+![Agent lane fan-out: one goal fans into parallel design, fold, score, render, and screen lanes, each calling its own tools, then converging into a ranked report](docs/assets/agent-lanes.svg)
+
+Text equivalent: one campaign goal fans into parallel lanes — design, fold or cofold, score or triage, render, and screen — each calling its own tools, then converges into a ranked, checked report with candidates, confidence, failure rows, figures, and provenance.
 
 ## Works With Your Stack
 
 **Orchestrators.** Symphony with Linear, Claude Code with Linear, Codex, `/goal` command stacks, GitHub Issues, Notion tasks, and any agent runtime that reads a skill file. The repo ships portable agent instructions at [`skills/biosymphony-structure-factory/SKILL.md`](skills/biosymphony-structure-factory/SKILL.md).
 
-**Compute.** Local workstation (no GPU required for planning), RunPod pods, AWS Batch and EC2 GPU, neocloud GPU pods, generic cloud VMs, and SSH or HPC. Each provider has a profile that carries budget, cleanup, license-gate, and closeout requirements.
+**Compute.** Local workstation (no GPU required for planning), neocloud GPU pods (such as RunPod and Lambda), AWS Batch and EC2 GPU, generic cloud VMs, and SSH or HPC. Each provider has a profile that carries budget, cleanup, license-gate, and closeout requirements.
 
-**Tools and lanes referenced or integrated.** Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, and ProteinMPNN for design. Boltz, Chai, ESMFold2, and cofold-scoring stacks for prediction and foldability review. ChimeraX and MD or docking lanes for refinement and rendering. Target-prep utilities and screening adapters for end-to-end campaigns. Add your own through [`tools/`](tools/) cards.
+**Tools and lanes referenced or integrated.** Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, and ProteinMPNN for design. Boltz, Chai, ESMFold2, and cofold-scoring stacks for prediction and foldability review. ChimeraX, PyMOL, and MD or docking lanes for refinement and rendering. Target-prep utilities and screening adapters for end-to-end campaigns. Add your own through [`tools/`](tools/) cards. For standalone agent skills built around PyMOL, ChimeraX, AlphaFold DB, RCSB PDB, UniProt, and Rosetta, see the companion repo [Proteus](https://github.com/jvogan/proteus).
 
 **Trackers.** Linear and GitHub Issues are supported through tracker-neutral task templates. Notion and custom queues consume the same shapes.
 
@@ -179,13 +177,17 @@ The repo is designed to slot into any agent runtime. It provides:
 
 The operating model is described in [`docs/agentic-biology-harness.md`](docs/agentic-biology-harness.md). Structure Factory turns biological intent into target setup, agent lanes, provider profiles, artifact checks, candidate rankings, and reviewable closeouts. The orchestrator drives planning and execution. Structure Factory provides the biology-aware scaffolding and validation surface.
 
+![Where Structure Factory sits: your orchestrator drives Structure Factory, which prepares checked plans for design and prediction tools, compute providers, and trackers](docs/assets/system-context.svg)
+
+Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory — the biology-aware layer of skill, CLI, scaffolds, contracts, validators, and tool cards — which hands checked, contract-shaped plans to design, fold, and render tools, to compute providers, and to trackers.
+
 The short version:
 
 ```text
 local scaffold -> multi-agent task plan -> provider contract -> operator-gated run -> checked outputs
 ```
 
-Users can stop at any step and still get value. The local scaffold is useful on its own for planning. The task plan is ready for Linear or GitHub Issues. The provider contract is ready for RunPod, AWS Batch, SSH or HPC, neocloud, or local GPU prep. The final cloud run requires operator authorization and lives outside public git.
+Users can stop at any step and still get value. The local scaffold is useful on its own for planning. The task plan is ready for Linear or GitHub Issues. The provider contract is ready for RunPod and other neoclouds, AWS Batch, SSH or HPC, or local GPU prep. The final cloud run requires operator authorization and lives outside public git.
 
 ## Binder-Design Fast Path
 
