@@ -19,10 +19,19 @@ Each card follows the same shape:
 - [PepGLAD](pepglad.md). Full-atom peptide sequence-structure co-design.
 - [EvoBind](evobind.md). Sequence-centered peptide optimization for ranked candidate sets.
 - [Genie3 peptides and miniproteins](genie3-peptides.md). Length-aware peptide and miniprotein generation.
+- [Baker miniprotein-GPCR pipeline](baker-miniprotein-gpcr.md). Motif-directed RFdiffusion + ProteinMPNN + AF2 recipe for Class B GPCR ECD binders. A methods bundle, not a forked tool.
 
 ### Sequence Design
 
 - [ProteinMPNN](proteinmpnn.md). Backbone-to-sequence design. Includes SolubleMPNN for soluble targets.
+
+### Multistate And Switch Design
+
+- [SwitchCraft](switchcraft.md). De novo design of state-switching proteins: one sequence, multiple ligand-conditioned conformations (allostery, induced binding, ligand discrimination, small-molecule biosensors). Route every switch through the cofold scoring stack for an orthogonal check.
+
+### Construct Assembly And Multidomain Fusion
+
+- [DOMINO](domino.md). Domain co-occurrence scoring and multidomain sequence generation for fusion constructs downstream of a validated binder. Adjacent to the binder stack, not a binder designer; upstream license unresolved at review.
 
 ### Cofold, Structure Prediction, And Scoring
 
@@ -51,6 +60,9 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Linear helical peptides (15 to 40 aa) | [HelixDiff](helixdiff.md) or [PepGLAD](pepglad.md) | [ProteinMPNN](proteinmpnn.md) on the receptor context, [Cofold scoring stack](cofold-scoring-stack.md) |
 | Sequence-centered peptide optimization | [EvoBind](evobind.md) | Optional [ProteinMPNN](proteinmpnn.md) consistency check, [Cofold scoring stack](cofold-scoring-stack.md) |
 | Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN for soluble targets), [Cofold scoring stack](cofold-scoring-stack.md) |
+| Class B GPCR ECD antagonist by peptide mimicry | [Baker miniprotein-GPCR](baker-miniprotein-gpcr.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN), [Cofold scoring stack](cofold-scoring-stack.md) |
+| A protein that changes shape on ligand binding (allostery, AND gate, biosensor) | [SwitchCraft](switchcraft.md) | [Cofold scoring stack](cofold-scoring-stack.md) for the orthogonal switch check |
+| Add a function or effector to a validated binder (fusion construct) | [DOMINO](domino.md) | [Cofold scoring stack](cofold-scoring-stack.md) to prove both modules fold |
 | Cofold one designed candidate against a target | [Boltz](boltz.md) or [Chai-1](chai.md) alone | [Cofold scoring stack](cofold-scoring-stack.md) for multi-validator gating |
 | Check foldability or uncertainty for a public sequence/candidate | [ESMFold2](esmfold2.md) | [Cofold scoring stack](cofold-scoring-stack.md) when interface or binder claims are requested |
 | Promote a candidate from a design batch | [Cofold scoring stack](cofold-scoring-stack.md) | [Refinement stack](refinement-stack.md), [ChimeraX](chimerax-peptide-viz.md) |

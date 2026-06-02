@@ -83,6 +83,9 @@ These can be useful and can be mentioned publicly, but agents should not treat t
 - Genie 3 and related setup/evaluation dependencies until the repo, Hugging Face weights, ColabFold/AlphaFold2 parameters, ProteinMPNN, IPSAE, FoldSeek, TMscore/TMalign, DSSP helper, CUDA/JAX, and any MSA-server use are recorded for the intended use. Structure Factory bootstrap requires an explicit `GENIE3_ALLOW_COLABFOLD_PARAMS=1` acknowledgement before upstream setup can download AlphaFold2 multimer parameters.
 - Biohub ESMFold2 / ESMFold2-Fast / ESMC-6B until the current Biohub source, Hugging Face model cards, third-party notices, Biohub API terms, Python/Torch runtime, and weight-cache posture are recorded for the intended use. Public docs may mention and scaffold the lane, but weights, API tokens, generated structures, and provider logs stay outside public git.
 
+- SwitchCraft multistate/switch design and its vendored cofolder and sequence-model weights, until the repo's pinned dependencies and weight terms are recorded for the intended use. The framework is MIT-licensed; outputs are single-cofolder computational candidates and should be cross-checked with the cofold scoring stack.
+- DOMINO multidomain construct design. Upstream license is unresolved: no LICENSE file in the repo, an empty Hugging Face model card, and a no-reuse preprint license at review. Mention and scaffold only; do not bake into an image, redistribute weights, or run paid compute until the authors publish terms.
+
 Review-required does not mean forbidden. It means do not bake, run, or close as open until the current terms are recorded.
 
 ## Runtime-Gated Or Use-Context-Gated Tools

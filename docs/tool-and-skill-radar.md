@@ -27,6 +27,9 @@ These can be useful, but public image inclusion or execution should wait for exa
 - RFdiffusion-family and RFdiffusion3-family design lanes, including code, weights, and Docker image posture.
 - Genie 3 and peptide/miniprotein use, especially weights, ColabFold or AlphaFold2 dependencies, MSA service posture, and evaluation helpers.
 - Chai, LocalColabFold, ABCFold, ipSAE wrappers, and cofold consensus stacks.
+- SwitchCraft multistate/switch design, including its vendored cofolder and sequence-model weights and pinned dependencies; route designs through the cofold scoring stack for an orthogonal check.
+- DOMINO multidomain construct assembly, downstream of a validated binder; upstream license is unresolved (no LICENSE, empty model card, no-reuse preprint), so treat reuse and image inclusion as blocked until terms are published.
+- Baker miniprotein-GPCR recipe (motif-directed RFdiffusion + ProteinMPNN + AF2 over public deposited targets), inheriting the upstream tools' posture.
 - CTFFIND, cisTEM, GNINA, cryoDRGN, EMAN2, Scipion/Xmipp, DeepEMhancer, CUDA/NVIDIA bases, and large public weight/database bundles.
 
 ## Runtime Gated

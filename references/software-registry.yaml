@@ -406,6 +406,52 @@ software:
       targets require local/precomputed MSA posture. Outputs are computational
       candidates only and should be cross-checked with Boltz or another
       independent prediction lane before any promotion.
+  switchcraft:
+    role: multistate_switch_protein_design
+    image_family: ai-design
+    install_method: source_after_terms_review
+    upstream_repo: "https://github.com/bjing2016/switchcraft"
+    license_class: open_source_mit
+    license_gate: dependency_and_weight_terms_review
+    runpod_fit: strong_with_gpu
+    gpu_class: "A100/H100 (large pairformer autograd graph)"
+    smoke_command: "python switchcraft.py --help"
+    runtime_artifacts: "switchcraft_designs/, per_state_structures/, conf_change_metrics.json"
+    citation_notes: "Cite SwitchCraft (ICML 2026, arXiv 2605.31236); record the pinned cofolder and sequence-model versions, the vendored weights revision, and per-state ligand inputs."
+    status: planned
+    notes: |
+      New multistate/switch-design lane: one sequence, multiple ligand-conditioned
+      conformations (allostery, induced binding, ligand discrimination,
+      small-molecule biosensors). Optimizes a single cofolder's distogram head, so
+      every output must be routed through the cofold scoring stack for an
+      orthogonal switch check before promotion. Vendors an open cofolder and an
+      open sequence-design model; review their pinned dependency and weight terms
+      before image inclusion. Evaluated from source and paper; not yet run. Outputs
+      are single-cofolder computational candidates, not validated sensors.
+  domino:
+    role: multidomain_construct_design
+    image_family: ai-design
+    install_method: source_after_terms_review
+    upstream_repo: "https://github.com/westlake-repl/DOMINO"
+    upstream_model_repo: "https://huggingface.co/westlake-repl/DOMINO"
+    license_class: unresolved_no_license_published_verify
+    license_gate: terms_and_weights_review_blocking
+    runpod_fit: possible
+    gpu_class: "CPU acceptable for pairwise scoring; small GPU for generation"
+    smoke_command: "python DOMIN_inference.py --help"
+    runtime_artifacts: "domino_compatibility_scores.json, domino_generated/, domino_perplexity.json"
+    citation_notes: "Cite DOMINO (bioRxiv 2026) and TED; record the Hugging Face weights revision and license/model-card state, unresolved at review."
+    status: planned
+    notes: |
+      Adjacent construct/fusion-assembly lane, downstream of a validated binder;
+      not a binder designer. The directional compatibility score (DOMIN) is the
+      evidence-backed primitive; the generator (DOMO) regenerates whole domains, so
+      treat any proposed junction as a hypothesis to graft onto validated
+      sequences. Inter-domain geometry remains a cofold/PAE job. License is
+      unresolved upstream (no LICENSE file, empty model card, no-reuse preprint
+      license at review): mention and scaffold only; do not bake into an image,
+      redistribute, or run paid compute until terms are published. Evaluated from
+      source; not yet run.
   openmm:
     role: molecular_simulation
     image_family: md-docking

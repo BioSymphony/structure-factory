@@ -51,7 +51,9 @@ Symphony with Linear coordination is documented in [`docs/linear-orchestration.m
 
 ## Tools And Lanes In Scope
 
-- Design: Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, ProteinMPNN.
+- Design: Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, ProteinMPNN, and the Baker miniprotein-GPCR recipe.
+- Multistate and switch design: SwitchCraft, with outputs routed through the cofold-scoring stack for an orthogonal check.
+- Construct assembly and multidomain fusion: DOMINO, downstream of a validated binder (upstream license unresolved).
 - Cofolding, prediction, and scoring: Boltz, Chai, ESMFold2, and cofold-scoring stacks.
 - Refinement and rendering: ChimeraX, MD, and docking pipelines.
 - Target prep: target-window builders, GCGR target prep.
