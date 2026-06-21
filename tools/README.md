@@ -9,6 +9,8 @@ Each card follows the same shape:
 - Public images include tools whose redistribution posture has been reviewed.
 - License-gated tools install at runtime under operator approval. Private install paths, provider records, license acceptances, credentials, weights, and generated biological artifacts live in operator-controlled infrastructure outside the repo.
 
+The wider tool knowledge base lives in [`references/software-registry.yaml`](../references/software-registry.yaml). Candidate tools that are useful but do not yet deserve a full card are tracked in [`docs/tool-and-skill-radar.md`](../docs/tool-and-skill-radar.md).
+
 ## Cards
 
 ### Backbone And Peptide Design

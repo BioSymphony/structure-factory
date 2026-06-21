@@ -1,8 +1,25 @@
 # Tool And Skill Radar
 
-Snapshot date: 2026-05-15
+Snapshot date: 2026-06-21
 
 This is a planning snapshot, not legal advice and not a current license determination. Before installing, baking into an image, running, or redistributing any third-party tool, recheck the primary source terms and record the user's intended use context.
+
+## June 2026 Candidate Additions
+
+These are unvalidated watchlist entries from a fresh public-source pass. They are useful enough to keep in the public tool knowledge base, but they are not promoted dependencies until a smoke run emits the named contract and the current license/use-context check is recorded.
+
+| Candidate | Fit | First Structure Factory Contract | Gate |
+| --- | --- | --- | --- |
+| [BindCraft](https://github.com/martinpacesa/BindCraft) | High-fit protein binder design pipeline using AF2 backpropagation, MPNN, and PyRosetta. | `bindcraft_designs/`, filter ledger, `design_manifest.json`, downstream cofold scorecards. | PyRosetta, AF2 weights, dependency terms, and target-use context. |
+| [BinderFlow](https://github.com/cryoEM-CNIO/BinderFlow) | Binder campaign pipeline/benchmark candidate for comparison lanes. | `binderflow_manifest.json`, benchmark table, cofold handoff ledger. | Repo, dependency, and runtime review. |
+| [ProteinDJ](https://github.com/PapenfussLab/proteindj) | Protein design pipeline watchlist item. | `proteindj_manifest.json`, design batch, validator scorecards. | Repo, weights, and independent validation review. |
+| [DockQ](https://github.com/wallnerlab/DockQ) v2 | Reference-based interface scoring for protein, nucleic-acid, and small-molecule docking models. | `interface_quality_scores.tsv`, chain mapping, reference complex ledger. | Requires a suitable reference complex and current package check. |
+| [MolViewSpec](https://github.com/molstar/mol-view-spec) | Portable molecular-view state files for review packets and static dossiers. | `molviewspec_states/`, `structure_view_manifest.json`. | Keep states compact and avoid heavy generated structures in git. |
+| [Workflow Run RO-Crate](https://www.researchobject.org/workflow-run-crate/) | Provenance envelope for provider closeout and artifact bundles. | `ro-crate-metadata.json` with public path-omission policy. | Profile mapping and private-path omission review. |
+| [nf-core/proteinfold](https://github.com/nf-core/proteinfold) | Nextflow folding workflow candidate once Structure Factory contracts are mapped. | `proteinfold_launch_manifest.json`, `tool_versions.yml`, Nextflow report. | Wrapped tool, database, weight, and container-digest review. |
+| [PDBe MCP Servers](https://github.com/pdbeurope/pdbe-mcp-servers) | Agent-accessible public structure metadata lookup. | `resolved_accessions.json`, source/citation ledger. | Public accession queries only; do not send private biological inputs. |
+| [DynaMight](https://github.com/3dem/DynaMight) and cryoDRGN-AI-style tools | Cryo-EM heterogeneity and ensemble-context watchlist. | `heterogeneity_report.json`, model/version ledger. | CryoCore boundary, map/data posture, and weight/license review. |
+| [FoldMason](https://github.com/steineggerlab/foldmason) | Fast multi-structure alignment and tree/report generation. | `structure_alignment.a3m`, `structure_alignment.html`, `structure_tree.nwk`. | License/source check and reference-structure provenance. |
 
 ## Ready In The Public Harness
 
@@ -10,6 +27,7 @@ This is a planning snapshot, not legal advice and not a current license determin
 - Local no-download examples for PD-L1 binder-design planning and screening fixture runs.
 - Public non-launchable RunPod bridge templates that document required fields without embedding private payloads or real approvals.
 - Portable agent instructions and Symphony and tracker-neutral task packs for `sym:structure-factory`.
+- A machine-readable software registry for planned, gated, and pinned tool lanes: `references/software-registry.yaml`.
 
 ## Open Or Default Scaffolding
 

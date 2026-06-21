@@ -381,6 +381,48 @@ software:
     citation_notes: "Record repo commit, model weights, and design settings."
     status: gated
     notes: "Potential design lane; terms must be explicit."
+  bindcraft:
+    role: protein_binder_design_pipeline
+    image_family: ai-design
+    install_method: source_after_terms_review
+    upstream_repo: "https://github.com/martinpacesa/BindCraft"
+    license_class: open_source_mit_code_with_runtime_gate
+    license_gate: pyrosetta_terms_af2_weights_and_dependency_review
+    runpod_fit: strong_with_gpu_and_runtime_license
+    gpu_class: "L40S/A100/H100; large complexes need high-memory GPU"
+    smoke_command: "python bindcraft.py --help"
+    runtime_artifacts: "bindcraft_designs/, bindcraft_filters.json, design_manifest.json, downstream_cofold_scores/"
+    citation_notes: "Record repo commit, target settings JSON, filter JSON, AF2/MPNN/PyRosetta posture, and downstream cofold scorer versions."
+    status: gated
+    notes: "High-fit binder-design lane. Mention and scaffold only until PyRosetta, AlphaFold2 weights, dependency terms, and target-use context are recorded."
+  binderflow:
+    role: protein_binder_pipeline_and_benchmark
+    image_family: ai-design
+    install_method: source_after_terms_review
+    upstream_repo: "https://github.com/cryoEM-CNIO/BinderFlow"
+    license_class: verify_repo_and_dependency_terms
+    license_gate: terms_and_runtime_dependency_review
+    runpod_fit: possible
+    gpu_class: "L40S/A100/H100 depending configured stages"
+    smoke_command: "python -m binderflow --help || python run_binderflow.py --help"
+    runtime_artifacts: "binderflow_runs/, binderflow_manifest.json, benchmark_summary.tsv"
+    citation_notes: "Record repo commit, configured design stages, target inputs, dependency versions, and any paper/preprint citation."
+    status: planned
+    notes: "Candidate comparison/orchestration lane for binder campaigns; keep outputs as computational candidates and route winners through the cofold scoring stack."
+  proteindj:
+    role: protein_design_pipeline
+    image_family: ai-design
+    install_method: source_after_terms_review
+    upstream_repo: "https://github.com/PapenfussLab/proteindj"
+    license_class: verify_repo_and_weight_terms
+    license_gate: terms_and_weights_review
+    runpod_fit: possible
+    gpu_class: "L40S/A100/H100 depending model path"
+    smoke_command: "python -m proteindj --help || proteindj --help"
+    runtime_artifacts: "proteindj_designs/, proteindj_manifest.json"
+    citation_notes: "Record repo commit, model/weight revisions, seeds, constraints, and downstream validation tools."
+    status: planned
+    notes: "Watchlist design pipeline; do not promote before install smoke, license review, and independent structure/scoring checks."
   genie3:
     role: all_atom_protein_generation
     image_family: ai-design
@@ -592,6 +634,20 @@ software:
     citation_notes: "Record PoseBusters version and checks enabled."
     status: planned
     notes: "Pose validity lane for Vina/Boltz/GNINA-style outputs."
+  dockq_v2:
+    role: interface_quality_scoring
+    image_family: md-docking
+    install_method: pip_or_source
+    upstream_repo: "https://github.com/wallnerlab/DockQ"
+    license_class: open_source_mit_reported_by_repo
+    license_gate: none_after_current_terms_check
+    runpod_fit: strong_cpu
+    gpu_class: "CPU acceptable"
+    smoke_command: "DockQ --help || python -m DockQ --help"
+    runtime_artifacts: "interface_quality_scores.tsv, dockq_scorecards.jsonl"
+    citation_notes: "Record DockQ version, native/reference complex, chain mapping, interface type, and scoring mode."
+    status: planned
+    notes: "Reference-based interface scoring for protein, nucleic-acid, and small-molecule docking models; requires a suitable reference complex."
   posex:
     role: docking_pose_benchmark
     image_family: md-docking
@@ -703,6 +759,48 @@ software:
     citation_notes: "Record generated workflow and executor profile."
     status: planned
     notes: "Export adapter only; does not replace Structure Factory evidence contracts."
+  nf_core_proteinfold:
+    role: protein_prediction_workflow_adapter
+    image_family: provider-neutral
+    install_method: nextflow_pipeline_after_dependency_review
+    upstream_repo: "https://github.com/nf-core/proteinfold"
+    license_class: verify_pipeline_and_dependency_terms
+    license_gate: dependency_database_and_weight_terms_review
+    runpod_fit: adapter_only
+    gpu_class: "provider-dependent"
+    smoke_command: "nextflow run nf-core/proteinfold -profile test,docker --help"
+    runtime_artifacts: "proteinfold_launch_manifest.json, nextflow_report.html, tool_versions.yml"
+    citation_notes: "Record nf-core/proteinfold revision, profile, container digests, databases, weights, and generated Structure Factory artifact mapping."
+    status: planned
+    notes: "Workflow-adapter candidate for folding lanes after Structure Factory input/output contracts are mapped."
+  workflow_run_ro_crate:
+    role: run_provenance_packaging
+    image_family: provider-neutral
+    install_method: schema_or_library_after_profile_review
+    upstream_docs: "https://www.researchobject.org/workflow-run-crate/"
+    license_class: open_standard_with_library_terms_review
+    license_gate: profile_and_library_terms_review
+    runpod_fit: n/a
+    gpu_class: "n/a"
+    smoke_command: "python3 -m json.tool ro-crate-metadata.json"
+    runtime_artifacts: "ro-crate-metadata.json, provenance-run-crate sidecars, artifact hashes"
+    citation_notes: "Record RO-Crate profile version, context, run identifier, workflow, inputs, outputs, and public-path omission policy."
+    status: planned
+    notes: "Provenance envelope candidate for provider closeout bundles; public exports must omit local private paths and credentials."
+  molviewspec:
+    role: molecular_visualization_state_spec
+    image_family: model-build
+    install_method: schema_or_library_after_terms_review
+    upstream_repo: "https://github.com/molstar/mol-view-spec"
+    license_class: open_source_mit_reported_by_repo
+    license_gate: none_after_current_terms_check
+    runpod_fit: strong_for_report_artifacts
+    gpu_class: "CPU/browser"
+    smoke_command: "python3 -m json.tool view.mvsj"
+    runtime_artifacts: "molviewspec_states/, structure_view_manifest.json"
+    citation_notes: "Record MolViewSpec version/schema, input structures, selections, camera state, and viewer used."
+    status: planned
+    notes: "Static molecular-view state format for review packets; store compact states, not generated heavy structures."
   boltzgen:
     role: binder_generation
     image_family: ai-design
