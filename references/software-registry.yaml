@@ -785,7 +785,7 @@ software:
     runpod_fit: adapter_only
     gpu_class: "provider-dependent"
     smoke_command: "nextflow run nf-core/proteinfold -profile test,docker --help"
-    runtime_artifacts: "proteinfold_launch_manifest.json, nextflow_report.html, tool_versions.yml"
+    runtime_artifacts: "proteinfold_launch_manifest.json, nextflow_execution_report, tool_versions.yml"
     citation_notes: "Record nf-core/proteinfold revision, profile, container digests, databases, weights, and generated Structure Factory artifact mapping."
     status: planned
     notes: "Workflow-adapter candidate for folding lanes after Structure Factory input/output contracts are mapped."
