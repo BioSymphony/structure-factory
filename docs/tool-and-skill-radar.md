@@ -14,7 +14,10 @@ These are unvalidated watchlist entries from a fresh public-source pass. They ar
 | [BinderFlow](https://github.com/cryoEM-CNIO/BinderFlow) | Binder campaign pipeline/benchmark candidate for comparison lanes. | `binderflow_manifest.json`, benchmark table, cofold handoff ledger. | Repo, dependency, and runtime review. |
 | [ProteinDJ](https://github.com/PapenfussLab/proteindj) | Protein design pipeline watchlist item. | `proteindj_manifest.json`, design batch, validator scorecards. | Repo, weights, and independent validation review. |
 | [DockQ](https://github.com/wallnerlab/DockQ) v2 | Reference-based interface scoring for protein, nucleic-acid, and small-molecule docking models. | `interface_quality_scores.tsv`, chain mapping, reference complex ledger. | Requires a suitable reference complex and current package check. |
+| [BioEmu](https://github.com/microsoft/bioemu) | Protein monomer ensemble sampling for flexibility-risk review. | `bioemu_ensembles/`, `ensemble_manifest.json`, `flexibility_risk_report.json`. | Model caches, AF2/ColabFold-related weights, MSA posture, and monomer-only boundary. |
 | [MolViewSpec](https://github.com/molstar/mol-view-spec) | Portable molecular-view state files for review packets and static dossiers. | `molviewspec_states/`, `structure_view_manifest.json`. | Keep states compact and avoid heavy generated structures in git. |
+| [MolPAL](https://github.com/coleygroup/molpal) | Active-learning tranche planner for large screening libraries. | `active_learning_tranches.json`, `acquisition_report.json`. | Score-provider, library-policy, and external execution review. |
+| [PoseBusters](https://github.com/maabuu/posebusters) | Pose plausibility checks for generated or docked ligand poses. | `pose_validity.jsonl`, `pose_quality_ledger.json`. | Pose-quality evidence only; not binding or affinity proof. |
 | [Workflow Run RO-Crate](https://www.researchobject.org/workflow-run-crate/) | Provenance envelope for provider closeout and artifact bundles. | `ro-crate-metadata.json` with public path-omission policy. | Profile mapping and private-path omission review. |
 | [nf-core/proteinfold](https://github.com/nf-core/proteinfold) | Nextflow folding workflow candidate once Structure Factory contracts are mapped. | `proteinfold_launch_manifest.json`, `tool_versions.yml`, Nextflow report. | Wrapped tool, database, weight, and container-digest review. |
 | [PDBe MCP Servers](https://github.com/pdbeurope/pdbe-mcp-servers) | Agent-accessible public structure metadata lookup. | `resolved_accessions.json`, source/citation ledger. | Public accession queries only; do not send private biological inputs. |
@@ -35,7 +38,8 @@ These are suitable for public mention and scaffolded planning after normal citat
 
 - Boltz-style cofolding and confidence extraction.
 - ProteinMPNN or LigandMPNN-style sequence design lanes.
-- RDKit, AutoDock Vina, OpenMM, GROMACS, gemmi, Mol*, Blender, and open-source PyMOL builds.
+- RDKit, AutoDock Vina, OpenMM, GROMACS, gemmi, Mol*, MolViewSpec, Blender, and open-source PyMOL builds.
+- MolPAL-style active-learning planning and PoseBusters-style pose plausibility checks when ligand libraries and pose files are public fixtures or operator-approved runtime artifacts.
 - ModelAngelo-style model building where weights and downloads are handled through reviewed runtime caches.
 
 ## Review Required
@@ -49,6 +53,7 @@ These can be useful, but public image inclusion or execution should wait for exa
 - DOMINO multidomain construct assembly, downstream of a validated binder; upstream license is unresolved (no LICENSE, empty model card, no-reuse preprint), so treat reuse and image inclusion as blocked until terms are published.
 - Baker miniprotein-GPCR recipe (motif-directed RFdiffusion + ProteinMPNN + AF2 over public deposited targets), inheriting the upstream tools' posture.
 - CTFFIND, cisTEM, GNINA, cryoDRGN, EMAN2, Scipion/Xmipp, DeepEMhancer, CUDA/NVIDIA bases, and large public weight/database bundles.
+- Protenix, OpenFold3-preview, BioEmu, PLACER, and BoltzGen until exact source, model-weight, dependency, and cache posture are recorded for the intended use.
 
 ## Runtime Gated
 

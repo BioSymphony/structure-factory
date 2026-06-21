@@ -36,6 +36,10 @@ Default method comparison:
 - stdlib/RDKit-style descriptor baselines and simple affinity baselines
 - AutoDock Vina as the open wide-screen docking lane
 - Boltz-2 as the focused cofolding/affinity-aware lane
+- MolPAL-style active-learning tranche planning after a score-provider contract
+  exists
+- PoseBusters-style pose plausibility checks after a pose-producing lane emits
+  files
 - GNINA, DiffDock, AlphaFold 3, Chai, Phenix, ChimeraX, and CryoSPARC as gated or review-required lanes until current terms and runtime access are recorded
 
 Provider order:

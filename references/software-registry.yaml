@@ -625,8 +625,8 @@ software:
     image_family: md-docking
     install_method: pip_or_source
     upstream_repo: "https://github.com/maabuu/posebusters"
-    license_class: verify_repo_license
-    license_gate: terms_review
+    license_class: open_source_mit_reported_by_repo
+    license_gate: none_after_current_terms_check
     runpod_fit: strong
     gpu_class: "CPU acceptable"
     smoke_command: "bust --help || posebusters --help"
@@ -690,6 +690,22 @@ software:
     citation_notes: "Record preview status, repo commit, model parameters, and input JSON."
     status: planned
     notes: "Review-required cofolding lane; never treat preview outputs as validated without benchmark evidence."
+  bioemu:
+    role: protein_ensemble_sampling
+    image_family: ai-design
+    install_method: pip_or_source_after_terms_review
+    upstream_repo: "https://github.com/microsoft/bioemu"
+    license_class: open_source_mit_with_weight_and_dependency_review
+    license_gate: model_weights_msa_and_dependency_review
+    runpod_fit: strong_with_gpu
+    gpu_class: "A100/H100 preferred; L40S possible for short canaries"
+    smoke_command: "python -m bioemu.sample --help"
+    runtime_artifacts: "bioemu_ensembles/, ensemble_manifest.json, flexibility_risk_report.json"
+    citation_notes: "Record BioEmu version, checkpoint, sequence checksum, MSA/cache posture, sample count, steering settings, and source provenance."
+    weights_cache_default: "~/.cache/bioemu and ~/.cache/colabfold"
+    weights_source: "BioEmu model parameters and AlphaFold2/ColabFold-related runtime caches; keep outside public git."
+    status: planned
+    notes: "Sequence-conditioned monomer ensemble lane for conformational risk triage. Outputs are ensemble hypotheses, not binding, function, or validation evidence."
   cryofm:
     role: cryoem_foundation_model
     image_family: cryo-core
@@ -830,9 +846,10 @@ software:
   molpal:
     role: active_learning_ligand_selection
     image_family: md-docking
-    install_method: source_after_terms_review
-    license_class: verify_repo_license
-    license_gate: terms_review
+    install_method: pip_or_source_after_current_terms_check
+    upstream_repo: "https://github.com/coleygroup/molpal"
+    license_class: open_source_mit_reported_by_repo
+    license_gate: none_after_current_terms_check
     runpod_fit: strong_cpu
     gpu_class: "CPU acceptable; GPU optional"
     smoke_command: "molpal --help"

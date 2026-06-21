@@ -1,6 +1,6 @@
 # Tooling And Licensing
 
-Last reviewed: 2026-05-08; design-lane licensing refresh 2026-06-05
+Last reviewed: 2026-05-08; design-lane licensing refresh 2026-06-05; tool-radar refresh 2026-06-21
 
 This is the public, human-readable tool posture for BioSymphony Structure Factory. It complements the machine-readable registry at `references/software-registry.yaml`.
 
@@ -61,6 +61,9 @@ These are the default candidates for ambitious no-license-application demos, sub
 - GROMACS.
 - AutoDock Vina.
 - RDKit.
+- MolViewSpec.
+- PoseBusters.
+- MolPAL, when used as an active-learning planner over public fixtures or operator-approved runtime libraries.
 - ProteinMPNN.
 - LigandMPNN.
 - CoSiNE antibody CTMC evolution/VEP, MIT-licensed. Mention and scaffold are open; execution is GPU-only (flash-attn/jax install bar), so treat running it as runtime-gated on GPU access.
@@ -84,6 +87,9 @@ These can be useful and can be mentioned publicly, but agents should not treat t
 - AlloGen, because the Hugging Face metadata and README front matter report Apache-2.0 while the raw repository `LICENSE` file is MIT. Public mention and scaffolding are OK, but image inclusion, checkpoint redistribution, or execution requires recording the exact license posture, the Hugging Face snapshot revision, checkpoint hashes, and whether the lane is scoring-only or active guidance through RFdiffusion/PXDesign/Proteina-style priors.
 - Genie 3 and related setup/evaluation dependencies until the repo, Hugging Face weights, ColabFold/AlphaFold2 parameters, ProteinMPNN, IPSAE, FoldSeek, TMscore/TMalign, DSSP helper, CUDA/JAX, and any MSA-server use are recorded for the intended use. Structure Factory bootstrap requires an explicit `GENIE3_ALLOW_COLABFOLD_PARAMS=1` acknowledgement before upstream setup can download AlphaFold2 multimer parameters.
 - Biohub ESMFold2 / ESMFold2-Fast / ESMC-6B until the current Biohub source, Hugging Face model cards, third-party notices, Biohub API terms, Python/Torch runtime, and weight-cache posture are recorded for the intended use. Public docs may mention and scaffold the lane, but weights, API tokens, generated structures, and provider logs stay outside public git.
+- BioEmu until model checkpoints, AlphaFold2/ColabFold-related weights, MSA-source posture, and cache policy are recorded for the intended use. Public docs may mention and scaffold the lane, but weights, generated ensembles, MSA output, and provider logs stay outside public git.
+- Protenix and OpenFold3-preview until exact code, model-parameter, dependency, and benchmark posture are recorded for the intended use.
+- BoltzGen and PLACER until exact source, model-weight, dependency, and downstream validation posture are recorded.
 
 - SwitchCraft multistate/switch design and its vendored cofolder and sequence-model weights, until the repo's pinned dependencies and weight terms are recorded for the intended use. The framework is MIT-licensed; outputs are single-cofolder computational candidates and should be cross-checked with the cofold scoring stack.
 - DOMINO multidomain construct design. Upstream license is unresolved: no LICENSE file in the repo, an empty Hugging Face model card, and a no-reuse preprint license at review. Mention and scaffold only; do not bake into an image, redistribute weights, or run paid compute until the authors publish terms.
@@ -115,7 +121,8 @@ For no-license-application Structure Factory demos, prefer:
 - deposited PDB/EMDB structure-mapping reports: ModelAngelo, gemmi, Mol*, Blender, Coot open-source, PyMOL open-source
 - heterogeneity: cryoDRGN after GPL/source-compliance review; RECOVAR only as runtime/use-context gated
 - MD/docking side lanes: OpenMM, GROMACS, AutoDock Vina, RDKit
-- AI/model-comparison side lanes: Boltz, Chai after current terms check, ESMFold2 after current source/weights/API review, ProteinMPNN, LigandMPNN, RFdiffusion after dependency/weight-hash review, AlloGen after license-metadata and checkpoint-hash review, Genie 3 after current dependency/weights review
+- AI/model-comparison side lanes: Boltz, Chai after current terms check, ESMFold2 after current source/weights/API review, BioEmu after current source/weights/MSA review, ProteinMPNN, LigandMPNN, RFdiffusion after dependency/weight-hash review, AlloGen after license-metadata and checkpoint-hash review, Genie 3 after current dependency/weights review
+- screening review side lanes: MolPAL for active-learning tranches and PoseBusters for pose plausibility checks, with private ligand libraries and generated poses kept outside public git
 
 ChimeraX can remain a strong visual lane for internal or private demos when the operator's use context permits it, but it is not part of the public no-license-needed stack.
 
