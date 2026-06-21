@@ -28,7 +28,7 @@ Structure Factory should be reusable outside this repo as a BioSymphony sidecar:
    - generic cloud VM
    - neocloud GPU pod
 
-RunPod is the blessed primary remote adapter, and AWS Batch is the blessed cloud scale adapter. Neither should own scientific intent.
+RunPod is the default reviewed remote adapter, and AWS Batch is the reviewed cloud-scale adapter. Neither should own scientific intent.
 
 ## Swappability Rules
 

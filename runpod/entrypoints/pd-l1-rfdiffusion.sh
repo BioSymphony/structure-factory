@@ -16,7 +16,7 @@
 #   STRUCTURE_FACTORY_REPO_URL                     https://github.com/BioSymphony/structure-factory.git
 #   STRUCTURE_FACTORY_GIT_REF                      main or pinned SHA
 #   STRUCTURE_FACTORY_VOLUME_ROOT                  /workspace/structure-factory
-#   STRUCTURE_FACTORY_REPO_ROOT                    /workspace/bio-symphony-structure-factory
+#   STRUCTURE_FACTORY_REPO_ROOT                    /workspace/repo
 #   STRUCTURE_FACTORY_SOFTWARE_ROOT                /workspace/software
 #   STRUCTURE_FACTORY_RFDIFFUSION_WEIGHTS_DIR      /workspace/software/weights/rfdiffusion
 #   STRUCTURE_FACTORY_RFDIFFUSION_NUM_DESIGNS      8 (canary) | 256 (full)
@@ -37,7 +37,7 @@ python3 -c "import torch; t=torch.zeros(1,device='cuda'); t.add_(1).item()" >&2 
 
 RUN_ID="${STRUCTURE_FACTORY_RUN_ID:?STRUCTURE_FACTORY_RUN_ID is required}"
 VOLUME_ROOT="${STRUCTURE_FACTORY_VOLUME_ROOT:-/workspace/structure-factory}"
-REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/bio-symphony-structure-factory}"
+REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/repo}"
 SOFTWARE_ROOT="${STRUCTURE_FACTORY_SOFTWARE_ROOT:-/workspace/software}"
 RFDIFFUSION_WEIGHTS_DIR="${STRUCTURE_FACTORY_RFDIFFUSION_WEIGHTS_DIR:-${SOFTWARE_ROOT}/weights/rfdiffusion}"
 RFDIFFUSION_HOME="${STRUCTURE_FACTORY_RFDIFFUSION_HOME:-${SOFTWARE_ROOT}/rfdiffusion}"

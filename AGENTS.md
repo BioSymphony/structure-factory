@@ -4,12 +4,12 @@ Workspace for long-horizon structural biology missions, built for agents that dr
 
 ## Mission
 
-Help a user and their agents take a structural biology intent (for example, "design binders for PD-L1," "atlas every active-state GPCR in the PDB," "map this public EMDB/PDB structure," or "fan out a screening campaign across cloud") and run it to verified completion across local and cloud compute.
+Help a user and their agents take a structural biology goal (for example, "design binders for PD-L1," "atlas every active-state GPCR in the PDB," "map this public EMDB/PDB structure," or "fan out a screening campaign across cloud") and run it to reviewable completion across local and cloud compute.
 
 The repo ships:
 
 - portable agent instructions for any agent runtime
-- campaign manifests, stage contracts, and provider profiles for RunPod, AWS, neocloud, HPC, and local
+- campaign manifests, stage contracts, and provider profiles for RunPod, AWS, Modal, Lambda, neocloud, HPC, and local
 - target-window files, generation, cofold, scoring, render, and screening lanes
 - tracker-neutral task packs that import cleanly into Linear, GitHub Issues, Notion, or any queue
 - validators, audit gates, capability catalog, and a dependency-free `bsf` CLI
@@ -21,7 +21,7 @@ Ownership boundary: raw cryo-EM movie intake, EMPIAR subset execution, RELION or
 When the orchestrator hands you work, the loop is:
 
 ```text
-intent
+goal
   -> bsf catalog .                              # what is available
   -> bsf scaffold-campaign <runtime>/<id> ...   # target, lanes, run boundaries
   -> bsf validate <runtime>/<id>                # campaign and stage contract sound
@@ -37,6 +37,8 @@ Fan out across multiple workers when the work exceeds one agent turn. Task packs
 - **Local.** Workstation profile, no GPU needed for planning lanes.
 - **RunPod.** Pod profiles for design, cofold, structure mapping, raw-subset, and render lanes.
 - **AWS.** Batch GPU and EC2 GPU profiles.
+- **Modal.** Serverless GPU-function profile for bounded canaries and small single-container fanouts.
+- **Lambda Cloud.** Ephemeral GPU-VM profile for no-persistent-filesystem canaries.
 - **Neocloud.** GPU pod profile.
 - **Generic cloud VM.** GPU VM profile.
 - **SSH or HPC.** Via the generic-cloud or local patterns.
@@ -57,7 +59,7 @@ Symphony with Linear coordination is documented in [`docs/linear-orchestration.m
 - Cofolding, prediction, and scoring: Boltz, Chai, ESMFold2, and cofold-scoring stacks.
 - Refinement and rendering: ChimeraX, MD, and docking pipelines.
 - Target prep: target-window builders, GCGR target prep.
-- Screening: screening-superpowers fixture and candidate report shapes.
+- Screening: screening fixtures and candidate report shapes.
 
 See [`tools/`](tools/) and [`references/software-registry.yaml`](references/software-registry.yaml). Add your own through tool cards.
 
@@ -79,11 +81,11 @@ Use public accessions, synthetic rows, or compact fixtures. Label source posture
 - Use `skills/biosymphony-structure-factory/SKILL.md` as the portable agent-instruction entry point.
 - Use `packs/task-packs/binder-design-fast-path-v0/` when a tracker-neutral task import is needed.
 - Use `templates/operator-wave-runbook.md` before promoting paid, cloud, raw-download, or multi-agent waves.
-- Treat `runpod/` as the blessed first cloud-pod path, with AWS Batch and other providers held to the same artifact and cleanup contract.
+- Treat `runpod/` as the default reviewed cloud-pod path. AWS Batch handles cloud scale, and Modal serverless GPU functions plus Lambda Cloud GPU VMs are reviewed remote paths under the same artifact and cleanup contract.
 
 ## Key Patterns
 
-- Treat task packs as scientific contracts, not generic todos.
+- Treat task packs as campaign contracts, not generic todos.
 - Keep every generated or predicted output attached to a clear result boundary.
 - Use the public result states in manifests and closeouts: `planning`, `public_demo`, `public_synthetic_demo`, `computational_candidate`, `blocked`, or `insufficient_support`.
 - Track source posture separately from result boundary. Source posture may describe where outputs came from, such as `public_data`, `synthetic_demo`, `generated_candidate`, `derived`, `provider_native`, `report_only`, `blocked`, or `insufficient_support`.

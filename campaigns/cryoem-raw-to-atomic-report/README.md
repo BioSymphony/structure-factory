@@ -52,4 +52,4 @@ Every run must pass an input audit before execution and a contract self-check be
 
 ## Provider Principle
 
-RunPod is the blessed remote path for the first demos. Local, SSH/HPC, generic cloud, and neocloud profiles are supported as adapter contracts only when they preserve the same manifests, artifact roots, input audits, license gates, and final self-checks.
+RunPod is the default reviewed remote path for the first demos. Local, SSH/HPC, generic cloud, and neocloud profiles are supported as adapter contracts only when they preserve the same manifests, artifact roots, input audits, license gates, and final self-checks.

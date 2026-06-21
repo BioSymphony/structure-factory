@@ -122,7 +122,7 @@ def validate_bridge(
             startup_commands = data.get("startup", {}).get("commands", [])
             if not isinstance(startup_commands, list) or not startup_commands:
                 errors.append("inline_commands requires startup.commands")
-            if source_ready and str(repo.get("workdir", "")) in {"", "/workspace/bio-symphony-structure-factory"}:
+            if source_ready and str(repo.get("workdir", "")) in {"", "/workspace/repo"}:
                 warnings.append(
                     "inline_commands does not clone the repo; ensure commands are fully inline or repo.workdir is pre-synced"
                 )

@@ -56,12 +56,16 @@ template -> private/operator-gated packet -> launch preflight -> paid create
 `runpod/bridge-manifests/esmfold2-no-download-toolcheck.json`; it is not
 launchable.
 
-For generic cloud VMs, including Lambda Cloud-style capacity, keep the provider
-under `generic_cloud` until a real provider profile exists. The useful pattern
-is a single short-lived GPU VM, no persistent filesystem for the first canary,
+Lambda Cloud GPU VMs and Modal serverless GPU functions are reviewed neocloud
+paths with their own provider profiles; other bring-your-own cloud VMs stay
+under `generic_cloud` until a profile exists. The useful Lambda pattern is a
+single short-lived GPU VM, no persistent filesystem for the first canary,
 runtime bootstrap to Python 3.12, post-install Torch/CUDA re-probe, archive
 only declared artifacts, hash the archive after fetch, terminate immediately,
-and verify no matching instance or filesystem remains.
+and verify no matching instance or filesystem remains. On Modal, run the canary
+as a bounded GPU function with a declared max_containers and timeout, commit and
+fetch the Volume artifacts with hashes, capture a tag-scoped cost report, and
+prove app-stop cleanup.
 
 Minimum ESMFold2 artifact contract:
 

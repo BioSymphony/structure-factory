@@ -7,7 +7,7 @@ RUN_ROOT="${VOLUME_ROOT}/runs/${RUN_ID}"
 VALIDATION_DIR="${RUN_ROOT}/validation"
 INSTALL_ROOT="${STRUCTURE_FACTORY_GATED_INSTALL_ROOT:-/opt/structure-factory/gated-tools}"
 ALLOW_INSTALLS="${STRUCTURE_FACTORY_ALLOW_GATED_INSTALLS:-0}"
-REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/bio-symphony-structure-factory}"
+REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/repo}"
 
 mkdir -p "${VALIDATION_DIR}" "${INSTALL_ROOT}"
 

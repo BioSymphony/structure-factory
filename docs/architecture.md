@@ -33,8 +33,8 @@ Symphony executes bounded worker issues and reports artifact paths, hashes, comm
 Structure Factory should support multiple execution backends:
 
 - local macOS review and visualization
-- RunPod GPU pods for Structure Factory design, validation, report, and visualization work, as the blessed primary remote path
-- AWS Batch GPU jobs for blessed cloud scale lanes
+- RunPod GPU pods for Structure Factory design, validation, report, and visualization work, as the default reviewed remote path
+- AWS Batch GPU jobs for reviewed cloud-scale lanes
 - SSH/HPC workers for institutional data/license boundaries
 - generic cloud VM and neocloud pod adapters when they satisfy the same provider contract
 - future object-storage backed artifact exchange

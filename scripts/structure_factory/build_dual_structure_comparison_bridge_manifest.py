@@ -127,7 +127,7 @@ python3 scripts/structure_factory/dual_structure_comparison.py --out runpod-exec
             "linear_issue_url": LINEAR_ISSUE_URL,
             "scope": "CPU-only dual public PDB/EMDB structure comparison, no licensed tools, no raw movies, target under two hours",
         },
-        "budget": {"max_runtime_minutes": 120, "max_estimated_cost_usd": 0},
+        "budget": {"max_runtime_minutes": 120, "max_estimated_cost_usd": 1.5},
         "repo": {
             "source": "inline_commands",
             "url_or_path": "inline",
@@ -143,7 +143,7 @@ python3 scripts/structure_factory/dual_structure_comparison.py --out runpod-exec
             "gpuTypeIds": [],
             "dataCenterIds": [],
             "networkVolumeId": "",
-            "containerDiskInGb": 30,
+            "containerDiskInGb": 20,
             "volumeInGb": 0,
             "volumeMountPath": "/workspace",
             "ports": [],

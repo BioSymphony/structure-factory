@@ -17,7 +17,7 @@ Do not commit raw cryo-EM movies, maps, half-maps, model weights, private struct
 
 Every task pack should stay tracker-neutral, use routing label sym:structure-factory, and include campaign ID, inputs, expected artifacts, acceptance criteria, validation commands, owned paths, dependencies, license/capability caveats, operator gates, and a symphony:schema block.
 
-RunPod is the blessed first cloud-pod path, but paid/provider-backed execution requires explicit authorization, budget/runtime cap, stage contract, artifact list, hash checks, cleanup proof, and result-boundary closeout.
+RunPod is the default reviewed cloud-pod path, but paid/provider-backed execution requires explicit authorization, budget/runtime cap, stage contract, artifact list, hash checks, cleanup proof, and result-boundary closeout.
 
 Before public closeout, run:
 make release-check

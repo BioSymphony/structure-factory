@@ -103,7 +103,7 @@ After a private/operator-gated run, validate pulled artifacts from ignored stora
 PROVIDER_ARTIFACT_ROOT=.runtime/provider-artifacts/<run-id> make provider-closeout-check
 ```
 
-RunPod is the reference pod path in this repo. AWS Batch is the blessed cloud scale path. Other providers are useful when a user already has capacity, but they need the same input-audit, artifact, cleanup, and closeout gates.
+RunPod is the reference pod path in this repo. AWS Batch is the reviewed cloud-scale path. Other providers are useful when a user already has capacity, but they need the same input-audit, artifact, cleanup, and closeout gates.
 
 ## Linear And Symphony Ladder
 

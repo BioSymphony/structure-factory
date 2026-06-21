@@ -55,19 +55,19 @@ More prompts in [`docs/use-cases.md`](docs/use-cases.md). Tool and lane referenc
 | PDB or EMDB structure mapping | [`recipes/`](recipes/) | accession provenance, validation plan, figure outlines, multi-tool model comparison |
 | Cryo-EM raw-to-atomic handoff | [`examples/empiar-10204-v0`](examples/empiar-10204-v0) | metadata handoff to CryoCore, downstream map-to-model workflow, figure pack |
 | Multi-tool model comparison | [`tools/cofold-scoring-stack.md`](tools/cofold-scoring-stack.md) | comparison of Boltz, Chai, RFdiffusion, and Genie3 outputs with confidence and failure rows |
-| Provider-ready cloud campaign | [`runpod/`](runpod/) and [`docs/compute-backends.md`](docs/compute-backends.md) | launch contracts for RunPod and other neoclouds, AWS Batch, generic cloud VM, or HPC, with budget and cleanup |
+| Provider-ready cloud campaign | [`runpod/`](runpod/) and [`docs/compute-backends.md`](docs/compute-backends.md) | launch contracts for RunPod, Lambda Cloud, Modal, and other neoclouds, AWS Batch, generic cloud VM, or HPC, with budget and cleanup |
 
 Full menu in [`docs/capabilities.md`](docs/capabilities.md) and [`docs/use-cases.md`](docs/use-cases.md).
 
 ![Agent lane fan-out: one goal fans into parallel design, fold, score, render, and screen lanes, each calling its own tools, then converging into a ranked report](docs/assets/agent-lanes.svg)
 
-Text equivalent: one campaign goal fans into parallel lanes — design, fold or cofold, score or triage, render, and screen — each calling its own tools, then converges into a ranked, checked report with candidates, confidence, failure rows, figures, and provenance.
+Text equivalent: one campaign goal fans into parallel lanes: design, fold or cofold, score or triage, render, and screen. Each lane calls its own tools, then converges into a ranked, checked report with candidates, confidence, failure rows, figures, and provenance.
 
 ## Works With Your Stack
 
 **Orchestrators.** Symphony with Linear, Claude Code with Linear, Codex, `/goal` command stacks, GitHub Issues, Notion tasks, and any agent runtime that reads a skill file. The repo ships portable agent instructions at [`skills/biosymphony-structure-factory/SKILL.md`](skills/biosymphony-structure-factory/SKILL.md).
 
-**Compute.** Local workstation (no GPU required for planning), neocloud GPU pods (such as RunPod and Lambda), AWS Batch and EC2 GPU, generic cloud VMs, and SSH or HPC. Each provider has a profile that carries budget, cleanup, license-gate, and closeout requirements.
+**Compute.** Local workstation (no GPU required for planning), reviewed neocloud GPU paths (RunPod pods, Lambda Cloud GPU VMs, and Modal serverless GPU functions), AWS Batch and EC2 GPU, generic cloud VMs, and SSH or HPC. Each provider has a profile that carries budget, cleanup, license-gate, and closeout requirements.
 
 **Tools and lanes referenced or integrated.** Genie3, RFdiffusion, HelixDiff, PepGLAD, EvoBind, and ProteinMPNN for design. Boltz, Chai, ESMFold2, and cofold-scoring stacks for prediction and foldability review. ChimeraX, PyMOL, and MD or docking lanes for refinement and rendering. Target-prep utilities and screening adapters for end-to-end campaigns. Add your own through [`tools/`](tools/) cards. For standalone agent skills built around PyMOL, ChimeraX, AlphaFold DB, RCSB PDB, UniProt, and Rosetta, see the companion repo [Proteus](https://github.com/jvogan/proteus).
 
@@ -117,7 +117,7 @@ Reach for Structure Factory when a user, Linear ticket, or orchestrator asks for
 - a RunPod, cloud, HPC, or local GPU launch packet with budget and cleanup
 - a publication-style structural report with provenance
 
-Boundaries that this repo does not cross live in [`NON_CLAIMS.md`](NON_CLAIMS.md) and [`BIOSAFETY.md`](BIOSAFETY.md).
+Result boundaries live in [`NON_CLAIMS.md`](NON_CLAIMS.md) and [`BIOSAFETY.md`](BIOSAFETY.md).
 
 ## Inspect Or Run The Repo Yourself
 
@@ -175,11 +175,11 @@ The repo is designed to slot into any agent runtime. It provides:
 - a capability catalog: `bsf catalog . --format markdown`
 - a local scaffold command: `bsf scaffold-campaign`
 
-The operating model is described in [`docs/agentic-biology-harness.md`](docs/agentic-biology-harness.md). Structure Factory turns biological intent into target setup, agent lanes, provider profiles, artifact checks, candidate rankings, and reviewable closeouts. The orchestrator drives planning and execution. Structure Factory provides the biology-aware scaffolding and validation surface.
+The operating model is described in [`docs/agentic-biology-harness.md`](docs/agentic-biology-harness.md). Structure Factory turns biological goals into target setup, agent lanes, provider profiles, artifact checks, candidate rankings, and reviewable closeouts. The orchestrator drives planning and execution. Structure Factory provides the biology-aware scaffolding and validation surface.
 
 ![Where Structure Factory sits: your orchestrator drives Structure Factory, which prepares checked plans for design and prediction tools, compute providers, and trackers](docs/assets/system-context.svg)
 
-Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory — the biology-aware layer of skill, CLI, scaffolds, contracts, validators, and tool cards — which hands checked, contract-shaped plans to design, fold, and render tools, to compute providers, and to trackers.
+Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory. Structure Factory provides the skill, CLI, scaffolds, contracts, validators, and tool cards that hand checked plans to design, fold, and render tools, compute providers, and trackers.
 
 The short version:
 
@@ -209,9 +209,9 @@ Structure Factory compresses the front half of binder discovery: target preparat
 - [`docs/quickstart-tour.md`](docs/quickstart-tour.md). Five-minute local tour for power users.
 - [`docs/use-cases.md`](docs/use-cases.md). Copyable agent prompts for each mission type.
 
-## Hard-Earned Operational Knowledge
+## Operational Notes
 
-Read these before any paid GPU dispatch. They are not theoretical — every entry has cost real wall-clock to surface.
+Read these before any paid GPU dispatch. These notes capture failure modes that affected wall-clock time, cost, or output quality in prior campaign work.
 
 - [`docs/operational-gotchas.md`](docs/operational-gotchas.md). Pattern library of ~45 failure classes (RunPod payload limits, conda env traps, designer-specific gotchas, cofold output-field traps, orchestration cascade failures). Each entry includes a paste-ready pre-flight probe and a fix recipe.
 - [`docs/preflight-checklist.md`](docs/preflight-checklist.md). Ten-gate pre-dispatch checklist pattern (PDB chain identity, hotspot atom-spec validity, output-count validation, operator approval, and seven more). Catches the highest-EV failure modes at zero cost.

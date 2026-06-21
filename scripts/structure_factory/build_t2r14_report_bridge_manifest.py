@@ -42,7 +42,7 @@ python3 /tmp/t2r14_structure_report.py --out runpod-execution --json | tee runpo
             "linear_issue_url": LINEAR_ISSUE_URL,
             "scope": "CPU-only public data demo, no licensed tools, target under one hour",
         },
-        "budget": {"max_runtime_minutes": 45, "max_estimated_cost_usd": 0},
+        "budget": {"max_runtime_minutes": 45, "max_estimated_cost_usd": 0.5},
         "repo": {
             "source": "inline_commands",
             "url_or_path": "inline",

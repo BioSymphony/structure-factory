@@ -24,7 +24,7 @@ git status --short --branch
 
 ## Clean-History Requirement
 
-A current-tree scrub is not enough for a public repository. Before publishing, create a clean root commit, squash export, or recreated public repository so private/generated artifacts are not recoverable from history.
+A current-tree check is not enough for a public repository. Before publishing, create a reviewed root commit, squash export, or recreated public repository so restricted/generated artifacts are not recoverable from history.
 
 ## Package Boundary
 

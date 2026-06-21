@@ -34,12 +34,12 @@ Use this when explaining why the public repo is useful even before any provider 
 
 ## `system-context.svg`
 
-Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory — the biology-aware layer of skill, CLI, scaffolds, contracts, validators, and tool cards — which hands checked, contract-shaped plans to design, fold, and render tools, to compute providers, and to trackers.
+Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory. Structure Factory provides the skill, CLI, scaffolds, contracts, validators, and tool cards that hand checked plans to design, fold, and render tools, compute providers, and trackers.
 
 Use this when explaining what Structure Factory is and where it sits relative to the agent and the tools.
 
 ## `agent-lanes.svg`
 
-Text equivalent: one campaign goal fans into parallel lanes — design, fold or cofold, score or triage, render, and screen — each calling its own tools, then converges into a ranked, checked report with candidates, confidence, failure rows, figures, and provenance.
+Text equivalent: one campaign goal fans into parallel lanes: design, fold or cofold, score or triage, render, and screen. Each lane calls its own tools, then converges into a ranked, checked report with candidates, confidence, failure rows, figures, and provenance.
 
 Use this when explaining how an agent splits a goal into parallel tool-backed lanes that converge into a report.

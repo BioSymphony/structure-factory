@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_URL="${STRUCTURE_FACTORY_REPO_URL:?STRUCTURE_FACTORY_REPO_URL is required}"
 GIT_REF="${STRUCTURE_FACTORY_GIT_REF:?STRUCTURE_FACTORY_GIT_REF is required}"
-REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/bio-symphony-structure-factory}"
+REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/repo}"
 RUN_ID="${STRUCTURE_FACTORY_RUN_ID:-structure-factory-run}"
 VOLUME_ROOT="${STRUCTURE_FACTORY_VOLUME_ROOT:-/workspace/structure-factory}"
 RUN_ROOT="${VOLUME_ROOT}/runs/${RUN_ID}"

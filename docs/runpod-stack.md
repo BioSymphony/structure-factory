@@ -158,7 +158,7 @@ Non-cheating rules:
 
 Use runtime environment variables or RunPod secrets for:
 
-- private repo token or deploy key, when an operator chooses a private source-delivery posture
+- non-public source token or deploy key, when an operator chooses a restricted source-delivery posture
 - CryoSPARC license identifier
 - Phenix installer/license access
 - Rosetta/PyRosetta credentials

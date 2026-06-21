@@ -40,5 +40,5 @@
     "contract_self_check",
     "explicit_operator_launch"
   ],
-  "notes": "AWS EC2 rescue/debug path. AWS Batch remains the blessed AWS scale path."
+  "notes": "AWS EC2 rescue/debug path. AWS Batch remains the reviewed AWS scale path."
 }

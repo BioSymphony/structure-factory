@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Plan publication-style molecular render lanes for target windows, candidate poses, and report figures. ChimeraX is the operator-blessed render path for structural-biology demos: per-design PNGs, 3-panel hero figures, and labeled spin MP4s straight out of cofold output (top-N PDBs from Boltz / Chai / Genie 3 / RFdiffusion).
+Plan publication-style molecular render lanes for target windows, candidate poses, and report figures. ChimeraX is the operator-approved render path for structural-biology demos: per-design PNGs, 3-panel hero figures, and labeled spin MP4s straight out of cofold output (top-N PDBs from Boltz / Chai / Genie 3 / RFdiffusion).
 
 ## Public-Safe Status
 

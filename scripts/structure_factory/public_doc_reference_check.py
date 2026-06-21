@@ -171,7 +171,9 @@ def check(root: Path) -> dict[str, object]:
         "Keychain-backed",
         "RUNPOD_API_KEY` in the shell",
         "curl -L $BOOTSTRAP_URL | bash -",
-        "runpod-bridge " + "create-pod",
+        "runpod" + "-bridge " + "create-pod",
+        "cloud" + "-bridge " + "create-pod",
+        "symphony-neocloud-bridge " + "create-pod",
         "https://github.com/BioSymphony/biosymphony-" + "structure-factory.git",
     ]
 

@@ -7,7 +7,7 @@ Structure Factory separates the control plane from the execution plane.
 - Structure Factory owns manifests, modules, validators, and validation contracts.
 - Compute providers only run a selected execution profile and emit artifacts.
 
-RunPod Pods are the primary blessed remote path. AWS Batch GPU jobs are the blessed cloud scale path. Other backends, including neocloud and generic cloud VMs, must satisfy the same input-audit, artifact, cleanup, and contract-self-check rules before a worker can mark success.
+RunPod Pods are the default reviewed remote path. AWS Batch GPU jobs are the reviewed cloud-scale path. Modal serverless GPU functions support bounded canaries and small single-container fanouts. Lambda Cloud GPU VMs support ephemeral, no-persistent-filesystem canaries. Other backends, including generic cloud VMs and SSH/HPC, must satisfy the same input-audit, artifact, cleanup, and contract-self-check rules before a worker can close the run as successful.
 
 For the newcomer route map, see [`workflow-map.md`](workflow-map.md). The public repository supports cloud planning and readiness checks, but real provider mutation belongs in a private/operator-gated execution packet after explicit approval.
 
@@ -38,10 +38,12 @@ The files, data, tools, and weights can be assembled in several valid ways. The 
 | Public/prebuilt image | Pulled by provider | Open-default tools with redistributable binaries | Digest pin before real launch |
 | Private image | GHCR/Docker Hub/registry | Fast cold start for reviewed private stacks | Runtime registry auth; no secrets in image layers |
 | Runtime bootstrap | Pod boot or job prologue | Public base image plus pinned installs | Record commands, versions, and bootstrap risk |
-| RunPod Network Volume bootstrap | One setup pod populates `/workspace/structure-factory/software` and caches | Blessed RunPod path when avoiding private registry auth or repeated weight downloads | Dedicated Structure Factory volume, idempotent bootstrap, verify on every pod |
+| RunPod Network Volume bootstrap | One setup pod populates `/workspace/structure-factory/software` and caches | Default RunPod path when avoiding private registry auth or repeated weight downloads | Dedicated Structure Factory volume, idempotent bootstrap, verify on every pod |
 | Local high-resource workstation | User machine | Small demos, GUI review, local-only campaigns | No large/raw downloads without explicit local authorization |
 | SSH/HPC modules | Institutional cluster | Data or licenses must stay on site | Same artifact tree and self-check output |
 | Generic cloud/neocloud volume | Provider volume or object store | Preferred adapter-ready cloud capacity beyond RunPod/AWS | Must preserve scoping, secrets, artifact export, and cleanup policy |
+| Modal serverless function | Function image built and run on Modal | Bounded GPU canaries and small fanouts without a long-lived pod | Declared max_containers, timeout, tags; committed Volume; fetched+hashed artifacts; app-stop cleanup |
+| Lambda ephemeral GPU VM | Short-lived instance, no persistent disk | Single no-filesystem canaries with fast-terminate discipline | Egress + remote-archive hash + immediate terminate + post-terminate listing |
 
 GHCR is not mandatory. It is one convenient private-image posture. For Structure Factory RunPod campaigns, a dedicated Network Volume plus public base image and runtime bootstrap is often cleaner because it avoids registry auth and avoids redistributing license-sensitive tools.
 
@@ -49,8 +51,10 @@ GHCR is not mandatory. It is one convenient private-image posture. For Structure
 
 | Backend | Class | Intended Use | Status |
 | --- | --- | --- | --- |
-| RunPod | `pod` | No-download smoke, CryoCore handoff prep, gated tools, PDB/EMDB structure mapping, AI-design runtime | Blessed primary |
-| AWS Batch | `batch_job` | Cloud scale lanes, multi-shard GPU jobs, RunPod fallback when AWS credentials/budget are authorized | Blessed cloud scale |
+| RunPod | `pod` | No-download smoke, CryoCore handoff prep, gated tools, PDB/EMDB structure mapping, AI-design runtime | Default reviewed path |
+| AWS Batch | `batch_job` | Cloud scale lanes, multi-shard GPU jobs, RunPod fallback when AWS credentials/budget are authorized | Reviewed cloud scale |
+| Modal | `serverless_function` | Bounded single-function GPU canaries, small single-container fanouts, Volume-backed artifacts, tag-scoped billing | Reviewed neocloud |
+| Lambda Cloud | `cloud_vm` | Ephemeral single-instance GPU canaries with no persistent filesystem; egress, hash, terminate | Reviewed neocloud |
 | Local workstation | `workstation` | Repo validation, figure review, small deposited-structure checks, GUI review | Supported for prep/local-lite |
 | SSH/HPC | `slurm_job` | Institutional GPU or CPU batch lanes where licenses/data stay on site | Adapter-ready |
 | Generic cloud VM | `cloud_vm` | Bring-your-own GPU VM with mounted disk/object storage | Adapter-ready |
@@ -89,13 +93,21 @@ manifest -> input_audit -> materialized inputs -> tool/run artifacts -> contract
 
 ### RunPod
 
-Use the `runpod/` launch kit for public templates, stage contracts, and preflight checks. RunPod is the reference pod provider and the blessed primary remote path. Keep image credentials and license secrets in RunPod runtime configuration. Write durable artifacts under `/workspace/structure-factory/runs/<run-id>/`.
+Use the `runpod/` launch kit for public templates, stage contracts, and preflight checks. RunPod is the reference pod provider and the default reviewed remote path. Keep image credentials and license secrets in RunPod runtime configuration. Write durable artifacts under `/workspace/structure-factory/runs/<run-id>/`.
 
 For Structure Factory-owned volumes, use `STRUCTURE_FACTORY_RUNPOD_NETWORK_VOLUME_ID` in public docs/templates. Operator-gated provider packets may carry the resolved owned volume ID after scope validation. Do not reuse sibling campaign volumes for writable state. Before paid mutation, run `make runpod-scope-check` and verify the target pod/volume appears in the Structure Factory manifest or pod ledger.
 
 ### AWS Batch
 
-Use AWS Batch as the blessed cloud scale path when the task declares AWS credentials, budget, job queue, compute environment, artifact export bucket, and cleanup proof. AWS EC2 debug VMs are supported but are not blessed unless wrapped by the AWS Batch profile and the same input-audit and contract-self-check gates.
+Use AWS Batch as the reviewed cloud-scale path when the task declares AWS credentials, budget, job queue, compute environment, artifact export bucket, and cleanup proof. AWS EC2 debug VMs are supported but remain adapter-ready unless wrapped by the AWS Batch profile and the same input-audit and contract-self-check gates.
+
+### Modal
+
+Use Modal serverless GPU functions for bounded single-function canaries and small single-container fanouts. Declare `max_containers`, a timeout, run tags, and a committed Modal Volume up front. Closeout requires more than a function exit: capture provider logs with timestamps and function/container IDs, the app and history status JSON, a tag-scoped billing report, the committed Volume tree fetched locally with hashes, and `app stop` cleanup proof. Reference Modal credentials from an operator secret store or Modal secret refs only; never write tokens to the repo, tracker, logs, or artifacts. Profile: `modules/provider-profiles/modal/gpu-function-no-download.v1.json`.
+
+### Lambda Cloud
+
+Use Lambda Cloud GPU VMs for ephemeral, no-persistent-filesystem canaries: no persistent filesystem for the first canary, a short-lived single instance, SSH/SCP or object-store artifact egress, a remote-archive hash check, immediate termination, and an explicit post-terminate instance/filesystem listing before any success closeout. Lambda is more cost-exposed than RunPod because there is no auto-stop guardrail, so terminate fast. Profile: `modules/provider-profiles/lambda/gpu-vm-no-download.v1.json`.
 
 ### Local Workstation
 
@@ -109,14 +121,11 @@ Use when data or licenses must stay inside an institution. The adapter should ge
 
 Use when the provider can support public or operator-gated repo checkout, public images or private images with runtime registry auth, reproducible bootstrap, runtime secrets, scratch/persistent storage boundaries, and artifact export. These are preferred capacity options for users who already have access, but they remain adapter-ready until provider-specific launch tooling, scope checks, cleanup proof, and artifact export have been proven. RunPod remains the reference implementation for pod-style providers.
 
-Lambda Cloud-style GPU VMs should be treated as `generic_cloud` until this
-repo carries a first-class provider profile and validator coverage for that
-API. A useful Lambda-style ESMFold2 pattern is: no persistent filesystem for
-the first canary, short-lived single instance, SSH/SCP or object-store artifact
-egress, remote archive hash check, immediate termination, and explicit
-post-terminate instance/filesystem listing before any success claim. Keep
-provider resource IDs, SSH key names, API keys, images, logs, costs, and raw
-artifacts outside public git.
+Lambda Cloud GPU VMs are now a reviewed neocloud path with their own profile and
+the ephemeral-canary discipline described in the Lambda Cloud note above. Other
+bring-your-own cloud VMs stay `generic_cloud` until they carry a profile and
+validator coverage. Keep provider resource IDs, SSH key names, API credentials,
+images, logs, costs, and raw artifacts outside public git.
 
 ## AI-Design Selection Order
 
@@ -124,5 +133,7 @@ For Boltz and Genie-style AI design lanes, use this default order unless a task 
 
 1. RunPod with the Structure Factory Network Volume or digest-pinned image.
 2. AWS Batch for cloud scale or multi-shard fallback.
-3. Neocloud or generic cloud VM when the user has provider capacity and accepts the adapter gate.
-4. Local high-resource workstation only when the user declares sufficient GPU/storage and data-retention boundaries.
+3. Modal serverless GPU functions for bounded canaries or small single-container fanouts.
+4. Lambda Cloud GPU VMs for ephemeral, no-persistent-filesystem canaries.
+5. Neocloud or generic cloud VM when the user has provider capacity and accepts the adapter gate.
+6. Local high-resource workstation only when the user declares sufficient GPU/storage and data-retention boundaries.

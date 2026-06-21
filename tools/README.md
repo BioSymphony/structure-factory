@@ -25,6 +25,10 @@ Each card follows the same shape:
 
 - [ProteinMPNN](proteinmpnn.md). Backbone-to-sequence design. Includes SolubleMPNN for soluble targets.
 
+### Antibody Sequence Evolution And Scoring
+
+- [CoSiNE](cosine.md). Antibody affinity maturation as a neural CTMC: sequence-only evolutionary likelihood, zero-shot variant-effect prediction (VEP), and oracle-guided CDR/FR maturation. Structure-free; route candidates through the cofold scoring stack for an orthogonal structural check.
+
 ### Multistate And Switch Design
 
 - [SwitchCraft](switchcraft.md). De novo design of state-switching proteins: one sequence, multiple ligand-conditioned conformations (allostery, induced binding, ligand discrimination, small-molecule biosensors). Route every switch through the cofold scoring stack for an orthogonal check.
@@ -39,6 +43,7 @@ Each card follows the same shape:
 - [Boltz](boltz.md). Open biomolecular cofold with confidence and full PAE outputs.
 - [Chai-1](chai.md). Open biomolecular cofold with MSA-driven prediction.
 - [ESMFold2](esmfold2.md). Biohub structure prediction and foldability review lane, with Hugging Face weights as the first cloud canary route and Biohub API as optional/deferred.
+- [ESMFold2 binder control notes](esmfold2-binder-controls.md). Sequence, structure, interface, logit, and optimization controls for constraining ESMFold2/Biohub binder-design runs against a deposited target site.
 
 ### Refinement And Visualization
 
@@ -63,6 +68,7 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Class B GPCR ECD antagonist by peptide mimicry | [Baker miniprotein-GPCR](baker-miniprotein-gpcr.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN), [Cofold scoring stack](cofold-scoring-stack.md) |
 | A protein that changes shape on ligand binding (allostery, AND gate, biosensor) | [SwitchCraft](switchcraft.md) | [Cofold scoring stack](cofold-scoring-stack.md) for the orthogonal switch check |
 | Add a function or effector to a validated binder (fusion construct) | [DOMINO](domino.md) | [Cofold scoring stack](cofold-scoring-stack.md) to prove both modules fold |
+| Triage or mature antibody variant libraries (sequence-only) | [CoSiNE](cosine.md) | [Cofold scoring stack](cofold-scoring-stack.md) for an orthogonal structural check |
 | Cofold one designed candidate against a target | [Boltz](boltz.md) or [Chai-1](chai.md) alone | [Cofold scoring stack](cofold-scoring-stack.md) for multi-validator gating |
 | Check foldability or uncertainty for a public sequence/candidate | [ESMFold2](esmfold2.md) | [Cofold scoring stack](cofold-scoring-stack.md) when interface or binder claims are requested |
 | Promote a candidate from a design batch | [Cofold scoring stack](cofold-scoring-stack.md) | [Refinement stack](refinement-stack.md), [ChimeraX](chimerax-peptide-viz.md) |

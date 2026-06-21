@@ -2,7 +2,7 @@
 
 Last reviewed: 2026-05-13
 
-This public repository should stay close to the internal Structure Factory operating model in working shape. The useful part is the structure: campaign contracts, validator scripts, provider launch contracts, task packs, validation records, and bounded demos. The public export removes private history and operator-specific material, not the operating model.
+This public repository preserves the working shape of Structure Factory: campaign contracts, validator scripts, provider launch contracts, task packs, validation records, and bounded demos. The public export keeps local-only history and operator-specific material out while keeping the workflow understandable.
 
 ## What Should Match The Operating Model
 
@@ -20,11 +20,11 @@ Keep these areas substantially isomorphic so public users and Symphony workers c
 | `templates/` and `packs/` | Tracker-neutral task templates and task packs | Supports Symphony/Linear import without leaking private tracker IDs. |
 | `tests/` | Public release, validator, and runner tests | Keeps the public export continuously checkable. |
 
-## What Stays Private
+## What Stays Out
 
 The public export should not carry:
 
-- private git history or private branch archaeology
+- non-public git history or branch archaeology
 - local `.runtime/` artifacts, provider logs, cost logs, event logs, or generated closeout bundles
 - repo-local agent configuration folders, personal agent settings, or local automation state
 - `internal/private/` notes, operator handoffs, account-specific runbooks, or private tracker text
@@ -36,7 +36,7 @@ Public docs may name gated tools and provider patterns, but they must use placeh
 
 ## Public Positioning
 
-Structure Factory is a BioSymphony/Symphony sidecar for structural biology work programs. Its value is not that it magically discovers binders. Its value is that it makes structural biology automation disciplined:
+Structure Factory is a skill repo for structural biology work programs. It helps agents turn broad structural biology requests into bounded work:
 
 - turns vague target requests into target windows, stage contracts, task packs, and validation commands
 - keeps Boltz/Genie/RFdiffusion-style design lanes behind explicit setup, license, runtime, and result gates
@@ -44,7 +44,7 @@ Structure Factory is a BioSymphony/Symphony sidecar for structural biology work 
 - produces candidate rankings and structure reports that are useful for scientist review without implying wet-lab proof
 - lets Linear/Symphony workers coordinate long-running GPU work without losing provenance, cost, cleanup, or artifact hashes
 
-The "binder designs in no time" pitch should be framed carefully: Structure Factory can compress the setup, planning, triage, and reporting loop for computational binder-design campaigns. It does not prove binding, affinity, specificity, biological function, developability, safety, or therapeutic value.
+For computational binder-design campaigns, Structure Factory shortens the setup, planning, triage, and reporting loop. Binding, affinity, specificity, biological function, developability, safety, and therapeutic value require separate review and experiments.
 
 ## Release Bar
 
@@ -54,5 +54,5 @@ A public export is in good shape when:
 2. `make public-audit` reports no findings.
 3. A strict local-path/private-token search reports no findings.
 4. No heavy generated artifacts are tracked.
-5. The first commit is a clean public root commit, not private development history.
+5. The first commit is a reviewed public root commit.
 6. Public examples validate without network, credentials, GPU, or paid provider access.

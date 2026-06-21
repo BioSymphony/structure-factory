@@ -5,7 +5,7 @@ RUN_ID="${STRUCTURE_FACTORY_RUN_ID:-structure-factory-raw-subset}"
 VOLUME_ROOT="${STRUCTURE_FACTORY_VOLUME_ROOT:-/workspace/structure-factory}"
 RUN_ROOT="${VOLUME_ROOT}/runs/${RUN_ID}"
 SCRATCH_ROOT="${VOLUME_ROOT}/scratch/${RUN_ID}"
-REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/bio-symphony-structure-factory}"
+REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/repo}"
 MANIFEST="${STRUCTURE_FACTORY_LAUNCH_MANIFEST:-${REPO_ROOT}/runpod/launch-manifests/raw-subset-open.json}"
 STAGE_CONTRACT="${STRUCTURE_FACTORY_STAGE_CONTRACT:-${REPO_ROOT}/runpod/stage-contracts/raw-subset-open.stage-contract.json}"
 if [[ "${MANIFEST}" == *raw-subset-gated* ]]; then

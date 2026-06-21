@@ -78,7 +78,7 @@ Body:
 - Keep changes bounded to the issue `## Touched Areas`.
 - Do not launch RunPod, local heavy jobs, SSH/HPC jobs, cloud/neocloud instances, download raw EMPIAR data, install restricted tools, or write secrets from the worker shell. For authorized RunPod smokes, validate and prepare a launch request marker for trusted host-side closeout.
 - Run validation commands exactly as written.
-- Treat RunPod as the blessed remote path, but keep campaign science provider-neutral and preserve input-audit plus contract-self-check gates for every backend.
+- Treat RunPod as the default reviewed remote path, but keep campaign science provider-neutral and preserve input-audit plus contract-self-check gates for every backend.
 - Use `$symphony-linear` for Linear comments, state changes, and handoff metadata.
 - Move completed non-RunPod prep issues directly to `Done` after self-review and validation. For trusted RunPod smokes, do not move the issue to `Done`; the host-side `after_run` closeout owns the final state after artifact proof and cleanup.
 - Write `.symphony-runpod-launch-request.json` only after local validation passes. It must include issue identifier, manifest path, max spend, requested action `create_verify_cleanup`, and result boundary.

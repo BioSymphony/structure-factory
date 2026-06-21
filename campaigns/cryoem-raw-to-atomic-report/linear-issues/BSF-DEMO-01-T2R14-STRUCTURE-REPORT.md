@@ -56,8 +56,9 @@ Run a small real Structure Factory demo that uses only public RCSB/PDB coordinat
 ```bash
 make demo-t2r14-check
 python3 -m py_compile scripts/structure_factory/t2r14_structure_report.py scripts/structure_factory/build_t2r14_report_bridge_manifest.py
-runpod-bridge validate-manifest .runtime/bridge-manifests/t2r14-structure-report.json --json
-runpod-bridge prepare .runtime/bridge-manifests/t2r14-structure-report.json --out-dir .runtime/t2r14-structure-report-packet --json
+PROVIDER_BRIDGE_CLI=${PROVIDER_BRIDGE_CLI:-symphony-neocloud-bridge}
+$PROVIDER_BRIDGE_CLI validate-manifest .runtime/bridge-manifests/t2r14-structure-report.json --json
+$PROVIDER_BRIDGE_CLI prepare .runtime/bridge-manifests/t2r14-structure-report.json --out-dir .runtime/t2r14-structure-report-packet --json
 # Public repo: paid pod creation is intentionally omitted. Use a private/operator-gated execution packet under `.runtime/` after approval.
 ```
 

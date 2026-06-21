@@ -34,5 +34,5 @@
     "launch_preflight_required": true,
     "cleanup_proof_required": true
   },
-  "notes": "Preferred RunPod-like GPU pod adapter path after provider-specific scope checks, launch preflight, artifact export, and cleanup proof pass. Public mode uses public repo/image/bootstrap contracts; private image or registry auth is an operator-gated choice outside public git. RunPod and AWS Batch are the blessed paths; this profile is not an authorization to launch."
+  "notes": "Preferred RunPod-like GPU pod adapter path after provider-specific scope checks, launch preflight, artifact export, and cleanup proof pass. Public mode uses public repo/image/bootstrap contracts; restricted image or registry auth is an operator-gated choice outside public git. RunPod and AWS Batch are the reviewed paths; this profile is not an authorization to launch."
 }

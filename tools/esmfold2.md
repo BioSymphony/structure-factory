@@ -95,8 +95,10 @@ record the Biohub API as optional/deferred.
 
 ## Cloud Run Pattern
 
-RunPod remains the blessed first pod path for this public repo. Other cloud VMs,
-including Lambda Cloud, should be treated as generic-cloud adapters until a
+RunPod is the default reviewed pod path for this public repo, and Lambda Cloud GPU
+VMs and Modal serverless GPU functions are reviewed neocloud paths alongside it,
+each with its own provider profile and compute-backends note. Other
+bring-your-own cloud VMs should be treated as generic-cloud adapters until a
 provider profile and validator coverage exist here.
 
 Recommended run order:

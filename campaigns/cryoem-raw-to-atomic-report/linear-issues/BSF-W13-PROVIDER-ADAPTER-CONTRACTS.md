@@ -1,6 +1,6 @@
 ## Summary
 
-Harden Structure Factory provider adapter contracts so RunPod remains the blessed remote path while local, SSH/HPC, generic cloud VM, and neocloud profiles can share the same BioSymphony + Linear + Symphony evidence contract.
+Harden Structure Factory provider adapter contracts so RunPod remains the default reviewed remote path while local, SSH/HPC, generic cloud VM, and neocloud profiles can share the same BioSymphony + Linear + Symphony evidence contract.
 
 ## Inputs
 
@@ -45,7 +45,7 @@ Harden Structure Factory provider adapter contracts so RunPod remains the blesse
 
 ## Acceptance Criteria
 
-- [ ] RunPod profiles are marked as the blessed remote path.
+- [ ] RunPod profiles are marked as the default reviewed remote path.
 - [ ] Non-RunPod provider profiles are adapter contracts and do not imply execution readiness.
 - [ ] Every provider profile requires `input_audit` and `contract_self_check`.
 - [ ] Provider validation fails profiles that omit artifact roots, secret mode, operator gate policy, or self-check gates.

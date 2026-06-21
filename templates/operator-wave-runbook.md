@@ -34,7 +34,7 @@ Do not paste credentials, provider resource IDs, private tracker text, private w
 
 ## RunPod-Specific Gate
 
-RunPod is the blessed first paid-pod path for Structure Factory, but provider status is only intent. Workload proof must come from stage progress, artifacts, hashes, and cleanup proof.
+RunPod is the default reviewed paid-pod path for Structure Factory, but provider status is only intent. Workload proof must come from stage progress, artifacts, hashes, and cleanup proof.
 
 - [ ] `make runpod-scope-check` passes.
 - [ ] `make launch-preflight` or the campaign-specific launch preflight passes.

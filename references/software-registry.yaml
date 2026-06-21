@@ -2,6 +2,11 @@
 # Each entry must be verified from primary sources before status moves to ready.
 # Human-readable public posture: docs/tooling-and-licensing.md
 # Redistribution/image policy: docs/public-repo-and-private-image-policy.md
+#
+# Cloud backends: RunPod, AWS Batch, Lambda Cloud, and Modal are reviewed
+# execution paths; see docs/compute-backends.md and modules/provider-profiles/.
+# The runpod_fit field scores per-tool suitability for the RunPod pod path;
+# Lambda and Modal fit are covered narratively in docs/compute-backends.md.
 
 software:
   relion:

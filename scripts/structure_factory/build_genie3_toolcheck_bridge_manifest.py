@@ -212,7 +212,7 @@ def build_manifest(*, execution_ready: bool = False) -> dict:
             "requires_workload_heartbeat": True,
         },
         "budget": {
-            "max_estimated_cost_usd": 0,
+            "max_estimated_cost_usd": 2.0,
             "max_runtime_minutes": 50,
             "terminate_after_minutes": 60,
         },

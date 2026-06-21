@@ -33,10 +33,11 @@ Or run the bridge steps directly:
 
 ```bash
 python3 scripts/structure_factory/build_t2r14_report_bridge_manifest.py
-runpod-bridge validate-manifest \
+PROVIDER_BRIDGE_CLI=${PROVIDER_BRIDGE_CLI:-symphony-neocloud-bridge}
+$PROVIDER_BRIDGE_CLI validate-manifest \
   .runtime/bridge-manifests/t2r14-structure-report.json \
   --json
-runpod-bridge prepare \
+$PROVIDER_BRIDGE_CLI prepare \
   .runtime/bridge-manifests/t2r14-structure-report.json \
   --out-dir .runtime/t2r14-structure-report-packet \
   --json

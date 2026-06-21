@@ -155,7 +155,7 @@ fi
             "linear_issue_url": LINEAR_ISSUE_URL,
             "scope": "CPU-only public EMDB/PDB map-model demo, no licensed tools, no raw movies, target under two hours",
         },
-        "budget": {"max_runtime_minutes": 120, "max_estimated_cost_usd": 0},
+        "budget": {"max_runtime_minutes": 120, "max_estimated_cost_usd": 1.0},
         "repo": {
             "source": "inline_commands",
             "url_or_path": "inline",

@@ -7,7 +7,7 @@ BioSymphony Structure Factory is a harness for long-running, agentic structural 
 The repo helps turn an open-ended biological request into a bounded work program:
 
 ```text
-biological intent
+biological goal
   -> target window or structure set
   -> task plan
   -> agent lanes with owned paths
@@ -26,7 +26,7 @@ Use Structure Factory when the useful work is bigger than one prompt:
 - GPCR or multimer state comparison with artifact provenance
 - cloud GPU stage contracts that need budget, cleanup, and proof gates
 - publication-style structural reports with explicit source posture and result boundaries
-- Linear or similar tracker workflows where agents need durable scientific contracts
+- Linear or similar tracker workflows where agents need durable campaign contracts
 
 The repo is a control plane. It carries manifests, schemas, task packs, validators, stage contracts, launch templates, and compact public demos. Raw biological data, provider logs, private structures, model weights, credentials, and experimental conclusions live outside the repo in operator-controlled infrastructure.
 
@@ -97,7 +97,7 @@ Optional Claude-lane or visual-review workers fit as separate lanes. They can re
 
 ## RunPod As Blessed Cloud Path
 
-RunPod is the blessed first paid-pod path for Structure Factory because the repo carries public launch templates, stage contracts, scope checks, and Network Volume posture. Executable provider packets are generated outside public git after operator approval. Closeout still requires artifacts, hashes, cleanup proof, and validation notes.
+RunPod is the default reviewed paid-pod path for Structure Factory because the repo carries public launch templates, stage contracts, scope checks, and Network Volume posture. Executable provider packets are generated outside public git after operator approval. Closeout still requires artifacts, hashes, cleanup proof, and validation notes.
 
 The RunPod path preserves this verification flow:
 

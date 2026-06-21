@@ -186,7 +186,7 @@ provider:neocloud
 | `generic-cloud` | adapter contract only | required for VM/pod mutation | `make provider-check` |
 | `neocloud` | adapter contract and scope posture | required for pod mutation | `make neocloud-scope-check` |
 
-RunPod is the blessed paid-pod provider for the first Structure Factory demos. AWS Batch is the blessed cloud scale provider after adapter closeout parity. SSH/HPC, generic cloud, and neocloud labels are for adapter planning or local prep unless a task explicitly authorizes provider-specific execution.
+RunPod is the default reviewed paid-pod provider for the first Structure Factory demos. AWS Batch is the reviewed cloud-scale provider after adapter closeout parity. SSH/HPC, generic cloud, and neocloud labels are for adapter planning or local prep unless a task explicitly authorizes provider-specific execution.
 
 ## State Policy
 
@@ -221,4 +221,4 @@ Task packs under [`../packs/`](../packs/) are safe starting points because they 
 5. Put provider-backed tasks in `Backlog` until authorization exists.
 6. Keep closeout records compact: hashes, provenance, validation notes, and links to operator-held artifact packets.
 
-Do not paste provider secrets, pod IDs, private repository URLs, private tracker URLs, local absolute paths, raw data locations, or accepted-license state into public task packs or public Linear templates.
+Do not paste provider secrets, pod IDs, non-public repository URLs, private tracker URLs, local absolute paths, raw data locations, or accepted-license state into public task packs or public Linear templates.

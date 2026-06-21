@@ -9,7 +9,7 @@
 # Required env (bridge manifest runpod.env):
 #   STRUCTURE_FACTORY_RUN_ID            structure-factory-pd-l1-positive-control-8znl
 #   STRUCTURE_FACTORY_VOLUME_ROOT       /workspace/structure-factory
-#   STRUCTURE_FACTORY_REPO_ROOT         /workspace/bio-symphony-structure-factory
+#   STRUCTURE_FACTORY_REPO_ROOT         /workspace/repo
 #   STRUCTURE_FACTORY_SOFTWARE_ROOT     /workspace/software
 #   STRUCTURE_FACTORY_BOLTZ_WEIGHTS_DIR /workspace/software/weights/boltz
 #   STRUCTURE_FACTORY_BOLTZ_YAML        campaigns/pd-l1-pd1-binder-design/boltz_inputs/positive_control_8znl.yaml
@@ -19,7 +19,7 @@ set -euo pipefail
 
 RUN_ID="${STRUCTURE_FACTORY_RUN_ID:?STRUCTURE_FACTORY_RUN_ID is required}"
 VOLUME_ROOT="${STRUCTURE_FACTORY_VOLUME_ROOT:-/workspace/structure-factory}"
-REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/bio-symphony-structure-factory}"
+REPO_ROOT="${STRUCTURE_FACTORY_REPO_ROOT:-/workspace/repo}"
 SOFTWARE_ROOT="${STRUCTURE_FACTORY_SOFTWARE_ROOT:-/workspace/software}"
 BOLTZ_WEIGHTS_DIR="${STRUCTURE_FACTORY_BOLTZ_WEIGHTS_DIR:-${SOFTWARE_ROOT}/weights/boltz}"
 BOLTZ_YAML_REL="${STRUCTURE_FACTORY_BOLTZ_YAML:-campaigns/pd-l1-pd1-binder-design/boltz_inputs/positive_control_8znl.yaml}"

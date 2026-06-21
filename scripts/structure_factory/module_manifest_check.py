@@ -37,9 +37,7 @@ VALID_MODULE_TYPES = {
     "provider_profile",
     "schema_contract",
 }
-ALLOWED_PROVIDERS = {"runpod", "local", "ssh_hpc", "generic_cloud", "neocloud", "aws"}
-ALLOWED_PROVIDER_CLASSES = {"pod", "workstation", "slurm_job", "cloud_vm", "gpu_pod", "batch_job"}
-BLESSED_PROVIDERS = {"runpod", "aws"}
+from provider_policy import ALLOWED_PROVIDERS, ALLOWED_PROVIDER_CLASSES, BLESSED_PROVIDERS
 
 
 def load(path: Path) -> dict[str, Any]:
@@ -155,13 +153,19 @@ def validate_provider_profile(data: dict[str, Any]) -> list[str]:
         if data.get("blessed_path") is not True:
             errors.append("RunPod provider_profile must set blessed_path true")
     elif data.get("blessed_path") is True and data.get("provider") not in BLESSED_PROVIDERS:
-        errors.append("only RunPod and AWS provider_profiles may set blessed_path true")
+        errors.append(f"only blessed providers {sorted(BLESSED_PROVIDERS)} may set blessed_path true")
     if data.get("provider") == "aws":
         if "aws" not in data or not isinstance(data.get("aws"), dict):
             errors.append("AWS provider_profile missing aws block")
     if data.get("provider") == "neocloud":
         if "neocloud" not in data or not isinstance(data.get("neocloud"), dict):
             errors.append("neocloud provider_profile missing neocloud block")
+    if data.get("provider") == "modal":
+        if "modal" not in data or not isinstance(data.get("modal"), dict):
+            errors.append("modal provider_profile missing modal block")
+    if data.get("provider") == "lambda":
+        if "lambda" not in data or not isinstance(data.get("lambda"), dict):
+            errors.append("lambda provider_profile missing lambda block")
     return errors
 
 

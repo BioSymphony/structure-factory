@@ -2,7 +2,7 @@
 
 Last reviewed: 2026-05-27
 
-This repository is ready to publish when it is a clean-history public control plane for BioSymphony Structure Factory: useful enough for external structural biology users and agents, but free of private history, private data, credentials, heavy generated artifacts, and unsupported scientific conclusions.
+This repository is ready to publish when it is a public-safe control plane for BioSymphony Structure Factory: useful for structural biology users and agents, with non-public history, private data, credentials, heavy generated artifacts, and unsupported scientific conclusions kept out.
 
 ## Release Positioning
 
@@ -44,14 +44,14 @@ Expected release state:
 - `make harness-check` reports zero findings.
 - `skills/biosymphony-structure-factory/SKILL.md` is present and linked from public docs.
 - `templates/operator-wave-runbook.md` is present for paid, cloud, raw-download, and multi-agent wave gates.
-- No private workstation paths, private tracker IDs, concrete provider IDs, or stale private-doc references appear.
+- No private workstation paths, private tracker IDs, concrete provider IDs, or local-only doc references appear.
 - No raw/generated structure files, archives, videos, model weights, or large files are tracked.
 - No `.local.json` runtime summaries, Quarto `_book` outputs, generated report HTML, generated candidate sequence fields, or candidate render batches are tracked.
 - Small curated public demo figures may remain only when they are referenced by public docs and contain no generated candidate sequences, private data, provider metadata, or raw structural files.
 - `runpod/bridge-manifests/*.json` remain public non-launchable shape templates only: no per-campaign provider packets, embedded payloads, concrete placement, real approvals, run logs, and no prior-run volume assumptions.
-- The public repo has clean history suitable for publishing under `BioSymphony/structure-factory`.
+- The public repo has reviewed history suitable for publishing under `BioSymphony/structure-factory`.
 
-See [`docs/public-switch-checklist.md`](docs/public-switch-checklist.md) for the local switch gate, privacy/security checks, clean-history requirement, and remote-push gate.
+See [`docs/public-switch-checklist.md`](docs/public-switch-checklist.md) for the local switch gate, privacy/security checks, history review, and remote-push gate.
 
 ## Publishing Notes
 
@@ -71,7 +71,7 @@ The next agent working inside this public repo should start with:
 1. Read `AGENTS.md`, `README.md`, `PUBLIC_RELEASE.md`, and `docs/agentic-biology-harness.md`.
 2. Use `skills/biosymphony-structure-factory/SKILL.md` as the portable agent-instruction entry point.
 3. Run `make public-switch-check` before making public-facing statements about repo readiness.
-4. Treat RunPod as the blessed first cloud-pod path, but do not launch paid compute without explicit authorization.
+4. Treat RunPod as the default reviewed cloud-pod path, but do not launch paid compute without explicit authorization.
 5. Keep task drafts tracker-neutral and use `sym:structure-factory` for Symphony routing.
 6. Keep generated or predicted biological outputs labeled as planning, demo, or `computational_candidate` work unless real artifacts have been fetched, hashed, validated, and reviewed.
 

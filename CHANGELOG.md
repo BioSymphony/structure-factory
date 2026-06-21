@@ -13,6 +13,11 @@ Public-prep pass on the local repo. No remote push.
 - Replaced campaign-specific scores and output examples with compact synthetic schema examples.
 - Removed target-specific execution baggage and overly detailed demo artifacts while preserving representative public templates, issue shapes, stage-contract patterns, fixtures, docs, and validation checks.
 - Cleaned cross-references across docs, modules, builder scripts, Make targets, and tests so the public repo presents reusable Structure Factory patterns rather than one operator's run history.
+- Added Lambda Cloud and Modal as first-class remote compute paths alongside RunPod and AWS Batch: added public-safe provider profiles under `modules/provider-profiles/lambda/` and `modules/provider-profiles/modal/`, taught the provider and module-manifest validators about the new providers and the `serverless_function` class, listed them in `sidecar.yaml`, and documented each path across `docs/compute-backends.md`, `AGENTS.md`, `README.md`, the ESMFold2 tool card, and the system-context diagram.
+- Generalized the in-pod repo-checkout default to `/workspace/repo` (matching the network-volume bootstrap convention, and kept distinct from the `/workspace/structure-factory` volume root) across the RunPod entrypoints and scope check, and dropped the old repo name from the sidecar workflow-template filename.
+- Deduplicated the provider allowlists into a shared `scripts/structure_factory/provider_policy.py` imported by both `provider_profile_check.py` and `module_manifest_check.py`, so the two validators use the same policy.
+- Added two tool cards: `tools/cosine.md` (CoSiNE, antibody affinity maturation as a neural CTMC: sequence-only evolutionary likelihood, zero-shot variant-effect prediction, and oracle-guided maturation) and `tools/esmfold2-binder-controls.md` (sequence, structure, interface, logit, and optimization controls for constraining ESMFold2/Biohub binder-design runs); indexed both in `tools/README.md`.
+- Refreshed the `docs/tooling-and-licensing.md` design lane: added AlloGen (Hugging Face Apache-2.0 metadata vs MIT `LICENSE` split), sharpened RFdiffusion (BSD plus dependency/commit/weight-hash review) and Chai-1 (Apache-2.0, pin and MSA-server posture), pinned Boltz to PyPI 2.2.1, and noted CoSiNE (MIT, GPU-only install).
 
 ## 0.1.0-alpha.0 - 2026-05-13
 
@@ -25,4 +30,4 @@ Initial public Structure Factory export.
 - Added RunPod-first launch templates, stage contracts, and provider docs.
 - Added dependency-free public validator and audit CLI.
 - Added `make harness-check`, `make release-check`, and optional `make secret-scan` gates.
-- Removed private history, private local runtime artifacts, concrete provider IDs, credentials, raw/generated structures, archives, videos, and model weights from the public export.
+- Kept non-public history, local runtime artifacts, concrete provider IDs, credentials, raw/generated structures, archives, videos, and model weights out of the public export.

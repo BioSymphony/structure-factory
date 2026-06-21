@@ -33,7 +33,7 @@ Primary output classes:
 | Screening superpowers | Fixture manifests, schemas, active-learning outputs, candidate reports, provider dry-runs, and CLI summaries exist. | Real wide/focused screening backends are still fixture/proxy or gated; calibration datasets and real provider canary are next. |
 | Protein/RNA assemblies | Protein-RNA fit and binder-design contract shapes are sketched with public accession posture. | Need a general accession/entity/window resolver, receptor-window slicer, and first no-download window report for any RNP target. |
 | Boltz/Genie AI design | Boltz is pinned and runner uses YAML; Genie 3 is registered and gated; runtime readiness check exists. | Genie 3 runtime is not installed/proven on GPU; first canary must validate setup, weights, CLI, output shape, and cleanup. |
-| Providers | RunPod is primary blessed; AWS Batch is blessed cloud scale; neocloud/generic/local profiles are explicit. | AWS/neocloud are dry-run/adapter contracts only; RunPod real launch still needs digest-pinned image or verified bootstrap, runtime auth, and remote-pinned commit. |
+| Providers | RunPod is the default reviewed path; AWS Batch is reviewed cloud scale; neocloud/generic/local profiles are explicit. | AWS/neocloud are dry-run/adapter contracts only; RunPod real launch still needs digest-pinned image or verified bootstrap, runtime auth, and remote-pinned commit. |
 | Result integrity | Stage contracts, input audit, contract self-check, validation notes, and closeout checks are strong. | Not all output contracts are schema-backed; some demos mix provider-native and derived outputs and need clearer labels before mainline storytelling. |
 
 ## Where We Are Falling Short
@@ -112,7 +112,7 @@ Public releases should mature in staged slices:
 
 Immediate public-readiness blockers:
 
-- Keep the public export as a clean-history root or reviewed public release series.
+- Keep the public export as a reviewed public root or reviewed public release series.
 - Pin a remote-fetchable commit before any provider launch statements.
 - Resolve whether private GHCR images or public base plus Network Volume bootstrap is the chosen first RunPod posture.
 - Keep `make public-switch-check` documented as the local public-release gate; GPU runtime readiness remains a separate provider milestone.

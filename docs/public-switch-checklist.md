@@ -33,9 +33,9 @@ Before push, verify:
 
 ## History Gate
 
-The public switch should not publish private history. Use one of these paths:
+The public switch should not publish non-public history. Use one of these paths:
 
-- Create a clean root commit from the scrubbed working tree.
+- Create a reviewed public root commit from the audited working tree.
 - Use a deliberate history rewrite or squash that removes private and generated artifacts from all reachable commits.
 - Recreate the public repo from the cleaned tree and verify the first public commit contains only intended public material.
 

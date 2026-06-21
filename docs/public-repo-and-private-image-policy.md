@@ -110,7 +110,7 @@ RunPod supports private container registry credentials through `runpodctl regist
 - https://docs.runpod.io/runpodctl/reference/runpodctl-registry
 - https://docs.runpod.io/pods/templates/manage-templates
 
-Docker Hub supports private repositories and collaborator controls:
+Docker Hub supports restricted repositories and collaborator controls:
 
 - https://docs.docker.com/docker-hub/repos/
 - https://docs.docker.com/docker-hub/repos/manage/access/

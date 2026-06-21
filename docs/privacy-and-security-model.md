@@ -50,7 +50,7 @@ The main risks this repo guards against are:
 - shipping generated candidate structures or sequences as public fixtures
 - presenting therapeutic or binding conclusions from computational prep
 - letting a public template become launchable without authorization
-- publishing dirty history after a current-tree scrub
+- publishing dirty history after current-tree cleanup
 
 ## Required Local Checks
 
@@ -68,4 +68,4 @@ make public-switch-check
 make secret-scan
 ```
 
-Then publish from a clean root commit or recreated public repository so old private/generated artifacts are not recoverable from history.
+Then publish from a reviewed root commit or recreated public repository so old restricted/generated artifacts are not recoverable from history.

@@ -375,7 +375,7 @@ HARNESS_TEXT_REQUIREMENTS = {
     ],
     "docs/public-switch-checklist.md": [
         "make public-switch-check",
-        "clean root commit",
+        "reviewed public root commit",
         "RunPod public templates",
         "Remote Gate",
     ],

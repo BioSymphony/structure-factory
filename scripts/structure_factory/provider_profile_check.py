@@ -9,9 +9,8 @@ from pathlib import Path
 from typing import Any
 
 
-ALLOWED_PROVIDERS = {"runpod", "local", "ssh_hpc", "generic_cloud", "neocloud", "aws"}
-ALLOWED_CLASSES = {"pod", "workstation", "slurm_job", "cloud_vm", "gpu_pod", "batch_job"}
-BLESSED_PROVIDERS = {"runpod", "aws"}
+from provider_policy import ALLOWED_PROVIDERS, BLESSED_PROVIDERS
+from provider_policy import ALLOWED_PROVIDER_CLASSES as ALLOWED_CLASSES
 REQUIRED_COMMON = {
     "schema_version",
     "module_type",
@@ -74,7 +73,7 @@ def validate_profile(data: dict[str, Any], path: Path) -> dict[str, Any]:
             errors.append("RunPod artifact_root must be under /workspace/structure-factory/runs/")
     else:
         if data.get("blessed_path") is True and data.get("provider") not in BLESSED_PROVIDERS:
-            errors.append("only RunPod and AWS profiles may set blessed_path true")
+            errors.append(f"only blessed providers {sorted(BLESSED_PROVIDERS)} may set blessed_path true")
         if data.get("provider") == "aws" and not isinstance(data.get("aws"), dict):
             errors.append("AWS profiles must include an aws block")
         if data.get("provider") == "aws" and data.get("blessed_path") is True:
@@ -83,6 +82,10 @@ def validate_profile(data: dict[str, Any], path: Path) -> dict[str, Any]:
                 errors.append("only AWS Batch profiles may be blessed_path true")
         if data.get("provider") == "neocloud" and not isinstance(data.get("neocloud"), dict):
             errors.append("neocloud profiles must include a neocloud block")
+        if data.get("provider") == "modal" and not isinstance(data.get("modal"), dict):
+            errors.append("modal profiles must include a modal block")
+        if data.get("provider") == "lambda" and not isinstance(data.get("lambda"), dict):
+            errors.append("lambda profiles must include a lambda block")
 
     return {
         "ok": not errors,

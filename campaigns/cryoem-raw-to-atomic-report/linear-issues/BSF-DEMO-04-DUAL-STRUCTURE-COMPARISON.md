@@ -62,8 +62,9 @@ Run the next Structure Factory RunPod demo: a two-target public deposited-struct
 ```bash
 python3 -m py_compile scripts/structure_factory/dual_structure_comparison.py scripts/structure_factory/build_dual_structure_comparison_bridge_manifest.py scripts/structure_factory/t2r14_structure_report.py scripts/structure_factory/poltheta_map_model_report.py
 python3 scripts/structure_factory/build_dual_structure_comparison_bridge_manifest.py
-runpod-bridge validate-manifest .runtime/bridge-manifests/dual-structure-comparison.json --json
-runpod-bridge prepare .runtime/bridge-manifests/dual-structure-comparison.json --out-dir .runtime/dual-structure-comparison-packet --json
+PROVIDER_BRIDGE_CLI=${PROVIDER_BRIDGE_CLI:-symphony-neocloud-bridge}
+$PROVIDER_BRIDGE_CLI validate-manifest .runtime/bridge-manifests/dual-structure-comparison.json --json
+$PROVIDER_BRIDGE_CLI prepare .runtime/bridge-manifests/dual-structure-comparison.json --out-dir .runtime/dual-structure-comparison-packet --json
 # Public repo: paid pod creation is intentionally omitted. Use a private/operator-gated execution packet under `.runtime/` after approval.
 ```
 

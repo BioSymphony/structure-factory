@@ -129,7 +129,7 @@ make public-switch-check
 make clean
 ```
 
-`make public-switch-check` is the strongest local public gate. It is still a current-tree check; public publication also requires a clean-history export path.
+`make public-switch-check` is the strongest local public gate. It is still a current-tree check; public publication also requires a reviewed history path.
 Use `make read-only-audit` when a reviewer wants a no-write confidence check
 for the CLI harness, public documentation references, and non-launching RunPod
 templates.

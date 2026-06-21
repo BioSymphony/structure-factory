@@ -70,7 +70,7 @@ Keep high-cost, data-bearing, license-gated, or provider-backed work in backlog 
 
 ## RunPod And Cloud Resources
 
-RunPod is the blessed first paid-pod path for this repo. AWS Batch is the blessed cloud-scale path. Local, SSH or HPC, generic cloud, and neocloud profiles are allowed when they preserve the same input-audit, stage-contract, artifact, cleanup, and self-check gates.
+RunPod is the default reviewed paid-pod path for this repo. AWS Batch is the reviewed cloud-scale path. Local, SSH or HPC, generic cloud, and neocloud profiles are allowed when they preserve the same input-audit, stage-contract, artifact, cleanup, and self-check gates.
 
 For real RunPod work:
 

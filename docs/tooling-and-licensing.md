@@ -1,6 +1,6 @@
 # Tooling And Licensing
 
-Last reviewed: 2026-05-08
+Last reviewed: 2026-05-08; design-lane licensing refresh 2026-06-05
 
 This is the public, human-readable tool posture for BioSymphony Structure Factory. It complements the machine-readable registry at `references/software-registry.yaml`.
 
@@ -55,14 +55,15 @@ These are the default candidates for ambitious no-license-application demos, sub
 - gemmi.
 - Mol*.
 - Blender.
-- Boltz/Boltz-2.
-- Chai-1, after pinning and checking the current repository terms.
+- Boltz/Boltz-2, currently pinned to PyPI 2.2.1.
+- Chai-1, with current upstream Apache-2.0 code and weights. Pin and recheck on upgrades, and record MSA-server/privacy posture.
 - OpenMM.
 - GROMACS.
 - AutoDock Vina.
 - RDKit.
 - ProteinMPNN.
 - LigandMPNN.
+- CoSiNE antibody CTMC evolution/VEP, MIT-licensed. Mention and scaffold are open; execution is GPU-only (flash-attn/jax install bar), so treat running it as runtime-gated on GPU access.
 
 For a public image, GPL/LGPL tools require normal compliance work: license texts, source/build recipes, citation metadata, and ideally SBOM/source-offer notes.
 
@@ -79,7 +80,8 @@ These can be useful and can be mentioned publicly, but agents should not treat t
 - DeepEMhancer, especially model-weight redistribution.
 - CUDA/NVIDIA base images and drivers under current NVIDIA container terms.
 - Large public weights, maps, databases, or reference bundles even when redistribution is technically permitted.
-- RFdiffusion and related design-model weights unless the current code and weight terms are reviewed for the intended use.
+- RFdiffusion, its container dependencies, and mirrored or non-official weights. The official source and README-referenced weights are under the upstream BSD license; keep dependency, CUDA/SE3, exact-commit, weight-hash, and claim-ceiling review before execution, and treat mirrored or non-official weights as review-required until their source and terms are recorded.
+- AlloGen, because the Hugging Face metadata and README front matter report Apache-2.0 while the raw repository `LICENSE` file is MIT. Public mention and scaffolding are OK, but image inclusion, checkpoint redistribution, or execution requires recording the exact license posture, the Hugging Face snapshot revision, checkpoint hashes, and whether the lane is scoring-only or active guidance through RFdiffusion/PXDesign/Proteina-style priors.
 - Genie 3 and related setup/evaluation dependencies until the repo, Hugging Face weights, ColabFold/AlphaFold2 parameters, ProteinMPNN, IPSAE, FoldSeek, TMscore/TMalign, DSSP helper, CUDA/JAX, and any MSA-server use are recorded for the intended use. Structure Factory bootstrap requires an explicit `GENIE3_ALLOW_COLABFOLD_PARAMS=1` acknowledgement before upstream setup can download AlphaFold2 multimer parameters.
 - Biohub ESMFold2 / ESMFold2-Fast / ESMC-6B until the current Biohub source, Hugging Face model cards, third-party notices, Biohub API terms, Python/Torch runtime, and weight-cache posture are recorded for the intended use. Public docs may mention and scaffold the lane, but weights, API tokens, generated structures, and provider logs stay outside public git.
 
@@ -113,9 +115,9 @@ For no-license-application Structure Factory demos, prefer:
 - deposited PDB/EMDB structure-mapping reports: ModelAngelo, gemmi, Mol*, Blender, Coot open-source, PyMOL open-source
 - heterogeneity: cryoDRGN after GPL/source-compliance review; RECOVAR only as runtime/use-context gated
 - MD/docking side lanes: OpenMM, GROMACS, AutoDock Vina, RDKit
-- AI/model-comparison side lanes: Boltz, Chai after current terms check, ESMFold2 after current source/weights/API review, ProteinMPNN, LigandMPNN, Genie 3 after current dependency/weights review
+- AI/model-comparison side lanes: Boltz, Chai after current terms check, ESMFold2 after current source/weights/API review, ProteinMPNN, LigandMPNN, RFdiffusion after dependency/weight-hash review, AlloGen after license-metadata and checkpoint-hash review, Genie 3 after current dependency/weights review
 
-ChimeraX can remain a strong visual lane for our internal/private demos when the operator's use context permits it, but it is not part of the public no-license-needed stack.
+ChimeraX can remain a strong visual lane for internal or private demos when the operator's use context permits it, but it is not part of the public no-license-needed stack.
 
 ## Required Artifact Notes
 
