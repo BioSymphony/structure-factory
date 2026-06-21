@@ -66,20 +66,20 @@ def validate_profile(data: dict[str, Any], path: Path) -> dict[str, Any]:
         missing_runpod = sorted(RUNPOD_REQUIRED - set(data))
         errors.extend(f"missing RunPod key: {key}" for key in missing_runpod)
         if data.get("blessed_path") is not True:
-            warnings.append("RunPod profiles should set blessed_path true")
+            warnings.append("RunPod profiles should mark the reviewed path with blessed_path=true")
         if data.get("workspace_root") != "/workspace/structure-factory":
             errors.append("RunPod workspace_root must be /workspace/structure-factory")
         if not str(data.get("artifact_root", "")).startswith("/workspace/structure-factory/runs/"):
             errors.append("RunPod artifact_root must be under /workspace/structure-factory/runs/")
     else:
         if data.get("blessed_path") is True and data.get("provider") not in BLESSED_PROVIDERS:
-            errors.append(f"only blessed providers {sorted(BLESSED_PROVIDERS)} may set blessed_path true")
+            errors.append(f"only reviewed providers {sorted(BLESSED_PROVIDERS)} may set blessed_path=true")
         if data.get("provider") == "aws" and not isinstance(data.get("aws"), dict):
             errors.append("AWS profiles must include an aws block")
         if data.get("provider") == "aws" and data.get("blessed_path") is True:
             service = data.get("aws", {}).get("service") if isinstance(data.get("aws"), dict) else None
             if service != "batch":
-                errors.append("only AWS Batch profiles may be blessed_path true")
+                errors.append("only AWS Batch profiles may set blessed_path=true")
         if data.get("provider") == "neocloud" and not isinstance(data.get("neocloud"), dict):
             errors.append("neocloud profiles must include a neocloud block")
         if data.get("provider") == "modal" and not isinstance(data.get("modal"), dict):

@@ -62,9 +62,9 @@ def validate(path: Path) -> dict[str, Any]:
         for gate in sorted(REQUIRED_BATCH_GATES - ready):
             errors.append(f"aws batch execution_ready_requires missing {gate}")
         if data.get("blessed_path") is not True:
-            errors.append("aws-batch-gpu-no-download must be blessed_path true")
+            errors.append("aws-batch-gpu-no-download must set blessed_path=true")
     elif data.get("blessed_path") is True:
-        errors.append("only aws-batch-gpu-no-download may be blessed_path true")
+        errors.append("only aws-batch-gpu-no-download may set blessed_path=true")
     if aws.get("artifact_egress") != "s3_checksum_required":
         warnings.append("aws.artifact_egress should require S3 checksums")
     return {

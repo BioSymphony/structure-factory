@@ -151,9 +151,9 @@ def validate_provider_profile(data: dict[str, Any]) -> list[str]:
             if key not in data:
                 errors.append(f"RunPod provider_profile missing {key}")
         if data.get("blessed_path") is not True:
-            errors.append("RunPod provider_profile must set blessed_path true")
+            errors.append("RunPod provider_profile must mark the reviewed path with blessed_path=true")
     elif data.get("blessed_path") is True and data.get("provider") not in BLESSED_PROVIDERS:
-        errors.append(f"only blessed providers {sorted(BLESSED_PROVIDERS)} may set blessed_path true")
+        errors.append(f"only reviewed providers {sorted(BLESSED_PROVIDERS)} may set blessed_path=true")
     if data.get("provider") == "aws":
         if "aws" not in data or not isinstance(data.get("aws"), dict):
             errors.append("AWS provider_profile missing aws block")

@@ -49,7 +49,7 @@ def validate(path: Path) -> dict[str, Any]:
     if data.get("operator_gate_required") is not True:
         errors.append("neocloud profiles must require an operator gate")
     if data.get("blessed_path") is True:
-        errors.append("neocloud gpu pod profile must stay adapter-ready/preferred, not blessed_path true")
+        errors.append("neocloud gpu pod profile must stay adapter-ready/preferred, not blessed_path=true")
     neocloud = data.get("neocloud")
     if not isinstance(neocloud, dict):
         errors.append("neocloud block is required")

@@ -2,7 +2,7 @@
 """Shared provider-policy constants for Structure Factory validators.
 
 Single source of truth for which compute providers and provider classes are
-recognized, and which may be marked as blessed remote paths. Imported by both
+recognized, and which may be marked as reviewed remote paths. Imported by both
 provider_profile_check.py and module_manifest_check.py so the two validators
 cannot drift: a previous divergence let `make provider-check` pass while
 `make test` failed.
