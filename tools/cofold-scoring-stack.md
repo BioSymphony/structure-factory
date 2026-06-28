@@ -36,6 +36,10 @@ A common slate:
 
 Each validator emits a PAE matrix → ipSAE post-hoc rescore.
 
+If a validator emits only a scalar confidence row in the saved artifacts, mark
+that validator's interface score incomplete. The reviewed model must be joinable
+to its confidence sidecars by manifest row, stem, or hash.
+
 ## Typical Inputs
 
 - Target sequence or deposited-structure chain.
@@ -47,7 +51,8 @@ Each validator emits a PAE matrix → ipSAE post-hoc rescore.
 ## Typical Outputs
 
 - Per-tool prediction status.
-- PAE matrices and confidence JSON per validator.
+- PAE matrices, per-residue pLDDT, and confidence JSON per validator. See
+  [confidence sidecars](../docs/confidence-sidecars.md).
 - Interface score table with `ipSAE_*` and `iptm` columns per validator.
 - Consensus column (`min_ipSAE`, `cofolders_passing`).
 - Candidate ranking with source posture and result boundary.

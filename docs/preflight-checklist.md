@@ -121,9 +121,9 @@ ln -sfn /workspace/software/boltz_cache ~/.boltz
 
 ### G6 — ipSAE / PAE matrix flags (HARD)
 
-**What it does:** if your worker invokes Boltz, asserts `--write_full_pae` is present. Warns if PAE is dumped but no ipSAE rescore is wired in.
+**What it does:** if your worker invokes Boltz, asserts `--write_full_pae` is present. If any fold or cofold lane will be scored, asserts the expected artifact list includes confidence sidecars for the exact reviewed model: PAE or equivalent interface-error matrix, per-residue pLDDT, confidence JSON, and hashes. Warns if PAE is dumped but no ipSAE rescore is wired in.
 
-**Why it matters:** raw iPTM has ROC-AUC ~0.5 (random) for wet-lab binders per the Adaptyv n=3,766 study. ipSAE is a post-hoc rescore from the PAE matrix and is ~1.4× more precise. Multiple competition leaders abandoned raw iPTM gates entirely.
+**Why it matters:** raw iPTM has ROC-AUC ~0.5 (random) for wet-lab binders per the Adaptyv n=3,766 study. ipSAE is a post-hoc rescore from the PAE matrix and is ~1.4× more precise. Multiple competition leaders abandoned raw iPTM gates entirely. If the stage saves only the scalar score, recovering the PAE or pLDDT later requires another fold and may not reproduce the same sample.
 
 **Fix recipe:**
 ```bash
@@ -132,6 +132,19 @@ boltz predict --cache /workspace/software/boltz_cache \
 # then rescore:
 python3 /workspace/ipsae/ipsae.py boltz_results_*/predictions/<stem>/
 ```
+
+Declare the sidecar contract before launch:
+
+```text
+expected_artifacts:
+  - <stem>.cif
+  - confidence_<stem>.json
+  - pae_<stem>.npz
+  - plddt_<stem>.npz
+  - hashes.json
+```
+
+See [`docs/confidence-sidecars.md`](confidence-sidecars.md) for the full rule.
 
 **Operator approval:** N/A — `--write_full_pae` adds <2% wall time.
 

@@ -14,6 +14,12 @@ Every RunPod-capable execution profile now has:
 - a `validation/contract-self-check.json`
 - a `partial-summary.json` whenever a stage fails, closes partial, times out, or uses fallback
 
+Fold and cofold stages that support scoring or ranking must also declare the
+confidence sidecars they will preserve: PAE or equivalent interface-error
+matrices, per-residue pLDDT, confidence JSON, and hashes. See
+[`docs/confidence-sidecars.md`](confidence-sidecars.md). Do not use scalar-only
+iPTM, pTM, or complex pLDDT rows as complete interface-scoring inputs.
+
 The stage contract declares stage IDs, expected outputs, timeout budgets, checkpoint markers, done markers, resume commands, partial-summary policy, stale-output policy, and `fail_closed: true`. The progress ledger records `started`, `heartbeat`, `completed`, `failed`, `partial`, or `skipped` events with timestamps.
 
 Stage-contract granularity is part of the control-plane contract. Default to one

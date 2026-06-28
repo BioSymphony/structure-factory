@@ -24,6 +24,7 @@ The skill is built for agents that drive multi-agent harnesses. Use it inside Co
 - `docs/compute-backends.md` when selecting local, RunPod, AWS Batch, SSH or HPC, generic cloud, or neocloud execution.
 - `docs/runpod-stack.md` before RunPod prep or launch.
 - `docs/tooling-and-licensing.md` before selecting, installing, baking, or running tool lanes.
+- `docs/confidence-sidecars.md` before editing or launching any fold, cofold, scoring, ranking, or render lane that depends on confidence metrics.
 - `docs/no-false-success-hardening.md` before provider-backed execution or scientific closeout.
 - `docs/operational-gotchas.md` before any paid GPU dispatch: a 45-class catalog of failure modes with pre-flight probes and fixes.
 - `docs/preflight-checklist.md` for the 10-gate pre-dispatch checklist pattern (PDB chain identity, hotspot atom-spec, output-count validation, operator approval, etc.).
