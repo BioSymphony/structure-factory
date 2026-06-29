@@ -453,6 +453,40 @@ software:
       targets require local/precomputed MSA posture. Outputs are computational
       candidates only and should be cross-checked with Boltz or another
       independent prediction lane before any promotion.
+  proto:
+    role: biological_design_programming
+    image_family: ai-design
+    install_method: source_or_hosted_client_after_review
+    upstream_repo: "https://github.com/evo-design/proto-language"
+    upstream_tools_repo: "https://github.com/evo-design/proto-tools"
+    upstream_client_repo: "https://github.com/evo-design/proto-client"
+    upstream_commit_sha: "2b0f35dadeb04e793b77bd4604bc9f860ffe2e9f"
+    upstream_tools_commit_sha: "76a81d8f2f9865a5dbc6189e2517acf999b5eccb"
+    upstream_client_commit_sha: "4eb76aa0764f524e68e6b73bdf95efbf20f8343b"
+    license_class: open_source_mit_code_with_hosted_service_gate
+    license_gate: hosted_api_terms_and_runtime_credential_review
+    runpod_fit: possible
+    gpu_class: "Depends on selected generator/tool"
+    smoke_command: "proto-client me || proto-tools --help || proto-language --help"
+    runtime_artifacts: "proto_program.json, proto_run_manifest.json, exported_assets/, versions.json"
+    citation_notes: "Record Proto language/tools/client commits, hosted-or-local mode, program JSON, generators, constraints, optimizer settings, exported assets, and tool/model versions."
+    status: planned
+    notes: "Design-programming layer for composing biological inputs, generators, constraints, and optimizers. Hosted MCP/API use needs runtime credential handling and a declared input policy. Local tool wrappers may install tools, download weights, or create caches, so start with a public no-download canary."
+  allogen:
+    role: allosteric_state_selectivity_design
+    image_family: ai-design
+    install_method: huggingface_snapshot_after_terms_review
+    upstream_model_repo: "https://huggingface.co/ChatterjeeLab/AlloGen"
+    upstream_model_sha: "2327665e9c468791741638ad3e326adf2231a642"
+    license_class: apache_2_reported_by_huggingface_tag
+    license_gate: checkpoint_terms_and_input_policy_review
+    runpod_fit: possible
+    gpu_class: "L40S/A100/H100 depending generator path"
+    smoke_command: "python -c 'import torch; print(\"allogen runtime ready\")'"
+    runtime_artifacts: "allogen_manifest.json, allogen_scores.json, selectivity_ranking.csv"
+    citation_notes: "Record Hugging Face snapshot revision, checkpoint hashes, apo/holo inputs, score definitions, generator provenance, and downstream scorer versions."
+    status: planned
+    notes: "State-selective allosteric design scorer/generator candidate for apo/holo or inactive/active comparison lanes. Pair outputs with an independent cofold or structure-scoring lane."
   switchcraft:
     role: multistate_switch_protein_design
     image_family: ai-design
@@ -676,6 +710,21 @@ software:
     citation_notes: "Record Protenix version, model/weight terms, input assemblies, and confidence outputs."
     status: planned
     notes: "Review-required method-comparison lane for protein/RNA/ligand structure work."
+  decaf:
+    role: few_step_cofolding_acceleration
+    image_family: ai-design
+    install_method: source_after_release_and_terms_review
+    upstream_repo: "https://github.com/genesistherapeutics/decaf"
+    upstream_commit_sha: "466cb41ca120eb5a53a4fe536c33a232df76fa1d"
+    license_class: open_source_mit_reported_by_repo_with_weight_terms_pending
+    license_gate: code_weight_and_confidence_output_review
+    runpod_fit: possible
+    gpu_class: "Depends on released model and complex size"
+    smoke_command: "python -m decaf --help || decaf --help"
+    runtime_artifacts: "decaf_manifest.json, decaf_predictions/, confidence_sidecars/, speed_quality_table.json"
+    citation_notes: "Record repo commit, released checkpoint revision, supported complex types, confidence outputs, and speed/quality smoke results."
+    status: planned
+    notes: "Few-step cofolding accelerator watchlist. Useful if released weights support Structure Factory complex types and confidence sidecars for downstream scoring."
   openfold3:
     role: biomolecular_prediction_and_cofolding
     image_family: ai-design
@@ -830,6 +879,23 @@ software:
     citation_notes: "Record generator version, constraints, seeds, and downstream scoring."
     status: planned
     notes: "Advanced design lane; outputs are computational candidates only."
+  promera:
+    role: unified_cofolding_and_binder_design
+    image_family: ai-design
+    install_method: source_and_huggingface_snapshot_after_terms_review
+    upstream_repo: "https://github.com/bjing2016/promera"
+    upstream_commit_sha: "0840973a339029ac5c6ee9aef6970c6df2585b21"
+    upstream_model_repo: "https://huggingface.co/bjing-mit/promera"
+    upstream_model_sha: "9e7e88001bd912500afa6f8557d58416f9db1eb5"
+    license_class: open_source_mit_reported_by_repo_and_huggingface
+    license_gate: repo_weight_msa_and_confidence_output_review
+    runpod_fit: possible
+    gpu_class: "L40S/A100/H100 depending target size"
+    smoke_command: "python -m promera --help"
+    runtime_artifacts: "promera_manifest.json, promera_outputs/, confidence_sidecars/, downstream_cofold_scores/"
+    citation_notes: "Record repo commit, Hugging Face snapshot, input schemas, MSA settings, confidence outputs, and downstream scorer versions."
+    status: planned
+    notes: "Unified cofolding plus minibinder/nanobody design lane. Keep confidence sidecars and compare selected outputs with an independent cofold scoring lane."
   admet_ai:
     role: admet_prediction
     image_family: md-docking
