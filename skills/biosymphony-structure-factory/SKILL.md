@@ -11,27 +11,27 @@ The skill is built for agents that drive multi-agent harnesses. Use it inside Co
 
 ## Always Read
 
-- `README.md`
-- `AGENTS.md`
-- `NON_CLAIMS.md`
-- `docs/agentic-biology-harness.md`
-- `docs/public-export-shape.md`
+- `references/README.md`
+- `references/AGENTS.md`
+- `references/NON_CLAIMS.md`
+- `references/docs/agentic-biology-harness.md`
+- `references/docs/public-export-shape.md`
 
 ## Read When Applicable
 
-- `docs/intake-interview.md` for ambiguous, data-bearing, license-bearing, cost-bearing, or workflow-sized requests.
-- `docs/linear-orchestration.md` before generating or dispatching Symphony or Linear task packs.
-- `docs/compute-backends.md` when selecting local, RunPod, AWS Batch, SSH or HPC, generic cloud, or neocloud execution.
-- `docs/runpod-stack.md` before RunPod prep or launch.
-- `docs/tooling-and-licensing.md` before selecting, installing, baking, or running tool lanes.
-- `docs/confidence-sidecars.md` before editing or launching any fold, cofold, scoring, ranking, or render lane that depends on confidence metrics.
-- `docs/no-false-success-hardening.md` before provider-backed execution or scientific closeout.
-- `docs/operational-gotchas.md` before any paid GPU dispatch: a 45-class catalog of failure modes with pre-flight probes and fixes.
-- `docs/preflight-checklist.md` for the 10-gate pre-dispatch checklist pattern (PDB chain identity, hotspot atom-spec, output-count validation, operator approval, etc.).
-- `docs/agent-run-learnings.md` for durable lessons across past Structure Factory campaigns.
-- `examples/pd-l1-binder-design-public/README.md` for the public binder-design fast path.
-- `docs/quickstart-tour.md`, `docs/cli-reference.md`, and `docs/agent-recipes.md` when helping a public user start from scratch.
-- `docs/faq.md` and `docs/glossary.md` when a user or a general-purpose agent is unfamiliar with structural biology terms, agent harness conventions, or how to operate the repo without a tracker.
+- `references/docs/intake-interview.md` for ambiguous, data-bearing, license-bearing, cost-bearing, or workflow-sized requests.
+- `references/docs/linear-orchestration.md` before generating or dispatching Symphony or Linear task packs.
+- `references/docs/compute-backends.md` when selecting local, RunPod, AWS Batch, SSH or HPC, generic cloud, or neocloud execution.
+- `references/docs/runpod-stack.md` before RunPod prep or launch.
+- `references/docs/tooling-and-licensing.md` before selecting, installing, baking, or running tool lanes.
+- `references/docs/confidence-sidecars.md` before editing or launching any fold, cofold, scoring, ranking, or render lane that depends on confidence metrics.
+- `references/docs/no-false-success-hardening.md` before provider-backed execution or scientific closeout.
+- `references/docs/operational-gotchas.md` before any paid GPU dispatch: a 45-class catalog of failure modes with pre-flight probes and fixes.
+- `references/docs/preflight-checklist.md` for the 10-gate pre-dispatch checklist pattern (PDB chain identity, hotspot atom-spec, output-count validation, operator approval, etc.).
+- `references/docs/agent-run-learnings.md` for durable lessons across past Structure Factory campaigns.
+- `references/examples/pd-l1-binder-design-public/README.md` for the public binder-design fast path.
+- `references/docs/quickstart-tour.md`, `references/docs/cli-reference.md`, and `references/docs/agent-recipes.md` when helping a public user start from scratch.
+- `references/docs/faq.md` and `references/docs/glossary.md` when a user or a general-purpose agent is unfamiliar with structural biology terms, agent harness conventions, or how to operate the repo without a tracker.
 
 ## Mission Modes
 
@@ -50,7 +50,7 @@ The skill is built for agents that drive multi-agent harnesses. Use it inside Co
 - Closeout requires stage events, expected artifacts, hashes, and validation notes. A passing process exit alone does not finish the work.
 - Long or GPU workflows need stage contracts, expected artifacts, progress ledgers, partial-success policy, and result boundaries.
 - License-gated tools stay gated until the user's use context and runtime access are explicit.
-- **Currency discipline.** Tools, weights, benchmarks, and gate thresholds move fast. Before scaling a campaign or any paid GPU dispatch, run a primary-source freshness check on each tool the campaign uses: upstream repo HEAD (releases tab + recent commits), current release notes, and recent preprints (biorxiv, chemrxiv, arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes so a future agent can re-verify rather than re-discover. Tool cards in `tools/` and the recipes in `docs/operational-gotchas.md` and `tools/cofold-scoring-stack.md` are point-in-time snapshots; verify before depending on them for a real run.
+- **Currency discipline.** Tools, weights, benchmarks, and gate thresholds move fast. Before scaling a campaign or any paid GPU dispatch, run a primary-source freshness check on each tool the campaign uses: upstream repo HEAD (releases tab + recent commits), current release notes, and recent preprints (biorxiv, chemrxiv, arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes so a future agent can re-verify rather than re-discover. Tool cards in the active checkout and the recipes in `references/docs/operational-gotchas.md` and `references/tools/cofold-scoring-stack.md` are point-in-time snapshots; verify before depending on them for a real run.
 
 ## Multi-Agent Dispatch
 

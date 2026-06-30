@@ -61,6 +61,21 @@ RELATIVE_LINK_CHECK_DOCS = {
 RELATIVE_LINK_CHECK_PREFIXES: tuple[str, ...] = ()
 
 
+def is_bundled_skill_reference(root: Path, path: Path) -> bool:
+    try:
+        parts = path.relative_to(root).parts
+    except ValueError:
+        return False
+    return len(parts) >= 4 and parts[0] == "skills" and parts[2] == "references"
+
+
+def skill_local_ref(root: Path, source_rel: str, ref: str) -> Path | None:
+    parts = Path(source_rel).parts
+    if len(parts) >= 3 and parts[0] == "skills" and ref.startswith(("assets/", "references/", "scripts/", "tools/")):
+        return root / "skills" / parts[1] / ref
+    return None
+
+
 def make_targets(root: Path) -> set[str]:
     targets: set[str] = set()
     makefile = root / "Makefile"
@@ -79,6 +94,8 @@ def iter_docs(root: Path) -> list[Path]:
         for name in names:
             path = current_path / name
             rel = path.relative_to(root).as_posix()
+            if is_bundled_skill_reference(root, path):
+                continue
             if "/linear-issues/" in rel:
                 continue
             if rel.startswith("runpod/bridge-manifests/"):
@@ -97,6 +114,8 @@ def iter_all_public_docs(root: Path) -> list[Path]:
         current_path = Path(current)
         for name in names:
             path = current_path / name
+            if is_bundled_skill_reference(root, path):
+                continue
             if path.suffix.lower() in {".md", ".qmd"} or path.name in ROOT_FILES:
                 paths.append(path)
     return sorted(paths)
@@ -205,6 +224,9 @@ def check(root: Path) -> dict[str, object]:
             if target not in targets:
                 findings.append({"path": rel, "check_id": "missing-make-target", "message": target})
         for ref in referenced_paths(text, rel):
+            skill_candidate = skill_local_ref(root, rel, ref)
+            if skill_candidate is not None and skill_candidate.exists():
+                continue
             if not (root / ref).exists():
                 findings.append({"path": rel, "check_id": "missing-referenced-path", "message": ref})
 

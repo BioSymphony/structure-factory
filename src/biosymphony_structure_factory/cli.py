@@ -920,7 +920,8 @@ def harness_check(root: Path) -> tuple[bool, list[Finding]]:
             target = match.group(1)
             if "://" in target or target.startswith("#"):
                 continue
-            if not (root / target).exists():
+            candidate = path.parent / target if target.startswith("references/") else root / target
+            if not candidate.exists():
                 findings.append(Finding("error", "stale-skill-reference", rel, f"skill references missing markdown file: {target}"))
 
     pack_path = root / "packs/task-packs/binder-design-fast-path-v0/pack.yaml"
