@@ -81,13 +81,66 @@ Preserve each metric's scale when exporting scores:
 
 - Table `pLDDT` uses 0-1; mmCIF B-factors store pLDDT on 0-100.
 - `i_pAE` is mean interface PAE divided by 31 angstroms.
-- `i_pDAE` is distance-masked interface confidence on 0-1, with an 8-angstrom
-  contact cutoff by default; higher scores rank first.
+- `i_pDAE` selects resolved C-alpha pairs at or below 8 angstroms by default;
+  higher scores rank first. See [Interpreting i_pDAE](#interpreting-i_pdae).
 - Multitarget cells follow the `targets` column order. Preserve missing values
   and keep binding and detargeting results separate.
 
 Use the selected predictor panel for downstream comparison. Label accepted
 outputs `computational_candidate`; experimental binding requires measurement.
+
+## Interpreting i_pDAE
+
+BC2 computes `i_pDAE` from interface geometry and predicted aligned error (PAE).
+For each anchor residue, it averages transformed PAE over contacting partners,
+then takes the highest anchor score across both sides of the interface.
+Its AF2 adapter first averages the two PAE directions.
+
+For anchor `i`, let `S_i` contain resolved partner residues whose C-alpha atoms
+are at most 8 angstroms away, and let `n_i` be their count. With PAE in angstroms:
+
+```text
+E_ij   = (PAE_ij + PAE_ji) / 2
+d0_i   = max(1.24 * (max(n_i, 19) - 15)^(1/3) - 1.8, 1) angstroms
+s_i    = mean over j in S_i of 1 / (1 + (E_ij / d0_i)^2)
+i_pDAE = max(s_i) across anchors on both sides
+```
+
+Anchors without contacts contribute zero. Missing PAE or no resolved contact
+pairs returns `None`. BC2 pools binder copies against the selected target chain.
+Different contact neighborhoods and partner counts can produce different scores
+on each side despite symmetric PAE.
+
+For 1-26 partners, `d0_i` is 1 angstrom. If every selected pair has symmetrized
+PAE of 2 angstroms, the anchor score is `1 / (1 + 2^2) = 0.20`.
+Use the PAE matrix in angstroms; the table's `i_pAE` divides mean error by 31.
+
+### Comparison with ipSAE
+
+The comparison uses DunbrackLab's per-residue-normalized ipSAE for protein pairs:
+
+| Calculation | ipSAE | BC2 i_pDAE |
+| --- | --- | --- |
+| Partner selection | Cross-chain PAE below a chosen cutoff | Resolved cross-chain C-alpha distance at or below the contact cutoff |
+| PAE values | Directional | Averaged with the reverse direction |
+| Normalization | Selected partner count per anchor, with a 1-angstrom floor | Contact count per anchor, with a 1-angstrom floor |
+| Aggregation | Best anchor in each direction, then best direction | Best anchor across both sides |
+
+Dunbrack's `dist_cutoff` controls separate contact diagnostics; its main ipSAE
+selection uses the PAE cutoff. Calibrate `i_pDAE` thresholds against controls
+for the selected protocol rather than importing ipSAE or ipTM thresholds.
+
+The maximum emphasizes the highest-scoring local patch. Inspect contact counts,
+interface coverage, clashes, and residue-level scores when comparing candidates.
+BC2 ranks accepted candidates by `i_pDAE`; the configured filters determine
+acceptance.
+
+Pinned implementations: BC2
+[metric calculation](https://github.com/PacesaLab/BindCraft2/blob/18a9042fbe9a5373a5b7d98fe82335127c2fd70d/bindcraft/filters.py),
+[PAE preparation](https://github.com/PacesaLab/BindCraft2/blob/18a9042fbe9a5373a5b7d98fe82335127c2fd70d/bindcraft/af2.py),
+[PAE normalization](https://github.com/PacesaLab/BindCraft2/blob/18a9042fbe9a5373a5b7d98fe82335127c2fd70d/bindcraft/loss.py),
+[ranking](https://github.com/PacesaLab/BindCraft2/blob/18a9042fbe9a5373a5b7d98fe82335127c2fd70d/bindcraft/campaign_output.py),
+and [DunbrackLab ipSAE at 6174cf9](https://github.com/DunbrackLab/IPSAE/blob/6174cf9e71cb1bd660cc805856a18c4871a6dec3/ipsae.py).
 
 ## License
 
