@@ -1,60 +1,70 @@
 ---
 name: binder-lane-round
-description: Plan and run study-shaped protein-binder rounds with interchangeable toolchains, execution profiles, license gates, output checks, and result boundaries.
+description: Plan and execute protein-binder comparisons with selected tools, compute profiles, resource limits, controls, and output checks.
 ---
 
 # Binder Lane Round
 
-Use one round contract to compare one or more binder-design toolchains against a fixed public target and site.
+Compare binder-design methods against a fixed target and site. The CLI validates
+plans and handoffs, runs synthetic examples, and executes authorized local
+adapters with fixed arguments.
 
-## Read First
+## Read first
 
-- `references/docs/binder-lane-round.md`
-- `references/docs/binder-study-decision-loop.md`
-- `references/docs/binder-controls.md`
-- `references/NON_CLAIMS.md`
-- `references/docs/tooling-and-licensing.md`
-- `references/docs/compute-backends.md`
+Read `references/docs/binder-lane-round.md` for the contract,
+`references/docs/binder-study-decision-loop.md` for study decisions, and
+`references/docs/binder-controls.md` for measured calibration. Check
+`references/docs/tooling-and-licensing.md` and
+`references/docs/compute-backends.md` for the selected execution route.
+`references/NON_CLAIMS.md` defines the scientific result boundaries.
 
-## Scope
+For BindCraft2, read `references/tools/bindcraft2.md`. Its settings, output
+layout, and deployment terms require a separate adapter from BindCraft.
 
-The lane validates requests, materializes plans and handoffs, runs synthetic contract checks, and runs validated fixed-argument local adapters after explicit authorization. A runtime registry below `.runtime/` can describe another local tool, API client, cloud client, scheduler, or container entry point.
+## Define the comparison
 
-## Required Decisions
+Record the target accession, chains, residue selections, and input hashes.
+Choose the generator, sequence designer, predictors, scorers, filters, and
+execution route for each stage. Check code and checkpoint terms, API terms,
+required downloads, and redistribution conditions.
 
-Declare:
+Set the budget ceiling, runtime cap, round count, primary metric, stopping rule,
+and controls. Declare output counts, formats, hashes, and cleanup requirements.
+Comparison arms must share candidate counts, predictor panel, scorers, filters,
+controls, and failure policy.
 
-- the public or synthetic target accession, chain, and required residue selections
-- whether `reference_scope` preserves the Anthropic workflow shape or checks the published tool identities on the bounded stages
-- whether each arm replays those identities, replaces tools, or joins a replay-and-replacement comparison
-- the generator, sequence designer, predictors, scorers, and filters
-- the execution mix for each stage
-- code, weight, dependency, API-term, redistribution, and use-context constraints
-- the budget ceiling and runtime cap
-- the planned round count
-- one primary metric and a checkable stopping rule
-- the required and optional controls for any measured calibration
-- the expected artifacts, exact counts, hashes, validation notes, and cleanup requirements
+Use `reference_scope: published_tool_identities` to check the published tool
+identities on selected stages. Use `published_workflow_shape` to compare
+replacement tools within the same workflow. Identify replacements in each arm.
+Record acceleration as a runtime choice attached to the model and checkpoint.
 
-## Workflow
+## Prepare and run
 
-1. Record the target, site, study mode, tool mix, execution mix, use constraints, budget, rounds, metric, and stopping rule.
-2. Run `bsf binder-lane menu`, then validate the request with `plan-request`.
-3. Materialize `plan.json`, `round-contract.json`, and `execution-handoff.json` with `plan`.
-4. Run `preflight`, then run `target-check` on the coordinate input before generation.
-5. Use `run` only for a `public_synthetic_demo` plan.
-6. Run `adapters` to inspect bundled records. If a selected tool has no bundled command, create a validated adapter registry below `.runtime/`.
-7. Run `prepare-execution` with the exact target report and stage settings. Resolve its per-selector readiness gaps before local controller execution.
-8. Dry-run each local adapter or the prepared controller request.
-9. For a remote route, validate the request with `remote-request`. Use `remote-receipt` after the user-supplied dispatcher exports artifacts and verifies cleanup.
-10. Before a real start, obtain approval for the named route, data posture, budget, runtime, and any paid launch, non-public upload, terms acceptance, or large or license-gated download.
-11. Start an approved local adapter or controller with `--authorize-local-execution`. Add `--authorize-network` or `--authorize-license-gates` only when the selected adapter requires them.
-12. Run `closeout` to count, parse, and hash the exact declared outputs before stage completion.
-13. For a measured primary metric, run `calibrate-controls` and inspect its readiness record.
-14. Run `round-decision` against the sequential round history. Pass the ready calibration with `--calibration` when the metric requires it.
-15. Start another round only when the decision is `continue` and the remaining budget covers that round.
+1. Inspect `bsf binder-lane menu`, validate the request with `plan-request`,
+   and materialize the plan, round contract, and execution handoff with `plan`.
+2. Run `preflight` and `target-check` against the plan and coordinate input.
+   The `run` command executes only `public_synthetic_demo` plans.
+3. Inspect bundled commands with `adapters`. For a missing command, supply a
+   validated adapter registry under `.runtime/`.
+4. Use `prepare-execution` with the target report and stage settings. Resolve
+   each readiness error, then dry-run the adapter or controller.
+5. For a remote route, validate `remote-request`, execute through the selected
+   transport, and validate the exported artifacts and cleanup with `remote-receipt`.
+6. Before a real start, confirm authorization for the route, data, budget,
+   runtime, and required terms or downloads. Reuse approval that covers those
+   conditions. Start the local adapter or controller with
+   `--authorize-local-execution`. Add `--authorize-network` or
+   `--authorize-license-gates` only when required and authorized.
+7. Run `closeout` to count, parse, and hash the declared outputs.
+8. For a measured primary metric, run `calibrate-controls`. Pass its ready
+   record with `--calibration` to `round-decision`.
+9. Apply `round-decision` to the sequential round history. Continue only when
+   the decision is `continue` and the remaining budget covers another round.
 
 ## Commands
+
+These examples use repository-relative paths. Materialize the required inputs
+before running a command that reads them.
 
 ```bash
 bsf binder-lane menu --workspace .
@@ -97,18 +107,16 @@ bsf binder-lane remote-receipt .runtime/pd-l1-binder-round/cofold/receipt.json \
   --request .runtime/pd-l1-binder-round/cofold/validated-request.json --workspace .
 ```
 
-## Gates
+## Adapter and output requirements
 
-- Separate bundled adapter availability from local installation and service readiness.
-- If the registry lacks a bundled command, let the user supply a validated adapter or choose another route.
-- Treat allowed license gates as requested planning posture. Record license acceptance separately.
-- Before a real start, request approval for the named route, data posture, budget, runtime, and any paid provider start, external upload of non-public data, terms acceptance, or large or license-gated download. The `adapter` and `execute` commands require `--authorize-local-execution` before a local process start.
-- Keep credentials, service addresses, provider resources, accepted-license state, private paths, private inputs, generated biology, logs, and actual spend outside public Git.
-- Keep runtime bindings, custom adapter registries, and execution receipts below `.runtime/`.
-- Accept user-selected tools and backends when their adapter records satisfy the fixed-argument, typed-binding, path-containment, and output contracts.
-- Reject a comparison when arms do not share the candidate count, predictor panel, scorers, filters, controls, and failure policy.
-- Require output counts before stage completion.
+A bundled command, an installed tool, and a ready service are separate checks.
+Accept a selected tool or backend when its adapter satisfies fixed arguments,
+typed bindings, path containment, and output requirements. Record license
+acceptance separately from the plan's requested license gates.
 
-## Boundaries
+Keep custom adapter registries, runtime bindings, receipts, logs, and actual
+spend under `.runtime/`. Store credentials and unpublished biological data in
+access-controlled storage.
 
-Synthetic rows are constructed examples. Computational candidates remain computational candidates until independent validation supports a narrower statement. The lane does not establish binding, affinity, function, selectivity, safety, manufacturability, therapeutic value, or clinical relevance.
+Report synthetic examples as `public_synthetic_demo` and predicted designs as
+`computational_candidate`. Record incomplete outputs before comparing rounds.

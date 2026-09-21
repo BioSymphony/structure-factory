@@ -1,112 +1,120 @@
 ---
 name: biosymphony-structure-factory
-description: Use when planning structural biology campaigns, binder-design triage, model comparison, structure mapping, RunPod or cloud GPU stage contracts, or Symphony or Linear task packs for long-running biological agent work.
+description: Plan structural biology campaigns, compare binder-design methods, prepare GPU execution contracts, and review structures and candidate rankings. Use for campaign manifests, provider plans, or Symphony and Linear task packs.
 ---
 
 # BioSymphony Structure Factory
 
-Use this skill to turn a target, accession, or campaign request into a campaign manifest, task plan, provider contract, candidate report, or structure report.
+Prepare a campaign manifest, execution plan, or result report from a target,
+accession, or screening request. Use the repository CLI to validate inputs,
+prepare tasks, and verify outputs.
 
-## Always Read
+## Start with the requested outcome
 
-- `references/README.md`
-- `references/AGENTS.md`
-- `references/NON_CLAIMS.md`
+Read `references/README.md`, `references/AGENTS.md`, and
+`references/NON_CLAIMS.md`, then select the work:
 
-## Read When Applicable
+| Request | Deliverable |
+| --- | --- |
+| Plan a campaign | Target definition, selected tools, stage contracts, and task pack |
+| Demonstrate a workflow | Public or synthetic inputs with a labeled example report |
+| Prepare GPU execution | Provider profile, resource limits, launch request, and validation commands |
+| Dispatch tasks | Tracker-neutral tasks with dependencies, owned paths, and acceptance criteria |
+| Review results | Candidate ranking or structure report with source files and validation results |
+| Run a campaign | Authorized execution followed by artifact verification and resource cleanup |
 
-- `references/docs/intake-interview.md` for ambiguous, data-bearing, license-bearing, cost-bearing, or workflow-sized requests.
-- `references/docs/agentic-biology-harness.md` before multi-agent or provider-coordinated work.
-- `references/docs/public-export-shape.md` before release, publication, or public handoff work.
-- `references/docs/linear-orchestration.md` before generating or dispatching Symphony or Linear task packs.
-- `references/docs/compute-backends.md` when selecting local, FAL, Modal, RunPod, Lambda Cloud, AWS Batch, SSH or HPC, generic cloud, or neocloud execution.
-- `references/docs/runpod-stack.md` before RunPod prep or launch.
-- `references/docs/tooling-and-licensing.md` before selecting, installing, baking, or running tool lanes.
-- `references/docs/confidence-sidecars.md` before editing or launching any fold, cofold, scoring, ranking, or render lane that depends on confidence metrics.
-- `references/docs/no-false-success-hardening.md` before provider-backed execution or scientific closeout.
-- `references/docs/operational-gotchas.md` before any paid GPU dispatch: a 45-class catalog of failure modes with pre-flight probes and fixes.
-- `references/docs/preflight-checklist.md` for the 10-gate pre-dispatch checklist pattern (PDB chain identity, hotspot atom-spec, output-count validation, operator approval, etc.).
-- `references/docs/agent-run-learnings.md` for execution checks and public record boundaries.
-- `references/examples/pd-l1-binder-design-public/README.md` for the public binder-design fast path.
-- `references/docs/binder-lane-round.md` for multi-arm binder comparisons and mixed-backend handoff contracts.
-- `references/docs/binder-study-decision-loop.md` before choosing the target, study mode, tools, execution routes, budget, rounds, metric, and stopping rule.
-- `references/docs/binder-controls.md` before deriving or adopting measured-control gates for a round decision.
-- `references/docs/quickstart-tour.md`, `references/docs/cli-reference.md`, and `references/docs/agent-recipes.md` when helping a public user start from scratch.
-- `references/docs/faq.md` and `references/docs/glossary.md` when a user or a general-purpose agent is unfamiliar with structural biology terms, agent harness conventions, or how to operate the repo without a tracker.
+For ambiguous inputs, tools, or spending limits, use
+`references/docs/intake-interview.md` to resolve the missing decisions.
+For a first campaign, use `references/docs/quickstart-tour.md`; find command
+options in `references/docs/cli-reference.md`.
 
-## Mission Modes
+## Read the references for your task
 
-- `planning`: define target, data posture, result boundaries, lanes, risks, dependencies, and task pack.
-- `public_demo`: use public accessions, synthetic fixtures, and compact reports.
-- `gpu_prep`: prepare RunPod, cloud, or local stage contracts, launch templates, and validation commands without provider execution.
-- `symphony_dispatch`: generate tracker-neutral issues for Symphony, Linear, or any agent queue.
-- `report_or_review`: synthesize existing outputs into candidate rankings, validation notes, structural reports, and figures.
-- `provider_run`: when explicitly authorized, require budget, runtime cap, cleanup policy, artifact list, hashes, and closeout gates.
+| Task | References |
+| --- | --- |
+| Select tools and compute | `references/docs/tooling-and-licensing.md`, `references/docs/compute-backends.md` |
+| Plan binder comparisons | `references/docs/binder-lane-round.md`, `references/docs/binder-study-decision-loop.md` |
+| Choose measured controls | `references/docs/binder-controls.md` |
+| Use BindCraft2 | `references/tools/bindcraft2.md`: presets, resource limits, output tables, score scales, and license |
+| Qualify Anthropic acceleration | `references/tools/anthropic-optimization-kits.md`: stock revision, runtime isolation, activation, and matched comparisons |
+| Score or render predictions | `references/docs/confidence-sidecars.md` |
+| Prepare provider execution | `references/docs/preflight-checklist.md`, `references/docs/operational-gotchas.md`; add `references/docs/runpod-stack.md` for RunPod |
+| Coordinate workers | `references/docs/agentic-biology-harness.md`, `references/docs/linear-orchestration.md` |
+| Define run completion checks | `references/docs/no-false-success-hardening.md`, `references/docs/agent-run-learnings.md` |
+| Publish artifacts | `references/docs/public-export-shape.md` |
 
-## Operating Rules
+## Prepare a campaign
 
-- Use public accessions, synthetic examples, or explicit operator-approved data references.
-- Keep credentials, provider IDs, private paths, generated structure archives, raw cryo-EM data, unpublished sequences, patient data, and model weights outside public git.
-- Mark source posture and result boundary on every closeout. Computational candidates stay at `computational_candidate` until independent validation exists.
-- Closeout requires stage events, expected artifacts, hashes, and validation notes. A passing process exit alone does not finish the work.
-- Long or GPU workflows need stage contracts, expected artifacts, progress ledgers, partial-success policy, and result boundaries.
-- License-gated tools stay gated until the user's use context and runtime access are explicit.
-- Before a paid run, check each selected tool's primary repository, releases, and relevant preprints.
-- Record the checked date and exact version, commit, or model revision in the validation notes.
-- Resolve a conflict between a public tool card and a current primary source before provider preparation.
+1. Record the target accession, chains, residue selections, input hashes, and
+   permitted data use. For binders, include the target site and required controls.
+2. Select generators, sequence designers, predictors, scorers, and filters.
+   Check primary sources and record the review date, code revision, checkpoint,
+   component terms, and intended use. Resolve discrepancies with tool cards.
+3. Select the execution profile and setup method. Declare budget, runtime,
+   downloads, network use, expected outputs, and cleanup.
+4. Scaffold a campaign under `.runtime/` with `bsf scaffold-campaign`.
+   Define stage dependencies, progress records, checkpoints, and partial outcomes.
+5. Validate the campaign with `bsf validate`. For tracker work, use
+   `bsf issue-dry-run <campaign> --out <directory>`.
 
-## Multi-Agent Dispatch
+For Symphony or Linear dispatch, use `sym:structure-factory`. Give each worker
+owned paths, dependencies, expected artifacts, and validation commands. Record
+the approval for cost-bearing or restricted execution in the task.
 
-Use `bsf issue-dry-run <campaign> --out <directory>` to render tracker-neutral Markdown tasks. Each task carries dependencies, owned paths, expected artifacts, and validation commands. Adapt those files to the selected tracker outside public git.
+## Compare binder methods
 
-Use routing label:
-
-```text
-sym:structure-factory
-```
-
-Do not dispatch high-cost, data-bearing, license-gated, or provider-backed work until the required approval names the route, data posture, budget, runtime, and applicable terms. Close review work with source posture, result boundary, validation summary, and artifact references.
-
-## RunPod And Cloud Resources
-
-This repository includes its most detailed cloud contracts under `runpod/`. FAL, Modal, Lambda Cloud, AWS, local, SSH or HPC, generic cloud, and neocloud profiles must preserve the same input, artifact, cleanup, and self-check requirements.
-
-For a paid provider run, declare the execution profile and setup posture, run readiness and scope checks, obtain the required approval, export and hash the declared artifacts, verify cleanup, and label partial or missing outputs accurately.
-
-## Binder-Design Fast Path
-
-1. If starting fresh, run `bsf scaffold-campaign` into `.runtime/` first.
-2. Define target accession, chain or window, hotspot plan, and result boundaries.
-3. Pick generation lanes and cofold or model-comparison lanes.
-4. Add runtime gates for GPU tools, weights, and use-context checks.
-5. Declare expected artifacts and the stage contract.
-6. Generate tracker-neutral task drafts.
-7. Produce the candidate ranking and validation notes.
-
+Use `references/examples/pd-l1-binder-design-public/README.md` for an example.
 For a comparison round:
 
-1. Inspect `references/published-binder-comparison-workflow.json` and `references/binder-execution-adapters.json`. Set `reference_scope` to `published_tool_identities` for a checked source-tool replay or `published_workflow_shape` for a shape-only replay.
-2. Materialize and preflight the plan. Classify each arm as replay or replacement.
-3. Run `bsf binder-lane target-check --plan <plan.json>` on the coordinate input before generation.
-4. Use `bsf binder-lane prepare-execution` to bind selected local stages to the exact plan and target report. Resolve its readiness gaps before `bsf binder-lane execute --dry-run`.
-5. For a remote route, use `remote-request` and `remote-receipt`. The `remote_dispatch.dispatch_remote_tool` Python API is a user-supplied transport, not a CLI command.
-6. Add `--authorize-local-execution` only before the approved local start. Use `calibrate-controls` for a measured primary metric, `closeout` to count and hash exact outputs, and `round-decision` to apply the metric, spend ceiling, round count, and stopping rule.
+1. Define candidate counts, predictor panel, filters, primary metric, controls,
+   round limit, and stopping rule.
+2. Inspect `references/published-binder-comparison-workflow.json` and
+   `references/binder-execution-adapters.json`. Use
+   `published_tool_identities` to check selected published tools or
+   `published_workflow_shape` to preserve the workflow with replacements.
+3. Materialize and preflight the plan. Run `bsf binder-lane target-check` on the
+   coordinate input with `--plan` before generation.
+4. Bind the target report and stage settings with `prepare-execution`.
+   Resolve readiness errors, then dry-run the prepared request with
+   `bsf binder-lane execute --dry-run`.
+5. For remote execution, validate `remote-request` and `remote-receipt`.
+   Supply the transport separately; `remote_dispatch.dispatch_remote_tool`
+   is a Python API.
+6. After output verification, use `closeout`, `calibrate-controls` for a measured
+   primary metric, and `round-decision` to apply the stopping rule.
 
-Wet-lab validation happens outside the repository.
+BindCraft2 requires its own adapter. For an accelerated tool, retain the
+scientific model and checkpoint identity, and compare against its stock runtime
+before using speed or numerical-equivalence claims.
 
-## Validation
+## Execute and verify
 
-Run:
+Before a real start, confirm that authorization covers the chosen route, input
+data, budget, runtime, required terms, and downloads. Reuse an existing approval
+when those conditions match. Add `--authorize-local-execution` only for the
+approved start.
+
+RunPod, AWS, FAL, Modal, Lambda Cloud, local, SSH/HPC, generic cloud, and neocloud
+profiles use the same input, output, and cleanup requirements. Check installation
+and service readiness for the selected adapter.
+
+Count and parse required artifacts, check their hashes, retain stage events,
+and verify resource cleanup. Record missing outputs and failed stages in the
+report. Attach a source posture and result boundary to each closeout; use
+`computational_candidate` for predictions pending independent validation.
+
+Keep credentials, account identifiers, runtime logs, model weights, and
+unpublished biological inputs and outputs in access-controlled runtime storage.
+Use public accessions or synthetic fixtures in committed examples.
+
+## Validate changes
+
+For skill and harness changes, run:
 
 ```bash
 make harness-check
 make release-check
 ```
 
-Before publication, run gitleaks through:
-
-```bash
-make secret-scan
-```
-
-A skipped scan leaves the publication gate incomplete.
+Before publication, run `make public-switch-check`. Its secret scan must run
+successfully; a skipped scan leaves the release incomplete.

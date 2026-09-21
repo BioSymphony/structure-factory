@@ -75,6 +75,14 @@ For a public image, GPL/LGPL tools require normal compliance work: license texts
 
 ## Review-Required Candidates
 
+[BindCraft2](../tools/bindcraft2.md), reviewed 2026-09-21, uses a source-available,
+hosting-restricted license. It permits organizational use, including commercial
+research, on infrastructure operated for that organization. Third-party hosted
+APIs, applications, and agent tools require a separate written commercial license.
+AlphaFold2 parameters and other dependencies retain their own terms. The tool
+card links the exact revision and license; assess the selected deployment before
+installation or distribution.
+
 These can be useful and can be mentioned publicly, but agents should not treat them as no-license-needed image contents until the exact current package, binary source, dependency stack, and redistribution terms are checked:
 
 - SimpleFold-Turbo, using the same separate Apple research model terms as

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Added BindCraft2 documentation and a pinned registry record covering modalities,
+  settings, GPU limits, output files, score scales, and hosting-license terms.
+- Reorganized the Structure Factory and binder-round skills around task selection,
+  execution requirements, and output verification; consolidated repeated guidance.
+
 - Added a public-safe Anthropic inference-optimization-kit card and registry
   posture covering pinned stock identities, mode semantics, activation proof,
   environment isolation, per-kit licensing, compatibility checks, and matched

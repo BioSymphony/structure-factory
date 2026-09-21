@@ -665,6 +665,28 @@ software:
     citation_notes: "Record repo commit, target settings JSON, filter JSON, AF2/MPNN/PyRosetta posture, and downstream cofold scorer versions."
     status: gated
     notes: "High-fit binder-design lane. Mention and scaffold only until PyRosetta, AlphaFold2 weights, dependency terms, and target-use context are recorded."
+  bindcraft2:
+    role: multimodal_protein_binder_design
+    image_family: ai-design
+    install_method: isolated_source_environment_after_terms_review
+    upstream_repo: "https://github.com/PacesaLab/BindCraft2"
+    upstream_commit_sha: "18a9042fbe9a5373a5b7d98fe82335127c2fd70d"
+    primary_source_checked: "2026-09-21; reviewed LICENSE, pyproject.toml, CLI, settings, installation, and output documentation at the recorded commit."
+    license_class: source_available_hosting_restricted
+    license_gate: deployment_terms_af2_parameters_and_dependency_review
+    route_terms: "organization_operated=permitted_by_bc2_license; third_party_hosted_service=separate_written_commercial_license"
+    runpod_fit: organization_operated_gpu_after_runtime_review
+    gpu_class: "Linux NVIDIA GPU; Python >=3.12; JAX >=0.11,<0.12; CUDA 12 or 13 extras; size memory to the padded complex and worker count."
+    smoke_command: "adapter_required"
+    runtime_artifacts: "1_Trajectories/!_Trajectories.csv, 2_Refolded/!_Refolded.csv, 2_Refolded/Complexes/, 3_Ranked/!_Ranked.csv, ranked mmCIF files, campaign_metadata.json"
+    citation_notes: "Record source revision, target and scaffold hashes, resolved settings, checkpoint hashes, campaign seed, attempt limit, GPU allocation, metric scales, and downstream predictor versions."
+    status: planned
+    notes: >-
+      Documented in tools/bindcraft2.md; requires an execution adapter.
+      Separate identity from BindCraft and FreeBindCraft. The reviewed dependency
+      manifest does not require PyRosetta. Set max_trajectories and bound visible
+      GPUs and workers. The benchmark core profile disables autotune and
+      desperation; inspect resolved overrides before a comparison.
   freebindcraft:
     role: binder_sequence_structure_codesign_without_pyrosetta
     image_family: ai-design

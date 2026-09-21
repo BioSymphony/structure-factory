@@ -10,6 +10,7 @@ These are unvalidated watchlist entries from a fresh public-source pass. They ar
 
 | Candidate | Fit | First Structure Factory Contract | Gate |
 | --- | --- | --- | --- |
+| [BindCraft2](../tools/bindcraft2.md) | AF2/ProteinMPNN design for proteins, peptides, scaffolded antibodies, and multistate objectives. | Attempt and candidate tables, ranked complexes, resolved settings, checkpoint hashes, and downstream scores. | Execution adapter; bounded GPU allocation and attempts; hosting-restricted source license and component terms. |
 | [BindCraft](https://github.com/martinpacesa/BindCraft) | High-fit protein binder design pipeline using AF2 backpropagation, MPNN, and PyRosetta. | `bindcraft_designs/`, filter ledger, `design_manifest.json`, downstream cofold scorecards. | PyRosetta, AF2 weights, dependency terms, and target-use context. |
 | [Proto](https://github.com/evo-design/proto-language) | Biological design programming layer for composing sequences, generators, constraints, and optimizers. | `proto_program.json`, `proto_run_manifest.json`, exported assets, version ledger. | Hosted API/MCP input policy, runtime credential handling, tool wrappers, caches, and export shape. |
 | [AlloGen](https://huggingface.co/ChatterjeeLab/AlloGen) | State-selective allosteric protein-design scorer/generator candidate for apo/holo comparison lanes. | `allogen_manifest.json`, `allogen_scores.json`, selectivity ranking. | Checkpoint terms, input policy, generator provenance, and orthogonal structure scoring. |

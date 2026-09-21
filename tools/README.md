@@ -19,6 +19,7 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 - [RFdiffusion3](rfdiffusion3.md). Atom-level diffusion for binder backbones, miniproteins, and biomolecular interfaces.
 - [RFpeptides](rfpeptides.md). Cyclic and constrained peptide design in the RFdiffusion family.
 - [BindCraft](bindcraft.md). Integrated binder-design pipeline behind PyRosetta, AF2-weight, dependency, and use-context gates.
+- [BindCraft2](bindcraft2.md). AF2/ProteinMPNN design for proteins, peptides, scaffolded antibodies, and multistate objectives; includes GPU controls and hosting-license terms.
 - [FreeBindCraft](freebindcraft.md). BindCraft-family generation without a required PyRosetta step.
 - [BoltzGen](boltzgen.md). Boltz-family binder generation lane for canaries and method comparison.
 - [PXDesign](pxdesign.md). Target-conditioned binder backbone generation with explicit sequence-design handoff.
@@ -90,6 +91,7 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Sequence-centered peptide optimization | [EvoBind](evobind.md) | Optional [ProteinMPNN](proteinmpnn.md) consistency check, [Cofold scoring stack](cofold-scoring-stack.md) |
 | Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN for soluble targets), [Cofold scoring stack](cofold-scoring-stack.md) |
 | Integrated binder-design canary | [BindCraft](bindcraft.md) or [BoltzGen](boltzgen.md) | [Cofold scoring stack](cofold-scoring-stack.md), [Refinement stack](refinement-stack.md) |
+| Scaffolded antibodies or multistate AF2 design | [BindCraft2](bindcraft2.md) | [Cofold scoring stack](cofold-scoring-stack.md) with separate results for each target state |
 | Class B GPCR ECD antagonist by peptide mimicry | [Baker miniprotein-GPCR](baker-miniprotein-gpcr.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN), [Cofold scoring stack](cofold-scoring-stack.md) |
 | A protein that changes shape on ligand binding (allostery, AND gate, biosensor) | [SwitchCraft](switchcraft.md) | [Cofold scoring stack](cofold-scoring-stack.md) for the orthogonal switch check |
 | Add a function or effector to a validated binder (fusion construct) | [DOMINO](domino.md) | [Cofold scoring stack](cofold-scoring-stack.md) to prove both modules fold |

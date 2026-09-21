@@ -1,5 +1,8 @@
 # BindCraft
 
+This card covers `martinpacesa/BindCraft`. See [BindCraft2](bindcraft2.md) for
+`PacesaLab/BindCraft2`, its multimodal presets, runtime, and hosting license.
+
 ## Purpose
 
 Plan automated binder-design lanes that combine backbone/sequence search,
