@@ -53,6 +53,18 @@ class BinderToolFreshnessTests(unittest.TestCase):
             self.assertIn("license_gate: none", block)
             self.assertIn('route_terms: "biohub_api=biohub_api_terms_and_aup"', block)
 
+    def test_esmfold2_uses_stable_package_and_requires_adapter_port(self) -> None:
+        block = registry_block("esmfold2")
+        self.assertIn('pip_package: "esm==3.4.1.post1"', block)
+        self.assertIn("pypi_wheel_sha256", block)
+        self.assertIn('smoke_command: "adapter_required"', block)
+
+        adapters = json.loads(ADAPTERS.read_text(encoding="utf-8"))
+        for row in adapters["adapters"]:
+            if row["tool_id"] in {"esmfold2", "esmfold2-fast"}:
+                self.assertEqual("adapter_required", row["implementation_status"])
+                self.assertIsNone(row["program"])
+
     def test_replay_predictor_records_match_current_primary_sources(self) -> None:
         protenix = registry_block("protenix")
         self.assertIn("license_gate: none", protenix)

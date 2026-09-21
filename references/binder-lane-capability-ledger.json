@@ -290,7 +290,7 @@
       "evidence_level": "contract_checked",
       "license_gate": "none",
       "provider_bound": false,
-      "execution_available": true,
+      "execution_available": false,
       "public_evidence": ["references/software-registry.yaml", "modules/lane-modules/esmfold2.toolcheck.v1.json", "src/biosymphony_structure_factory/binder_esmfold2_adapter.py"]
     },
     {
@@ -301,7 +301,7 @@
       "evidence_level": "contract_checked",
       "license_gate": "none",
       "provider_bound": false,
-      "execution_available": true,
+      "execution_available": false,
       "public_evidence": ["references/software-registry.yaml", "modules/lane-modules/esmfold2.toolcheck.v1.json", "references/published-binder-comparison-workflow.json", "src/biosymphony_structure_factory/binder_esmfold2_adapter.py"]
     },
     {

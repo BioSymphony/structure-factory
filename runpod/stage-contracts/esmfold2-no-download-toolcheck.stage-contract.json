@@ -8,7 +8,7 @@
   "wave": "toolcheck",
   "execution_profile": "esmfold2-no-download-toolcheck",
   "progress_ledger": "/workspace/structure-factory/runs/esmfold2-no-download-toolcheck/stage-progress.jsonl",
-  "success_claim": "Pinned Biohub esm source/package imports and Hugging Face model metadata probes pass without downloading model weights, calling the Biohub inference API, or running biological inference.",
+  "success_claim": "The reviewed stable Biohub esm package and Hugging Face model metadata resolve without downloading model weights, calling the Biohub inference API, running biological inference, or claiming adapter compatibility.",
   "fail_closed": true,
   "partial_summary": {
     "path": "partial-summary.json",
@@ -32,7 +32,7 @@
       "launch_manifest_sha256_change",
       "stage_contract_sha256_change",
       "lane_module_sha256_change",
-      "esm_source_commit_sha_change",
+      "esm_package_artifact_change",
       "hf_model_revision_change",
       "repo_commit_change"
     ]
@@ -40,7 +40,7 @@
   "stages": [
     {
       "stage_id": "host_probe",
-      "description": "Record OS, Python, CUDA, torch, GPU, disk, and cache environment before installing source.",
+      "description": "Record OS, Python, CUDA, torch, GPU, disk, and cache environment before resolving the package.",
       "required": true,
       "expected_outputs": [
         "validation/host_probe.json"
@@ -57,7 +57,7 @@
     },
     {
       "stage_id": "source_resolution",
-      "description": "Resolve and install or review the pinned Biohub esm source commit. No model weights are downloaded.",
+      "description": "Resolve and install or review the pinned stable Biohub esm package artifact. No model weights are downloaded.",
       "required": true,
       "expected_outputs": [
         "validation/source_install.json",
@@ -66,7 +66,7 @@
       "timeout_minutes": 30,
       "checkpoint_marker": "validation/source_install.json",
       "done_marker": "validation/source_install.json",
-      "resume_command": "rerun source install after updating the pinned source commit or runtime image",
+      "resume_command": "rerun package resolution after updating the reviewed package artifact or runtime image",
       "fail_closed": true,
       "output_validation": {
         "mode": "expected_paths_exist",
@@ -75,7 +75,7 @@
     },
     {
       "stage_id": "package_probe",
-      "description": "Probe ESMFold2 imports, package metadata, and Biohub API client imports without calling the API.",
+      "description": "Probe package metadata and top-level imports without claiming compatibility with the retained legacy prediction wrapper.",
       "required": true,
       "expected_outputs": [
         "validation/package_probe.json"
@@ -83,7 +83,7 @@
       "timeout_minutes": 5,
       "checkpoint_marker": "validation/package_probe.json",
       "done_marker": "validation/package_probe.json",
-      "resume_command": "rerun after resolving Python, package, or dependency import failure",
+      "resume_command": "rerun after resolving Python, package, or dependency import failure; adapter compatibility remains a separate gate",
       "fail_closed": true,
       "output_validation": {
         "mode": "expected_paths_exist",
@@ -195,7 +195,7 @@
     "Hugging Face model revision and weight hash review before weight download"
   ],
   "no_false_success_notes": [
-    "Toolcheck only. No model weights downloaded. No Biohub inference API call. No biological inference.",
+    "Toolcheck only. No model weights downloaded. No Biohub inference API call. No biological inference and no adapter-compatibility claim.",
     "A metadata probe pass is not a weights or prediction pass.",
     "Any import, metadata, or API-posture failure must downgrade to blocked or insufficient_support.",
     "Public docs must not commit generated CIF/PDB, model weights, provider logs, private inputs, or concrete provider resource IDs."

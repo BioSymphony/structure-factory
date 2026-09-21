@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Corrected ESMFold2 fresh-install readiness: the registry now points to stable
+  `esm==3.4.1.post1`, and the legacy full/Fast wrappers are marked
+  `adapter_required` until ported and dry-run against the current interface.
+- Added public tool cards for BioNeMo Inference Runtime, SimpleFold-Turbo, and
+  PATCHR, plus scoring-invariant and Boltz template-restraint guidance.
 - Documented OpenFold3 v0.5.0 and its OpenBind v0 default parameters, including the structure-prediction and affinity boundary and the distinction from the OpenBind benchmark dataset.
 
 ## 0.1.0 - 2026-09-01

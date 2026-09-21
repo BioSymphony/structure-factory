@@ -1,10 +1,10 @@
 # Tool And Skill Radar
 
-Snapshot date: 2026-06-21
+Snapshot date: 2026-09-21
 
 This is a planning snapshot, not legal advice and not a current license determination. Before installing, baking into an image, running, or redistributing any third-party tool, recheck the primary source terms and record the user's intended use context.
 
-## June 2026 Candidate Additions
+## Current Candidate Additions
 
 These are unvalidated watchlist entries from a fresh public-source pass. They are useful enough to keep in the public tool knowledge base, but they are not promoted dependencies until a smoke run emits the named contract and the current license/use-context check is recorded.
 
@@ -27,6 +27,9 @@ These are unvalidated watchlist entries from a fresh public-source pass. They ar
 | [PDBe MCP Servers](https://github.com/pdbeurope/pdbe-mcp-servers) | Agent-accessible public structure metadata lookup. | `resolved_accessions.json`, source/citation ledger. | Public accession queries only; do not send private biological inputs. |
 | [DynaMight](https://github.com/3dem/DynaMight) and cryoDRGN-AI-style tools | Cryo-EM heterogeneity and ensemble-context watchlist. | `heterogeneity_report.json`, model/version ledger. | CryoCore boundary, map/data posture, and weight/license review. |
 | [FoldMason](https://github.com/steineggerlab/foldmason) | Fast multi-structure alignment and tree/report generation. | `structure_alignment.a3m`, `structure_alignment.html`, `structure_tree.nwk`. | License/source check and reference-structure provenance. |
+| [BioNeMo Inference Runtime](../tools/bioir.md) | Optimized runtime beneath supported AF2/OpenFold2, Boltz, and OpenFold3 model contracts. | Runtime/checkpoint manifest, predictions, confidence sidecars, matched implementation comparison. | Compatible Linux/NVIDIA runtime, exact checkpoint terms, model-specific adapter, and confidence-scale check. |
+| [SimpleFold-Turbo](../tools/simplefold-turbo.md) | TeaCache acceleration candidate for Apple SimpleFold. | Matched baseline/uncached/cached outputs, forward-count trace, timing and geometry report. | Apple model terms, asset hashes, matched sampler settings, and adapter. |
+| [PATCHR](../tools/patchr.md) | Missing-region completion with template-constrained and boundary-refinement diffusion. | Region masks, repaired structure, coordinate-drift report, structure validation. | Dependencies/checkpoint, molecule support, boundary settings, and measured fixed-region drift. |
 
 ## Ready In The Public Harness
 

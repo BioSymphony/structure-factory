@@ -9,10 +9,11 @@ or therapeutic value.
 
 ## Public-Safe Status
 
-The registry pins a Biohub `esm` source revision and records the local-weight
-route as MIT with reviewed third-party notices. The package includes a
-fixed-argument prediction wrapper for the full and Fast checkpoints. Wrapper
-readiness does not establish package, checkpoint, CCD-cache, or CUDA readiness.
+The registry records the stable Biohub `esm==3.4.1.post1` package and its
+published wheel hash. The repository retains a fixed-argument wrapper and its
+artifact contract, but the execution registry marks both full and Fast routes
+`adapter_required`: the wrapper predates the current stable package interface
+and has not been ported and dry-run against it.
 
 The Biohub API is a separate route with its own terms and acceptable-use
 policy. Before execution, the selected runtime must verify the installed model,
@@ -22,17 +23,16 @@ available compute, inputs, budget, outputs, and cleanup contract.
 
 The public docs expose three relevant local software routes:
 
-- `biohub/ESMFold2`: full model through the pinned Biohub `esm` source.
-- `biohub/ESMFold2-Fast`: Fast variant through the pinned Biohub `esm` source.
-- `biohub/ESMFold2-hf`: official full-model checkpoint for the ESMFold2 support
-  added to Hugging Face Transformers on 2026-08-19. The checkpoint bundles its
-  ESMC backbone. As of 2026-08-28, this route requires Transformers from source
-  because it is documented on the `main` branch rather than the latest stable
-  release.
+- `biohub/ESMFold2`: full model through a compatible Biohub `esm` adapter.
+- `biohub/ESMFold2-Fast`: Fast variant through a compatible Biohub `esm`
+  adapter.
+- `biohub/ESMFold2-hf`: official full-model checkpoint through stable Hugging
+  Face Transformers. The checkpoint bundles its ESMC backbone.
 
-The bundled `bsf-esmfold2-predict` command uses the Biohub `esm` route. A user
-can select the Transformers route by supplying a validated adapter with the
-same output contract; no provider or agent runtime is required by the repo.
+The bundled `bsf-esmfold2-predict` code documents the prior Biohub `esm`
+integration and remains covered by contract tests. It is not an advertised
+fresh-install route. Supply a validated adapter for either stable package path
+and preserve the output contract below.
 
 The Biohub Platform API is a separate optional route. API use reads its token
 from the runtime environment and records the applicable service terms, cost,
@@ -52,10 +52,10 @@ data handling, and closeout.
 ## Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill with the ESMFold2 tool card. Start
-with the ESMFold2 no-download toolcheck. Select the pinned local-weight route or
-the Biohub API route, then record the budget, input data posture, expected
-artifacts, and cleanup rule before a paid or networked run.
+Use the BioSymphony Structure Factory skill with the ESMFold2 tool card. Select
+a ported stable-package adapter or the Biohub API route, then record the budget,
+input data posture, expected artifacts, and cleanup rule before a paid or
+networked run.
 ```
 
 ## Typical Inputs
@@ -91,7 +91,8 @@ artifacts, and cleanup rule before a paid or networked run.
 - Hugging Face ESMFold2: https://huggingface.co/biohub/ESMFold2
 - Hugging Face ESMFold2-Fast: https://huggingface.co/biohub/ESMFold2-Fast
 - Hugging Face Transformers ESMFold2 docs:
-  https://huggingface.co/docs/transformers/main/model_doc/esmfold2
+  https://huggingface.co/docs/transformers/model_doc/esmfold2
+- Stable `esm` package: https://pypi.org/project/esm/
 - Hugging Face Transformers checkpoint: https://huggingface.co/biohub/ESMFold2-hf
 - Hugging Face ESMC-6B: https://huggingface.co/biohub/ESMC-6B
 
@@ -99,7 +100,7 @@ artifacts, and cleanup rule before a paid or networked run.
 
 | Knob | Recommendation | Why |
 | --- | --- | --- |
-| Source install | Pin the Biohub `esm` commit used by the operator packet | Avoid silent API or input-class drift. |
+| Package | Pin `esm==3.4.1.post1` or a later reviewed release and record its artifact hash | Avoid silent API or dependency drift. |
 | First model | `biohub/ESMFold2-Fast` | Proves the weight and inference path before larger runs. |
 | Weight source | Hugging Face snapshots | Avoids Biohub API token and API-cost uncertainty for first canaries. |
 | Biohub API | Optional | Requires a runtime secret plus service-terms, data-handling, cost, and closeout records. |
@@ -118,8 +119,8 @@ and validator coverage.
 Recommended run order:
 
 1. Provider lifecycle smoke with no ESM install, no weights, no biological input.
-2. `esmfold2-no-download-toolcheck`: source/package/import and metadata probes
-   only.
+2. Port and dry-run an adapter against the selected stable package; record
+   package, Transformers, model, and CCD identities.
 3. Hugging Face weights fast canary on one public sequence.
 4. Small gallery, binder foldability crosscheck, RNP/complex canary, or Atlas
    scout only after the fast canary artifact path is proven.
@@ -128,6 +129,9 @@ Recommended run order:
 
 - ESMFold2-Fast still depends on the large ESMC backbone. Budget model-weight
   materialization and cache behavior explicitly.
+- A reachable top-level source pin does not prove that its transitive
+  dependencies still resolve. Prefer a released package or audit the complete
+  locked dependency graph.
 - A Hugging Face metadata probe is not a weight download, and a weight download
   is not a prediction.
 - A cloud instance or pod in a running state is not evidence. Require runtime

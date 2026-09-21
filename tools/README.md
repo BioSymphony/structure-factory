@@ -9,7 +9,7 @@ Each card follows the same shape:
 - Public images include tools whose redistribution posture has been reviewed.
 - License-gated tools install at runtime after the user reviews and accepts their terms. Store private install paths, provider records, accepted-license state, credentials, weights, and generated biological artifacts under ignored runtime storage or in a user-selected artifact store.
 
-The wider tool knowledge base lives in [`references/software-registry.yaml`](../references/software-registry.yaml). Candidate tools that are useful but do not yet deserve a full card are tracked in [`docs/tool-and-skill-radar.md`](../docs/tool-and-skill-radar.md).
+The wider tool knowledge base lives in [`references/software-registry.yaml`](../references/software-registry.yaml). Candidate tools that are useful but do not yet deserve a full card are tracked in [`docs/tool-and-skill-radar.md`](../docs/tool-and-skill-radar.md). Cross-cutting contracts cover [confidence sidecars](../docs/confidence-sidecars.md), [scoring invariants](../docs/scoring-invariants.md), and [Boltz template restraints](../docs/boltz-template-restraints.md).
 
 ## Cards
 
@@ -52,7 +52,10 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 - [Chai-1](chai.md). Open biomolecular cofold with MSA-driven prediction.
 - [OpenDDE](opendde.md). Open all-atom biomolecular cofold/prediction lane with ABAG checkpoint and optional PAE/PDE sidecars.
 - [OpenFold3 and OpenBind v0](openfold3.md). All-atom biomolecular structure prediction with the current default OpenBind v0 parameters and an explicit no-affinity boundary.
-- [ESMFold2](esmfold2.md). Biohub structure prediction and foldability review lane, with Hugging Face weights as the first cloud canary route and Biohub API as optional/deferred.
+- [ESMFold2](esmfold2.md). Biohub structure prediction and foldability review lane; local full/Fast execution requires a stable-package adapter port, while the Biohub API remains a separately governed route.
+- [BioNeMo Inference Runtime](bioir.md). Optimized runtime posture for supported scientific model contracts, with checkpoint identity, confidence scale, and matched-comparison requirements.
+- [SimpleFold-Turbo](simplefold-turbo.md). TeaCache acceleration evaluation for SimpleFold with matched baseline, uncached, and cached arms.
+- [PATCHR](patchr.md). Missing-region completion with explicit fixed, movable-boundary, and generated atom masks plus coordinate-drift checks.
 - [ESMFold2 binder control notes](esmfold2-binder-controls.md). Sequence, structure, interface, logit, and optimization controls for constraining ESMFold2/Biohub binder-design runs against a deposited target site.
 - [SimpleFold](simplefold.md). Apple single-protein structure and conformational-ensemble prediction through PyTorch or MLX, behind the released-model research-use gate.
 - [Protenix](protenix.md). Biomolecular complex prediction; Protenix-v2 is the exact published binder-study scoring variant.

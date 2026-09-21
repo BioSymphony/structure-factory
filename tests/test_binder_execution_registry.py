@@ -120,8 +120,6 @@ class BinderExecutionRegistryTests(unittest.TestCase):
             {
                 "boltz",
                 "diversity-filter",
-                "esmfold2",
-                "esmfold2-fast",
                 "status-preserving-filter",
                 "supplied-backbone",
             },
@@ -331,6 +329,10 @@ class BinderExecutionRegistryTests(unittest.TestCase):
         self.assertIn({"tool_id": "esmfold2", "variant_id": "esmfold2-full"}, full["supported_selections"])
         self.assertNotIn({"tool_id": "esmfold2", "variant_id": "esmfold2-fast"}, full["supported_selections"])
         self.assertIn({"tool_id": "esmfold2", "variant_id": "esmfold2-fast"}, fast["supported_selections"])
+        for adapter in (full, fast):
+            self.assertEqual("adapter_required", adapter["implementation_status"])
+            self.assertEqual("external_adapter", adapter["execution_kind"])
+            self.assertIsNone(adapter["program"])
 
     def test_unimplemented_adapters_do_not_guess_commands(self) -> None:
         for adapter in self.registry["adapters"]:

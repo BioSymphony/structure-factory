@@ -8,17 +8,17 @@
   "license_class": "mit_with_third_party_notices_reviewed",
   "skip_policy": "warn_when_missing_in_prep",
   "fail_policy": "fail_when_required_by_execution_profile",
-  "smoke_command": "python -c 'from esm.models.esmfold2 import ESMFold2InputBuilder; print(\"esmfold2 import ok\")'",
+  "smoke_command": "python -c 'import esm; print(\"esm package import ok\")'",
   "alternate_smoke_commands": [
-    "python -c 'from esm.models.esmfold2 import ProteinInput, StructurePredictionInput; print(\"esmfold2 inputs ok\")'",
-    "python -c 'from esm.sdk.forge import SequenceStructureForgeInferenceClient; print(\"biohub client import ok\")'",
-    "python -c 'from transformers.models.esmfold2.modeling_esmfold2 import ESMFold2Model; print(\"transformers esmfold2 ok\")'"
+    "python -c 'import importlib.metadata as m; print(m.version(\"esm\"))'",
+    "python -c 'import transformers; print(transformers.__version__)'"
   ],
   "image_family": "ai-design",
   "source_policy": {
     "upstream_repo": "https://github.com/Biohub/esm",
-    "install_ref_observed_in_public_docs": "c94ed8d",
-    "pin_policy": "operator packet must pin a full Biohub esm commit SHA before paid execution"
+    "stable_package": "esm==3.4.1.post1",
+    "pypi_wheel_sha256": "f9e62b363519860d27762989871a531cdbd02d69c824cc8c8a1047b16dce3ef6",
+    "pin_policy": "operator packet must pin a reviewed stable package artifact or a full compatible source commit before execution"
   },
   "weights_policy": {
     "source": "huggingface_public_snapshots_or_biohub_api",
@@ -71,5 +71,5 @@
     "binder_crosscheck",
     "rnp_or_complex_stress_test"
   ],
-  "notes": "Start with no-download source/package/model metadata toolcheck. The Biohub API is documented as optional/deferred; the first proven cloud route for this repo should use Hugging Face weights with explicit model-weight, budget, and cleanup gates."
+  "notes": "Start with no-download package and model-metadata checks. This module does not claim that the retained legacy prediction wrapper is compatible with the stable package; a ported adapter must pass its own dry run before inference. The Biohub API is a separately governed route."
 }

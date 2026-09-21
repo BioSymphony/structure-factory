@@ -231,6 +231,7 @@ For comparative rounds, keep the target, controls, prediction panel, scoring, an
 Read these before a paid GPU dispatch. They describe public checks for provider, predictor, artifact-integrity, and smoke-test work.
 
 - [`docs/operational-gotchas.md`](docs/operational-gotchas.md). Failure classes, preflight probes, and fixes for provider and tool runs.
+- [`docs/reproducibility-checks.md`](docs/reproducibility-checks.md). Direct dependency-pin resolution and complete output-tree comparison.
 - [`docs/preflight-checklist.md`](docs/preflight-checklist.md). Checks for target identity, hotspot syntax, output counts, human approval, artifacts, and cleanup.
 - [`docs/agent-run-learnings.md`](docs/agent-run-learnings.md). Execution checks for provider, predictor, artifact-integrity, and smoke-test work.
 - [`docs/no-false-success-hardening.md`](docs/no-false-success-hardening.md). Required output checks and partial-result handling.

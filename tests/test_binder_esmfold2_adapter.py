@@ -304,7 +304,7 @@ class ESMFold2AdapterTests(unittest.TestCase):
             )
         )
 
-    def test_registry_pins_distinct_local_only_full_and_fast_commands(self) -> None:
+    def test_registry_preserves_distinct_full_and_fast_migration_contracts(self) -> None:
         registry = json.loads(
             (ROOT / "references" / "binder-execution-adapters.json").read_text(
                 encoding="utf-8"
@@ -318,17 +318,17 @@ class ESMFold2AdapterTests(unittest.TestCase):
         self.assertEqual({"esmfold2", "esmfold2-fast"}, set(records))
         for tool_id, variant in (("esmfold2", "full"), ("esmfold2-fast", "fast")):
             row = records[tool_id]
-            self.assertEqual("ready", row["implementation_status"])
-            self.assertEqual("local_argv", row["execution_kind"])
-            self.assertEqual("bsf-esmfold2-predict", row["program"])
+            self.assertEqual("adapter_required", row["implementation_status"])
+            self.assertEqual("external_adapter", row["execution_kind"])
+            self.assertIsNone(row["program"])
             self.assertEqual(["predictor"], row["roles"])
             self.assertEqual("forbidden", row["network_policy"])
             self.assertEqual(
                 ["HF_HOME", "ESMFOLD2_CCD_PATH"],
                 row["required_environment_names"],
             )
-            self.assertIn(variant, row["readiness_argv"])
-            self.assertIn(variant, row["command_argv"])
+            self.assertEqual([], row["readiness_argv"])
+            self.assertEqual([], row["command_argv"])
             self.assertNotIn("--allow-weight-download", row["command_argv"])
 
 

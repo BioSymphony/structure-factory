@@ -7,7 +7,7 @@ TOOLCHECK_RUNTIME ?= .runtime/structure-factory-toolcheck
 PROVIDER_ARTIFACT_ROOT ?= .runtime/provider-artifacts/example-run
 PROVIDER_BRIDGE_CLI ?= symphony-neocloud-bridge
 
-.PHONY: help list test catalog catalog-md read-only-audit validate validate-examples issue-dry-run issue-dry-run-check scaffold-check harness-check public-audit secret-scan docs-reference-check binder-lane-check \
+.PHONY: help list test catalog catalog-md read-only-audit pin-liveness-check validate validate-examples issue-dry-run issue-dry-run-check scaffold-check harness-check public-audit secret-scan docs-reference-check binder-lane-check \
 	release-check public-switch-check public-contract-check preflight registry-check \
 	module-check provider-check aws-profile-check neocloud-scope-check runpod-check \
 	runpod-scope-check runpod-public-template-check stage-contract-check launch-preflight license-gate-check \
@@ -31,6 +31,7 @@ help:
 	@echo "  make catalog                  Write a JSON map of campaigns/examples/contracts"
 	@echo "  make catalog-md               Write a Markdown map for human review"
 	@echo "  make read-only-audit          Run reviewer checks without writing .runtime/"
+	@echo "  make pin-liveness-check       Resolve tracked direct Git and PyPI pins"
 	@echo "  make issue-dry-run            Write tracker-neutral drafts under .runtime/"
 	@echo "  make issue-dry-run-check      Validate the generated .runtime issue drafts"
 	@echo "  make harness-check            Check public agent/skill/docs surface"
@@ -68,6 +69,9 @@ read-only-audit:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) scripts/structure_factory/public_doc_reference_check.py --repo-root . --json
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) scripts/structure_factory/runpod_public_template_check.py runpod/bridge-manifests --json
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) scripts/structure_factory/runpod_public_template_check.py runpod/launch-manifests --json
+
+pin-liveness-check:
+	$(PYTHON) scripts/structure_factory/check_pinned_dependencies_resolve.py --repo-root . --online
 
 validate:
 	PYTHONPATH=src $(PYTHON) -m biosymphony_structure_factory.cli validate $(EXAMPLE)

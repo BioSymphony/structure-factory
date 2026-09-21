@@ -38,10 +38,11 @@ ESMFold2 enters Structure Factory as a staged prediction/foldability lane:
 
 1. Provider lifecycle smoke with no ESM install, no model weights, no API call,
    and no biological input.
-2. `esmfold2-no-download-toolcheck`: source/package/import probes and
-   Hugging Face metadata checks only.
-3. Hugging Face weights fast canary on one public sequence using
-   `biohub/ESMFold2-Fast`.
+2. `esmfold2-no-download-toolcheck`: stable-package resolution, top-level
+   imports, and Hugging Face metadata checks only. This does not prove the
+   retained legacy wrapper is compatible.
+3. Port and dry-run a validated full or Fast adapter against the selected
+   stable package, then run one public-sequence canary.
 4. Gallery, binder foldability crosscheck, RNP/complex canary, or Atlas scout
    only after the fast canary has fetched, hashed, and validated artifacts.
 

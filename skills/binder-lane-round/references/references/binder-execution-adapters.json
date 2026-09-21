@@ -637,32 +637,10 @@
       "roles": ["predictor"],
       "supported_routes": [{"backend": "local", "execution_method": "self_hosted"}],
       "license_gate": "none",
-      "execution_kind": "local_argv",
-      "program": "bsf-esmfold2-predict",
-      "readiness_argv": [
-        "bsf-esmfold2-predict",
-        "readiness",
-        "--variant",
-        "full"
-      ],
-      "command_argv": [
-        "bsf-esmfold2-predict",
-        "run",
-        "--run-root",
-        "{{run_root}}",
-        "--input",
-        "{{input_path}}",
-        "--output",
-        "{{output_path}}",
-        "--artifact-dir",
-        "{{artifact_dir}}",
-        "--variant",
-        "full",
-        "--seed",
-        "{{seed}}",
-        "--expected-count",
-        "{{expected_count}}"
-      ],
+      "execution_kind": "external_adapter",
+      "program": null,
+      "readiness_argv": [],
+      "command_argv": [],
       "placeholders": {
         "run_root": {"type": "path"},
         "input_path": {"type": "path"},
@@ -687,7 +665,7 @@
           "minimum_count": 1
         }
       ],
-      "implementation_status": "ready",
+      "implementation_status": "adapter_required",
       "public_evidence": [
         "references/software-registry.yaml",
         "modules/lane-modules/esmfold2.toolcheck.v1.json",
@@ -1196,32 +1174,10 @@
       "roles": ["predictor"],
       "supported_routes": [{"backend": "local", "execution_method": "self_hosted"}],
       "license_gate": "none",
-      "execution_kind": "local_argv",
-      "program": "bsf-esmfold2-predict",
-      "readiness_argv": [
-        "bsf-esmfold2-predict",
-        "readiness",
-        "--variant",
-        "fast"
-      ],
-      "command_argv": [
-        "bsf-esmfold2-predict",
-        "run",
-        "--run-root",
-        "{{run_root}}",
-        "--input",
-        "{{input_path}}",
-        "--output",
-        "{{output_path}}",
-        "--artifact-dir",
-        "{{artifact_dir}}",
-        "--variant",
-        "fast",
-        "--seed",
-        "{{seed}}",
-        "--expected-count",
-        "{{expected_count}}"
-      ],
+      "execution_kind": "external_adapter",
+      "program": null,
+      "readiness_argv": [],
+      "command_argv": [],
       "placeholders": {
         "run_root": {"type": "path"},
         "input_path": {"type": "path"},
@@ -1236,7 +1192,7 @@
         {"id": "prediction-manifest", "kind": "jsonl", "path_template": "{{output_path}}", "minimum_count": 1},
         {"id": "prediction-artifacts", "kind": "directory", "path_template": "{{artifact_dir}}", "minimum_count": 1}
       ],
-      "implementation_status": "ready",
+      "implementation_status": "adapter_required",
       "public_evidence": ["references/software-registry.yaml", "modules/lane-modules/esmfold2.toolcheck.v1.json", "references/published-binder-comparison-workflow.json", "src/biosymphony_structure_factory/binder_esmfold2_adapter.py", "tools/esmfold2.md"]
     },
     {

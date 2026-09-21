@@ -61,3 +61,6 @@ Mark interface scoring incomplete when:
 
 Record the structure as present, the interface score as incomplete, and the
 missing sidecar names.
+
+Before comparing or gating values from different producers, apply the identity,
+scale, sampling, and failure rules in [Scoring Invariants](scoring-invariants.md).

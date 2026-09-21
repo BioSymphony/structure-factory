@@ -57,7 +57,9 @@ These are the default candidates for ambitious no-license-application demos, sub
 - Blender.
 - Boltz/Boltz-2, pinned to PyPI 2.2.1 in the registry.
 - Chai-1, with current upstream Apache-2.0 code and weights. Pin and recheck on upgrades, and record MSA-server/privacy posture.
-- Biohub ESMFold2, ESMFold2-Fast, and ESMC-6B local-weight routes. The registry records a reviewed MIT source posture with third-party notices and no repository-imposed license gate. These routes remain `planned` and `adapter_required` until the selected source revision, Python/Torch runtime, weight-cache posture, and adapter pass a dry run. A Biohub API route has separate service terms, acceptable-use, budget, and data-handling review.
+- Biohub ESMFold2, ESMFold2-Fast, and ESMC-6B local-weight routes. The registry records the stable `esm==3.4.1.post1` package and a reviewed MIT source posture with third-party notices. These routes remain `planned` and `adapter_required` until the current package interface, Python/Torch runtime, weight-cache posture, and adapter pass a dry run. A Biohub API route has separate service terms, acceptable-use, budget, and data-handling review.
+- BioNeMo Inference Runtime 0.1.0 code, subject to its third-party notices, runtime component terms, exact checkpoint terms, and a model-specific adapter. A runtime does not change the selected scientific model or checkpoint.
+- PATCHR code, subject to dependency and checkpoint review. Exact coordinate preservation is a measured output property because boundary refinement can move observed atoms near repaired junctions.
 - OpenMM.
 - GROMACS.
 - AutoDock Vina.
@@ -75,6 +77,9 @@ For a public image, GPL/LGPL tools require normal compliance work: license texts
 
 These can be useful and can be mentioned publicly, but agents should not treat them as no-license-needed image contents until the exact current package, binary source, dependency stack, and redistribution terms are checked:
 
+- SimpleFold-Turbo, using the same separate Apple research model terms as
+  SimpleFold and requiring a matched uncached comparison before cache-specific
+  performance or output claims.
 - CTFFIND.
 - cisTEM.
 - cryoDRGN and related GPL-heavy heterogeneity stacks.

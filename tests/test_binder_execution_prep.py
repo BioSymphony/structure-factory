@@ -483,7 +483,7 @@ class BinderExecutionPreparationTests(unittest.TestCase):
         self.assertIsNone(request)
         self.assertEqual({"adapter-route-mismatch"}, {gap["gap_id"] for gap in result["readiness_gaps"]})
 
-    def test_esmfold2_full_and_fast_variants_select_their_matching_local_adapters(self) -> None:
+    def test_esmfold2_full_and_fast_variants_preserve_matching_migration_adapters(self) -> None:
         changed = local_cofold_plan()
         for toolchain in changed["toolchains"]:
             toolchain["predictors"] = [
@@ -518,16 +518,19 @@ class BinderExecutionPreparationTests(unittest.TestCase):
             selected_stages=["cofold"],
             stage_settings=settings,
         )
-        self.assertEqual("ready", result["status"])
-        self.assertIsNotNone(request)
-        assert request is not None
+        self.assertEqual("planning_with_readiness_gaps", result["status"])
+        self.assertIsNone(request)
         adapters_by_variant = {
-            stage["variant_id"]: stage["adapter_id"] for stage in request["stages"]
+            stage["variant_id"]: stage["adapter_id"] for stage in result["stage_mappings"]
         }
         self.assertEqual("esmfold2-local-adapter-v1", adapters_by_variant["esmfold2-full"])
         self.assertEqual("esmfold2-fast-adapter-v1", adapters_by_variant["esmfold2-fast"])
+        self.assertEqual(
+            {"runnable-adapter-required"},
+            {gap["gap_id"] for gap in result["readiness_gaps"]},
+        )
 
-    def test_esmfold2_without_a_variant_selects_the_full_local_adapter(self) -> None:
+    def test_esmfold2_without_a_variant_preserves_the_full_migration_adapter(self) -> None:
         changed = local_cofold_plan()
         for toolchain in changed["toolchains"]:
             toolchain["predictors"] = [{"tool_id": "esmfold2"}]
@@ -554,11 +557,13 @@ class BinderExecutionPreparationTests(unittest.TestCase):
             selected_stages=["cofold"],
             stage_settings=settings,
         )
-        self.assertEqual("ready", result["status"])
-        self.assertIsNotNone(request)
-        assert request is not None
+        self.assertEqual("planning_with_readiness_gaps", result["status"])
+        self.assertIsNone(request)
         self.assertTrue(
-            all(stage["adapter_id"] == "esmfold2-local-adapter-v1" for stage in request["stages"])
+            all(
+                stage["adapter_id"] == "esmfold2-local-adapter-v1"
+                for stage in result["stage_mappings"]
+            )
         )
 
     def test_platform_skill_route_needs_no_local_adapter(self) -> None:

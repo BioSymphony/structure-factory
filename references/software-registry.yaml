@@ -282,10 +282,10 @@ software:
   esmfold2:
     role: biomolecular_complex_structure_prediction_and_sequence_design
     image_family: ai-design
-    install_method: pinned_source_or_biohub_api
-    pip_package: "esm @ git+https://github.com/Biohub/esm.git@f652b471d29da828b31e9b7a9cf7d0a7803240f5"
+    install_method: stable_package_or_biohub_api_after_adapter_port
+    pip_package: "esm==3.4.1.post1"
+    pypi_wheel_sha256: "f9e62b363519860d27762989871a531cdbd02d69c824cc8c8a1047b16dce3ef6"
     upstream_repo: "https://github.com/Biohub/esm"
-    upstream_commit_sha: "f652b471d29da828b31e9b7a9cf7d0a7803240f5"
     upstream_model_repo: "https://huggingface.co/biohub/ESMFold2"
     upstream_model_sha_observed_2026_05_28: "e1e189d0f5fb70c2693da2332eca4443c0ccccd6"
     upstream_fast_model_repo: "https://huggingface.co/biohub/ESMFold2-Fast"
@@ -296,27 +296,28 @@ software:
     upstream_esmc_model_repo: "https://huggingface.co/biohub/ESMC-6B"
     upstream_esmc_model_sha_observed_2026_05_28: "89c554c46a44d825fbfbe3ce2a6bdc539770bdaa"
     biohub_model_ids: "esmfold2-2026-05, esmfold2-fast-2026-05"
-    primary_source_checked: "2026-08-28; Biohub/esm LICENSE.md and THIRD_PARTY_NOTICE.md at the pinned source revision, Biohub acceptable-use policy, pinned Hugging Face model cards, and the official Transformers ESMFold2 main documentation."
+    primary_source_checked: "2026-09-21; Biohub/esm, PyPI esm 3.4.1.post1 metadata, Biohub acceptable-use policy, pinned Hugging Face model cards, and stable Transformers ESMFold2 documentation."
     license_class: mit_with_third_party_notices_reviewed
     license_gate: none
     route_terms: "biohub_api=biohub_api_terms_and_aup"
     runpod_fit: strong_after_provider_smoke_and_fast_canary
     gpu_class: "L40S/A100/H100 for first canary; A10-class generic cloud VM may fit small fast-model runs after Torch/CUDA proof"
-    smoke_command: "bsf-esmfold2-predict readiness --variant full"
+    smoke_command: "adapter_required"
     runtime_artifacts: "predictions.jsonl, predictions/*/structure.cif, predictions/*/confidence.json.gz, predictions/*/confidence-summary.json"
     citation_notes: "Record Biohub ESM source commit, Hugging Face model revisions, API/local route, inputs, confidence outputs, and Biohub ESM citation."
     weights_cache_default: "HF_HOME"
     weights_cache_env_var: "HF_HOME"
-    weights_source: "Hugging Face biohub/ESMFold2 and biohub/ESMFold2-Fast through Biohub esm; biohub/ESMFold2-hf through Transformers main; or Biohub API with secure runtime API key."
+    weights_source: "Hugging Face biohub/ESMFold2 and biohub/ESMFold2-Fast through a compatible Biohub esm adapter; biohub/ESMFold2-hf through stable Transformers; or Biohub API with a runtime secret."
     status: planned
     notes: |
       Biohub ESMFold2 folds biomolecular inputs and can optimize sequence logits
       through a differentiable structure objective. Record prediction and
       sequence-design runs as separate operations with separate adapters. The
-      bundled prediction wrapper is ready, but the optional package, cached
-      checkpoints, CCD file, and CUDA device remain runtime readiness checks.
+      bundled prediction wrapper records the previous command and artifact
+      contract, but it is not advertised as executable against the current
+      stable package. Port and dry-run the adapter before selecting it.
       The official biohub/ESMFold2-hf checkpoint is an alternative full-model
-      route through Transformers main. It is not wired to the bundled wrapper;
+      route through stable Transformers. It is not wired to the bundled wrapper;
       supply a validated adapter when selecting that route.
       The pinned local-weight route has no repository-imposed license gate. The
       Biohub API route requires the API terms, acceptable-use policy, budget,
@@ -325,21 +326,21 @@ software:
   esmfold2-fast:
     role: biomolecular_complex_structure_prediction_and_sequence_design_variant
     image_family: ai-design
-    install_method: hosted_api_or_pinned_huggingface_snapshot
+    install_method: stable_package_or_hosted_api_after_adapter_port
     upstream_repo: "https://github.com/Biohub/esm"
     upstream_model_repo: "https://huggingface.co/biohub/ESMFold2-Fast"
     upstream_model_sha_observed_2026_05_28: "0438ea0d932a314950665e0b4d0af4322ae88250"
-    primary_source_checked: "2026-08-28; Biohub ESM source license and third-party notice, Biohub acceptable-use policy, and the pinned ESMFold2-Fast model card."
+    primary_source_checked: "2026-09-21; Biohub/esm, PyPI esm 3.4.1.post1 metadata, Biohub acceptable-use policy, and the pinned ESMFold2-Fast model card."
     license_class: mit_with_third_party_notices_reviewed
     license_gate: none
     route_terms: "biohub_api=biohub_api_terms_and_aup"
     runpod_fit: strong_after_provider_canary
     gpu_class: "RTX 4090/L40S for a first canary; measure larger inputs before scaling"
-    smoke_command: "bsf-esmfold2-predict readiness --variant fast"
+    smoke_command: "adapter_required"
     runtime_artifacts: "predictions.jsonl, predictions/*/structure.cif, predictions/*/confidence.json.gz, predictions/*/confidence-summary.json"
     citation_notes: "Record the source commit, ESMFold2-Fast model revision, API or local route, inputs, and confidence outputs."
     status: planned
-    notes: "Selectable ESMFold2 family variant for lower-cost fold or gradient-inversion design canaries. The bundled prediction wrapper uses cached local snapshots; package, checkpoint, CCD, and CUDA readiness remain runtime checks. Treat Fast as a variant, not an independent predictor, when comparing predictor agreement."
+    notes: "Selectable ESMFold2 family variant for lower-cost fold or gradient-inversion design canaries. Port and dry-run a compatible adapter before execution. Treat Fast as a variant, not an independent predictor, when comparing predictor agreement."
   simplefold:
     role: single_protein_structure_and_conformational_ensemble_prediction
     image_family: runtime_only
@@ -377,6 +378,54 @@ software:
       code uses MIT terms, but Apple's released model assets permit only the
       research purposes defined in LICENSE_MODEL. Record that use context
       before downloading or running the released models.
+  simplefold_turbo:
+    role: accelerated_single_protein_structure_and_ensemble_prediction
+    image_family: runtime_only
+    install_method: pinned_source_after_model_terms_review
+    upstream_repo: "https://github.com/usnistgov/simplefold-turbo"
+    upstream_commit_sha: "7eb43aec562b2b30f974194d7c66bedc90a8dd07"
+    primary_source_checked: "2026-09-21; upstream README, package metadata, Torch and MLX cache implementations, MIT LICENSE, and LICENSE_MODEL."
+    license_class: mit_code_apple_research_only_model_assets
+    license_gate: noncommercial_scientific_research_model_terms
+    runpod_fit: evaluation_after_adapter_and_asset_review
+    gpu_class: "Measure the selected model and backend; published acceleration evidence is Apple-hardware specific."
+    smoke_command: "adapter_required"
+    runtime_artifacts: "sampled_structures/, cache_trace.jsonl, timing.json, sample_manifest.json, asset_manifest.json"
+    citation_notes: "Record source commit, upstream asset hashes, backend, model, timestep schedule, cache threshold, forward count, seed, timing boundary, and output hashes."
+    status: planned
+    notes: "TeaCache implementation for the Apple SimpleFold model family. Treat it as an acceleration implementation, not an independent scientific predictor. Compare a matched uncached route before attributing differences to caching."
+  bionemo_ir:
+    role: optimized_inference_runtime
+    image_family: ai-design
+    install_method: pinned_wheel_or_source_with_model_specific_adapter
+    pip_package: "bionemo-ir==0.1.0"
+    upstream_repo: "https://github.com/NVIDIA-BioNeMo/BioNeMo-Inference-Runtime"
+    primary_source_checked: "2026-09-21; upstream support matrix, prerequisites, model-weight documentation, LICENSE, THIRD_PARTY_NOTICES, and PyPI 0.1.0 metadata."
+    license_class: apache_2_code_with_third_party_and_checkpoint_terms
+    license_gate: selected_checkpoint_and_redistribution_review
+    runpod_fit: strong_on_compatible_linux_nvidia_runtime
+    gpu_class: "Use an upstream-supported NVIDIA architecture and verify host driver compatibility."
+    smoke_command: "adapter_required"
+    runtime_artifacts: "runtime_manifest.json, checkpoint_manifest.json, predictions/, confidence_sidecars/, timing.json"
+    citation_notes: "Record BioIR version, scientific model and checkpoint, source and asset hashes, input processor, confidence scale, hardware/runtime identity, and output hashes."
+    status: planned
+    notes: "Runtime implementation beneath supported scientific model contracts. Complete build_processor pipelines are documented for AlphaFold2/OpenFold2 variants, Boltz-1/2, and OpenFold3. Protenix-v2 and Boltz-2 affinity expose model modules without complete pipelines."
+  patchr:
+    role: structure_completion_and_inpainting
+    image_family: ai-design
+    install_method: pinned_source_after_adapter_and_checkpoint_review
+    upstream_repo: "https://github.com/DeepFoldProtein/patchr"
+    upstream_commit_sha: "6c161b155b52e1cdee3496b0beac40306793f4c7"
+    primary_source_checked: "2026-09-21; upstream README, inference code, boundary-refinement defaults, output assembly, and MIT LICENSE."
+    license_class: open_source_mit_with_dependency_and_checkpoint_review
+    license_gate: selected_checkpoint_and_dependency_review
+    runpod_fit: evaluation_after_adapter_review
+    gpu_class: "Measure against the selected backend, checkpoint, and structure size."
+    smoke_command: "adapter_required"
+    runtime_artifacts: "repaired_structures/, repair_manifest.json, atom_masks.json, coordinate_drift.json, validation_notes.md"
+    citation_notes: "Record source commit, backend and checkpoint, input structure hash, fixed/movable/generated masks, boundary settings, alignment transform, per-region drift, and output hashes."
+    status: planned
+    notes: "Template-constrained diffusion plus local boundary refinement for missing-region completion. Exact preservation must be measured for the configured pipeline because boundary refinement can move observed residues near a junction."
   chai:
     role: biomolecular_prediction
     image_family: ai-design
