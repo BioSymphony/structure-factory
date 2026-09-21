@@ -410,6 +410,36 @@ software:
     citation_notes: "Record BioIR version, scientific model and checkpoint, source and asset hashes, input processor, confidence scale, hardware/runtime identity, and output hashes."
     status: planned
     notes: "Runtime implementation beneath supported scientific model contracts. Complete build_processor pipelines are documented for AlphaFold2/OpenFold2 variants, Boltz-1/2, and OpenFold3. Protenix-v2 and Boltz-2 affinity expose model modules without complete pipelines."
+  anthropic_optimization_kits:
+    role: inference_acceleration_runtime_layer
+    image_family: runtime_only
+    install_method: pinned_source_with_per_kit_environment_and_adapter
+    upstream_repo: "https://github.com/anthropics/uplifting-biomolecular-modeling"
+    upstream_commit_sha: "f4f62fa6592ae4938d49b1757bea0cfeff9f468e"
+    primary_source_checked: "2026-09-21; top-level README, LICENSE, NOTICE, security considerations, kit inventory, ESMFold2 README, and current main commit."
+    license_class: apache_2_original_code_with_per_kit_stock_third_party_and_weight_terms
+    license_gate: per_kit_stock_weight_dependency_and_redistribution_review
+    runpod_fit: evaluation_after_exact_stack_and_adapter_qualification
+    gpu_class: "Upstream centers H100 80 GB Linux x86-64 and documents additional cards per kit; use only a configuration the selected kit names."
+    smoke_command: "adapter_required"
+    runtime_artifacts: "kit_manifest.json, activation_record.json, lever_inventory.json, timing.json, memory.json, equality_or_numeric_delta.json, artifact_hashes.json"
+    citation_notes: "Record repository commit, kit, stock and lock identities, upstream model/checkpoint, mode, GPU configuration, activation line, lever states, binary and weight digests, compile-cache state, input/output hashes, cold/warm timing, peak memory, and comparison result."
+    status: planned
+    notes: |
+      Anthropic's unmaintained reference release contains 36 optimization kits
+      with shared off/exact/fast/big mode semantics. Treat each kit as a runtime
+      layer beneath its pinned upstream scientific identity. Exact stack and
+      checkpoint matching are mandatory: for example, the ESMFold2 kit's
+      pinned 3.3-era stack is separate from this registry's esm 3.4.1.post1
+      record, and the OpenFold3 kit's 0.4.1 preview identity differs from the
+      public OpenFold3 0.5.0/OpenBind v0 record.
+
+      The kits can install interpreter startup hooks, sitecustomize hooks,
+      import hooks, in-memory source substitutions, or dedicated file overlays.
+      Isolate the selected kit in its own environment or container, require its
+      ACTIVE record, and refuse missing activation or code 3. No public image
+      inclusion occurs until the selected stock source, dependencies, compiled
+      payloads, notices, weights, and redistribution posture are reviewed.
   patchr:
     role: structure_completion_and_inpainting
     image_family: ai-design

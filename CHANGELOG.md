@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added a public-safe Anthropic inference-optimization-kit card and registry
+  posture covering pinned stock identities, mode semantics, activation proof,
+  environment isolation, per-kit licensing, compatibility checks, and matched
+  performance/numerical qualification.
 - Corrected ESMFold2 fresh-install readiness: the registry now points to stable
   `esm==3.4.1.post1`, and the legacy full/Fast wrappers are marked
   `adapter_required` until ported and dry-run against the current interface.

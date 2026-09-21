@@ -166,6 +166,60 @@ class BinderToolFreshnessTests(unittest.TestCase):
         self.assertFalse(tool["execution_available"])
         self.assertIn("tools/openfold3.md", tool["public_evidence"])
 
+    def test_anthropic_optimization_kits_are_documented_as_a_runtime_layer(self) -> None:
+        block = registry_block("anthropic_optimization_kits")
+        self.assertIn(
+            'upstream_commit_sha: "f4f62fa6592ae4938d49b1757bea0cfeff9f468e"',
+            block,
+        )
+        self.assertIn("per_kit_stock_weight_dependency_and_redistribution_review", block)
+        self.assertIn('smoke_command: "adapter_required"', block)
+
+        card = (ROOT / "tools" / "anthropic-optimization-kits.md").read_text(
+            encoding="utf-8"
+        )
+        qualification = json.loads(
+            (
+                ROOT
+                / "references"
+                / "anthropic-optimization-kit-qualification.json"
+            ).read_text(encoding="utf-8")
+        )
+        for phrase in (
+            "36 pinned kits",
+            "`off`",
+            "`exact`",
+            "`fast`",
+            "`big`",
+            "NOT ACTIVE",
+            "esm==3.4.1.post1",
+            "OpenFold3 0.5.0/OpenBind v0",
+        ):
+            self.assertIn(phrase, card)
+        for forbidden in (
+            "/" + "users/",
+            "github" + "_2",
+            "served " + "record",
+            "our " + "run",
+            "cost " + "per",
+        ):
+            self.assertNotIn(forbidden, card.lower())
+        self.assertFalse(qualification["execution_available"])
+        self.assertEqual(
+            "adapter_required",
+            qualification["adapter_contract"]["implementation_status"],
+        )
+        self.assertFalse(qualification["adapter_contract"]["shell_allowed"])
+        compatibility = {
+            row["kit"]: row["classification"]
+            for row in qualification["compatibility_records"]
+        }
+        self.assertEqual("separate_runtime_stack", compatibility["esmfold2"])
+        self.assertEqual(
+            "different_scientific_identity",
+            compatibility["openfold3"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -34,6 +34,12 @@ integration and remains covered by contract tests. It is not an advertised
 fresh-install route. Supply a validated adapter for either stable package path
 and preserve the output contract below.
 
+Anthropic publishes an ESMFold2 optimization kit against its own pinned
+3.3-era ESM and Transformers stack. That kit is a separate runtime environment,
+not an overlay for the stable `esm==3.4.1.post1` record here. See
+[Anthropic inference optimization kits](anthropic-optimization-kits.md) for the
+compatibility and qualification contract.
+
 The Biohub Platform API is a separate optional route. API use reads its token
 from the runtime environment and records the applicable service terms, cost,
 data handling, and closeout.

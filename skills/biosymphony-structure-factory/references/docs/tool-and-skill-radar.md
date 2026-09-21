@@ -30,6 +30,7 @@ These are unvalidated watchlist entries from a fresh public-source pass. They ar
 | [BioNeMo Inference Runtime](../tools/bioir.md) | Optimized runtime beneath supported AF2/OpenFold2, Boltz, and OpenFold3 model contracts. | Runtime/checkpoint manifest, predictions, confidence sidecars, matched implementation comparison. | Compatible Linux/NVIDIA runtime, exact checkpoint terms, model-specific adapter, and confidence-scale check. |
 | [SimpleFold-Turbo](../tools/simplefold-turbo.md) | TeaCache acceleration candidate for Apple SimpleFold. | Matched baseline/uncached/cached outputs, forward-count trace, timing and geometry report. | Apple model terms, asset hashes, matched sampler settings, and adapter. |
 | [PATCHR](../tools/patchr.md) | Missing-region completion with template-constrained and boundary-refinement diffusion. | Region masks, repaired structure, coordinate-drift report, structure validation. | Dependencies/checkpoint, molecule support, boundary settings, and measured fixed-region drift. |
+| [Anthropic inference optimization kits](../tools/anthropic-optimization-kits.md) | Runtime acceleration layers for 36 pinned protein and genomics tool stacks. | Kit/stock manifest, activation and lever records, cold/warm timing, memory, equality or numerical-delta report. | Exact stack match, isolated hooks, per-kit licenses/notices/weights, card support, adapter, and matched baseline. |
 
 ## Ready In The Public Harness
 

@@ -1,0 +1,89 @@
+{
+  "schema_version": "structure-factory-optimization-runtime-qualification-v1",
+  "source": {
+    "repository": "https://github.com/anthropics/uplifting-biomolecular-modeling",
+    "commit": "f4f62fa6592ae4938d49b1757bea0cfeff9f468e",
+    "checked_on": "2026-09-21",
+    "upstream_status": "unmaintained_reference_release",
+    "original_code_license": "Apache-2.0",
+    "stock_and_weight_terms": "per_kit_review_required"
+  },
+  "evidence_scope": "public_primary_sources_only",
+  "execution_available": false,
+  "runtime_layer_rule": {
+    "changes_scientific_tool_identity": false,
+    "changes_runtime_identity": true,
+    "requires_isolated_environment": true,
+    "silent_fallback_allowed": false,
+    "required_activation_state": "ACTIVE",
+    "not_active_exit_code": 3
+  },
+  "mode_contracts": {
+    "off": {
+      "purpose": "pinned stock baseline",
+      "promotion_evidence": ["complete_runtime_identity", "validated_outputs"]
+    },
+    "exact": {
+      "purpose": "accelerated output-identical route",
+      "promotion_evidence": ["off_baseline", "actual_output_contract_equality", "cold_and_warm_timing", "peak_memory"]
+    },
+    "fast": {
+      "purpose": "accelerated numerically different route",
+      "promotion_evidence": ["off_baseline", "exact_baseline_when_shipped", "reseed_or_repeat_control", "metric_recalibration", "cold_and_warm_timing", "peak_memory"]
+    },
+    "big": {
+      "purpose": "memory-reduced route",
+      "promotion_evidence": ["off_baseline", "output_equivalence_class", "peak_memory", "device_topology", "worker_completion"]
+    }
+  },
+  "compatibility_records": [
+    {
+      "kit": "boltz2",
+      "kit_stock": "boltz 2.2.1",
+      "public_registry_identity": "boltz 2.2.1",
+      "classification": "candidate_exact_version_match",
+      "remaining_gates": ["checkpoint_identity", "dependency_lock", "gpu_card_support", "adapter_contract", "matched_output_qualification"]
+    },
+    {
+      "kit": "esmfold2",
+      "kit_stock": "kit-pinned ESM 3.3-era stack",
+      "public_registry_identity": "esm 3.4.1.post1",
+      "classification": "separate_runtime_stack",
+      "remaining_gates": ["do_not_overlay_on_stable_package", "dedicated_adapter", "stock_and_weight_pin_verification", "matched_output_qualification"]
+    },
+    {
+      "kit": "ef2inv",
+      "kit_stock": "kit-pinned ESMFold2 gradient-design stack",
+      "public_registry_identity": "ESMFold2 prediction and sequence-design roles are separate",
+      "classification": "separate_operation",
+      "remaining_gates": ["dedicated_sequence_design_adapter", "optimization_objective_contract", "candidate_count_and_failure_accounting"]
+    },
+    {
+      "kit": "openfold3",
+      "kit_stock": "OpenFold3 0.4.1 with preview parameters",
+      "public_registry_identity": "OpenFold3 0.5.0 with OpenBind v0 parameters",
+      "classification": "different_scientific_identity",
+      "remaining_gates": ["separate_comparison_arm", "checkpoint_identity", "matched_input_and_scoring_contract"]
+    },
+    {
+      "kit": "other_structure_factory_relevant_kits",
+      "kit_stock": "kit-specific STOCK.md identity",
+      "public_registry_identity": "tool-specific",
+      "classification": "pin_comparison_required",
+      "remaining_gates": ["source_version_and_checkpoint_match", "dependency_and_license_review", "operation_and_output_contract_match", "adapter_and_hardware_qualification"]
+    }
+  ],
+  "adapter_contract": {
+    "execution_kind": "external_adapter",
+    "implementation_status": "adapter_required",
+    "command_policy": "fixed_argument_array",
+    "shell_allowed": false,
+    "required_bindings": ["kit", "mode", "gpu_config", "input_path", "output_path", "artifact_dir", "seed"],
+    "required_preflight": ["repository_commit_verified", "stock_and_lock_verified", "selected_license_and_notices_reviewed", "checkpoint_and_weight_digests_verified", "compiled_payload_digests_verified", "gpu_config_supported", "dry_run_active"],
+    "required_outputs": ["kit_manifest.json", "activation_record.json", "lever_inventory.json", "timing.json", "memory.json", "equality_or_numeric_delta.json", "artifact_hashes.json"]
+  },
+  "publication_boundary": {
+    "allowed": ["upstream source and license posture", "generic compatibility records", "synthetic qualification contracts", "public-input aggregate benchmarks with complete provenance"],
+    "excluded": ["credentials", "private inputs", "generated private biology", "provider resource identifiers", "machine-local paths", "unreviewed stock or weight payloads"]
+  }
+}

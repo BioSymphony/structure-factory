@@ -54,6 +54,7 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 - [OpenFold3 and OpenBind v0](openfold3.md). All-atom biomolecular structure prediction with the current default OpenBind v0 parameters and an explicit no-affinity boundary.
 - [ESMFold2](esmfold2.md). Biohub structure prediction and foldability review lane; local full/Fast execution requires a stable-package adapter port, while the Biohub API remains a separately governed route.
 - [BioNeMo Inference Runtime](bioir.md). Optimized runtime posture for supported scientific model contracts, with checkpoint identity, confidence scale, and matched-comparison requirements.
+- [Anthropic inference optimization kits](anthropic-optimization-kits.md). Pinned runtime acceleration layers with mode, activation, isolation, compatibility, and matched-qualification contracts.
 - [SimpleFold-Turbo](simplefold-turbo.md). TeaCache acceleration evaluation for SimpleFold with matched baseline, uncached, and cached arms.
 - [PATCHR](patchr.md). Missing-region completion with explicit fixed, movable-boundary, and generated atom masks plus coordinate-drift checks.
 - [ESMFold2 binder control notes](esmfold2-binder-controls.md). Sequence, structure, interface, logit, and optimization controls for constraining ESMFold2/Biohub binder-design runs against a deposited target site.

@@ -34,6 +34,13 @@ tool to a platform skill, hosted API, local installation, container, or GPU
 provider. The execution route belongs in the adapter and provider records, not
 in the tool identity.
 
+An acceleration layer also belongs to the runtime identity rather than the
+scientific tool identity. Anthropic's separate
+[inference optimization kits](anthropic-optimization-kits.md) can be evaluated
+only when a kit's pinned upstream model, checkpoint, and operation match the
+selected cohort stage. Preserve an `off` baseline and qualify `exact`,
+`fast`, or `big` as a separate runtime comparison.
+
 ## Runtime Binding
 
 The public execution-adapter registry supplies typed placeholders and expected

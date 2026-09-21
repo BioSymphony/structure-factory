@@ -80,6 +80,12 @@ These can be useful and can be mentioned publicly, but agents should not treat t
 - SimpleFold-Turbo, using the same separate Apple research model terms as
   SimpleFold and requiring a matched uncached comparison before cache-specific
   performance or output claims.
+- Anthropic's `uplifting-biomolecular-modeling` optimization kits. Anthropic's
+  original code is Apache-2.0, while every carried stock project, checkpoint,
+  compiled payload, CUDA dependency, and third-party component keeps its own
+  terms. Pin one kit and review its `LICENSE`, `STOCK.md`,
+  `THIRD_PARTY_NOTICES.md`, and repository `NOTICE` before installation,
+  image inclusion, or redistribution.
 - CTFFIND.
 - cisTEM.
 - cryoDRGN and related GPL-heavy heterogeneity stacks.
