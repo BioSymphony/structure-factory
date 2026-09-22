@@ -8,11 +8,13 @@ Generated README banner for BioSymphony Structure Factory.
 
 Use this as the primary public repo banner.
 
-## `structure-factory-social-preview.png`
+## `structure-factory-social-preview.jpg`
 
-Generated 1280 x 640 social preview image for BioSymphony Structure Factory.
+Generated 1672 x 941 JPEG (approximately 16:9) with a pixel-art workbench
+and text in the upper portion. The file is under 1 MB.
 
-Use this for repository social preview settings or link preview cards.
+Upload this file in GitHub Settings > General > Social preview to change
+repository link cards. See [GitHub's upload instructions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview).
 
 ## `structure-factory-loop.svg`
 
