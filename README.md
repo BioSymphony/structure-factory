@@ -15,6 +15,12 @@ Start with a public accession or a synthetic fixture. Local planning and
 validation need Python 3.10+; individual prediction and design tools have
 separate runtime requirements.
 
+## What Is Included
+
+<p align="center">
+  <img src="docs/assets/system-context.svg" width="560" alt="A campaign request enters the CLI and agent skills. Templates, validators, tool cards, and provider profiles produce campaign plans, task packs, and run packets.">
+</p>
+
 ## Start Here
 
 | To | Start With |
@@ -73,24 +79,25 @@ consistent across ranked comparison arms; label different methods exploratory.
 
 ## When To Use This
 
-Use Structure Factory to define campaign inputs and outputs, divide work into
-stages, prepare compute, or compare computational results. The following table
-distinguishes runnable local checks, execution contracts, and planning patterns.
+Use Structure Factory to plan campaign stages, prepare compute, or compare
+computational results. Each execution route has its own tool, adapter, and
+compute requirements.
 
 ## What Users And Their Agents Can Run
 
-| Mission | Public Surface | Verified State | Outputs |
-| --- | --- | --- | --- |
-| Binder-design planning against a public interface | [`examples/pd-l1-binder-design-public`](examples/pd-l1-binder-design-public) | Local scaffold, validation, and task generation | target window, generation and cofold lane plans, stage contract, candidate-ranking schema |
-| Binder toolchain comparison and mixed-backend execution | [`docs/binder-lane-round.md`](docs/binder-lane-round.md) | `bsf binder-lane` target verification, local execution, remote-contract, calibration, closeout, and decision commands | multi-arm plan, replay or swap labels, stage routes, fixed-argument adapters, count-checked receipts |
-| GPCR or multimer state-atlas planning | [`docs/use-cases.md`](docs/use-cases.md) | Documented planning pattern | receptor and state work plan, prediction and render lane contracts, state summaries |
-| Screening and active learning | [`examples/screening-superpowers`](examples/screening-superpowers) | Local fixture and provider-packet dry run | fanout estimate, shard ledger, ranking rows, selected candidate reports |
-| PDB or EMDB structure mapping | [`recipes/`](recipes/) | Public-data recipes and compact report examples | accession provenance, validation plan, report and figure specifications |
-| Cryo-EM handoff | [`examples/empiar-10204-v0`](examples/empiar-10204-v0) | Public metadata scaffold | CryoCore handoff record and downstream structure-mapping contract |
-| Multi-tool model comparison | [`tools/cofold-scoring-stack.md`](tools/cofold-scoring-stack.md) | Tool and result contract | confidence fields, failure rows, comparison schema, and review criteria |
-| Cloud campaign preparation | [`runpod/`](runpod/) and [`docs/compute-backends.md`](docs/compute-backends.md) | Tracked templates, readiness checks, and ignored runtime packets | budget, license, artifact, cleanup, and closeout requirements |
+| Use | Included Support | Files To Expect |
+| --- | --- | --- |
+| [Plan binder design](examples/pd-l1-binder-design-public) | Validated local example and task generation | Target window, stage plan, ranking schema |
+| [Compare binder toolchains](docs/binder-lane-round.md) | Planning, execution, calibration, and closeout commands | Comparison arms, route plans, execution receipts |
+| [Plan a state atlas](docs/use-cases.md) | GPCR and multimer planning patterns | State work plan, prediction and figure specifications |
+| [Prepare a screen](examples/screening-superpowers) | Local fixture and provider dry run | Work estimate, shard ledger, ranking rows |
+| [Map deposited structures](recipes/) | PDB and EMDB recipes | Accession provenance, validation plan, report specifications |
+| [Prepare a cryo-EM handoff](examples/empiar-10204-v0) | Public metadata scaffold for CryoCore | Handoff record, downstream mapping contract |
+| [Compare predicted models](tools/cofold-scoring-stack.md) | Scoring and review contracts | Confidence fields, failure rows, comparison schema |
+| [Prepare compute](docs/compute-backends.md) | Provider profiles and launch templates | Budget, artifact, and cleanup requirements |
 
-See [`docs/capabilities.md`](docs/capabilities.md) and [`docs/use-cases.md`](docs/use-cases.md) for the full menu.
+See [capabilities](docs/capabilities.md) for execution coverage and
+[use cases](docs/use-cases.md) for campaign prompts.
 
 ## Works With Your Stack
 
@@ -154,15 +161,20 @@ See the [CLI reference](docs/cli-reference.md) for command options and
 
 ## Workflow Stages
 
-![Public workflow ladder](docs/assets/workflow-ladder.svg)
+<p align="center">
+  <img src="docs/assets/workflow-ladder.svg" width="560" alt="Define and validate a campaign, then prepare tasks and routes locally. Optional execution runs selected tools and checks their outputs.">
+</p>
 
-| Stage | Output | Local Check |
-| --- | --- | --- |
-| Inspect | capability catalog and example inventory | `bsf catalog . --format markdown` |
-| Scaffold | campaign manifest, target window, stage contract, and run plan | `bsf validate <campaign>` |
-| Split work | tracker-neutral tasks with dependencies and validation commands | `bsf issue-dry-run <campaign>` |
-| Prepare compute | provider profile, tracked template, and ignored runtime packet | provider and stage-contract checks |
-| Close a run | declared artifacts and counts, hashes, receipts, validation notes, cost record, cleanup proof, and figures or renders | contract self-check plus scientist review |
+You can stop after campaign planning or task preparation. For execution, choose
+configured local tools, hosted APIs, or a compute provider for each stage.
+
+| Checkpoint | Command Or Record |
+| --- | --- |
+| Inspect available capabilities | `bsf catalog . --format markdown` |
+| Validate campaign inputs and stages | `bsf validate <campaign>` |
+| Draft tracker tasks | `bsf issue-dry-run <campaign>` |
+| Check a selected execution route | Provider readiness and stage-contract checks |
+| Review a completed run | Declared files and counts, hashes, receipts, cost record, and cleanup proof |
 
 ## Binder-Design Fast Path
 

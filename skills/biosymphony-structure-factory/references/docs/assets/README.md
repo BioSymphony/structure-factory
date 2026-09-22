@@ -30,15 +30,15 @@ Use this when explaining how a person or agent should begin.
 
 ## `workflow-ladder.svg`
 
-Text equivalent: local scaffold leads to a multi-agent task plan, then a cloud contract, then an operator-gated run, then checked outputs.
+Text equivalent: define and validate a campaign, then prepare tasks and routes locally. Optional execution runs configured tools and checks files, hashes, failures, and cleanup.
 
 Use this when explaining why the public repo is useful even before any provider run.
 
 ## `system-context.svg`
 
-Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory. Structure Factory provides the skill, CLI, scaffolds, contracts, validators, and tool cards that hand checked plans to design, fold, and render tools, compute providers, and trackers.
+Text equivalent: a campaign request enters the CLI and Markdown skills. Templates, validators, tool cards, and provider profiles produce campaign plans, task packs, and run packets.
 
-Use this when explaining what Structure Factory is and where it sits relative to the agent and the tools.
+Use this to introduce the included components and the files they prepare.
 
 ## `agent-lanes.svg`
 
