@@ -1,13 +1,13 @@
 ---
 name: biosymphony-structure-factory
-description: Plan structural biology campaigns, compare binder-design methods, prepare GPU execution contracts, and review structures and candidate rankings. Use for campaign manifests, provider plans, or Symphony and Linear task packs.
+description: Select structural biology tools, call configured adapters, chain stage outputs, and compare computational results. Use for binder-design comparisons, structure prediction, model review, and agent-driven execution.
 ---
 
 # BioSymphony Structure Factory
 
-Prepare a campaign manifest, execution plan, or result report from a target,
-accession, or screening request. Use the repository CLI to validate inputs,
-prepare tasks, and verify outputs.
+Use the tool knowledge base to select methods for a target, accession, or
+screening request. Call configured tools through the CLI or installed platform
+skills, connect stage outputs, and compare structures and candidate rankings.
 
 ## Start with the requested outcome
 
@@ -16,10 +16,11 @@ Read `references/README.md`, `references/AGENTS.md`, and
 
 | Request | Deliverable |
 | --- | --- |
-| Plan a campaign | Target definition, selected tools, stage contracts, and task pack |
+| Choose tools | Methods, input/output requirements, source references, and runtime options |
+| Call and chain tools | Configured adapters, stage dependencies, and checked downstream inputs |
+| Plan a campaign | Target definition, selected tools, and stage contracts |
 | Demonstrate a workflow | Public or synthetic inputs with a labeled example report |
 | Prepare GPU execution | Provider profile, resource limits, launch request, and validation commands |
-| Dispatch tasks | Tracker-neutral tasks with dependencies, owned paths, and acceptance criteria |
 | Review results | Candidate ranking or structure report with source files and validation results |
 | Run a campaign | Authorized execution followed by artifact verification and resource cleanup |
 
@@ -32,6 +33,7 @@ options in `references/docs/cli-reference.md`.
 
 | Task | References |
 | --- | --- |
+| Find methods | [Full tool index](https://github.com/BioSymphony/structure-factory/tree/main/tools), [software registry](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml), `references/docs/tool-and-skill-radar.md` |
 | Select tools and compute | `references/docs/tooling-and-licensing.md`, `references/docs/compute-backends.md` |
 | Plan binder comparisons | `references/docs/binder-lane-round.md`, `references/docs/binder-study-decision-loop.md` |
 | Choose measured controls | `references/docs/binder-controls.md` |
@@ -88,6 +90,13 @@ scientific model and checkpoint identity, and compare against its stock runtime
 before using speed or numerical-equivalence claims.
 
 ## Execute and verify
+
+Use `bsf binder-lane adapter` for one configured tool and `execute` for a
+prepared adapter chain. The public `run` command exercises a synthetic fixture.
+For each adapter handoff, name the source output and downstream input binding;
+`execute` checks the files before it starts dependent stages. Call installed
+platform skills through the agent and verify their declared outputs separately.
+
 
 Before a real start, confirm that authorization covers the chosen route, input
 data, budget, runtime, required terms, and downloads. Reuse an existing approval

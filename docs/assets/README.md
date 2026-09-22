@@ -30,15 +30,19 @@ Use this when explaining how a person or agent should begin.
 
 ## `workflow-ladder.svg`
 
-Text equivalent: define and validate a campaign, then prepare tasks and routes locally. Optional execution runs configured tools and checks files, hashes, failures, and cleanup.
+Text equivalent: prepare inputs, generate candidates, predict structures,
+score and filter, then review candidate rankings and figures. Arrows represent
+files passed between selected tools. Each stage needs a configured route.
 
-Use this when explaining why the public repo is useful even before any provider run.
+Use this to introduce a design-and-review toolchain.
 
 ## `system-context.svg`
 
-Text equivalent: a campaign request enters the CLI and Markdown skills. Templates, validators, tool cards, and provider profiles produce campaign plans, task packs, and run packets.
+Text equivalent: tool knowledge informs the agent's choices. The CLI and
+skills call configured tools, connect checked outputs, and produce structures,
+scores, candidate rankings, and figures.
 
-Use this to introduce the included components and the files they prepare.
+Use this to explain tool discovery, invocation, and chaining.
 
 ## `agent-lanes.svg`
 

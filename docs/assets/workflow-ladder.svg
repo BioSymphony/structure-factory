@@ -1,29 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="634" viewBox="0 0 560 634" role="img" aria-labelledby="title desc">
-<title id="title">Campaign Workflow</title>
-<desc id="desc">Local preparation: define and validate a campaign, then prepare tasks and compute routes. Optional execution: run configured tools after required authorization, then check artifacts, hashes, failures, and cleanup.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="644" viewBox="0 0 560 644" role="img" aria-labelledby="title desc">
+<title id="title">An Example Scientific Toolchain</title>
+<desc id="desc">Prepare inputs, generate candidates with selected design tools, predict structures, score and filter the outputs, and review candidate rankings and figures. Configure tool calls for the selected stages; the arrows represent file handoffs.</desc>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#425b70" stroke-width="1.5"/></marker></defs>
-<rect width="560" height="634" rx="16" fill="#ffffff"/>
+<rect width="560" height="644" rx="16" fill="#ffffff"/>
 <g font-family="Arial, Helvetica, sans-serif">
-<text x="24" y="32" font-size="20" fill="#087e8b">LOCAL PREPARATION</text>
-<rect x="20" y="54" width="520" height="108" rx="12" fill="#e9f7f8" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="87" font-size="25" fill="#087e8b">1. Define The Campaign</text>
-<text x="40" y="119" font-size="22" fill="#425b70">Inputs, stages, and expected files</text>
-<text x="40" y="149.8" font-size="22" fill="#425b70">Validate the campaign contract</text>
-<rect x="20" y="190" width="520" height="108" rx="12" fill="#e9f7f8" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="223" font-size="25" fill="#087e8b">2. Prepare The Work</text>
-<text x="40" y="255" font-size="22" fill="#425b70">Task dependencies and tool routes</text>
-<text x="40" y="285.8" font-size="22" fill="#425b70">Provider setup, budget, and cleanup</text>
-<rect x="20" y="374" width="520" height="108" rx="12" fill="#fff7e9" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="407" font-size="25" fill="#956219">3. Run Selected Tools</text>
-<text x="40" y="439" font-size="22" fill="#425b70">Configured local or hosted tools</text>
-<text x="40" y="469.8" font-size="22" fill="#425b70">Required authorization before execution</text>
-<rect x="20" y="510" width="520" height="108" rx="12" fill="#f0f5fc" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="543" font-size="25" fill="#2563a6">4. Check The Outputs</text>
-<text x="40" y="575" font-size="22" fill="#425b70">File counts, hashes, and failures</text>
-<text x="40" y="605.8" font-size="22" fill="#425b70">Results, review notes, and cleanup proof</text>
-<path d="M280 166 l0 19" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-<text x="24" y="347" font-size="20" fill="#956219">OPTIONAL EXECUTION</text>
-<path d="M280 302 l0 66" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M280 486 l0 19" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="16" width="520" height="96" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="52" font-size="25" fill="#087e8b">1. Prepare Inputs</text>
+<text x="40" y="90" font-size="21" fill="#425b70">Target definition and selected input files</text>
+<path d="M280 116 l0 20" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="142" width="520" height="96" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="178" font-size="25" fill="#087e8b">2. Generate Candidates</text>
+<text x="40" y="216" font-size="21" fill="#425b70">Selected generation and sequence-design tools</text>
+<path d="M280 242 l0 20" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="268" width="520" height="96" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="304" font-size="25" fill="#087e8b">3. Predict Structures</text>
+<text x="40" y="342" font-size="21" fill="#425b70">Selected cofold or structure-prediction models</text>
+<path d="M280 368 l0 20" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="394" width="520" height="96" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="430" font-size="25" fill="#087e8b">4. Score And Filter</text>
+<text x="40" y="468" font-size="21" fill="#425b70">Declared metrics, filters, and failure rows</text>
+<path d="M280 494 l0 20" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="520" width="520" height="96" rx="12" fill="#f0f5fc" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="556" font-size="25" fill="#2563a6">5. Review Candidates</text>
+<text x="40" y="594" font-size="21" fill="#425b70">Candidate rankings and structural figures</text>
 </g>
 </svg>

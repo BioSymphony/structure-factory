@@ -1,30 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="594" viewBox="0 0 560 594" role="img" aria-labelledby="title desc">
-<title id="title">What Structure Factory Includes</title>
-<desc id="desc">A scientist or agent supplies a campaign request. The CLI and Markdown skills use templates, validators, tool cards, and provider profiles to prepare campaign plans, task packs, and run packets.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="568" viewBox="0 0 560 568" role="img" aria-labelledby="title desc">
+<title id="title">Tool Knowledge, Calls, And Chains</title>
+<desc id="desc">Tool cards and source references inform tool selection. The agent and CLI bind configured commands. Adapters connect checked outputs between stages. Scientific outputs include structures, scores, candidate rankings, and figures.</desc>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#425b70" stroke-width="1.5"/></marker></defs>
-<rect width="560" height="594" rx="16" fill="#ffffff"/>
+<rect width="560" height="568" rx="16" fill="#ffffff"/>
 <g font-family="Arial, Helvetica, sans-serif">
-<rect x="20" y="16" width="520" height="86" rx="12" fill="#f2f6fa" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="53" font-size="25" fill="#142d42">Your Campaign Request</text>
-<text x="40" y="88" font-size="21" fill="#425b70">Accession or fixture · goal · limits</text>
-<path d="M280 106 l0 27" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="20" y="140" width="520" height="138" rx="12" fill="#e9f7f8" stroke="#70b9bf" stroke-width="1.5"/>
-<text x="40" y="178" font-size="27" fill="#087e8b">Structure Factory</text>
-<text x="40" y="210" font-size="22" fill="#142d42">bsf CLI + Markdown skills</text>
-<text x="40" y="239" font-size="21" fill="#425b70">Templates · validators · tool cards</text>
-<text x="40" y="265" font-size="21" fill="#425b70">Provider profiles</text>
-<path d="M280 282 l0 26" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="20" y="316" width="520" height="76" rx="12" fill="#f2f6fa" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="362" font-size="23" fill="#2563a6">Campaign Plans</text>
-<text x="258" y="345" font-size="21" fill="#425b70">Inputs and stages</text>
-<text x="258" y="374.4" font-size="21" fill="#425b70">Expected outputs</text>
-<rect x="20" y="408" width="520" height="76" rx="12" fill="#f2f6fa" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="454" font-size="23" fill="#2563a6">Task Packs</text>
-<text x="258" y="437" font-size="21" fill="#425b70">Dependencies</text>
-<text x="258" y="466.4" font-size="21" fill="#425b70">Completion checks</text>
-<rect x="20" y="500" width="520" height="76" rx="12" fill="#f2f6fa" stroke="#c4d1de" stroke-width="1.5"/>
-<text x="40" y="546" font-size="23" fill="#2563a6">Run Packets</text>
-<text x="258" y="529" font-size="21" fill="#425b70">Selected routes</text>
-<text x="258" y="558.4" font-size="21" fill="#425b70">Budget and cleanup</text>
+<rect x="20" y="16" width="520" height="112" rx="12" fill="#f2f6fa" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="51" font-size="25" fill="#2563a6">Tool Knowledge Base</text>
+<text x="40" y="86" font-size="21" fill="#425b70">Method roles, inputs, outputs, and licenses</text>
+<text x="40" y="115.4" font-size="21" fill="#425b70">Source repositories and papers</text>
+<rect x="20" y="156" width="520" height="112" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="191" font-size="25" fill="#087e8b">Your Agent + Structure Factory</text>
+<text x="40" y="226" font-size="21" fill="#425b70">Select tools and bind their inputs</text>
+<text x="40" y="255.4" font-size="21" fill="#425b70">Choose local commands or hosted routes</text>
+<rect x="20" y="296" width="520" height="112" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="331" font-size="25" fill="#087e8b">Tool Calls And Chains</text>
+<text x="40" y="366" font-size="21" fill="#425b70">Run configured adapters or installed skills</text>
+<text x="40" y="395.4" font-size="21" fill="#425b70">Pass checked outputs to the next stage</text>
+<rect x="20" y="436" width="520" height="112" rx="12" fill="#f0f5fc" stroke="#aebfce" stroke-width="1.5"/>
+<text x="40" y="471" font-size="25" fill="#2563a6">Scientific Outputs</text>
+<text x="40" y="506" font-size="21" fill="#425b70">Predicted structures and scores</text>
+<text x="40" y="535.4" font-size="21" fill="#425b70">Candidate rankings and selected figures</text>
+<path d="M280 132 l0 18" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M280 272 l0 18" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M280 412 l0 18" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
 </g>
 </svg>
