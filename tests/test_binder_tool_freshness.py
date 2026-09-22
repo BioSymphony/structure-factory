@@ -67,8 +67,8 @@ class BinderToolFreshnessTests(unittest.TestCase):
 
     def test_replay_predictor_records_match_current_primary_sources(self) -> None:
         protenix = registry_block("protenix")
-        self.assertIn("license_gate: none", protenix)
-        self.assertIn("open_source_apache_2_code_and_model_parameters", protenix)
+        self.assertIn("license_gate: protenix_v2_weight_terms_review", protenix)
+        self.assertIn("apache_2_code_v2_weight_terms_conflict", protenix)
         self.assertIn("Protenix-v2", protenix)
 
         proteinmpnn = registry_block("proteinmpnn")
@@ -98,7 +98,7 @@ class BinderToolFreshnessTests(unittest.TestCase):
         for tool_id in ("esmfold2", "esmfold2-fast", "protenix"):
             self.assertEqual(tool_gates[tool_id], adapter_gates[tool_id])
         self.assertEqual("none", tool_gates["esmfold2"])
-        self.assertEqual("none", tool_gates["protenix"])
+        self.assertEqual("protenix_v2_weight_terms_review", tool_gates["protenix"])
 
     def test_simplefold_is_documented_without_claiming_bundled_execution(self) -> None:
         block = registry_block("simplefold")

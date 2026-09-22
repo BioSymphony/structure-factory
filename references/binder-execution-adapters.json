@@ -752,7 +752,7 @@
       ],
       "roles": ["predictor"],
       "supported_routes": [{"backend": "local", "execution_method": "self_hosted"}],
-      "license_gate": "none",
+      "license_gate": "protenix_v2_weight_terms_review",
       "execution_kind": "external_adapter",
       "program": null,
       "readiness_argv": [],

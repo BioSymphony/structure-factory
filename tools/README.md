@@ -49,6 +49,8 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 ### Cofold, Structure Prediction, And Scoring
 
 - [Cofold scoring stack](cofold-scoring-stack.md). Multi-validator slate plus ipSAE rescore. Reads from the individual cards below.
+- [AtlasFold-M](atlasfold.md). MSA-free protein-complex prediction with a dated source and checkpoint review.
+- [DeCAF-Boltz](decaf.md). Released few-step cofolding sampler with separate structure-only and confidence-enabled checkpoints.
 - [Boltz](boltz.md). Open biomolecular cofold with confidence and full PAE outputs.
 - [Chai-1](chai.md). Open biomolecular cofold with MSA-driven prediction.
 - [OpenDDE](opendde.md). Open all-atom biomolecular cofold/prediction lane with ABAG checkpoint and optional PAE/PDE sidecars.
@@ -94,7 +96,7 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Scaffolded antibodies or multistate AF2 design | [BindCraft2](bindcraft2.md) | [Cofold scoring stack](cofold-scoring-stack.md) with separate results for each target state |
 | Class B GPCR ECD antagonist by peptide mimicry | [Baker miniprotein-GPCR](baker-miniprotein-gpcr.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN), [Cofold scoring stack](cofold-scoring-stack.md) |
 | A protein that changes shape on ligand binding (allostery, AND gate, biosensor) | [SwitchCraft](switchcraft.md) | [Cofold scoring stack](cofold-scoring-stack.md) for the orthogonal switch check |
-| Add a function or effector to a validated binder (fusion construct) | [DOMINO](domino.md) | [Cofold scoring stack](cofold-scoring-stack.md) to prove both modules fold |
+| Compare multidomain fusion constructs | [DOMINO](domino.md) | [Cofold scoring stack](cofold-scoring-stack.md) to inspect predicted domain geometry |
 | Triage or mature antibody variant libraries (sequence-only) | [CoSiNE](cosine.md) | [Cofold scoring stack](cofold-scoring-stack.md) for an orthogonal structural check |
 | Cofold one designed candidate against a target | [Boltz](boltz.md), [Chai-1](chai.md), [OpenDDE](opendde.md), or [OpenFold3](openfold3.md) alone | [Cofold scoring stack](cofold-scoring-stack.md) for multi-validator gating |
 | Check foldability or uncertainty for a public sequence/candidate | [ESMFold2](esmfold2.md) | [Cofold scoring stack](cofold-scoring-stack.md) when interface or binder claims are requested |
@@ -126,6 +128,6 @@ AF2-Multimer, and optional OpenDDE into the validator slate.
 
 ## Important Context
 
-- iPTM alone is increasingly deprecated for binder ranking. Recent benchmarks prefer ipSAE and multi-validator consensus over single-cofolder iPTM.
+- Retain per-predictor confidence and interface scores. Select ranking thresholds using the campaign's controls and documented comparison set.
 - Wet-lab confirmation lives downstream of every card here. The cards describe in silico triage and provenance, not binding proof.
 - For each new target, start with a target-prep step that pins accession, chain, hotspots, and uncertainty. The designer arms expect this target-window file as input.

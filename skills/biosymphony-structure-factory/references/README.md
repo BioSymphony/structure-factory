@@ -1,75 +1,79 @@
-![BioSymphony Structure Factory banner](docs/assets/structure-factory-banner.png)
-
 # BioSymphony Structure Factory
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange.svg)](#status)
 
-BioSymphony Structure Factory gives you and your AI agent a public, reviewable way to plan structural biology campaigns and record their results. It writes and checks campaign manifests, target windows, task packs, provider contracts, candidate reports, figures, and release records.
+BioSymphony Structure Factory creates and validates plans for binder design,
+structure prediction, and model comparison. Scientists and AI agents use its
+`bsf` CLI, Markdown skills, and templates to define inputs, select tools and
+compute providers, and check result files and candidate rankings.
 
-## Claude/Anthropic Binder-Study Lane
+Start with a public accession or a synthetic fixture. Local planning and
+validation need Python 3.10+; individual prediction and design tools have
+separate runtime requirements.
 
-Structure Factory provides an independent lane for the protein-binder workflow described in [Anthropic's public report](https://www-cdn.anthropic.com/30bf50e22a01388bb29bf077ee3f244531594b7a.pdf) and released in the [Claude Protein Binder Design dataset](https://huggingface.co/datasets/Anthropic/claude-protein-binder-design). Start with the [`binder-lane-round` agent skill](skills/binder-lane-round/SKILL.md). The [binder-lane round guide](docs/binder-lane-round.md) documents the CLI and execution contracts, and the [binder-study decision loop](docs/binder-study-decision-loop.md) defines the choices for each round.
+## Start Here
 
-You and your chosen AI agent can replay the published study shape, reproduce the published source-tool identities where the selected route supports them, or record deliberate tool swaps. Choose local, API, FAL, Modal, RunPod, Lambda Cloud, AWS, neocloud, SSH/HPC, or mixed routes by stage. Set budget and runtime ceilings, round and candidate limits, one primary metric, and a stopping rule before execution. Preserve checked outputs with declared counts and hashes, and record receipts, failure rows, cleanup evidence, and selected figures or renders.
-
-![Structure Factory workflow](docs/assets/structure-factory-loop.svg)
-
-Text equivalent: define a biological goal, split it into bounded lanes, prepare local or cloud contracts, and check the resulting artifacts and reports.
-
-Structure Factory represents a structural biology campaign as files that agents and scientists can inspect:
-
-```text
-biological goal
-  -> target window or structure set
-  -> agent lanes (design, fold, score, render, screen)
-  -> local or cloud compute plan
-  -> checked outputs and candidate rankings
-  -> reports, figures, and next-step work
-```
-
-The repository includes campaign scaffolds, agent instructions, task templates, provider profiles, validators, the `bsf` CLI, and public examples.
+| To | Start With |
+| --- | --- |
+| Plan a campaign with an AI agent | [Structure Factory skill](skills/biosymphony-structure-factory/SKILL.md) and [campaign brief](#how-to-use-this) |
+| Compare binder-design methods | [Binder-lane round guide](docs/binder-lane-round.md) |
+| Try the local CLI | [Install and inspect the example](#inspect-or-run-the-repo-yourself) |
+| Choose a tool | [Tool radar](docs/tool-and-skill-radar.md) and [tool cards](tools/README.md) |
+| Create tracker tasks | [Workflow map](docs/workflow-map.md) and `bsf issue-dry-run` |
 
 ## How To Use This
 
-Point any AI agent that can read Markdown skills at this repository. Tell it to use the [BioSymphony Structure Factory skill](skills/biosymphony-structure-factory/SKILL.md), then give it the following campaign brief.
-
-1. **Target and site.** Choose a public PDB, EMDB, or UniProt accession, or a synthetic fixture. Name the target chain or chains and a bounded residue window or site-selection rule.
-2. **Goal and lanes.** Choose binder design, structure mapping, model comparison, screening, a state atlas, a CryoCore handoff, or another documented campaign shape. Select design, fold or cofold, score, render, and screen lanes as needed.
-3. **Comparison method.** To repeat or extend Anthropic's published binder-design study, choose an exact source-tool replay, a workflow-shape replay, a deliberate tool swap, or a replay-and-swap comparison. A workflow-shape replay preserves the published stages without claiming the source tool identities.
-4. **Tools and routes.** Choose a user-supplied platform skill, hosted API client, self-hosted local tool, FAL, Modal, RunPod, Lambda Cloud, AWS, neocloud, SSH/HPC, or a mixed route for each stage.
-5. **Run limits.** Set the spend ceiling, runtime cap, round count, candidate count, primary metric, and stopping rule before the first run.
-6. **Closeout.** Declare expected files and counts, hashes, stage or provider receipts, failure-row handling, cleanup evidence, and any visual-review outputs such as figures or renders.
-
-Ask the agent to validate the request, materialize the handoff, and dry-run the selected adapter or client. When a selected record says `adapter_required`, add a validated adapter registry below `.runtime/`; a platform-skill route instead writes its declared outputs and closes them with the same output contract. A provider profile records route requirements. A successful dry run records adapter or client readiness.
-
-Obtain explicit human authorization before a paid provider start, non-public upload, terms acceptance, or large or license-gated download. The approval names the route, data posture, budget, runtime, and applicable terms.
+Give your agent the [Structure Factory skill](skills/biosymphony-structure-factory/SKILL.md)
+and a campaign brief.
 
 ### Copyable Campaign Brief
 
 ```text
 Use the BioSymphony Structure Factory skill in this repository.
-Target and site: <public accession or synthetic fixture; chain(s); residue window or site rule>.
-Goal and lanes: <campaign goal; design/fold/score/render/screen lanes>.
-Comparison: <source-tool replay, workflow-shape replay, deliberate tool swap, or no comparison>.
-Routes: <one route per stage: local, API, platform skill, FAL, Modal, RunPod, Lambda Cloud, AWS, neocloud, SSH/HPC, or mixed>.
-Limits: <budget, runtime cap, rounds, candidates per arm, primary metric, stopping rule>.
-Closeout: <expected outputs and counts, hashes, receipts, cleanup evidence, figures or renders>.
-Validate the request, prepare the handoff, dry-run selected routes, and list any authorization required before execution.
+Target: <public accession or synthetic fixture; chains; residue window or site rule>.
+Goal: <design, predict, compare models, screen, map structures, or render>.
+Comparison: <source-tool replay, workflow-shape replay, deliberate tool swap, or none>.
+Routes: <local tool, hosted API, platform skill, or compute provider for each stage>.
+Limits: <budget, runtime, rounds, candidates, primary metric, stopping rule>.
+Outputs: <expected files and counts, hashes, receipts, cleanup evidence, figures>.
+Validate the request, prepare the handoff files, and dry-run the selected routes.
+List any authorization required before execution.
 ```
 
-You can also run the CLI directly. See [Inspect Or Run The Repo Yourself](#inspect-or-run-the-repo-yourself).
+The agent writes campaign and stage contracts, validates them, and prepares
+adapter inputs. An `adapter_required` record needs a validated adapter under
+ignored `.runtime/`; a platform-skill route must produce the same declared
+outputs. A dry run checks the route's configuration.
+
+Obtain explicit human authorization before a paid provider start, non-public upload, terms acceptance, or large or license-gated download. The approval names the route, data posture, budget, runtime, and applicable terms.
 
 ## Hand A Mission To An Agent
 
-> Use the BioSymphony Structure Factory skill. Plan a public binder comparison for PDB 4ZQK at the documented PD-1/PD-L1 interface. Compare a workflow-shape replay with a deliberate tool-swap arm, use local filtering and a hosted cofold API route, set a $75 and three-round limit, and close each stage with counts, hashes, receipts, and a ranked figure-ready report.
+> Use the Structure Factory skill to plan a GPCR activation-state atlas from public PDB accessions. Prepare per-state prediction and render contracts, with expected summaries, figures, and provenance. Stop after local validation.
 
-> Use the Structure Factory skill. Build a GPCR activation-state atlas from public PDB accessions. Use local preparation, an SSH/HPC prediction route, and a render route, then produce per-state summaries and visual-review outputs with provenance and hashes.
+[Use cases](docs/use-cases.md) contains more prompts for binder comparison,
+screening, structure mapping, and CryoCore handoffs.
 
-> Use the Structure Factory skill. Record a public EMPIAR handoff for CryoCore, then plan the downstream structure-mapping workflow and figure pack. Prepare an AWS Batch render contract after local validation.
+## Claude/Anthropic Binder-Study Lane
 
-Find more prompts in [`docs/use-cases.md`](docs/use-cases.md). Read the tool and lane reference in [`tools/`](tools/).
+The [binder-lane skill](skills/binder-lane-round/SKILL.md) implements an independent
+workflow based on [Anthropic's public report](https://www-cdn.anthropic.com/30bf50e22a01388bb29bf077ee3f244531594b7a.pdf)
+and [released binder-design dataset](https://huggingface.co/datasets/Anthropic/claude-protein-binder-design).
+Choose a source-tool replay where the selected route supports those identities,
+a workflow-shape replay that preserves the stages, or a deliberate tool swap.
+
+The [round guide](docs/binder-lane-round.md) documents execution and result
+contracts. The [decision loop](docs/binder-study-decision-loop.md) records the
+choices for each round. Keep targets, controls, scoring, and failure handling
+consistent across ranked comparison arms; label different methods exploratory.
+
+## When To Use This
+
+Use Structure Factory to define campaign inputs and outputs, divide work into
+stages, prepare compute, or compare computational results. The following table
+distinguishes runnable local checks, execution contracts, and planning patterns.
 
 ## What Users And Their Agents Can Run
 
@@ -86,63 +90,22 @@ Find more prompts in [`docs/use-cases.md`](docs/use-cases.md). Read the tool and
 
 See [`docs/capabilities.md`](docs/capabilities.md) and [`docs/use-cases.md`](docs/use-cases.md) for the full menu.
 
-![Agent lanes: one goal splits into design, fold, score, render, and screen lanes, each using selected tools and returning a ranked report](docs/assets/agent-lanes.svg)
-
-Text equivalent: one campaign goal splits into design, fold or cofold, score or triage, render, and screen lanes. Each lane can use its selected tools and returns a ranked, checked report with candidates, confidence, failure rows, figures, and provenance.
-
 ## Works With Your Stack
 
-- **Agents and trackers:** the Markdown skill and task packs work with Codex, Claude Code, Symphony with Linear, GitHub Issues, and other systems that read the same files.
-- **Execution routes:** stage contracts cover local workstations, hosted APIs, platform skills, FAL, Modal, RunPod, Lambda Cloud, AWS, generic cloud VMs, neocloud pods, and SSH/HPC. A campaign can mix routes by stage.
-- **Tool records and adapters:** tool cards cover design, prediction, scoring, refinement, rendering, target preparation, and screening. Read [`references/software-registry.yaml`](references/software-registry.yaml) for recorded status and [`docs/tooling-and-licensing.md`](docs/tooling-and-licensing.md) before runtime use. Add a validated `.runtime/` adapter when the selected route needs one.
+Markdown skills and tracker-neutral task packs work with Codex, Claude Code,
+Symphony with Linear, GitHub Issues, and other systems that read the same files.
 
-## Start Here
+Stage contracts cover local tools, hosted APIs, platform skills, FAL, Modal,
+RunPod, Lambda Cloud, AWS, neocloud VMs, and SSH/HPC. A campaign can mix routes.
+Provider profiles record setup requirements; runtime readiness depends on the
+selected adapter and tool.
 
-Read [`docs/workflow-map.md`](docs/workflow-map.md), then pick a path:
-
-| Path | Best For | First Move |
-| --- | --- | --- |
-| Agent skill | Handing a bounded brief to your chosen AI agent | Tell the agent: `Use the BioSymphony Structure Factory skill.` |
-| Multi-agent plan | Campaign with durable state in Linear or GitHub Issues | Ask the agent to run `bsf issue-dry-run` on a public example |
-| Recipe | Following a tested playbook | Open [`recipes/pd-l1-binder-design-fast-path.md`](recipes/pd-l1-binder-design-fast-path.md) |
-| CLI directly | Running locally without an agent | See [Inspect Or Run The Repo Yourself](#inspect-or-run-the-repo-yourself) |
-
-![Newcomer paths](docs/assets/newcomer-paths.svg)
-
-Text equivalent: begin with the agent skill for planned multi-step work, a multi-agent task plan for campaigns, recipes for known workflows, or the CLI when you want to drive it yourself.
-
-## Workflow Stages
-
-![Public workflow ladder](docs/assets/workflow-ladder.svg)
-
-Text equivalent: local planning leads to a task plan, an execution contract, explicit approval when required, and checked outputs.
-
-| Stage | Output | Local Check |
-| --- | --- | --- |
-| Inspect | capability catalog and example inventory | `bsf catalog . --format markdown` |
-| Scaffold | campaign manifest, target window, stage contract, and run plan | `bsf validate <campaign>` |
-| Split work | tracker-neutral tasks with dependencies and validation commands | `bsf issue-dry-run <campaign>` |
-| Prepare compute | provider profile, tracked template, and ignored runtime packet | provider and stage-contract checks |
-| Close a run | declared artifacts and counts, hashes, receipts, validation notes, cost record, cleanup proof, and figures or renders | contract self-check plus scientist review |
-
-## When To Use This
-
-Use Structure Factory when a user, Linear ticket, or orchestrator asks for one of these:
-
-- a binder-design campaign scaffold from a public target structure
-- a target-window plan for a protein-protein interface
-- a Genie or RFdiffusion-style generation plan with Boltz-style cofold triage
-- a GPCR, receptor-state, or multimer-state atlas with state summaries and renders
-- a screening or active-learning fixture with fanout and shard ledgers
-- a model-comparison or structure-mapping plan across predictive and experimental tools
-- a RunPod, cloud, HPC, or local GPU launch packet with budget and cleanup
-- a publication-style structural report with provenance
-
-Result boundaries live in [`NON_CLAIMS.md`](NON_CLAIMS.md) and [`BIOSAFETY.md`](BIOSAFETY.md).
+Check the [software registry](references/software-registry.yaml) and
+[tooling and licensing guide](docs/tooling-and-licensing.md) before execution.
 
 ## Inspect Or Run The Repo Yourself
 
-Run these commands to inspect the generated contracts or use the repository without an orchestrator.
+Install the CLI and check the public example:
 
 ```bash
 git clone https://github.com/BioSymphony/structure-factory.git
@@ -156,11 +119,13 @@ bsf doctor .                                       # local setup and contract ch
 bsf catalog . --format markdown                    # what the repo offers
 bsf validate examples/pd-l1-binder-design-public   # validate the flagship example
 bsf audit .                                        # release-blocker scan
-bsf harness-check .                                # load-bearing surface intact
+bsf harness-check .                                # required files and references
 make read-only-audit                               # reviewer checks, no .runtime writes
 ```
 
-The starter path is local-only and needs no GPU, provider account, network volume, or paid compute. `make read-only-audit` does not write `.runtime/`. `issue-dry-run` writes tracker-neutral Markdown under `.runtime/`, which is ignored and removable with `make clean`.
+These checks run locally without a GPU or provider account.
+`make read-only-audit` leaves `.runtime/` unchanged. The scaffold and task-draft
+commands write there; `make clean` removes those generated files.
 
 Scaffold a campaign:
 
@@ -180,43 +145,41 @@ bsf issue-dry-run examples/pd-l1-binder-design-public \
   --out .runtime/pd-l1-issues
 ```
 
-`issue-dry-run` adapts the task plan to the campaign mode, so binder-design, model comparison, structure mapping, and screening scaffolds produce different wave prefixes and acceptance criteria.
+`issue-dry-run` selects task names and acceptance criteria for the campaign mode.
 
-See [`docs/quickstart-tour.md`](docs/quickstart-tour.md), [`docs/cli-reference.md`](docs/cli-reference.md), [`docs/agent-recipes.md`](docs/agent-recipes.md), [`docs/agentic-biology-harness.md`](docs/agentic-biology-harness.md), and [`docs/skill-install.md`](docs/skill-install.md) for the full workflow.
+See the [CLI reference](docs/cli-reference.md) for command options and
+[skill installation guide](docs/skill-install.md) for agent setup.
 
-## BioSymphony Harness
+## Workflow Stages
 
-The public harness provides:
+![Public workflow ladder](docs/assets/workflow-ladder.svg)
 
-- portable agent instructions at [`skills/biosymphony-structure-factory/SKILL.md`](skills/biosymphony-structure-factory/SKILL.md)
-- tracker-neutral Symphony and Linear task templates under [`packs/`](packs/)
-- RunPod and cloud launch contracts under [`runpod/`](runpod/)
-- tool cards for design, cofolding, refinement, and visualization under [`tools/`](tools/)
-- JSON schemas, validators, and audit gates for biological agent work
-- a capability catalog: `bsf catalog . --format markdown`
-- a local scaffold command: `bsf scaffold-campaign`
-
-[`docs/agentic-biology-harness.md`](docs/agentic-biology-harness.md) defines how an orchestrator reads these contracts and records closeout evidence.
-
-![Where Structure Factory sits: your orchestrator drives Structure Factory, which prepares checked plans for design and prediction tools, compute providers, and trackers](docs/assets/system-context.svg)
-
-Text equivalent: your orchestrator (Claude Code, Codex, Symphony with Linear, or any skill-reading runtime) drives Structure Factory. Structure Factory provides the skill, CLI, scaffolds, contracts, validators, and tool cards that hand checked plans to design, fold, and render tools, compute providers, and trackers.
-
-A campaign can stop after local planning, task generation, or provider preparation. To continue, create ignored runtime bindings or packets, validate the selected adapter, and obtain explicit human authorization. Runtime artifacts stay outside tracked git files.
+| Stage | Output | Local Check |
+| --- | --- | --- |
+| Inspect | capability catalog and example inventory | `bsf catalog . --format markdown` |
+| Scaffold | campaign manifest, target window, stage contract, and run plan | `bsf validate <campaign>` |
+| Split work | tracker-neutral tasks with dependencies and validation commands | `bsf issue-dry-run <campaign>` |
+| Prepare compute | provider profile, tracked template, and ignored runtime packet | provider and stage-contract checks |
+| Close a run | declared artifacts and counts, hashes, receipts, validation notes, cost record, cleanup proof, and figures or renders | contract self-check plus scientist review |
 
 ## Binder-Design Fast Path
 
-The starter example is [`examples/pd-l1-binder-design-public`](examples/pd-l1-binder-design-public). It contains these steps:
+The [PD-L1 example](examples/pd-l1-binder-design-public) includes a target window
+for PDB `4ZQK`, generation and cofold plans, a candidate-ranking schema, and
+result labels. Follow the [fast-path recipe](recipes/pd-l1-binder-design-fast-path.md)
+to validate the example and generate task drafts.
 
-1. Define a public target window from PDB `4ZQK`.
-2. Declare hotspot-conditioned binder-generation lanes.
-3. Record GPU runtime, license, and use-context requirements.
-4. Generate a candidate-ranking plan.
-5. Keep output labels tied to the completed work.
+Before a comparative generation run, use `target-check --plan <plan.json>` to
+check the coordinate input. The example covers computational preparation;
+result boundaries are defined in [NON_CLAIMS.md](NON_CLAIMS.md).
 
-The example checks target preparation, generation and cofold plans, a ranking schema, and result labels. Wet-lab validation and binding confirmation happen outside the repository.
+## BioSymphony Harness
 
-For comparative rounds, keep the target, controls, prediction panel, scoring, and failure policy consistent across ranked arms. Record comparisons with different methods as exploratory. Before generation, run `target-check --plan <plan.json>` on the coordinate input.
+The [agentic biology harness](docs/agentic-biology-harness.md) defines how an
+orchestrator reads campaign contracts, assigns tracker-neutral tasks from
+[`packs/`](packs/), and checks completion. Campaigns can stop after planning,
+task generation, or provider preparation. Execution records and generated
+artifacts stay in runtime storage.
 
 ## Newcomer Resources
 

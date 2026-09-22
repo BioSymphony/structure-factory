@@ -8,10 +8,17 @@ stack.
 
 ## Public Status
 
-The upstream project states that Apache-2.0 covers its code and model
-parameters. The public repository imposes no additional license gate on that
-route. Runtime readiness still depends on the selected package or source
-revision, model download, MSA path, GPU, and adapter.
+Reviewed 2026-09-22. The [pinned upstream README](https://github.com/bytedance/Protenix/blob/85767b811c40ed46e73a9b39519cf6bfca8701ba/README.md)
+contains conflicting weight notices: its v2 release section restricts transfer
+of v2 parameters, but its License section describes all parameters as Apache-2.0.
+The source code has an Apache-2.0 license. Resolve the exact checkpoint's terms
+before acquiring, running, hosting, or redistributing Protenix-v2 weights.
+The registry and public adapter record use `protenix_v2_weight_terms_review`.
+
+The public adapter also applies this review gate to an unqualified Protenix
+selection until its checkpoint identity is resolved. A v1 route needs its own
+explicit model and terms record. Record v1 and v2 as separate model identities. Runtime requirements include the
+source revision, parameter hash, MSA route, GPU, and validated adapter.
 
 ## Routes
 

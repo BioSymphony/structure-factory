@@ -444,10 +444,8 @@ HARNESS_TEXT_REQUIREMENTS = {
         "Remote Gate",
     ],
     "docs/tool-and-skill-radar.md": [
-        "planning snapshot",
-        "Runtime Gated",
-        "Review Required",
-        "Export Priorities",
+        "references/software-registry.yaml",
+        "tools/README.md",
     ],
     "tools/README.md": [
         "Tool Cards",

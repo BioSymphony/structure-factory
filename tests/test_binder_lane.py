@@ -363,6 +363,9 @@ class BinderLaneTests(unittest.TestCase):
             toolchain["predictors"] = copy.deepcopy(exact_predictors)
             toolchain["scorers"] = copy.deepcopy(exact_scorers)
 
+        with self.assertRaisesRegex(binder_lane.BinderLaneError, "protenix_v2_weight_terms_review"):
+            binder_lane.plan_request(request, self.ledger(), ROOT)
+        request["license_policy"]["allowed_gates"].append("protenix_v2_weight_terms_review")
         plan = binder_lane.plan_request(request, self.ledger(), ROOT)
         self.assertEqual(
             ["esmfold2-fast", "esmfold2-full", "protenix-v2"],

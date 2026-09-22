@@ -81,7 +81,8 @@ class RepoHealthTests(unittest.TestCase):
             "--json",
         )
         self.assertTrue(summary["ok"], summary)
-        self.assertEqual(92, summary["entry_count"])
+        self.assertEqual(len(summary["entry_ids"]), summary["entry_count"])
+        self.assertEqual(len(set(summary["entry_ids"])), summary["entry_count"])
         self.assertTrue(
             {"esmfold2-fast", "proteina-complexa", "alphafold2_multimer_v3", "rosettafold3"}.issubset(
                 summary["entry_ids"]

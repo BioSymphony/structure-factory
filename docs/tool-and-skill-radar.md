@@ -1,87 +1,68 @@
-# Tool And Skill Radar
+# Tool and skill radar
 
-Snapshot date: 2026-09-21
+Reviewed 2026-09-22. These source reviews identify useful additions and changed
+releases. Dates in the table refer to papers or releases; they do not establish
+installation or measured performance. The software registry (`references/software-registry.yaml`) records tool
+posture, and the tool index (`tools/README.md`) describes existing contracts.
 
-This is a planning snapshot, not legal advice and not a current license determination. Before installing, baking into an image, running, or redistributing any third-party tool, recheck the primary source terms and record the user's intended use context.
+## Prediction and design
 
-## Current Candidate Additions
+| Tool and dated evidence | Useful addition | Required record or unresolved question |
+| --- | --- | --- |
+| [AtlasFold-M](https://github.com/SeonghwanSeo/atlasfold/blob/8ab3aca0e18c8b814d5ca6756b2617a07d72c68d/README.md), [September 2026 preprint](https://www.biorxiv.org/content/10.64898/2026.09.04.749352v2) | MSA-free protein-complex prediction | Model/AtlasLM hashes, chain mapping, emitted confidence fields, and reference comparison. Code and weights state MIT terms. |
+| [DeCAF-Boltz](https://github.com/genesistherapeutics/decaf/blob/471477e0e786f91bae77d4cebf4b7d14901bc174/README.md), [June 2026 preprint](https://arxiv.org/abs/2606.08375) | Released few-step cofolding code and weights | Structure-only and confidence-enabled checkpoints differ. Compare geometry, confidence, and timing at matched budgets. |
+| [Odin-Multi](https://github.com/DigBioLab/odin_multi), [September 2026 preprint](https://www.biorxiv.org/content/10.64898/2026.09.08.749745v1) | Shared-sequence design across multiple contexts | Per-context results and input hashes; MIT source with separate AF2/ColabDesign and optional AF3 terms. Source review only. |
+| [ODesign](https://github.com/OTeam-AI4S/ODesign), [October 2025 report](https://arxiv.org/abs/2510.22304) | All-atom generative modeling across molecular types | Exact checkpoint/component terms, input schema, output counts, and independent scoring. Upstream states Apache-2.0 for code and parameters. |
+| [Protenix-v2](https://github.com/bytedance/Protenix/blob/85767b811c40ed46e73a9b39519cf6bfca8701ba/README.md), April 2026 release | Existing cofolding identity with a changed terms record | The reviewed README contains conflicting v2-specific and blanket weight notices. Resolve exact checkpoint terms before use; registry gate applies. |
+| [OpenFold3 v0.5.0 / OpenBind-0](https://github.com/aqlaboratory/openfold-3/releases/tag/v0.5.0), August 2026 release | Existing all-atom predictor | Preserve source, parameter filename/hash, and model identity. Distinguish the parameter set from the separate OpenBind benchmark dataset. |
 
-These are unvalidated watchlist entries from a fresh public-source pass. They are useful enough to keep in the public tool knowledge base, but they are not promoted dependencies until a smoke run emits the named contract and the current license/use-context check is recorded.
+## Evaluation and deposited evidence
 
-| Candidate | Fit | First Structure Factory Contract | Gate |
-| --- | --- | --- | --- |
-| [BindCraft2](../tools/bindcraft2.md) | AF2/ProteinMPNN design for proteins, peptides, scaffolded antibodies, and multistate objectives. | Attempt and candidate tables, ranked complexes, resolved settings, checkpoint hashes, and downstream scores. | Execution adapter; bounded GPU allocation and attempts; hosting-restricted source license and component terms. |
-| [BindCraft](https://github.com/martinpacesa/BindCraft) | High-fit protein binder design pipeline using AF2 backpropagation, MPNN, and PyRosetta. | `bindcraft_designs/`, filter ledger, `design_manifest.json`, downstream cofold scorecards. | PyRosetta, AF2 weights, dependency terms, and target-use context. |
-| [Proto](https://github.com/evo-design/proto-language) | Biological design programming layer for composing sequences, generators, constraints, and optimizers. | `proto_program.json`, `proto_run_manifest.json`, exported assets, version ledger. | Hosted API/MCP input policy, runtime credential handling, tool wrappers, caches, and export shape. |
-| [AlloGen](https://huggingface.co/ChatterjeeLab/AlloGen) | State-selective allosteric protein-design scorer/generator candidate for apo/holo comparison lanes. | `allogen_manifest.json`, `allogen_scores.json`, selectivity ranking. | Checkpoint terms, input policy, generator provenance, and orthogonal structure scoring. |
-| [BinderFlow](https://github.com/cryoEM-CNIO/BinderFlow) | Binder campaign pipeline/benchmark candidate for comparison lanes. | `binderflow_manifest.json`, benchmark table, cofold handoff ledger. | Repo, dependency, and runtime review. |
-| [ProteinDJ](https://github.com/PapenfussLab/proteindj) | Protein design pipeline watchlist item. | `proteindj_manifest.json`, design batch, validator scorecards. | Repo, weights, and independent validation review. |
-| [Promera](https://github.com/bjing2016/promera) | Unified cofolding plus minibinder/nanobody design model in the Boltz-family lane. | `promera_manifest.json`, cofold/design outputs, confidence sidecars, downstream cofold scorecards. | Repo, weights, MSA setup, confidence output shape, and independent scoring. |
-| [DeCAF](https://github.com/genesistherapeutics/decaf) | Few-step cofolding accelerator watchlist for high-throughput triage if released weights support useful confidence outputs. | `decaf_manifest.json`, speed/quality smoke table, confidence sidecars. | Code/weight release, PAE or confidence output, complex-type support, and ranking smoke. |
-| [DockQ](https://github.com/wallnerlab/DockQ) v2 | Reference-based interface scoring for protein, nucleic-acid, and small-molecule docking models. | `interface_quality_scores.tsv`, chain mapping, reference complex ledger. | Requires a suitable reference complex and current package check. |
-| [BioEmu](https://github.com/microsoft/bioemu) | Protein monomer ensemble sampling for flexibility-risk review. | `bioemu_ensembles/`, `ensemble_manifest.json`, `flexibility_risk_report.json`. | Model caches, AF2/ColabFold-related weights, MSA posture, and monomer-only boundary. |
-| [MolViewSpec](https://github.com/molstar/mol-view-spec) | Portable molecular-view state files for review packets and static reports. | `molviewspec_states/`, `structure_view_manifest.json`. | Keep states compact and avoid heavy generated structures in git. |
-| [MolPAL](https://github.com/coleygroup/molpal) | Active-learning tranche planner for large screening libraries. | `active_learning_tranches.json`, `acquisition_report.json`. | Score-provider, library-policy, and external execution review. |
-| [PoseBusters](https://github.com/maabuu/posebusters) | Pose plausibility checks for generated or docked ligand poses. | `pose_validity.jsonl`, `pose_quality_ledger.json`. | Pose-quality evidence only; not binding or affinity proof. |
-| [Workflow Run RO-Crate](https://www.researchobject.org/workflow-run-crate/) | Provenance envelope for provider closeout and artifact bundles. | `ro-crate-metadata.json` with public path-omission policy. | Profile mapping and private-path omission review. |
-| [nf-core/proteinfold](https://github.com/nf-core/proteinfold) | Nextflow folding workflow candidate once Structure Factory contracts are mapped. | `proteinfold_launch_manifest.json`, `tool_versions.yml`, Nextflow report. | Wrapped tool, database, weight, and container-digest review. |
-| [PDBe MCP Servers](https://github.com/pdbeurope/pdbe-mcp-servers) | Agent-accessible public structure metadata lookup. | `resolved_accessions.json`, source/citation ledger. | Public accession queries only; do not send private biological inputs. |
-| [DynaMight](https://github.com/3dem/DynaMight) and cryoDRGN-AI-style tools | Cryo-EM heterogeneity and ensemble-context watchlist. | `heterogeneity_report.json`, model/version ledger. | CryoCore boundary, map/data posture, and weight/license review. |
-| [FoldMason](https://github.com/steineggerlab/foldmason) | Fast multi-structure alignment and tree/report generation. | `structure_alignment.a3m`, `structure_alignment.html`, `structure_tree.nwk`. | License/source check and reference-structure provenance. |
-| [BioNeMo Inference Runtime](../tools/bioir.md) | Optimized runtime beneath supported AF2/OpenFold2, Boltz, and OpenFold3 model contracts. | Runtime/checkpoint manifest, predictions, confidence sidecars, matched implementation comparison. | Compatible Linux/NVIDIA runtime, exact checkpoint terms, model-specific adapter, and confidence-scale check. |
-| [SimpleFold-Turbo](../tools/simplefold-turbo.md) | TeaCache acceleration candidate for Apple SimpleFold. | Matched baseline/uncached/cached outputs, forward-count trace, timing and geometry report. | Apple model terms, asset hashes, matched sampler settings, and adapter. |
-| [PATCHR](../tools/patchr.md) | Missing-region completion with template-constrained and boundary-refinement diffusion. | Region masks, repaired structure, coordinate-drift report, structure validation. | Dependencies/checkpoint, molecule support, boundary settings, and measured fixed-region drift. |
-| [Anthropic inference optimization kits](../tools/anthropic-optimization-kits.md) | Runtime acceleration layers for 36 pinned protein and genomics tool stacks. | Kit/stock manifest, activation and lever records, cold/warm timing, memory, equality or numerical-delta report. | Exact stack match, isolated hooks, per-kit licenses/notices/weights, card support, adapter, and matched baseline. |
+| Tool and dated evidence | Useful addition | Required record or unresolved question |
+| --- | --- | --- |
+| [PSBench](https://github.com/BioinfoMachineLearning/PSBench), [May 2025 paper](https://arxiv.org/abs/2505.22674) | Protein-complex model-accuracy calibration with CASP splits | Split identifiers, reference metrics, and calibration table. MIT code; review dataset terms separately. Keep the model corpus external. |
+| [PoseBench v1.1.0](https://pypi.org/project/posebench/1.1.0/), March 2026 package | Protein-ligand benchmark with corrected scoring | [Upstream](https://github.com/BioinfoMachineLearning/PoseBench) reports a v1.0.0 ligand-scoring bug. Rerun affected comparisons with a pinned corrected version. |
+| [ProLIF v2.2.2](https://github.com/chemosim-lab/ProLIF/releases/tag/v2.2.2), September 20, 2026 UTC release | Interaction fingerprints alongside pose geometry | Reference-pose provenance, atom mapping, and interaction recovery table. Apache-2.0 code; recovery requires a reference. |
+| [RCSB validation API](https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/newsletters/2025q3/query.html), 2025 Q3 update | Deposited experimental-fit and geometry summaries | Accession, report version, retrieval time, source URL, and available validation fields. Map reconstruction remains a CryoCore task. |
 
-## Ready In The Public Harness
+Confidence, reference similarity, and interaction recovery measure different
+properties. Select ranking thresholds against the campaign's controls and
+report per-model scores and missing outputs.
 
-- Public campaign contracts, stage contracts, provider profiles, task packs, validators, and audit gates.
-- Local no-download examples for PD-L1 binder-design planning and screening fixture runs.
-- Tracked RunPod bridge templates that document required fields without embedding live payloads, provider identifiers, or approvals.
-- Portable agent instructions and Symphony and tracker-neutral task packs for `sym:structure-factory`.
-- A machine-readable software registry for planned, gated, and pinned tool lanes: `references/software-registry.yaml`.
+## Agent retrieval and workflow tools
 
-## Open Or Default Scaffolding
+| Tool and dated evidence | Useful addition | Required record or unresolved question |
+| --- | --- | --- |
+| [RCSB MCP](https://github.com/rcsb/rcsb-mcp), [v0.15.0 August 2026](https://pypi.org/project/rcsb-mcp/0.15.0/) | Structure, entity, assembly, and sequence-coordinate retrieval | Query/version, normalized accessions, source URLs, retrieval time, and incomplete responses. MIT code; integrated data retain source terms. |
+| [PDBe MCP](https://github.com/PDBeurope/PDBe-MCP-Servers), [v1.1.6 July 2026](https://pypi.org/project/pdbe-mcp-server/) | PDBe REST and Solr searches | Record API version and fields. Graph tools require a separately available Neo4j database. Apache-2.0 code. |
+| [Noodle](https://github.com/helena-bioinformatics/noodle-mcp), [v0.2.0 August 2026](https://zenodo.org/records/22166486) | Biomedical paper retrieval and bounded citation graphs | DOI/PMID, primary-paper links, corpus date, and response hash. Apache-2.0 code; [hosted privacy terms](https://noodle.helena.bio/privacy) govern queries. |
+| [EMICSS](https://www.ebi.ac.uk/emdb/emicss), [September 2025 paper](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbaf203/8248485) | EMDB cross-references for metadata handoffs | Entry and collection dates, linked accessions, annotation conflicts, and source terms. Retain compact records rather than maps. |
+| [Prosculpt](https://github.com/ajasja/prosculpt), [June 2026 preprint](https://www.biorxiv.org/content/10.64898/2026.06.25.732351v1) | YAML orchestration of existing design and prediction tools | Component versions, stage outputs, and restart state. BSD-3-Clause wrapper; components keep their terms. |
+| [ProteinDJ v3](https://github.com/PapenfussLab/proteindj), [January 2026 publication](https://doi.org/10.1002/pro.70464) | Nextflow/Apptainer design workflow | Preserve major version, container identities, model-cache terms, and output mapping. Upstream labels its license MIT (Modified). |
+| [RO-Crate 1.3](https://github.com/ResearchObject/ro-crate/releases), June 2026 recommendation | Versioned provenance envelope | Pin the [Workflow Run profile](https://www.researchobject.org/workflow-run-crate/), context, validator, and artifact hashes. Review payload licenses separately. |
 
-These are suitable for public mention and scaffolded planning after normal citation and current-term checks:
+## Ensembles and model inputs
 
-- Boltz-style cofolding and confidence extraction.
-- ProteinMPNN or LigandMPNN-style sequence design lanes.
-- RDKit, AutoDock Vina, OpenMM, GROMACS, gemmi, Mol*, MolViewSpec, Blender, and open-source PyMOL builds.
-- MolPAL-style active-learning planning and PoseBusters-style pose plausibility checks when ligand libraries and pose files are public fixtures or operator-approved runtime artifacts.
-- ModelAngelo-style model building where weights and downloads are handled through reviewed runtime caches.
+| Tool and dated evidence | Useful addition | Required record or unresolved question |
+| --- | --- | --- |
+| [ConfRover](https://github.com/ByteDance-Seed/ConfRover), November 2025 release | Single-chain temporal sampling and state interpolation | Checkpoint identity, input-frame hashes, frame count/stride, and trajectory summary. Upstream states Apache-2.0 for code and weights. |
+| [PAR](https://github.com/bytedance-Seed/par-protein), [February 2026 preprint, revised May](https://arxiv.org/abs/2602.04883) | Multiscale backbone completion and scaffolding | Prompt masks, checkpoint identity, preservation checks, and independent structural assessment. [Model card](https://huggingface.co/ByteDance-Seed/PAR) states Apache-2.0. |
+| [DynamicsPLM](https://github.com/kalifadan/DynamicsPLM), [May 2026 paper](https://doi.org/10.1093/bioinformatics/btag254) | Representations derived from conformational ensembles | Ensemble and asset hashes, base-model terms, and representation manifest. MIT code; the separate [Zenodo artifact](https://doi.org/10.5281/zenodo.17668302) is CC-BY-4.0. |
+| [Biotite 1.6.0](https://github.com/biotite-dev/biotite/releases/tag/v1.6.0), January 2026 release | Structure/sequence arrays, A3M handling, and assembly parsing | Parser version, normalized field counts, accession provenance, and parse manifest. BSD-3-Clause code. |
+| [AtomWorks 2.2.0](https://github.com/RosettaCommons/atomworks/releases/tag/v2.2.0), December 2025 release | AI input loaders and composable molecular transforms | Source revision, transform settings, tensor shapes, and input hashes. BSD-3-Clause code; external executables, weights, and datasets keep separate terms. |
+| [Foldseek](https://github.com/steineggerlab/foldseek) and [FoldMason](https://github.com/steineggerlab/foldmason), 2025 tagged releases | Structure search and multiple-structure alignment | Source tag, database/split identity, accession ledger, and bounded TSV/alignment report. GPL-3.0 code; search and alignment remain separate operations. |
 
-## Review Required
+## Further source review
 
-These can be useful, but public image inclusion or execution should wait for exact build and dependency review:
+[ORI](https://github.com/TencentAI4S/ori) needs reconciliation of its repository
+license label with the [paper's code terms](https://www.nature.com/articles/s41467-026-69855-6)
+and separate code/weight deposits. [MoE-Bind](https://github.com/dipayanskr/MoE-Bind)
+and [SeedProteo](https://github.com/SeedProteo/SeedProteo.github.io) remain research
+leads until reproducible pretrained releases and terms are established.
+[Paper2Agent](https://github.com/jmiao24/Paper2Agent) is relevant when a specific
+method needs an MCP wrapper; a general conversion framework adds little to an
+already documented adapter.
 
-- RFdiffusion-family and RFdiffusion3-family design lanes, including code, weights, and Docker image posture.
-- Genie 3 and peptide/miniprotein use, especially weights, ColabFold or AlphaFold2 dependencies, MSA service posture, and evaluation helpers.
-- Chai, LocalColabFold, ABCFold, ipSAE wrappers, and cofold consensus stacks.
-- SwitchCraft multistate/switch design, including its vendored cofolder and sequence-model weights and pinned dependencies; route designs through the cofold scoring stack for an orthogonal check.
-- DOMINO multidomain construct assembly, downstream of a validated binder; upstream license is unresolved (no LICENSE, empty model card, no-reuse preprint), so treat reuse and image inclusion as blocked until terms are published.
-- Baker miniprotein-GPCR recipe (motif-directed RFdiffusion + ProteinMPNN + AF2 over public deposited targets), inheriting the upstream tools' posture.
-- CTFFIND, cisTEM, GNINA, cryoDRGN, EMAN2, Scipion/Xmipp, DeepEMhancer, CUDA/NVIDIA bases, and large public weight/database bundles.
-- Protenix, OpenFold3 v0.5.0 with OpenBind v0 parameters, BioEmu, PLACER, and BoltzGen until exact source, model-weight, dependency, and cache posture are recorded for the intended use.
-
-## Runtime Gated
-
-Public docs may describe these lanes, but committed public artifacts must not include installers, binaries, license files, credentials, or accepted-license state:
-
-- CryoSPARC, Phenix, ChimeraX, ISOLDE, Rosetta/PyRosetta, AlphaFold 3 parameters, commercial PyMOL binaries, and similar terms-controlled tools.
-- Any tool requiring private registry credentials, signed URLs, private installer links, or account-specific access.
-
-## Omitted Or Private
-
-Keep these out of public git:
-
-- Private run notes, local checkpoints, provider cost ledgers, concrete pod IDs, concrete volume IDs, and operator incident reports.
-- Generated PDB/CIF/MMCIF/MRC/MAP/TRB/PML/MP4/GIF/NPZ/model-weight artifacts.
-- Private demos that have not been rewritten as narrative-only public summaries.
-
-## Export Priorities
-
-1. Keep Makefile targets aligned with documented commands.
-2. Publish concise tool cards under `tools/` with posture, inputs, outputs, and gates.
-3. Prefer narrative demos and compact public tables over result dumps.
-4. Keep live execution state out of tracked templates. Materialize an ignored runtime packet after readiness checks and explicit human authorization.
+Keep source URLs, versions, compact manifests, and comparison tables in Git.
+Keep model weights, benchmark corpora, generated structures, and service records
+in runtime storage. A source review adds no installed dependency or execution result.

@@ -793,7 +793,7 @@ software:
     status: planned
     notes: "Candidate comparison/orchestration lane for binder campaigns; keep outputs as computational candidates and route winners through the cofold scoring stack."
   proteindj:
-    role: protein_design_pipeline
+    role: nextflow_protein_design_workflow_adapter
     image_family: ai-design
     install_method: source_after_terms_review
     upstream_repo: "https://github.com/PapenfussLab/proteindj"
@@ -801,11 +801,11 @@ software:
     license_gate: terms_and_weights_review
     runpod_fit: possible
     gpu_class: "L40S/A100/H100 depending model path"
-    smoke_command: "python -m proteindj --help || proteindj --help"
+    smoke_command: "adapter_required"
     runtime_artifacts: "proteindj_designs/, proteindj_manifest.json"
     citation_notes: "Record repo commit, model/weight revisions, seeds, constraints, and downstream validation tools."
     status: planned
-    notes: "Watchlist design pipeline; do not promote before install smoke, license review, and independent structure/scoring checks."
+    notes: "Reviewed 2026-09-22: v3 is incompatible with v2 and requires Nextflow, Apptainer, and external model caches. Upstream labels its source MIT (Modified); record component terms and output mappings."
   genie3:
     role: all_atom_protein_generation
     image_family: ai-design
@@ -1028,15 +1028,18 @@ software:
     image_family: md-docking
     install_method: source_after_terms_review
     upstream_repo: "https://github.com/BioinfoMachineLearning/PoseBench"
-    license_class: verify_repo_license
+    pip_package: "posebench==1.1.0"
+    primary_source_checked: "2026-09-22; PyPI v1.1.0 uploaded 2026-03-21; upstream README records corrected v1.0.0 ligand scoring."
+    license_class: mit_code_with_dataset_and_dependency_review
+    license_basis: "https://github.com/BioinfoMachineLearning/PoseBench/blob/main/LICENSE; https://pypi.org/project/posebench/1.1.0/"
     license_gate: terms_review
     runpod_fit: strong
     gpu_class: "CPU/GPU depending method lane"
-    smoke_command: "python -m posebench --help"
+    smoke_command: "adapter_required"
     runtime_artifacts: "posebench_metrics.json, method_leaderboard.json"
     citation_notes: "Record benchmark task, split, exact repo commit, and method adapters."
     status: planned
-    notes: "Benchmark wrapper candidate for docking/cofolding comparison."
+    notes: "Use corrected v1.1.0 scoring for affected primary-ligand benchmarks and rerun comparisons made with v1.0.0. Record each method, data release, split, and component terms."
   posebusters:
     role: ligand_pose_validity
     image_family: md-docking
@@ -1099,31 +1102,34 @@ software:
     image_family: ai-design
     install_method: pip_or_pinned_source
     upstream_repo: "https://github.com/bytedance/Protenix"
-    primary_source_checked: "2026-08-28; the upstream README and LICENSE state that Apache-2.0 covers the project code and model parameters."
-    license_class: open_source_apache_2_code_and_model_parameters
-    license_gate: none
+    upstream_commit_sha: "85767b811c40ed46e73a9b39519cf6bfca8701ba"
+    primary_source_checked: "2026-09-22: https://github.com/bytedance/Protenix/blob/85767b811c40ed46e73a9b39519cf6bfca8701ba/README.md contains a Protenix-v2-specific proprietary-weight notice under Latest Updates and a conflicting blanket Apache-2.0 statement under License. Resolve terms for the exact v2 checkpoint before acquisition, execution, or redistribution."
+    license_class: apache_2_code_v2_weight_terms_conflict
+    license_gate: protenix_v2_weight_terms_review
     runpod_fit: strong_with_gpu
     gpu_class: "A100/H100 preferred; L40S possible for canaries"
     smoke_command: "protenix --help"
     runtime_artifacts: "protenix_predictions/, protenix_manifest.json"
     citation_notes: "Record the Protenix package or source revision, selected model identity, input assemblies, MSA route, seeds, and confidence outputs."
-    status: planned
-    notes: "Protenix-v2 is the published binder-study scoring identity. Installation and model selection remain runtime checks; the public upstream license does not impose a separate repository gate."
+    status: gated
+    notes: "Protenix-v2 is the published binder-study scoring identity. Its checkpoint terms need clarification; source-code terms and historical runtime evidence do not resolve that conflict."
   decaf:
     role: few_step_cofolding_acceleration
     image_family: ai-design
-    install_method: source_after_release_and_terms_review
+    install_method: pinned_source_after_dependency_review
     upstream_repo: "https://github.com/genesistherapeutics/decaf"
-    upstream_commit_sha: "466cb41ca120eb5a53a4fe536c33a232df76fa1d"
-    license_class: open_source_mit_reported_by_repo_with_weight_terms_pending
+    upstream_model_repo: "https://huggingface.co/genesisml/decaf"
+    primary_source_checked: "2026-09-22; source and model card distinguish structure-only and confidence-enabled checkpoints."
+    upstream_commit_sha: "471477e0e786f91bae77d4cebf4b7d14901bc174"
+    license_class: mit_code_and_weights_with_dependency_review
     license_gate: code_weight_and_confidence_output_review
     runpod_fit: possible
     gpu_class: "Depends on released model and complex size"
-    smoke_command: "python -m decaf --help || decaf --help"
+    smoke_command: "adapter_required"
     runtime_artifacts: "decaf_manifest.json, decaf_predictions/, confidence_sidecars/, speed_quality_table.json"
     citation_notes: "Record repo commit, released checkpoint revision, supported complex types, confidence outputs, and speed/quality smoke results."
     status: planned
-    notes: "Few-step cofolding accelerator watchlist. Useful if released weights support Structure Factory complex types and confidence sidecars for downstream scoring."
+    notes: "Released DeCAF-Boltz code and two checkpoints reviewed 2026-09-22. The confidence-enabled checkpoint supplies the confidence head; integration and ranking need a measured comparison."
   openfold3:
     role: biomolecular_prediction_and_cofolding
     image_family: ai-design
@@ -1490,3 +1496,75 @@ software:
     citation_notes: "Record repo commit, weights, ligands, constraints, and confidence."
     status: gated
     notes: "Optional ligand-complex prediction lane; requires current access review."
+
+  atlasfold_m:
+    role: msa_free_protein_complex_prediction
+    image_family: ai-design
+    install_method: pinned_source_after_dependency_review
+    upstream_repo: "https://github.com/SeonghwanSeo/atlasfold"
+    upstream_commit_sha: "8ab3aca0e18c8b814d5ca6756b2617a07d72c68d"
+    upstream_model_repo: "https://huggingface.co/SeonghwanSeo/atlasfold-m-260725"
+    primary_source_checked: "2026-09-22; pinned README and model card describe MIT code and weights, MSA-free multimers, and AtlasLM-3B dependency."
+    license_class: mit_code_and_weights_with_dependency_review
+    license_basis: "https://github.com/SeonghwanSeo/atlasfold/blob/8ab3aca0e18c8b814d5ca6756b2617a07d72c68d/LICENSE; https://huggingface.co/SeonghwanSeo/atlasfold-m-260725"
+    license_gate: dependency_and_checkpoint_review
+    runpod_fit: possible_after_adapter_review
+    gpu_class: "Measure against total residue count, samples, backend, and batch size"
+    smoke_command: "adapter_required"
+    runtime_artifacts: "prediction_manifest.json, confidence_sidecars/, comparison_table.tsv"
+    citation_notes: "Record both model hashes, chain mapping, source revision, emitted confidence fields, and reference-panel identity."
+    status: planned
+    notes: "September 2026 source-reviewed candidate. No Structure Factory execution or ranking qualification is recorded by this entry."
+
+  psbench:
+    role: "protein_complex_accuracy_benchmark"
+    image_family: "provider-neutral"
+    install_method: "source_review_only"
+    upstream_repo: "https://github.com/BioinfoMachineLearning/PSBench"
+    primary_source_checked: "2026-09-22; MIT code; dataset terms need separate review; https://arxiv.org/abs/2505.22674"
+    license_class: "mit_code_dataset_terms_unverified"
+    license_basis: "https://github.com/BioinfoMachineLearning/PSBench; https://arxiv.org/abs/2505.22674"
+    license_gate: "dataset_terms_and_split_review"
+    runpod_fit: "adapter_only"
+    gpu_class: "CPU for tables; benchmark execution depends on selected method"
+    smoke_command: "adapter_required"
+    runtime_artifacts: "psbench_slice_manifest.json, ema_calibration.json"
+    citation_notes: "Record dataset release, split identifiers, reference metrics, and input hashes."
+    status: "planned"
+    notes: "CASP-derived calibration candidate. Keep structural corpora outside the repository."
+
+  prolif:
+    role: "protein_ligand_interaction_fingerprints"
+    image_family: "provider-neutral"
+    install_method: "source_review_only"
+    upstream_repo: "https://github.com/chemosim-lab/ProLIF"
+    upstream_release: "v2.2.2"
+    primary_source_checked: "2026-09-22; v2.2.2 released 2026-09-20 UTC; Apache-2.0 source; https://github.com/chemosim-lab/ProLIF/releases/tag/v2.2.2"
+    license_class: "apache_2_code_with_dependency_review"
+    license_basis: "https://github.com/chemosim-lab/ProLIF; https://github.com/chemosim-lab/ProLIF/releases/tag/v2.2.2"
+    license_gate: "dependency_and_reference_input_review"
+    runpod_fit: "adapter_only"
+    gpu_class: "CPU"
+    smoke_command: "adapter_required"
+    runtime_artifacts: "interaction_fingerprints.jsonl, plif_recovery.tsv"
+    citation_notes: "Record version, interaction definitions, reference provenance, and atom mapping."
+    status: "planned"
+    notes: "Interaction recovery complements geometry. Recovery scores require a reference pose."
+
+  rcsb_mcp:
+    role: "public_structure_metadata_retrieval"
+    image_family: "provider-neutral"
+    install_method: "source_review_only"
+    upstream_repo: "https://github.com/rcsb/rcsb-mcp"
+    upstream_release: "0.15.0"
+    primary_source_checked: "2026-09-22; v0.15.0 package released 2026-08-17; MIT source; https://pypi.org/project/rcsb-mcp/0.15.0/"
+    license_class: "mit_code_with_source_data_terms_review"
+    license_basis: "https://github.com/rcsb/rcsb-mcp; https://pypi.org/project/rcsb-mcp/0.15.0/"
+    license_gate: "endpoint_and_integrated_data_terms_review"
+    runpod_fit: "adapter_only"
+    gpu_class: "CPU and reviewed network access"
+    smoke_command: "adapter_required"
+    runtime_artifacts: "structure_query.json, resolved_accessions.json"
+    citation_notes: "Record package version, query, endpoint, retrieval time, source IDs, and incomplete responses."
+    status: "planned"
+    notes: "Read-oriented structure metadata candidate. Queries and retrieved payloads retain their data policies."

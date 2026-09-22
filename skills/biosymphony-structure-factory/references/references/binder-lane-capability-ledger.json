@@ -343,7 +343,7 @@
       "registry_id": "protenix",
       "roles": ["predictor"],
       "evidence_level": "documented",
-      "license_gate": "none",
+      "license_gate": "protenix_v2_weight_terms_review",
       "provider_bound": false,
       "execution_available": false,
       "public_evidence": ["references/software-registry.yaml", "tools/protenix.md", "references/published-binder-comparison-workflow.json"]
