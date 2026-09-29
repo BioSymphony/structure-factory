@@ -204,8 +204,13 @@ def validate_request(
         raise RemoteToolContractError("budget must contain max_spend_usd and max_runtime_seconds only")
     for field in ("max_spend_usd", "max_runtime_seconds"):
         value = budget.get(field)
-        if not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0:
-            raise RemoteToolContractError(f"budget.{field} must be positive")
+        if (
+            not isinstance(value, (int, float))
+            or isinstance(value, bool)
+            or (isinstance(value, float) and not math.isfinite(value))
+            or value <= 0
+        ):
+            raise RemoteToolContractError(f"budget.{field} must be finite and positive")
     return dict(request)
 
 
@@ -320,4 +325,6 @@ def validate_receipt(
             or reported < 0
         ):
             raise RemoteToolContractError("receipt cost reported_spend_usd must be a finite non-negative number")
+        if receipt.get("status") == "completed" and reported > request["budget"]["max_spend_usd"]:
+            raise RemoteToolContractError("a completed receipt must stay within max_spend_usd")
     return dict(receipt)

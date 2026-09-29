@@ -383,6 +383,11 @@ You choose tools, licenses, installation methods, compute providers, data routes
 
 ## Handoff And Closeout
 
+Use the [prediction handoff contract](prediction-handoff-contract.md) when
+connecting design, prediction, and rescoring phases. It records alignment and
+score provenance, shared campaign budgets, smoke receipts, and recovery after
+an uncertain remote dispatch.
+
 `plan` writes three files below `.runtime/`:
 
 - `plan.json`: the frozen comparison and routing decision, including `published_stage_ids` and a nullable `variant_id` for every resolved tool selection

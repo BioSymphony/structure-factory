@@ -76,6 +76,8 @@ Use the [decision loop](binder-study-decision-loop.md) to set a finite round
 count, budget, primary metric, and stopping rule. Use
 [scoring invariants](scoring-invariants.md) and
 [control calibration](binder-controls.md) when interpreting the ranking.
+Use the [prediction handoff contract](prediction-handoff-contract.md) to
+record alignment provenance, smoke checks, phase budgets, and recovery state.
 
 ## Public result record
 

@@ -341,9 +341,16 @@ class RemoteDispatchTests(unittest.TestCase):
         ]
         with tempfile.TemporaryDirectory() as raw:
             tmp = Path(raw)
-            for result in bad_results:
+            for index, result in enumerate(bad_results):
                 with self.assertRaises(RemoteDispatchError):
-                    self.dispatch(tmp, adapter=lambda request, context: result)
+                    self.dispatch(
+                        tmp,
+                        adapter=lambda request, context: result,
+                        attempt_dir=tmp / f"attempt-{index}",
+                    )
+                retry = self.dispatch(tmp, attempt_dir=tmp / f"attempt-{index}")
+                self.assertEqual("blocked", retry["status"])
+                self.assertFalse(retry["adapter_invoked"])
 
     def test_adapter_exception_fails_without_writing_a_receipt(self) -> None:
         def raising_adapter(request, context):
@@ -357,6 +364,11 @@ class RemoteDispatchTests(unittest.TestCase):
             self.assertIsNone(outcome["receipt_path"])
             self.assertTrue(any("RuntimeError" in finding for finding in outcome["findings"]))
             self.assertFalse((tmp / "attempt" / "remote-tool-receipt.json").exists())
+            self.assertTrue(outcome["recovery_required"])
+            retry = self.dispatch(tmp)
+            self.assertEqual("blocked", retry["status"])
+            self.assertFalse(retry["adapter_invoked"])
+            self.assertTrue(retry["recovery_required"])
 
     def test_unverified_cleanup_blocks_the_receipt(self) -> None:
         def unclean_adapter(request, context):
@@ -375,6 +387,33 @@ class RemoteDispatchTests(unittest.TestCase):
             self.assertEqual("blocked", outcome["status"])
             self.assertIsNone(outcome["receipt_path"])
             self.assertTrue(any("cleanup" in finding for finding in outcome["findings"]))
+            self.assertTrue(outcome["recovery_required"])
+            self.assertFalse(any("dispatch again" in finding for finding in outcome["findings"]))
+            retry = self.dispatch(tmp)
+            self.assertEqual("blocked", retry["status"])
+            self.assertFalse(retry["adapter_invoked"])
+
+    def test_pending_attempt_blocks_a_different_request_without_overwriting_record(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            attempt = tmp / "attempt"
+            attempt.mkdir()
+            pending = attempt / "remote-dispatch-pending.json"
+            pending.write_text('{"request_id":"existing-attempt"}\n', encoding="utf-8")
+            original = pending.read_bytes()
+            outcome = self.dispatch(tmp)
+            self.assertEqual("blocked", outcome["status"])
+            self.assertFalse(outcome["adapter_invoked"])
+            self.assertEqual(original, pending.read_bytes())
+
+    def test_dry_run_does_not_claim_an_attempt(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            self.dispatch(tmp, dry_run=True)
+            self.assertFalse((tmp / "attempt" / "remote-dispatch-pending.json").exists())
+            outcome = self.dispatch(tmp)
+            self.assertEqual("completed", outcome["status"])
+            self.assertFalse((tmp / "attempt" / "remote-dispatch-pending.json").exists())
 
     def test_adapter_receives_a_request_copy_and_readonly_contract_error_propagates(self) -> None:
         seen = {}

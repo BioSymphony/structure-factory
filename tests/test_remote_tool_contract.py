@@ -65,6 +65,24 @@ def receipt_fixture(request: dict) -> dict:
 
 
 class RemoteToolContractTests(unittest.TestCase):
+    def test_nonfinite_budgets_are_rejected(self) -> None:
+        for field in ("max_spend_usd", "max_runtime_seconds"):
+            for value in (float("nan"), float("inf"), float("-inf")):
+                with self.subTest(field=field, value=value):
+                    request = request_fixture()
+                    request["budget"][field] = value
+                    with self.assertRaises(RemoteToolContractError):
+                        validate_request(request)
+
+    def test_completed_receipt_cost_must_stay_within_cap(self) -> None:
+        request = request_fixture()
+        receipt = receipt_fixture(request)
+        receipt["cost"] = {"max_spend_usd": 5.0, "reported_spend_usd": 5.0}
+        self.assertEqual(receipt, validate_receipt(receipt, request))
+        receipt["cost"]["reported_spend_usd"] = 5.01
+        with self.assertRaises(RemoteToolContractError):
+            validate_receipt(receipt, request)
+
     def test_valid_request_and_receipt(self) -> None:
         request = request_fixture()
         self.assertEqual(request, validate_request(request))

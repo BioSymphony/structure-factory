@@ -219,6 +219,7 @@ def dispatch_remote_tool(
         "adapter_invoked": False,
         "findings": [],
         "receipt_path": None,
+        "recovery_required": False,
     }
     findings = outcome["findings"]
     if adapter is None:
@@ -234,6 +235,30 @@ def dispatch_remote_tool(
     if authorization != DISPATCH_AUTHORIZATION:
         raise RemoteDispatchError(f"remote dispatch requires authorization={DISPATCH_AUTHORIZATION!r}")
 
+    # Claim the attempt before the adapter can create provider work. Keep this
+    # record through exceptions and uncertain cleanup, including process death.
+    pending_path = root / "remote-dispatch-pending.json"
+    try:
+        with pending_path.open("x", encoding="utf-8") as stream:
+            json.dump({
+                "request_id": validated["request_id"],
+                "provider_id": validated["provider_id"],
+                "provider_route": provider_route,
+                "tool_id": validated["tool_id"],
+                "operation": validated["operation"],
+            }, stream)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+    except FileExistsError:
+        findings.append(
+            "this attempt has a pending dispatch; recover existing provider work, "
+            "artifacts, cost, and cleanup before resolving the pending record"
+        )
+        outcome["status"] = "blocked"
+        outcome["recovery_required"] = True
+        return outcome
+
     context = {
         "attempt_dir": str(root),
         "artifact_prefix": validated["artifact_prefix"],
@@ -247,17 +272,23 @@ def dispatch_remote_tool(
     try:
         result = adapter(copy.deepcopy(validated), context)
     except Exception as exc:  # the adapter is caller-supplied code
-        findings.append(f"adapter raised {type(exc).__name__}; no receipt was written")
+        findings.append(
+            f"adapter raised {type(exc).__name__}; no receipt was written; "
+            "recover this attempt's existing provider work before another dispatch"
+        )
         outcome["status"] = "failed"
+        outcome["recovery_required"] = True
         return outcome
     elapsed = time.monotonic() - started
     status, artifacts, reported_spend, cleanup_verified = _validated_adapter_result(result)
 
     if not cleanup_verified:
         findings.append(
-            "adapter reported unverified cleanup; verify artifact export and cleanup, then dispatch again"
+            "adapter reported unverified cleanup; recover this attempt's existing artifacts "
+            "and verify cost and cleanup before resolving the pending record"
         )
         outcome["status"] = "blocked"
+        outcome["recovery_required"] = True
         return outcome
 
     verified: list[dict[str, Any]] = []
@@ -299,6 +330,7 @@ def dispatch_remote_tool(
     }
     remote_tool_contract.validate_receipt(receipt, validated, tool_operations=tool_operations)
     receipt_path = _write_receipt(root, receipt)
+    pending_path.unlink()
     outcome["status"] = status
     outcome["artifact_count"] = len(verified)
     outcome["reported_spend_usd"] = reported_spend
