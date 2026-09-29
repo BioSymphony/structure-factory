@@ -302,7 +302,13 @@ The built-in operation registry covers the common binder stack. To use another r
 
 Declare `target.site.chain_id` and `target.site.required_residues` in the round request. Each residue entry is a number, an inclusive range, or a numbered residue with an insertion code. Separate entries support noncontiguous sites.
 
-Run `target-check` on the exact coordinate file that the generation stage will read. The command reads the chain and required residues from the plan, inspects the first PDB or mmCIF model, and can compare the modeled coordinate sequence or deposited entity sequence with a one-letter sequence file.
+Confirm that the deposited entity description identifies the intended molecule
+and that its construct sequence maps to the selected chain. Record the source
+of that mapping. Run `target-check` on the exact coordinate file that the
+generation stage will read. The command reads the chain and required residues
+from the plan, inspects the first PDB or mmCIF model, and can compare the
+modeled coordinate sequence or deposited entity sequence with a one-letter
+sequence file.
 
 ```bash
 bsf binder-lane target-check \

@@ -34,6 +34,7 @@ weights, and provider access are configured separately.
 | To | Start With |
 | --- | --- |
 | Give your agent a scientific task | [Structure Factory skill](skills/biosymphony-structure-factory/SKILL.md) and [example request](#hand-a-mission-to-an-agent) |
+| Run the Claude binder lane | [Claude binder lane](docs/claude-binder-lane.md) and [binder-lane skill](skills/binder-lane-round/SKILL.md) |
 | Choose a tool or model | [Tool cards](tools/README.md) and [tool radar](docs/tool-and-skill-radar.md) |
 | Call tools and connect stages | [Execution guide](docs/binder-lane-round.md) |
 | Inspect the CLI locally | [Install and inspect](#inspect-or-run-the-repo-yourself) |
@@ -171,7 +172,14 @@ cover task dependencies and worker handoffs.
 
 </details>
 
-## Binder-Design Fast Path
+## Claude Binder Lane And Binder-Design Fast Path
+
+The [Claude binder lane](docs/claude-binder-lane.md) is part of this public
+Structure Factory repository. Give its [binder-lane skill](skills/binder-lane-round/SKILL.md)
+to Claude Code, Codex, or another command-capable agent to plan an Anthropic
+study-shape comparison, replay selected published tool identities, or compare
+declared tool swaps. It connects the public workflow reference, tool ledger,
+adapter registry, target check, controls, and output closeout in one path.
 
 The [PD-L1 example](examples/pd-l1-binder-design-public) includes a target
 window for PDB `4ZQK`, generation and cofold plans, and a candidate ranking

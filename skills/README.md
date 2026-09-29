@@ -20,7 +20,11 @@ Path:
 skills/binder-lane-round/SKILL.md
 ```
 
-Use this skill to compare binder-design toolchains under shared controls, declare license and execution constraints, run checked local adapters, and prepare local, API, neocloud, or mixed handoffs.
+Use this skill with Claude Code, Codex, or another agent to compare binder-design
+toolchains under shared controls, declare license and execution constraints, run
+checked local adapters, and prepare local, API, neocloud, or mixed handoffs.
+Start with the [Claude binder lane](../docs/claude-binder-lane.md) for the public
+workflow and example commands.
 
 Validate after edits:
 

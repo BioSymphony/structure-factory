@@ -1,12 +1,15 @@
 ---
 name: binder-lane-round
-description: Plan and execute protein-binder comparisons with selected tools, compute profiles, resource limits, controls, and output checks.
+description: Use the public Claude binder lane to plan and execute protein-binder comparisons with selected tools, compute profiles, controls, and output checks.
 ---
 
 # Binder Lane Round
 
-Compare binder-design methods against a fixed target and site. The CLI validates
-plans and handoffs, runs synthetic examples, and executes authorized local
+Use this public Structure Factory skill with Claude Code, Codex, or another
+command-capable agent. The [Claude binder lane guide](https://github.com/BioSymphony/structure-factory/blob/main/docs/claude-binder-lane.md)
+provides the repository entry point and public example. Compare binder-design
+methods against a fixed target and site. The CLI validates plans and handoffs,
+runs synthetic examples, and executes authorized local
 adapters with fixed arguments.
 
 ## Read first
