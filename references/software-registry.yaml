@@ -748,6 +748,22 @@ software:
     citation_notes: "Record the source, Boltz, and Chai revisions, target and site hashes, seeds, and retained scorer outputs."
     status: planned
     notes: "Protein Hunter is a published-cohort generator identity. Keep its component model identities in the execution record."
+  guideflip:
+    role: flexible_target_binder_sequence_structure_codesign
+    image_family: ai-design
+    install_method: source_with_adflip_checkpoint_and_external_alphafold_parameters
+    upstream_repo: "https://github.com/ykiiiiii/GuideFlip"
+    upstream_commit_sha: "6fbb2fd48af208e2adc92901c90a97cbcd9cf252"
+    primary_source_checked: "2026-09-30; public source and bundled ADFlip inference checkpoint, external AF2 parameters, optional AF3 backend; GuideFlip preprint v2 dated 2026-09-30."
+    license_class: mit_root_code_with_vendored_licenses_and_separate_model_terms
+    license_gate: checkpoint_and_selected_alphafold_backend_terms_review
+    runpod_fit: possible_after_runtime_adapter_review
+    gpu_class: "Linux NVIDIA GPU; measure memory against target size and selected AF2 or AF3 backend"
+    smoke_command: "adapter_required"
+    runtime_artifacts: "design/, filter/, accept/, design/summary.csv, design/run_summary.json"
+    citation_notes: "Cite GuideFlip (bioRxiv DOI 10.64898/2026.09.27.754145, v2) and ADFlip (ICML 2025); record source and checkpoint hashes, target-template masks, trajectory seeds, backend settings, and score units."
+    status: planned
+    notes: "Public examples cover disordered-target binders. AF-guided discrete flow matching assigns sequence progressively with ADFlip prior guidance. Preserve generation versus decoded-sequence pose identity and separate native validation from common screening. No bundled Structure Factory execution adapter."
   pxdesign:
     role: binder_backbone_generation
     image_family: ai-design

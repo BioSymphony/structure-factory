@@ -26,7 +26,7 @@ weights, and provider access are configured separately.
 | Find tools | Compare roles, inputs, outputs, runtime needs, licenses, source repos, and papers | [Tool cards](tools/README.md), [software registry](references/software-registry.yaml), [tool radar](docs/tool-and-skill-radar.md) |
 | Call tools | Invoke a configured local program or an API, cloud, scheduler, or container client through an adapter | [Adapter guide](docs/binder-lane-round.md#run-tools-through-adapters) |
 | Chain calls | Connect stage dependencies and pass checked files or directory bundles into downstream tools | [Controller guide](docs/binder-lane-round.md#prepare-a-controller-request) |
-| Compare methods | Hold inputs and scoring fixed across toolchain arms; retain failed candidates in the comparison | [Binder comparison guide](docs/binder-lane-round.md), [scoring stack](tools/cofold-scoring-stack.md) |
+| Compare methods | Freeze native protocols, verify site conditioning, and track parent backbones through a common screen | [Comparison contract](docs/binder-comparison-contract.md), [execution guide](docs/binder-lane-round.md), [scoring stack](tools/cofold-scoring-stack.md) |
 | Add a tool | Supply an adapter with typed inputs and expected outputs, or use an installed platform skill | [Custom tools and routes](docs/binder-lane-round.md) |
 
 ## Start Here

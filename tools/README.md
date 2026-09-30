@@ -21,6 +21,7 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 - [BindCraft](bindcraft.md). Integrated binder-design pipeline behind PyRosetta, AF2-weight, dependency, and use-context gates.
 - [BindCraft2](bindcraft2.md). AF2/ProteinMPNN design for proteins, peptides, scaffolded antibodies, and multistate objectives; includes GPU controls and hosting-license terms.
 - [FreeBindCraft](freebindcraft.md). BindCraft-family generation without a required PyRosetta step.
+- [GuideFlip](guideflip.md). AlphaFold-guided sequence and structure co-design for flexible or disordered targets, with an ADFlip prior and separate validation stages.
 - [BoltzGen](boltzgen.md). Boltz-family binder generation lane for canaries and method comparison.
 - [PXDesign](pxdesign.md). Target-conditioned binder backbone generation with explicit sequence-design handoff.
 - [Proteina-Complexa](proteina-complexa.md). Protein-, ligand-, and motif-binder co-design for predefined or custom targets.
@@ -94,6 +95,7 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 | Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN for soluble targets), [Cofold scoring stack](cofold-scoring-stack.md) |
 | Integrated binder-design canary | [BindCraft](bindcraft.md) or [BoltzGen](boltzgen.md) | [Cofold scoring stack](cofold-scoring-stack.md), [Refinement stack](refinement-stack.md) |
 | Scaffolded antibodies or multistate AF2 design | [BindCraft2](bindcraft2.md) | [Cofold scoring stack](cofold-scoring-stack.md) with separate results for each target state |
+| Binder design for flexible or disordered targets | [GuideFlip](guideflip.md) | Fixed-sequence validation, [Cofold scoring stack](cofold-scoring-stack.md), and explicit target-template masks |
 | Class B GPCR ECD antagonist by peptide mimicry | [Baker miniprotein-GPCR](baker-miniprotein-gpcr.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN), [Cofold scoring stack](cofold-scoring-stack.md) |
 | A protein that changes shape on ligand binding (allostery, AND gate, biosensor) | [SwitchCraft](switchcraft.md) | [Cofold scoring stack](cofold-scoring-stack.md) for the orthogonal switch check |
 | Compare multidomain fusion constructs | [DOMINO](domino.md) | [Cofold scoring stack](cofold-scoring-stack.md) to inspect predicted domain geometry |

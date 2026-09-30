@@ -29,6 +29,16 @@ targets, preserve the target structure hash, chain and residue range, hotspot
 list, binder-length range, checkpoint family, search algorithm, seed, and
 sample count.
 
+Record the resolved search mode, reward configuration, refinement configuration,
+and sequence source. Distinguish native decoded sequences from inverse-folded
+sequence children, and list the stages actually executed. A single-pass
+generation arm retains its own identity when compared with a search or
+refinement arm. Preserve native setup and initialization so the requested seed
+reaches the runner; retain evidence of the seed it used.
+
+Use the [binder comparison contract](../docs/binder-comparison-contract.md) to
+freeze these choices before assessing candidates.
+
 ## References
 
 - Upstream repository:

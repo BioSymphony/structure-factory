@@ -47,9 +47,14 @@ cache posture are recorded.
 
 ## Gotchas
 
+- Select the native protocol for the declared binder format. In [upstream v0.3.2](https://github.com/HannesStark/boltzgen/blob/v0.3.2/README.md#protocols), `protein-anything` includes binder-alone `design_folding`. `peptide-anything` omits that step and largest-hydrophobic-patch analysis and excludes Cys during inverse folding. Record the protocol, configuration overrides, and executed stages in the comparison arm.
+- Keep `--num_designs` (generated designs) separate from `--budget` (the final diversity-selected set size). Record intermediate designs, native-filter outcomes, and final selections separately.
 - Generator success is not binder success. Route every candidate through
   independent cofold and geometry review.
 - Keep model weights, generated structures, and provider logs outside public git.
+
+Use the [binder comparison contract](../docs/binder-comparison-contract.md) for
+format, stage, and assessment-count records.
 
 ## Gates
 

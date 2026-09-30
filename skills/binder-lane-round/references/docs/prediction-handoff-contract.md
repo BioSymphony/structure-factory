@@ -8,6 +8,11 @@ the campaign's runtime directory.
 
 - Record the target construct, chain, residue window, site mapping, and input
   file hashes before prediction.
+- Preserve the full declared construct sequence when its structure has
+  unresolved residues. Record observed coordinate coverage and an explicit
+  sequence-to-coordinate map, including insertion codes and missing positions.
+  Keep a deliberately cropped predictor construct as a separately identified
+  input with its own sequence hash.
 - Record the predictor, model or checkpoint revision, runtime route, seed,
   sample index, and scoring mode for each prediction.
 - Declare the MSA posture: query-only, supplied alignment, or remote search.
@@ -16,6 +21,8 @@ the campaign's runtime directory.
   input hashes before dispatch.
 - Carry candidate and parent-pose identities through sequence design and
   rescoring. Each sequence row identifies its generating stage and parent.
+- Record the native protocol, resolved conditioning selection, sequence-design
+  policy, executed stages, and seed-delivery evidence for every generator arm.
 
 ## Admission and recovery
 
@@ -48,11 +55,16 @@ spend cap. A failed receipt retains over-cap spend as cost evidence.
 
 - Report attempted trajectories, emitted candidates, refolded candidates,
   accepted candidates, distinct families, and selected candidates separately.
+- Report parent backbones, sequence children, unique sequences, assessed
+  sequences, and assessed parent backbones. Keep native-filter and common-screen
+  outcomes separate and retain missing or uncertain assessments.
 - Record score definitions, directions, reducers, chain ordering, and model
   provenance. Compare thresholds within their recorded calibration scope.
 - Verify nonempty artifacts, hashes, required sidecars, and expected counts.
   Complete a stage after its output checks pass.
 - Carry reported cost and verified cleanup into closeout.
 
-Use the [round guide](binder-lane-round.md) for runnable adapter contracts and
-[control calibration](binder-controls.md) for ranking provenance.
+Use the [round guide](binder-lane-round.md) for runnable adapter contracts,
+[binder comparison contract](binder-comparison-contract.md) for method and
+cohort identity, and [control calibration](binder-controls.md) for ranking
+provenance.

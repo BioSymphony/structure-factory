@@ -50,6 +50,18 @@ debug bundle.
 
 ## Scoring Status
 
+Keep structure parsing separate from confidence availability. A generator's
+mmCIF may omit `_atom_site.B_iso_or_equiv` when it supplies no confidence.
+Validate the required atom identities and finite coordinates, preserve the raw
+file and its hash, and record confidence as unavailable. B factors or placeholder
+values inserted during format conversion require their own provenance; use
+pLDDT only when the producing model explicitly identifies it as such.
+
+Preserve atom coverage as well. CA-only or backbone-only coordinates support
+their declared geometry checks; sidechain-dependent scoring requires validated
+sidechain coordinates. Bind actual designed sequences before sequence-sensitive
+scoring.
+
 Mark interface scoring incomplete when:
 
 - only global pTM, iPTM, or complex pLDDT is available

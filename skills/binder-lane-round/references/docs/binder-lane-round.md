@@ -365,6 +365,10 @@ The request records a binder-length range, required controls, top rows per arm, 
 
 The public comparison fixture uses constructed proxy values. Do not interpret their ordering as a tool benchmark.
 
+Use the [binder comparison contract](binder-comparison-contract.md) to freeze
+native protocols, verify resolved site conditioning, count assessed parent
+backbones, and retain native and common-screen outcomes.
+
 Use [`binder-controls.md`](binder-controls.md) to construct a predictor/control/seed index, derive or adopt metric gates, and bind the resulting artifact to round-decision provenance. A missing optional control produces an optional gap unless the selected metric marks it as required.
 
 ### License Policy
