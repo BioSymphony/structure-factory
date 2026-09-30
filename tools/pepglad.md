@@ -2,63 +2,88 @@
 
 ## Purpose
 
-Plan peptide sequence-structure co-design lanes when full-atom peptide generation is a better fit than miniprotein scaffolding. PepGLAD generates both the peptide structure and sequence together at full-atom resolution, conditioned on a target receptor window, motif constraints, and length.
+Plan full-atom peptide sequence and structure co-design conditioned on a
+receptor pocket. Preserve the native co-designed sequence and structure as a
+paired candidate; any later sequence redesign creates a separate child.
 
 ## Public-Safe Status
 
-Public scaffold: yes. Runtime use requires current branch, dependency, model-weight, and license review. Store weights and generated peptides under ignored runtime storage or in a user-selected artifact store.
+Source reviewed on 2026-09-30 at commit
+[`bad015ca50c312a89482adb5220c3d907f13df5c`](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/README.md).
+The selected main-branch code has an [MIT license](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/LICENSE).
+Review checkpoint and dependency terms separately. Structure Factory records
+this upstream workflow; execution requires a qualified adapter.
 
 ## When To Use
 
-- Linear peptide binders (10-30 aa) where sequence and structure should be co-designed rather than handed off between stages.
-- Targets where a sequence-only or structure-only approach has not produced viable candidates.
-- Cases where preserving a known motif (a few anchor residues) while diversifying the rest of the peptide is the design objective.
+- Joint peptide sequence and conformation generation around a declared pocket.
+- Fixed-sequence peptide conformation sampling as a separate comparison arm.
+- Downstream comparison using the [common scoring stack](cofold-scoring-stack.md).
 
 ## Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill with the PepGLAD tool card. For target <PDB:ID> with target window <chain or residues>, prepare a full-atom peptide sequence-structure co-design lane. Specify length, topology, motif or anchor-residue constraints, and the cofold and refinement handoff downstream.
+Use the BioSymphony Structure Factory skill with the PepGLAD tool card. For public target <PDB:ID> and pocket <chain/residue map>, prepare a codesign lane with an explicit length range, sample count, source and checkpoint pins, output validation, and independent cofold handoff.
 ```
 
-## Typical Inputs
+## Native Operations And Inputs
 
-- Target-window report with chain, residue range, and hotspot evidence.
-- Peptide length and topology constraints.
-- Optional motif: anchor residues to preserve from a known reference peptide.
-- Sample count.
-
-## Typical Outputs
-
-- Candidate peptide models (PDB) outside git, with both backbone and sequence in one shot.
-- Runtime manifest including version, branch, dependency posture, and seed.
-- Confidence / scoring summary per candidate.
-- Cofold-ready candidate table for downstream validator slate.
-
-## Repo And References
-
-- PepGLAD is described in the recent full-atom peptide design literature; consult the primary source for current repo, model weights, and license terms before runtime use.
-
-## Key Knobs
-
-| Setting | Recommendation | Why |
+| Operation | Required input | Checkpoint selected by the pinned CLI |
 | --- | --- | --- |
-| Peptide length | 10-25 aa | Outside this range, switch to RFpeptides (shorter) or HelixDiff / miniproteins (longer). |
-| Anchor / motif residues | 0-4 residues | Preserve known interface contacts; over-constraining suppresses diversity. |
-| Sample count | 100-500 first pass | Joint generation is expensive; canary first before scaling. |
-| Topology constraint | linear default | Cyclic / constrained topologies need explicit specification. |
-| Temperature / noise | upstream default | Lower noise sharpens; higher noise diversifies. |
+| `codesign` | Receptor PDB, pocket JSON, length bounds, sample count | `checkpoints/codesign.ckpt` |
+| `struct_pred` | Receptor PDB, pocket JSON, fixed peptide sequence, sample count | `checkpoints/fixseq.ckpt` |
 
-## Gotchas
+`--length_min` is inclusive and `--length_max` is exclusive. The pocket
+file is a JSON list of chain/residue-ID pairs, including insertion codes.
+Validate each selection against the input structure. Motif preservation or
+cyclic topology requires a separately supported operation and preservation
+checks; the reviewed CLI does not expose those controls.
+[Generation CLI](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/api/run.py),
+[pocket writer](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/api/detect_pocket.py).
 
-- Joint sequence-structure generation can produce sequences that look reasonable but are structurally implausible at the side-chain level. Run an independent cofold (Boltz, Chai) on every candidate before promotion.
-- Anchor residues that conflict with the natural peptide register will produce kinked or broken backbones; check the residue numbering carefully against the target hotspot evidence.
-- Different runs with the same seed are not always bit-identical depending on the upstream library version; record version pins.
-- Public benchmark numbers do not always translate to performance on a novel target; do not promote based on training-set-style metrics alone.
+## Native Output Contract
 
-## Gates
+The pinned CLI writes combined receptor/peptide PDB files in a flat output
+directory and one `summary.jsonl`. Each row contains `id`, `rec_chains`,
+`pep_chain`, and `pep_seq`; its structure is `<id>.pdb`. The peptide chain
+ID depends on the receptor chains. Resolve it from the row and verify its
+sequence rather than assuming a fixed chain or filename convention.
 
-- Keep model weights and generated structures out of git.
-- Record version, branch, dependency posture, and seeds in the candidate ranking.
-- Close as `partial` or `blocked` if the runtime cannot reproduce the declared configuration.
-- Cap every candidate ranking at `computational_candidate` until independent validation exists.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on the relevant lane. Record the version pin and the date of the check in the candidate ranking or validation notes.
+Closeout checks the expected row and structure counts, unique identifiers,
+parseable coordinates, chain mapping, sequence agreement, and output hashes.
+The native API then performs OpenMM relaxation; retain its completion status
+separately from generation. A changed relaxation route is a different workflow
+arm. [Pinned output and relaxation implementation](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/api/run.py).
+
+## Sequence And Scoring Handoff
+
+Carry `pep_seq`, its matching structure, source/checkpoint hashes, and the
+pocket map into independent cofold and geometry assessment. Keep native
+parents in the denominator. ProteinMPNN or another redesign stage creates
+explicit children with changed-sequence hashes and its own validation records.
+See the [comparison contract](../docs/binder-comparison-contract.md).
+
+Keep predictor confidence and downstream scoring attached to their actual
+producer. The native summary fields above do not supply a calibrated binding
+score. Declare control-based assessment and retain failed or missing outputs.
+
+## Runtime And Gates
+
+The pinned README describes CUDA 11.7/PyTorch 1.13.1 and links a separate
+`beta` environment for newer dependencies. Pin and qualify the chosen branch
+independently; a changed branch needs its own input/output review. Inference
+uses trained checkpoints without requiring the optional benchmark datasets.
+[Setup and model assets](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/README.md#setup).
+
+- Keep weights, generated sequences, structures, and runtime records outside git.
+- Record dependency, GPU, seed, checkpoint, pocket, and relaxation identities.
+- Check source and model-asset currency before dispatch; qualify a canary before scaling.
+- Retain incomplete and rejected candidates; close unsupported operations explicitly.
+- Keep result records at `computational_candidate` or lower.
+
+## Primary Sources
+
+- [Repository](https://github.com/THUNLP-MT/PepGLAD)
+- [NeurIPS paper](https://openreview.net/forum?id=IAQNJUJe8q)
+- [Pinned source, setup, and usage](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/README.md)
+- [Pinned code license](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/LICENSE)

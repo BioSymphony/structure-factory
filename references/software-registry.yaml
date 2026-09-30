@@ -1353,15 +1353,18 @@ software:
     role: full_atom_peptide_sequence_structure_codesign
     image_family: ai-design
     install_method: source_after_current_branch_dependency_weight_and_license_review
-    license_class: verify_current_branch_dependency_weight_and_license_terms
+    upstream_repo: "https://github.com/THUNLP-MT/PepGLAD"
+    upstream_commit_sha: "bad015ca50c312a89482adb5220c3d907f13df5c"
+    primary_source_checked: "2026-09-30; main-branch README, MIT LICENSE, api/run.py, and api/detect_pocket.py at the recorded pin."
+    license_class: mit_code_with_separate_dependency_and_checkpoint_review
     license_gate: current_branch_dependency_weight_and_license_review
     runpod_fit: possible_after_runtime_adapter_review
     gpu_class: "Runtime-dependent GPU; verify against the selected implementation"
     smoke_command: "adapter_required"
-    runtime_artifacts: "pepglad_candidates/, candidate_scores.jsonl, cofold_handoff.json"
+    runtime_artifacts: "summary.jsonl, <id>.pdb, runtime_manifest.json, cofold_handoff.json"
     citation_notes: "Record the primary source, implementation branch and version, dependency and weight revisions, constraints, and seeds."
     status: planned
-    notes: "Public planning identity for peptide sequence-structure co-design. Select and review a current implementation before execution."
+    notes: "Pinned native codesign and fixed-sequence struct_pred operations. Resolve candidate and peptide-chain identities from summary.jsonl; preserve native sequences, and link redesign children separately. Requires an execution adapter and selected-asset review."
   evobind:
     role: peptide_sequence_optimization_and_ranking
     image_family: ai-design

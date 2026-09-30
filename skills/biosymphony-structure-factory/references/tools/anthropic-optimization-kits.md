@@ -155,6 +155,11 @@ sampling settings, confidence outputs, and artifact validators in every arm:
 5. `big`, when memory or input size requires it;
 6. a second `off` seed or repeat for stochastic tools.
 
+Qualify each accelerated operation within the declared native workflow. Retain
+required reward, sequence-design, evaluation, refinement, and filtering stages;
+record omitted stages in the [comparison contract](../docs/binder-comparison-contract.md).
+A short kit example does not define the complete scientific comparison recipe.
+
 Record setup, compilation, model load, preprocessing, model execution,
 postprocessing, scoring, and total elapsed time separately. Peak memory,
 compile-cache state, device identity, input shape, and sample count belong in

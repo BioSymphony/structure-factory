@@ -17,6 +17,36 @@ This note defines runtime checks for Boltz, Genie 3, and ESMFold2 lanes. The sci
 - Hugging Face metadata checked on 2026-08-28 reported `biohub/ESMFold2-Fast` revision `0438ea0d932a314950665e0b4d0af4322ae88250`, `biohub/ESMFold2` revision `e1e189d0f5fb70c2693da2332eca4443c0ccccd6`, `biohub/ESMC-6B` revision `89c554c46a44d825fbfbe3ce2a6bdc539770bdaa`, and `biohub/ESMFold2-hf` revision `bce015efb23b5dc604842d0ab5c2bbb02c7bd3ee`. The official Transformers docs state that ESMFold2 support was contributed on 2026-08-19, that the checkpoint bundles ESMC, and that the `main` documentation requires a source install until the feature reaches a stable release.
 - Biohub ESM source HEAD checked on 2026-05-28 differed from the short install ref in the public README. Operator packets must pin a full source commit SHA deliberately rather than following a floating branch.
 
+## Prediction Runtime Applicability
+
+Record scientific model and checkpoint, inference runtime, complete data
+pipeline, and validated adapter as separate identities. Check the selected
+installed version's input preparation and output contract before routing a
+stage. The public BioIR
+[support matrix](https://github.com/NVIDIA-BioNeMo/BioNeMo-Inference-Runtime/blob/fd5ccc2bab0d50e6d0bb0279c411fec9a2b7b9fd/docs/ref/support-matrix.md),
+reviewed on 2026-09-30 at the linked source pin, distinguishes these surfaces:
+
+| Model family | Model module | Complete `build_processor` route at this source pin |
+| --- | --- | --- |
+| AF2/OpenFold2 | Available | Available for the listed variants |
+| Boltz-1/2 structure prediction | Available | Available |
+| OpenFold3 | Available | Available |
+| Protenix-v2 and Boltz-2 affinity | Available | Requires a separate tokenizer, feature factory, and postprocessor |
+
+Its bundled protein pipelines consume caller-supplied unpaired alignments;
+paired alignments are optional for the listed complex pipelines. Templates are
+caller-supplied protein hits. MSA generation and template search require a
+separate preparation step. Declare a query-only alignment explicitly when that
+is the selected supported input posture, and record database/search identities
+when using generated alignments. Preserve chain mapping and input hashes at
+each handoff. These are BioIR pipeline contracts; other implementations of the
+same scientific model can have different preparation routes.
+
+Multi-GPU `build_processor` execution uses independent replicas, each holding a
+full model on one GPU. Record worker count and input assignment; a replica
+configuration does not split one prediction across devices. Pin the installed
+wheel separately from a source-review commit.
+
 ## Repo Guardrails
 
 - `make harness-check` is the no-download control-plane check. It validates registry pins, lane modules, binder-manifest posture, bootstrap gates, provider posture, and stage contracts.

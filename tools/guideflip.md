@@ -54,6 +54,47 @@ In the pinned results writer, binder pLDDT is recorded on a `0..1` scale and
 thresholds, and disabled filters. Use the [comparison contract](../docs/binder-comparison-contract.md)
 and [scoring invariants](../docs/scoring-invariants.md) for downstream joins.
 
+## Final Interface And Score Checks
+
+The in-loop interface guard follows the C-alpha coordinates of the original
+interface selection. It does not recalculate contacts. Retain
+`interface_guarded`, `interface_rmsd`, and `structure_kept`; independently
+check final decoded-sequence refolds for contacts, clashes, and intended-site
+coverage. Rejected structural feedback retains the preceding pose, while
+sequence guidance and residue commitments remain applied.
+[Interface geometry](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/structure.py),
+[update and feedback ordering](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/flow.py).
+
+| Assessment | Reduction and required record |
+| --- | --- |
+| Final AF2 complex | Five models with dropout disabled. Per model, take the smaller minimum of the two directional interchain PAE blocks, then average those five values for `ipae_min`. Preserve `ipae_min_per_model` and raw matrices. |
+| Optional AF3 | Select the highest `ranking_score` sample, then apply configured filters. Preserve the complete sample set, seeds, count, selection rule, and `filter/af3/samples.csv`. |
+| Binder-only AF2 | Confidence and RMSD thresholds default to disabled; record explicit criteria when these diagnostics control acceptance. |
+
+PAE minima do not measure interface-wide uncertainty or contact coverage.
+AF3 `has_clash` is recorded without a dedicated clash rejection rule in the
+reviewed filter; declare a geometry gate when required.
+[AF2 reduction](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/models/alphafold.py),
+[AF3 sample selection](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/validation.py),
+[filters](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/results.py),
+[filter defaults](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/settings.py).
+
+## Context And Accelerated Runtime Contract
+
+Record target identity, construct, chain mapping, hotspots, and withheld
+template regions separately. The released design loop evaluates one
+target-binder context. Comparisons across target states or several targets
+need explicit contexts, shared-sequence policy, and per-context measurements.
+[Target and template settings](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/settings.py).
+
+An accelerated design adapter must preserve continuous sequence inputs,
+finite sequence gradients through the selected objective, fixed positions,
+template/scaffold masks, recycle budgets, score scales, and feedback behavior.
+Qualify these properties alongside forward outputs. Final fixed-sequence
+prediction is a separate operation with its own runtime and output checks.
+This contract follows from the [differentiable adapter](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/models/alphafold.py)
+and [guided update](https://github.com/ykiiiiii/GuideFlip/blob/6fbb2fd48af208e2adc92901c90a97cbcd9cf252/guideflip/flow.py).
+
 ## License And Model Assets
 
 GuideFlip's root code is MIT-licensed. Its ADFlip subtree carries an MIT-style
