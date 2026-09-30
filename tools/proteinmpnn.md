@@ -19,6 +19,17 @@ Public scaffold: yes. Runtime use requires current source review against upstrea
 - **Vanilla ProteinMPNN.** Original release. General-purpose backbone-to-sequence design.
 - **SolubleMPNN.** Activate with `--use_soluble_model`. Favors solubility-correlated residue choices. Public benchmarks have reported higher wet-lab expression rates with SolubleMPNN compared to vanilla for soluble-protein design; check the current benchmark literature for your target class.
 
+## Anthropic Acceleration Route
+
+The [Anthropic kit inventory](anthropic-optimization-kits.md) records `off` and
+`exact` for vanilla and soluble ProteinMPNN. The pinned kit
+[operation contract](https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/proteinmpnn/README.md#modes)
+limits `exact` to full-backbone sequence design: it excludes CA-only,
+score-only, conditional or unconditional probability-only, tied-position, and
+positive backbone-noise operations. Use an explicitly selected stock `off`
+route for those operations. A Genie3 C-alpha-only handoff needs ProteinMPNN
+CA-only support; it cannot use this kit's full-backbone `exact` route.
+
 ## Hand A Mission To An Agent
 
 ```text

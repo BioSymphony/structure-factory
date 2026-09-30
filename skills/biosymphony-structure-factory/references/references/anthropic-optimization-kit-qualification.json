@@ -3,7 +3,7 @@
   "source": {
     "repository": "https://github.com/anthropics/uplifting-biomolecular-modeling",
     "commit": "f4f62fa6592ae4938d49b1757bea0cfeff9f468e",
-    "checked_on": "2026-09-21",
+    "checked_on": "2026-09-30",
     "upstream_status": "unmaintained_reference_release",
     "original_code_license": "Apache-2.0",
     "stock_and_weight_terms": "per_kit_review_required"
@@ -46,7 +46,7 @@
     },
     {
       "kit": "esmfold2",
-      "kit_stock": "kit-pinned ESM 3.3-era stack",
+      "kit_stock": "Biohub esm 3.3.0 at commit 26b0bc2b",
       "public_registry_identity": "esm 3.4.1.post1",
       "classification": "separate_runtime_stack",
       "remaining_gates": ["do_not_overlay_on_stable_package", "dedicated_adapter", "stock_and_weight_pin_verification", "matched_output_qualification"]
@@ -64,6 +64,41 @@
       "public_registry_identity": "OpenFold3 0.5.0 with OpenBind v0 parameters",
       "classification": "different_scientific_identity",
       "remaining_gates": ["separate_comparison_arm", "checkpoint_identity", "matched_input_and_scoring_contract"]
+    },
+    {
+      "kit": "openfold3_ob0",
+      "kit_stock": "OpenFold3 0.5.0 with OpenBind-0 parameters",
+      "classification": "candidate_exact_version_match",
+      "public_registry_identity": "OpenFold3 0.5.0 with OpenBind v0 parameters",
+      "remaining_gates": ["source_version_and_checkpoint_match", "dependency_and_license_review", "operation_and_output_contract_match", "adapter_and_hardware_qualification"]
+    },
+    {
+      "kit": "boltzgen",
+      "kit_stock": "BoltzGen 0.3.2",
+      "classification": "pin_comparison_required",
+      "public_registry_identity": "tool-specific",
+      "remaining_gates": ["source_version_and_checkpoint_match", "dependency_and_license_review", "operation_and_output_contract_match", "adapter_and_hardware_qualification"]
+    },
+    {
+      "kit": "complexa",
+      "kit_stock": "Proteina-Complexa 1.1.0",
+      "classification": "pin_comparison_required",
+      "public_registry_identity": "tool-specific",
+      "remaining_gates": ["source_version_and_checkpoint_match", "dependency_and_license_review", "operation_and_output_contract_match", "adapter_and_hardware_qualification"]
+    },
+    {
+      "kit": "rfdiffusion3",
+      "kit_stock": "rc-foundry 0.2.1.dev13+g4010e3e2e, commit 4010e3e2e7350edada3e25a45c908c6bf407df4d",
+      "classification": "pin_comparison_required",
+      "public_registry_identity": "tool-specific",
+      "remaining_gates": ["source_version_and_checkpoint_match", "dependency_and_license_review", "operation_and_output_contract_match", "adapter_and_hardware_qualification"]
+    },
+    {
+      "kit": "proteinmpnn",
+      "kit_stock": "ProteinMPNN commit 8907e667, vanilla or soluble weights",
+      "classification": "operation_restricted_candidate",
+      "public_registry_identity": "tool-specific",
+      "remaining_gates": ["source_version_and_checkpoint_match", "dependency_and_license_review", "operation_and_output_contract_match", "adapter_and_hardware_qualification"]
     },
     {
       "kit": "other_structure_factory_relevant_kits",
@@ -85,5 +120,236 @@
   "publication_boundary": {
     "allowed": ["upstream source and license posture", "generic compatibility records", "synthetic qualification contracts", "public-input aggregate benchmarks with complete provenance"],
     "excluded": ["credentials", "private inputs", "generated private biology", "provider resource identifiers", "machine-local paths", "unreviewed stock or weight payloads"]
+  },
+  "kit_inventory": {
+    "source": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/README.md#kits",
+    "count": 36,
+    "kits": [
+      {
+        "kit": "af2ig",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/af2ig/STOCK.md"
+      },
+      {
+        "kit": "af3_jax",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/af3_jax/STOCK.md"
+      },
+      {
+        "kit": "af3_torch",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/af3_torch/STOCK.md"
+      },
+      {
+        "kit": "atlasfold",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/atlasfold/STOCK.md"
+      },
+      {
+        "kit": "boltz2",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/boltz2/STOCK.md"
+      },
+      {
+        "kit": "boltzgen",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/boltzgen/STOCK.md"
+      },
+      {
+        "kit": "borzoi",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/borzoi/STOCK.md"
+      },
+      {
+        "kit": "caliby",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/caliby/STOCK.md"
+      },
+      {
+        "kit": "chai1",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/chai1/STOCK.md"
+      },
+      {
+        "kit": "chrombpnet",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/chrombpnet/STOCK.md"
+      },
+      {
+        "kit": "colabdesign",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/colabdesign/STOCK.md"
+      },
+      {
+        "kit": "colabfold",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/colabfold/STOCK.md"
+      },
+      {
+        "kit": "complexa",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/complexa/STOCK.md"
+      },
+      {
+        "kit": "e1",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/e1/STOCK.md"
+      },
+      {
+        "kit": "ef2inv",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/ef2inv/STOCK.md"
+      },
+      {
+        "kit": "enformer",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/enformer/STOCK.md"
+      },
+      {
+        "kit": "enformer_deepmind",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/enformer_deepmind/STOCK.md"
+      },
+      {
+        "kit": "esm_if1",
+        "modes": ["off", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/esm_if1/STOCK.md"
+      },
+      {
+        "kit": "esmc",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/esmc/STOCK.md"
+      },
+      {
+        "kit": "esmfold2",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/esmfold2/STOCK.md"
+      },
+      {
+        "kit": "evo2",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/evo2/STOCK.md"
+      },
+      {
+        "kit": "flashzoi",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/flashzoi/STOCK.md"
+      },
+      {
+        "kit": "genie3",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/genie3/STOCK.md"
+      },
+      {
+        "kit": "gpnstar",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/gpnstar/STOCK.md"
+      },
+      {
+        "kit": "mosaic",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/mosaic/STOCK.md"
+      },
+      {
+        "kit": "opendde",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/opendde/STOCK.md"
+      },
+      {
+        "kit": "openfold3",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/openfold3/STOCK.md"
+      },
+      {
+        "kit": "openfold3_ob0",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/openfold3_ob0/STOCK.md"
+      },
+      {
+        "kit": "progen2",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/progen2/STOCK.md"
+      },
+      {
+        "kit": "proteinmpnn",
+        "modes": ["off", "exact"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/proteinmpnn/STOCK.md"
+      },
+      {
+        "kit": "protenix_v1",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/protenix_v1/STOCK.md"
+      },
+      {
+        "kit": "protenix_v2",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/protenix_v2/STOCK.md"
+      },
+      {
+        "kit": "pxdesign",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/pxdesign/STOCK.md"
+      },
+      {
+        "kit": "rfdiffusion1",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/rfdiffusion1/STOCK.md"
+      },
+      {
+        "kit": "rfdiffusion3",
+        "modes": ["off", "exact", "fast"],
+        "single_host_multi_gpu": false,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/rfdiffusion3/STOCK.md"
+      },
+      {
+        "kit": "rosettafold3",
+        "modes": ["off", "exact", "fast", "big"],
+        "single_host_multi_gpu": true,
+        "stock_record": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/rosettafold3/STOCK.md"
+      }
+    ]
+  },
+  "operation_limits": {
+    "proteinmpnn": {
+      "exact_supported_operation": "full_backbone_sequence_design",
+      "exact_excludes_flags": ["--ca_only", "--score_only", "--conditional_probs_only", "--unconditional_probs_only", "--tied_positions_jsonl"],
+      "exact_excludes_backbone_noise_above": 0,
+      "excluded_operation_route": "explicit_stock_off",
+      "source": "https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/proteinmpnn/README.md#modes"
+    }
   }
 }
