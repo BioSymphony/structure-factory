@@ -43,7 +43,7 @@ make issue-dry-run
 make issue-dry-run-check
 ```
 
-3. Decide whether to import the generated campaign-specific drafts or adapt a task pack from [`../packs/`](../packs/). Pack tasks are reusable starter contracts; generated drafts are tied to the selected campaign manifest.
+3. Decide whether to import the generated campaign-specific drafts or adapt a task pack from [`../packs/`](https://github.com/BioSymphony/structure-factory/tree/main/packs). Pack tasks are reusable starter contracts; generated drafts are tied to the selected campaign manifest.
 
 4. In Linear, create or select a project and labels:
 
@@ -186,7 +186,7 @@ provider:neocloud
 | `generic-cloud` | adapter contract only | required for VM/pod mutation | `make provider-check` |
 | `neocloud` | adapter contract and scope posture | required for pod mutation | `make neocloud-scope-check` |
 
-RunPod is the default reviewed paid-pod provider for the first Structure Factory demos. AWS Batch is the reviewed cloud-scale provider after adapter closeout parity. SSH/HPC, generic cloud, and neocloud labels are for adapter planning or local prep unless a task explicitly authorizes provider-specific execution.
+RunPod supplies the reference paid-pod contract, and AWS Batch supplies a cloud-scale profile. Select the task's provider through a qualified adapter and its declared budget, data, artifact, and cleanup requirements. Provider profiles and routing labels establish planning coverage; execution requires runtime readiness and authorization for the selected route.
 
 ## State Policy
 
@@ -212,7 +212,7 @@ Provider success is never enough for the outcome block. The outcome must state t
 
 ## Importing Public Packs
 
-Task packs under [`../packs/`](../packs/) are safe starting points because they are tracker-neutral. A typical import flow is:
+Task packs under [`../packs/`](https://github.com/BioSymphony/structure-factory/tree/main/packs) are safe starting points because they are tracker-neutral. A typical import flow is:
 
 1. Run the pack or example through `bsf validate`.
 2. Generate task drafts with `bsf issue-dry-run` or copy the pack Markdown.

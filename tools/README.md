@@ -89,10 +89,10 @@ A short routing guide. Pick the designer arm by target and binder length, then a
 
 | If you want | Start with | Add downstream |
 | --- | --- | --- |
-| Short cyclic peptides (6 to 15 aa) | [RFpeptides](rfpeptides.md) | [ProteinMPNN](proteinmpnn.md) cyclic mode, [Cofold scoring stack](cofold-scoring-stack.md) |
-| Linear helical peptides (15 to 40 aa) | [HelixDiff](helixdiff.md) or [PepGLAD](pepglad.md) | [ProteinMPNN](proteinmpnn.md) on the receptor context, [Cofold scoring stack](cofold-scoring-stack.md) |
+| Head-to-tail macrocyclic peptides | [RFpeptides](rfpeptides.md) | Declared sequence design, cyclic-aware refolding, and [Cofold scoring stack](cofold-scoring-stack.md) |
+| Linear helical peptides | [HelixDiff](helixdiff.md) or [PepGLAD](pepglad.md), under the selected model's length policy | Sequence completion for backbone-only outputs; preserve PepGLAD native pairs, then [Cofold scoring stack](cofold-scoring-stack.md) |
 | Sequence-centered peptide optimization | [EvoBind](evobind.md) | Optional [ProteinMPNN](proteinmpnn.md) consistency check, [Cofold scoring stack](cofold-scoring-stack.md) |
-| Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) (SolubleMPNN for soluble targets), [Cofold scoring stack](cofold-scoring-stack.md) |
+| Miniprotein binders (50 aa and up) | [RFdiffusion3](rfdiffusion3.md) or [Genie3](genie3-peptides.md) | [ProteinMPNN](proteinmpnn.md) matched to coordinate coverage: CA for Genie CA-only, soluble for a declared full-backbone arm; [Cofold scoring stack](cofold-scoring-stack.md) |
 | Integrated binder-design canary | [BindCraft](bindcraft.md) or [BoltzGen](boltzgen.md) | [Cofold scoring stack](cofold-scoring-stack.md), [Refinement stack](refinement-stack.md) |
 | Scaffolded antibodies or multistate AF2 design | [BindCraft2](bindcraft2.md) | [Cofold scoring stack](cofold-scoring-stack.md) with separate results for each target state |
 | Binder design for flexible or disordered targets | [GuideFlip](guideflip.md) | Fixed-sequence validation, [Cofold scoring stack](cofold-scoring-stack.md), and explicit target-template masks |
@@ -116,7 +116,8 @@ A common end-to-end binder campaign:
 ```text
 target prep
   -> designer (RFdiffusion3 | RFpeptides | HelixDiff | PepGLAD | EvoBind | Genie3)
-  -> sequence design (ProteinMPNN or SolubleMPNN)
+  -> preserve native sequence/structure pairs; complete backbone-only outputs
+     with the declared sequence designer (optional redesign creates children)
   -> foldability/uncertainty review (ESMFold2 where useful)
   -> cofold slate (Boltz + Chai-1 + AF2-Multimer + optional OpenDDE)
   -> ipSAE rescore on PAE matrices

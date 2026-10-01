@@ -18,8 +18,8 @@ For a capability-by-capability map, use [`capabilities.md`](capabilities.md).
 | Protein design lane | Genie/RFdiffusion-style generation plan plus Boltz/Chai-style triage | [`tools/`](../tools/) and [`docs/tooling-and-licensing.md`](tooling-and-licensing.md) |
 | Model comparison | compare predicted/deposited models, preserve failures, rank candidates | [`tools/cofold-scoring-stack.md`](../tools/cofold-scoring-stack.md) |
 | GPCR/state atlas | receptor/state work waves, prediction/render contracts, switch reports | Ask the skill to scaffold a state-atlas campaign |
-| PDB/EMDB structure mapping | public accession provenance, validation plan, report outline | [`recipes/`](../recipes/) |
-| Screening and active learning | fanout, shard ledgers, result schemas, candidate reports | [`examples/screening-superpowers`](../examples/screening-superpowers) |
+| PDB/EMDB structure mapping | public accession provenance, validation plan, report outline | [`recipes/`](https://github.com/BioSymphony/structure-factory/tree/main/recipes) |
+| Screening and active learning | fanout, shard ledgers, result schemas, candidate reports | [`examples/screening-superpowers`](https://github.com/BioSymphony/structure-factory/tree/main/examples/screening-superpowers) |
 | Cloud/GPU prep | provider profiles, tracked templates, runtime packets, preflight, and closeout checks | [`docs/compute-backends.md`](compute-backends.md) |
 | Linear/Symphony handoff | tracker-neutral task plans with dependencies and validation commands | [`docs/linear-orchestration.md`](linear-orchestration.md) |
 
@@ -60,7 +60,7 @@ Use this lane with Claude Code, Codex, or another AI agent when you want to repe
 Use the binder-lane-round skill. Repeat or extend Anthropic's published binder-design study with a workflow-shape replay, an exact source-tool replay, or a deliberate tool-swap comparison. Declare the scientific constraints, license use context, tool gates, metric policy, and one route for every toolchain and stage. Materialize and preflight the handoff. Inspect the adapter registry, add runtime adapters for my selected tools, and request bounded approval before a paid provider start, non-public upload, terms acceptance, or large or license-gated download.
 ```
 
-Use the [`binder-lane-round` skill](../skills/binder-lane-round/SKILL.md) for agent instructions, [`binder-lane-round.md`](binder-lane-round.md) for planning, adapter, and closeout commands, and [`binder-study-decision-loop.md`](binder-study-decision-loop.md) for round choices and stopping rules. Set `published_workflow` to `null` for `toolchain-comparison`, `single-arm-replay`, and `custom` templates.
+Use the [`binder-lane-round` skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) for agent instructions, [`binder-lane-round.md`](binder-lane-round.md) for planning, adapter, and closeout commands, and [`binder-study-decision-loop.md`](binder-study-decision-loop.md) for round choices and stopping rules. Set `published_workflow` to `null` for `toolchain-comparison`, `single-arm-replay`, and `custom` templates.
 
 ### Public PDB/EMDB Structure Mapping
 
@@ -72,8 +72,8 @@ Use the Structure Factory skill. Turn this public PDB/EMDB accession into a stru
 
 Start from:
 
-- [`recipes/`](../recipes/)
-- [`examples/empiar-10204-v0`](../examples/empiar-10204-v0)
+- [`recipes/`](https://github.com/BioSymphony/structure-factory/tree/main/recipes)
+- [`examples/empiar-10204-v0`](https://github.com/BioSymphony/structure-factory/tree/main/examples/empiar-10204-v0)
 - [`docs/agentic-biology-harness.md`](agentic-biology-harness.md)
 
 Good output includes a compact public plan, not raw movies, reconstruction outputs, generated maps, private structures, or overconfident interpretation.
@@ -89,7 +89,7 @@ Use the Structure Factory skill. Plan a GPCR activation-state atlas from public 
 Start from:
 
 - ask the skill to scaffold a state-atlas campaign
-- [`tools/cofold-scoring-stack.md`](../tools/cofold-scoring-stack.md), [`tools/proteinmpnn.md`](../tools/proteinmpnn.md), [`tools/chimerax-peptide-viz.md`](../tools/chimerax-peptide-viz.md)
+- [`tools/cofold-scoring-stack.md`](../tools/cofold-scoring-stack.md), [`tools/proteinmpnn.md`](https://github.com/BioSymphony/structure-factory/blob/main/tools/proteinmpnn.md), [`tools/chimerax-peptide-viz.md`](https://github.com/BioSymphony/structure-factory/blob/main/tools/chimerax-peptide-viz.md)
 - [`docs/compute-backends.md`](compute-backends.md)
 - [`docs/linear-orchestration.md`](linear-orchestration.md)
 
@@ -114,8 +114,8 @@ make screening-schema-check
 
 Start from:
 
-- [`recipes/screening-superpowers-local-fixture.md`](../recipes/screening-superpowers-local-fixture.md)
-- [`examples/screening-superpowers`](../examples/screening-superpowers)
+- [`recipes/screening-superpowers-local-fixture.md`](https://github.com/BioSymphony/structure-factory/blob/main/recipes/screening-superpowers-local-fixture.md)
+- [`examples/screening-superpowers`](https://github.com/BioSymphony/structure-factory/tree/main/examples/screening-superpowers)
 - [`docs/screening-superpowers.md`](screening-superpowers.md)
 
 Good output explains scale, schema shape, shard boundaries, and what remains synthetic or blocked.
@@ -140,10 +140,10 @@ make contract-self-check
 
 Start from:
 
-- [`recipes/runpod-no-download-smoke.md`](../recipes/runpod-no-download-smoke.md)
+- [`recipes/runpod-no-download-smoke.md`](https://github.com/BioSymphony/structure-factory/blob/main/recipes/runpod-no-download-smoke.md)
 - [`docs/compute-backends.md`](compute-backends.md)
 - [`docs/runpod-stack.md`](runpod-stack.md)
-- [`runpod/README.md`](../runpod/README.md)
+- [`runpod/README.md`](https://github.com/BioSymphony/structure-factory/blob/main/runpod/README.md)
 
 Good output is a reviewed contract and checklist. Write live provider packets and bindings under ignored `.runtime/` space. After readiness checks and explicit human authorization, execute through a validated adapter. Keep pod IDs, registry auth, approval records, logs, and fetched artifacts out of tracked git files.
 
@@ -165,10 +165,10 @@ python3 scripts/structure_factory/issue_check.py .runtime/pd-l1-issues --json
 
 Start from:
 
-- [`packs/README.md`](../packs/README.md)
+- [`packs/README.md`](https://github.com/BioSymphony/structure-factory/blob/main/packs/README.md)
 - [`docs/linear-orchestration.md`](linear-orchestration.md)
-- [`templates/github-issue.md`](../templates/github-issue.md)
-- [`templates/linear-issue.md`](../templates/linear-issue.md)
+- [`templates/github-issue.md`](https://github.com/BioSymphony/structure-factory/blob/main/templates/github-issue.md)
+- [`templates/linear-issue.md`](https://github.com/BioSymphony/structure-factory/blob/main/templates/linear-issue.md)
 
 Good output can be imported into Linear, GitHub Issues, Notion tasks, or another queue. Linear/Symphony users should preserve `sym:structure-factory`, wave labels, state policy, and parseable worker outcomes.
 
@@ -190,7 +190,7 @@ bsf audit .
 
 Start from:
 
-- [`PUBLIC_RELEASE.md`](../PUBLIC_RELEASE.md)
+- [`PUBLIC_RELEASE.md`](https://github.com/BioSymphony/structure-factory/blob/main/PUBLIC_RELEASE.md)
 - [`docs/public-switch-checklist.md`](public-switch-checklist.md)
 - [`docs/privacy-and-security-model.md`](privacy-and-security-model.md)
 
@@ -206,9 +206,9 @@ Use the Structure Factory skill. Review this proposed structure/design tool for 
 
 Start from:
 
-- [`tools/README.md`](../tools/README.md)
+- [`tools/README.md`](https://github.com/BioSymphony/structure-factory/blob/main/tools/README.md)
 - [`docs/tooling-and-licensing.md`](tooling-and-licensing.md)
-- [`references/software-registry.yaml`](../references/software-registry.yaml)
+- [`references/software-registry.yaml`](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml)
 
 Good output separates public documentation from actual install or execution authorization.
 
@@ -220,8 +220,8 @@ Good output separates public documentation from actual install or execution auth
 | Understand the whole workflow | [`docs/workflow-map.md`](workflow-map.md) | choose local, tracker, or cloud-prep mode |
 | Ask an agent to plan a campaign | [`docs/agent-recipes.md`](agent-recipes.md) | `bsf validate` and `bsf audit .` |
 | Install the portable skill | [`docs/skill-install.md`](skill-install.md) | `make harness-check` |
-| Run a compact fixture | [`recipes/`](../recipes/) | recipe-specific checks |
-| Split work into tasks | [`packs/README.md`](../packs/README.md) | `bsf issue-dry-run` |
+| Run a compact fixture | [`recipes/`](https://github.com/BioSymphony/structure-factory/tree/main/recipes) | recipe-specific checks |
+| Split work into tasks | [`packs/README.md`](https://github.com/BioSymphony/structure-factory/blob/main/packs/README.md) | `bsf issue-dry-run` |
 | Prepare cloud/GPU work | [`docs/compute-backends.md`](compute-backends.md) | bounded human authorization before paid starts, non-public uploads, terms acceptance, or gated downloads |
 | Publish or export | [`docs/public-switch-checklist.md`](public-switch-checklist.md) | `make public-switch-check` |
 

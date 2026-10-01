@@ -4,6 +4,8 @@ import re
 import unittest
 from pathlib import Path
 
+from scripts.structure_factory.public_doc_reference_check import bundled_reference_bytes
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_PROSE_ROOTS = (
@@ -138,8 +140,9 @@ class PublicExecutionDocTests(unittest.TestCase):
                 )
 
         for canonical, copies in mirrors.items():
-            expected = (ROOT / canonical).read_bytes()
             for copy in copies:
+                skill_root = ROOT / "skills" / copy.parts[1]
+                expected = bundled_reference_bytes(ROOT, skill_root, ROOT / canonical, ROOT / copy)
                 self.assertEqual(expected, (ROOT / copy).read_bytes(), str(copy))
 
 

@@ -14,14 +14,14 @@ No. The intended use is to point your agent at this repo and let the agent call 
 
 Any agent runtime that can read a skill file. The repo ships:
 
-- A portable skill at [`skills/biosymphony-structure-factory/SKILL.md`](../skills/biosymphony-structure-factory/SKILL.md) for Codex, Claude Code, Symphony workers, `/goal` stacks, and custom runtimes.
-- A binder comparison skill at [`skills/binder-lane-round/SKILL.md`](../skills/binder-lane-round/SKILL.md) for study-shape replay, tool swaps, license policy, and mixed-backend handoffs.
+- A portable skill at [`skills/biosymphony-structure-factory/SKILL.md`](https://github.com/BioSymphony/structure-factory/blob/main/skills/biosymphony-structure-factory/SKILL.md) for Codex, Claude Code, Symphony workers, `/goal` stacks, and custom runtimes.
+- A binder comparison skill at [`skills/binder-lane-round/SKILL.md`](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) for study-shape replay, tool swaps, license policy, and mixed-backend handoffs.
 
 If your agent can read Markdown and call a CLI, it can use this skill.
 
 ## Can I use Claude Code for an Anthropic binder-study replay?
 
-Yes. Point Claude Code, Codex, Symphony, or another Markdown-capable AI agent at this repository. Ask it to use the [`binder-lane-round` skill](../skills/binder-lane-round/SKILL.md), then follow the [binder lane round guide](binder-lane-round.md) and [binder study decision loop](binder-study-decision-loop.md). The lane supports an exact source-tool replay, a workflow-shape replay, or a deliberate tool comparison.
+Yes. Point Claude Code, Codex, Symphony, or another Markdown-capable AI agent at this repository. Ask it to use the [`binder-lane-round` skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md), then follow the [binder lane round guide](binder-lane-round.md) and [binder study decision loop](binder-study-decision-loop.md). The lane supports an exact source-tool replay, a workflow-shape replay, or a deliberate tool comparison.
 
 You can use your chosen AI agent and mix platform skills, hosted APIs, local or self-hosted tools, and cloud routes by stage. The decision loop records the route, use constraints, budget, stopping rule, and closeout requirements before execution.
 
@@ -43,9 +43,9 @@ Run `bsf catalog . --format markdown` after `pip install -e .` for a one-screen 
 
 ## How do I add my own tool, provider, or campaign mode?
 
-- **Tool.** Drop a new card under [`tools/`](../tools/) following the existing card format. Add it to [`references/software-registry.yaml`](../references/software-registry.yaml) if it is a recognized public tool.
+- **Tool.** Drop a new card under [`tools/`](../tools/) following the existing card format. Add it to [`references/software-registry.yaml`](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml) if it is a recognized public tool.
 - **Provider.** Add a profile under `modules/provider-profiles/<provider>/` matching the JSON shape in existing profiles.
-- **Campaign mode.** Extend the mode list in [`src/biosymphony_structure_factory/cli.py`](../src/biosymphony_structure_factory/cli.py) and add a matching template under `modules/campaigns/`.
+- **Campaign mode.** Extend the mode list in [`src/biosymphony_structure_factory/cli.py`](https://github.com/BioSymphony/structure-factory/blob/main/src/biosymphony_structure_factory/cli.py) and add a matching template under `modules/campaigns/`.
 - Run `make harness-check` to confirm the public surface still validates after your addition.
 
 ## What if my agent makes a mistake?
@@ -54,7 +54,7 @@ Every campaign manifest is validated by `bsf validate` before task packs or prov
 
 ## Does this run wet-lab protocols or clinical workflows?
 
-No. Wet-lab execution, clinical validation, and therapeutic conclusions live outside this repo. See [`NON_CLAIMS.md`](../NON_CLAIMS.md) and [`BIOSAFETY.md`](../BIOSAFETY.md) for the boundary.
+No. Wet-lab execution, clinical validation, and therapeutic conclusions live outside this repo. See [`NON_CLAIMS.md`](../NON_CLAIMS.md) and [`BIOSAFETY.md`](https://github.com/BioSymphony/structure-factory/blob/main/BIOSAFETY.md) for the boundary.
 
 ## Is this a replacement for Symphony or Linear?
 
@@ -83,7 +83,7 @@ All four return `ok: true` on a clean checkout.
 
 [`docs/operational-gotchas.md`](operational-gotchas.md) and [`docs/preflight-checklist.md`](preflight-checklist.md). The catalog lists ~45 failure classes with paste-ready pre-flight probes and fix recipes (RunPod payload limits, conda env traps, designer-specific gotchas, cofold output-field traps, orchestration cascade failures). The checklist is a ten-gate pre-dispatch pattern (PDB chain identity, hotspot atom-spec validity, output-count validation, human approval, and seven more) that catches the highest-value failure modes at zero cost.
 
-For ChimeraX render lanes specifically, [`tools/chimerax-onboarding.md`](../tools/chimerax-onboarding.md) is the single-file teammate-handoff brief.
+For ChimeraX render lanes specifically, [`tools/chimerax-onboarding.md`](https://github.com/BioSymphony/structure-factory/blob/main/tools/chimerax-onboarding.md) is the single-file teammate-handoff brief.
 
 ## What does "silent cascade failure" mean?
 

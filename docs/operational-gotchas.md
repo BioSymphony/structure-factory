@@ -35,7 +35,7 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 | 21 | Boltz torch driver mismatch   | `NVIDIA driver too old (12040)` | `torch.__version__` vs `nvidia-smi` CUDA |
 | 22 | Boltz `--write_full_pae` off  | downstream ipSAE fails: no `pae` in NPZ | grep `--write_full_pae` in entrypoint |
 | 23 | Boltz `affinity_summary.json` | ranking reads small-molecule head, not protein iPTM | read `confidence_<name>.json` only |
-| 24 | Chai-1 ESM-no-MSA default     | iPTM 0.3 lower than Boltz on identical complex | `use_esm_embeddings=False` + `msa_directory=...` |
+| 24 | Chai-1 MSA posture mismatch | Declared alignment input is not loaded | Verify resolved MSA inputs independently of ESM embeddings |
 | 25 | ColabFold MMseqs2 rate-limit  | 20+ jobs throttled, designs stall | pre-compute target `.a3m` once |
 | 26 | Genie 3 pretrained CWD        | `FileNotFoundError: pretrained/v1/config.yaml` | `cd $GENIE3_HOME &&` before invoking |
 | 27 | Genie 3 motif scaffolding     | Triad RMSD low but TM-score low (no fold rediscovery) | report triad ≠ fold separately |
@@ -44,7 +44,7 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 | 30 | PepGLAD env.yml incomplete    | OpenMM cpu-only crash on GPU pod | manual `pip install ray torch-scatter torch-cluster` |
 | 31 | PepGLAD ckpt URL drift        | `wget release/codesign.ckpt` 404 | local cached checkpoint copy |
 | 32 | PepGLAD `detect_pocket` JSON  | Parser expected dict, file is list of `[chain,[resi,ins]]` | parse as list, not dict |
-| 33 | PepGLAD OOD length            | CUDA device-side assert at length 20-30 | stay in 10-15 / `n_samples` ≤5 |
+| 33 | PepGLAD CUDA assertion | Generation fails before output validation | Isolate input, dependency, and device errors in a small canary |
 | 34 | STAGE_COMPLETE on empty out   | Orchestrator declares success on 0 outputs | gate marker on `ls *.pdb \| wc -l >= expected` |
 | 35 | RFpeptides IGSO3 first-run    | 13-min hang on first invocation | pre-stage schedule pickle to NV |
 | 36 | "Completed" agent looks dead  | Worker shows `status: completed`; assumed unreachable | use `SendMessage` to resume in background |
@@ -53,9 +53,9 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 | 39 | NV mount-point drift          | Path `/workspace/nv/X` vs `/workspace/X` between pods | `mount \| grep workspace` first |
 | 40 | Quota silently full           | Install fails midway with no specific error | `df -BG /workspace` in audit |
 | 41 | Boltz `--num_workers>1` race  | CUDA `_cuda_init` fails on shared GPU host | force `--num_workers 1` |
-| 42 | RFdiffusion polyG outputs     | Cofold iPTM uniformly ~0.1 | run ProteinMPNN before cofold |
-| 43 | PepGLAD two-chain output      | Binder extractor reads wrong chain | select shortest chain ≥5 aa |
-| 44 | ProteinMPNN on cyclic peptides | Zero sequences for cyclic backbones | use designer that bundles MPNN |
+| 42 | Backbone-only sequence placeholders | Placeholder sequence enters cofold | Complete sequence design and verify sequence/structure agreement |
+| 43 | PepGLAD combined output | Binder extractor reads wrong chain | Resolve `pep_chain` from `summary.jsonl`; verify `pep_seq` |
+| 44 | Cyclic topology lost at handoff | A closed backbone is evaluated as linear | Record topology and use a supported cyclic validation route |
 | 45 | Monitor pgrep race            | False-positive workload-dead detection | multi-process pgrep + heartbeat-age |
 
 ---
@@ -295,11 +295,11 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
   i.e. `[[chain, [resi, insertion_code]], ...]`. The shape is positional, not keyed.
 - **Fix:** parse as a list of (chain, (resi, ins)) tuples, not a dict.
 
-### 33. PepGLAD long-length is OOD
+### 33. PepGLAD CUDA assertions
 
-- **Symptom:** CUDA `device-side assert triggered` mid-design, no Python traceback.
-- **Root cause:** PepGLAD's training distribution covers shorter peptides; very-long combined with many-samples pushes it out-of-distribution.
-- **Fix:** stay in length 10-15 / `n_samples` ≤ 5 for the first pass. Expand only after a working baseline.
+- **Symptom:** CUDA `device-side assert triggered` before validated outputs exist.
+- **Probe:** reproduce with a small declared sample count; check pocket indices, length bounds, checkpoint compatibility, dependencies, and the first failing operation.
+- **Fix:** qualify a minimal canary before scaling. An assertion alone does not establish an out-of-distribution length limit. Preserve the failed arm and its configuration; see the [PepGLAD native contract](../tools/pepglad.md).
 
 ### 35. RFpeptides IGSO3 first-run hang
 
@@ -347,15 +347,12 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 - **Pre-flight probe (in ranking synthesis code):** grep for which JSON file is being read; should be `confidence_<name>.json`, not `affinity_summary.json`.
 - **Fix:** read `confidence_<name>.json` and use `pair_chains_iptm[binder, target]`. The affinity head is for small-molecule binding and does not apply to protein-protein interfaces.
 
-### 24. Chai-1 silent ESM-no-MSA default
+### 24. Chai-1 MSA posture mismatch
 
-- **Symptom:** Chai iPTM ~0.3 lower than Boltz on identical complex.
-- **Root cause:** `use_esm_embeddings=True` is the default, which runs single-sequence ESM mode. Apples-to-oranges against Boltz's MSA-driven prediction.
-- **Pre-flight probe:** `grep "use_esm_embeddings" scripts/structure_factory/*.py` — should be `False` for protein-protein cofold.
-- **Fix:**
-  ```python
-  run_inference(..., use_esm_embeddings=False, msa_directory="/workspace/msa_cache/<target>/")
-  ```
+- **Symptom:** a comparison declares supplied MSAs but the selected Chai invocation does not load them.
+- **Root cause:** MSA input settings and ESM embedding settings are independent. `use_esm_embeddings=True` does not disable supplied MSAs.
+- **Pre-flight probe:** inspect the resolved `msa_directory` or `use_msa_server` choice, query-to-alignment mapping, and retained input hashes. Confirm intentional query-only arms separately.
+- **Fix:** supply the declared alignments using the selected native interface. Chai v0.6.1 expects sequence-hashed `.aligned.pqt` files, not an arbitrarily named parquet file. Record ESM and template settings independently. See the [Chai card](../tools/chai.md) and [upstream input handling](https://github.com/chaidiscovery/chai-lab/blob/v0.6.1/chai_lab/chai1.py#L343).
 
 ### 25. ColabFold MMseqs2 rate-limit at ~20 jobs
 
@@ -373,23 +370,23 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 - **Root cause:** multi-process CUDA initialization races on shared L40 / L40S hosts; only the first process binds correctly.
 - **Fix:** force `--num_workers 1` for Boltz on community / shared cloud GPU hosts. Note that if Boltz fails even at `--num_workers 1` on a given pod, the host driver itself may be incompatible — pivot to AF2-Multimer + ipSAE rather than burning hours on a host-specific driver issue.
 
-### 42. RFdiffusion outputs are backbone-only (polyG)
+### 42. Backbone-only outputs need sequence completion
 
-- **Symptom:** cofolding designs against the target gives uniformly meaningless iPTM ~0.1 across the batch.
-- **Root cause:** RFdiffusion (and similar backbone-only generators) emits structures where all residues are labeled GLY as a placeholder. Cofold tools score polyG against any target as essentially noise.
-- **Fix:** always run ProteinMPNN (SolubleMPNN for soluble targets) on RFdiffusion / RFpeptides / Genie 3 outputs **before** the cofold step. PepGLAD and BindCraft bundle sequence design implicitly. RFdiffusion's "backbone only" character is easy to forget when comparing across designer arms.
+- **Symptom:** a placeholder sequence from a generated backbone enters cofold.
+- **Probe:** inspect actual sequence content and the generator's output contract before preparing FASTA. Do not infer sequence readiness from a parseable PDB.
+- **Fix:** run a compatible sequence-design stage for backbone-only outputs, then verify sequence/structure agreement. Genie3 CA-only outputs need native CA ProteinMPNN, which cannot combine CA-only and soluble weights at the reviewed pin. Preserve native sequence/structure pairs from co-design tools; optional redesign creates separate children. See the [ProteinMPNN card](../tools/proteinmpnn.md).
 
-### 43. PepGLAD output PDBs contain two chains
+### 43. PepGLAD output contains receptor and peptide chains
 
-- **Symptom:** binder extractor reads the wrong chain (often the target context, ~339 aa) instead of the actual designed peptide (~10-20 aa).
-- **Root cause:** PepGLAD co-folds the peptide with the target context for scoring; the output PDB therefore contains BOTH chains, not just the designed peptide.
-- **Fix:** binder extractor should select the **shortest chain with length ≥ 5 aa**, not chain A or chain B by default. Verify with a quick `pdb_select_chains` step before downstream cofold.
+- **Symptom:** the extractor selects receptor context instead of the designed peptide.
+- **Root cause:** PepGLAD writes the receptor chains with the co-designed peptide; peptide chain identity depends on the receptor chain set.
+- **Fix:** resolve `<id>.pdb` and `pep_chain` from the matching `summary.jsonl` row, then verify the extracted sequence against `pep_seq`. Reject missing or inconsistent mappings; do not guess by chain length. See the [pinned output writer](https://github.com/THUNLP-MT/PepGLAD/blob/bad015ca50c312a89482adb5220c3d907f13df5c/api/run.py#L198).
 
-### 44. ProteinMPNN cyclic mode does not cover all cyclic constraints
+### 44. Cyclic topology must survive sequence and validation handoffs
 
-- **Symptom:** RFpeptides cyclic backbones do not get sequences assigned; sequence design step produces zero output for cyclic peptides.
-- **Root cause:** the head-to-tail cyclic constraint is not always representable in standard ProteinMPNN's masking scheme.
-- **Fix:** for cyclic peptides, prefer designers that bundle their own sequence design (BindCraft-style stacks) or accept that vanilla ProteinMPNN may not produce valid sequences for some cyclic topologies. Always verify a sequence file is produced before launching cofold.
+- **Symptom:** a cyclic backbone receives sequence or refolding assessment without its closure topology.
+- **Root cause:** stock ProteinMPNN has no `--cyclic` flag. RFpeptides generation settings do not automatically configure downstream validators.
+- **Fix:** retain the topology specification, actual sequence-design implementation, sequence/structure agreement, and a supported cyclic refolding/geometry route. Validate output counts before launching downstream work. A produced sequence alone does not verify cyclic topology. See the [RFpeptides card](../tools/rfpeptides.md).
 
 ### 45. Monitor / supervisor race conditions through SSH heredocs
 

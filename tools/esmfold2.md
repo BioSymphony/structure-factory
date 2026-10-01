@@ -116,9 +116,10 @@ networked run.
 
 ## Cloud Run Pattern
 
-RunPod is the default reviewed pod path for this public repo, and Lambda Cloud GPU
-VMs and Modal serverless GPU functions are reviewed neocloud paths alongside it,
-each with its own provider profile and compute-backends note. Use generic-cloud
+RunPod supplies the reference pod contract. Lambda Cloud GPU VMs and Modal
+serverless GPU functions also have provider profiles and compute-backends notes.
+Select a campaign-qualified provider profile and verify its runtime readiness,
+authorization, budget, artifact, and cleanup requirements. Use generic-cloud
 adapters for other cloud VMs until the repository includes a provider profile
 and validator coverage.
 

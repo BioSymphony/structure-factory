@@ -2,7 +2,7 @@
 
 **Purpose:** no paid GPU dispatch leaves this repo without passing every HARD gate below. Most of these gates are zero-cost deterministic checks that catch the most expensive failure modes before a worker burns time or money.
 
-This file is the **pattern**, not a finished script. Each gate documents what to check, why it matters, and a paste-ready fix recipe. Adapt to your stack.
+This file is the **pattern**, not a finished script. Each gate documents what to check and why it matters. Implement dispatch checks in the selected provider adapter; examples below include conceptual checks and runtime-specific recipes.
 
 The companion catalog with detailed failure-mode explanations is [`docs/operational-gotchas.md`](operational-gotchas.md). The hardening principle is in [`docs/no-false-success-hardening.md`](no-false-success-hardening.md).
 
@@ -14,13 +14,14 @@ The companion catalog with detailed failure-mode explanations is [`docs/operatio
 2. Run the preflight checks against the config.
 3. Only on full PASS, dispatch.
 
+The shipped local checks validate repository and campaign contracts:
+
 ```bash
-python3 scripts/structure_factory/preflight_check.py \
-    --config inputs/campaign_preflight_config.json
-# Only on PASS:
-bash scripts/structure_factory/campaign_launcher.sh \
-    inputs/campaign_preflight_config.json
+make preflight
+bsf validate examples/pd-l1-binder-design-public
 ```
+
+These commands do not implement every dispatch gate below or launch a job. The selected adapter must evaluate the campaign's resolved inputs, runtime, authorization, and expected outputs before dispatch.
 
 **Hard rule:** if the preflight check exits non-zero, do NOT dispatch. Fix the failed gate(s) first.
 
@@ -51,15 +52,12 @@ assert extract_first_20(pdb, chain) == expected_first_20
 
 **Why it matters:** a hotspot spec asking for `CG,CZ` (aromatic ring atoms — Phe / Tyr) at a position that is actually Ile (atoms `CG1,CG2,CD1`) crashes RFdiffusion3's pydantic validator mid-run with a cryptic error. The incident pattern: 0/25 designs lost from an arm after weights had already loaded.
 
-**Fix recipe:**
-```bash
-python3 scripts/structure_factory/validate_hotspots_for_rfd3.py \
-    target.pdb A --spec '{"33":["CG","CZ"], "36":["CZ2","CH2"]}'
-```
+**Conceptual check (implement in the adapter):** resolve each hotspot through the target's residue map and assert that every requested atom is present on that exact residue. Retain the resolved chain, residue number, insertion code, residue identity, and atom list.
 
-The validator decodes atom names against the actual residue identity at each hotspot. Common atom-set patterns:
+Decode atom names against the actual residue identity at each hotspot. Common atom-set patterns:
 - `CG1/CG2` only: Val
-- `CG1/CG2/CD1`: Ile or Leu
+- `CG1/CG2/CD1`: Ile
+- `CG/CD1/CD2`: Leu
 - `CG+CZ`: aromatic Phe/Tyr
 - `CG` only: Phe / Trp / Tyr / His / Met / Lys / Arg / Asn / Asp / Gln / Glu
 
@@ -107,15 +105,15 @@ ln -sfn /workspace/software/boltz_cache ~/.boltz
 
 ---
 
-### G5 — Chai-1 MSA flag presence (HARD)
+### G5 — Chai-1 resolved MSA posture (HARD)
 
-**What it does:** greps your worker script for Chai-1 invocations. If found, asserts at least one of `--use-msa-server`, `--msa-directory`, `pre_msa_directory`, `use_msa_server=True`, or `msa_dir=`.
+**What it does:** checks that the resolved native invocation loads the declared alignment inputs or records an intentional query-only arm. For supplied MSAs, validate query identity, native filenames/schema, and hashes. For a selected MSA-server route, verify its configuration and permitted input posture.
 
-**Why it matters:** Chai-1's default is single-sequence ESM mode (`use_esm_embeddings=True`). Same complex on Boltz (MSA-driven) vs Chai-1 (no MSA) produces an apples-to-oranges iPTM gap, often ~0.3, that looks like a real disagreement but is actually a settings bug.
+**Why it matters:** Chai's MSA loading and ESM embeddings are independent settings. Inspecting `use_esm_embeddings` alone does not prove an MSA was used. Comparisons need recorded alignment, embedding, and template settings.
 
-**Fix recipe:** pass `--use-msa-server --use-templates-server` to every Chai-1 invocation. For apples-to-apples vs Boltz, pre-compute the target MSA once and pass `--msa-directory` to both tools.
+**Fix recipe:** supply `msa_directory` or select `use_msa_server` through the pinned Chai interface. Native v0.6.1 uses sequence-hashed `.aligned.pqt` files; use its exporter. Boltz accepts its own YAML MSA contract, so convert and validate inputs rather than passing Chai flags to Boltz. Do not add template-server calls to an arm that did not declare them. See the [Chai card](https://github.com/BioSymphony/structure-factory/blob/main/tools/chai.md).
 
-**Operator approval:** N/A.
+**Operator approval:** external services must match the campaign's authorized data and network posture.
 
 ---
 
@@ -123,15 +121,19 @@ ln -sfn /workspace/software/boltz_cache ~/.boltz
 
 **What it does:** if your worker invokes Boltz, asserts `--write_full_pae` is present. If any fold or cofold lane will be scored, asserts the expected artifact list includes confidence sidecars for the exact reviewed model: PAE or equivalent interface-error matrix, per-residue pLDDT, confidence JSON, and hashes. Warns if PAE is dumped but no ipSAE rescore is wired in.
 
-**Why it matters:** raw iPTM has ROC-AUC ~0.5 (random) for wet-lab binders per the Adaptyv n=3,766 study. ipSAE is a post-hoc rescore from the PAE matrix and is ~1.4× more precise. Multiple competition leaders abandoned raw iPTM gates entirely. If the stage saves only the scalar score, recovering the PAE or pLDDT later requires another fold and may not reproduce the same sample.
+**Why it matters:** retain confidence and interface-error outputs so scores can be recomputed without another fold. iPTM and ipSAE require predictor-specific calibration against the declared control panel; neither is a universal binding gate. Geometry and independent prediction remain separate checks. See the [cofold scoring contract](../tools/cofold-scoring-stack.md).
 
-**Fix recipe:**
+**Fix recipe:** enable the selected Boltz interface's full-PAE output and rescore a specific matching structure/matrix pair with the bundled wrapper:
+
 ```bash
-boltz predict --cache /workspace/software/boltz_cache \
-    --write_full_pae --diffusion_samples 3 ... inputs.yaml
-# then rescore:
-python3 /workspace/ipsae/ipsae.py boltz_results_*/predictions/<stem>/
+python3 scripts/structure_factory/compute_ipsae.py \
+    --boltz-cif <prediction.cif> --pae-npz <pae.npz> \
+    --binder-chain <binder_id> --target-chain <target_id> \
+    --pae-cutoff <angstrom_cutoff> --dist-cutoff <angstrom_cutoff> \
+    --output <summary.json>
 ```
+
+Record the chosen cutoffs, scorer identity, input hashes, chain mapping, and calibration controls. The wrapper's compatibility flag is not a binding verdict.
 
 Declare the sidecar contract before launch:
 
@@ -146,7 +148,7 @@ expected_artifacts:
 
 See [`docs/confidence-sidecars.md`](confidence-sidecars.md) for the full rule.
 
-**Operator approval:** N/A — `--write_full_pae` adds <2% wall time.
+**Operator approval:** covered by the declared inference and scoring plan; measure sidecar overhead for the selected runtime.
 
 ---
 
@@ -322,5 +324,5 @@ When a campaign hits a new failure class, add it here:
 
 Gates that have been added in past campaigns and may be worth adopting:
 - Boltz `--num_workers 1` flag (multi-process CUDA init races on shared GPU hosts).
-- Binder-extractor chain selection (PepGLAD outputs two-chain PDBs; selector must pick the shortest chain ≥5 aa).
-- Designer-output sequence-content check (RFdiffusion / RFpeptides / Genie 3 outputs are polyG until ProteinMPNN runs; cofold gate should refuse polyG inputs).
+- Binder-extractor chain selection (resolve PepGLAD `pep_chain` from the matching `summary.jsonl` row and verify `pep_seq`).
+- Designer-output sequence-content check (complete backbone-only sequence design before cofold; preserve native co-designed pairs and reject unresolved placeholder sequences).

@@ -58,7 +58,7 @@ Use `skills/biosymphony-structure-factory/SKILL.md` with an agent that can read 
 - Refinement and rendering records: ChimeraX, PyMOL, MD, and docking cards.
 - Local checked paths: campaign scaffolding, public fixtures, validation, catalog generation, and provider-packet dry runs.
 
-The presence of a tool card does not prove installation, provider service, or a successful biological result. Read [`references/software-registry.yaml`](references/software-registry.yaml), then verify runtime status before use.
+The presence of a tool card does not prove installation, provider service, or a successful biological result. Read [`references/software-registry.yaml`](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml), then verify runtime status before use.
 
 ## Public Safety Rules
 

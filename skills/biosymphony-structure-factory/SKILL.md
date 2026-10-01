@@ -29,6 +29,10 @@ For ambiguous inputs, tools, or spending limits, use
 For a first campaign, use `references/docs/quickstart-tour.md`; find command
 options in `references/docs/cli-reference.md`.
 
+Bundled references keep links to included files local. Links to repository files
+outside this compact bundle point to the canonical public GitHub tree. Use the
+selected repository checkout for CLI commands and runtime files.
+
 ## Read the references for your task
 
 | Task | References |

@@ -8,6 +8,7 @@ import json
 import os
 import re
 from pathlib import Path
+from urllib.parse import quote, urlsplit
 
 
 DOC_SUFFIXES = {".md", ".qmd", ".yaml", ".yml", ".toml", ".json"}
@@ -59,6 +60,66 @@ RELATIVE_LINK_CHECK_DOCS = {
     "recipes/README.md",
 }
 RELATIVE_LINK_CHECK_PREFIXES: tuple[str, ...] = ()
+PUBLIC_REPO = "https://github.com/BioSymphony/structure-factory"
+PORTABLE_LINK_SKILL = "biosymphony-structure-factory"
+
+
+def bundled_reference_bytes(root: Path, skill_root: Path, canonical: Path, bundled: Path) -> bytes:
+    """Keep canonical content, replacing links to files omitted from the portable kit."""
+    data = canonical.read_bytes()
+    if skill_root.name != PORTABLE_LINK_SKILL or canonical.suffix != ".md":
+        return data
+
+    def destination(candidate: str, *, image: bool = False) -> str:
+        parsed = urlsplit(candidate)
+        if parsed.scheme or parsed.netloc or not parsed.path or any(c in candidate for c in "<>$*{} "):
+            return candidate
+        target = (canonical.parent / parsed.path).resolve()
+        local = (bundled.parent / parsed.path).resolve()
+        try:
+            relative = target.relative_to(root.resolve()).as_posix()
+        except ValueError:
+            return candidate
+        if not target.exists() or (local.is_relative_to(skill_root.resolve()) and local.exists()):
+            return candidate
+        if image:
+            url = "https://raw.githubusercontent.com/BioSymphony/structure-factory/main/" + quote(relative)
+        else:
+            route = "tree" if target.is_dir() else "blob"
+            url = f"{PUBLIC_REPO}/{route}/main/" + quote(relative)
+        if parsed.query:
+            url += "?" + parsed.query
+        if parsed.fragment:
+            url += "#" + parsed.fragment
+        return url
+
+    text = data.decode("utf-8")
+    text = re.sub(
+        r"(!?\[[^\]]*\]\()([^\s)]+)(\))",
+        lambda m: m.group(1) + destination(m.group(2), image=m.group(1).startswith("!")) + m.group(3),
+        text,
+    )
+    text = re.sub(
+        r"(<img\s+[^>]*src=[\"'])([^\"']+)([\"'])",
+        lambda m: m.group(1) + destination(m.group(2), image=True) + m.group(3),
+        text,
+        flags=re.I,
+    )
+    return text.encode("utf-8")
+
+
+def sync_skill_references(root: Path) -> None:
+    """Refresh existing references only; never expand a kit to the whole repository."""
+    for skill_root in sorted((root / "skills").iterdir()):
+        skill_refs = skill_root / "references"
+        if not skill_refs.is_dir():
+            continue
+        for bundled in sorted(path for path in skill_refs.rglob("*") if path.is_file()):
+            canonical = root / bundled.relative_to(skill_refs)
+            if canonical.is_file():
+                expected = bundled_reference_bytes(root, skill_root, canonical, bundled)
+                if bundled.read_bytes() != expected:
+                    bundled.write_bytes(expected)
 
 
 def is_bundled_skill_reference(root: Path, path: Path) -> bool:
@@ -259,7 +320,7 @@ def check(root: Path) -> dict[str, object]:
             for bundled in sorted(path for path in skill_refs.rglob("*") if path.is_file()):
                 relative = bundled.relative_to(skill_refs)
                 canonical = root / relative
-                if canonical.is_file() and bundled.read_bytes() != canonical.read_bytes():
+                if canonical.is_file() and bundled.read_bytes() != bundled_reference_bytes(root, skill_root, canonical, bundled):
                     findings.append(
                         {
                             "path": bundled.relative_to(root).as_posix(),
@@ -267,12 +328,17 @@ def check(root: Path) -> dict[str, object]:
                             "message": relative.as_posix(),
                         }
                     )
-            if skill_root.name != "binder-lane-round":
+            if skill_root.name not in {"binder-lane-round", PORTABLE_LINK_SKILL}:
                 continue
             for markdown in sorted(skill_root.rglob("*.md")):
                 text = markdown.read_text(encoding="utf-8")
-                for match in re.finditer(r"\[[^\]]+\]\(([^)]+)\)", text):
-                    candidate = match.group(1).strip().strip("<>").split("#", 1)[0]
+                candidates = [match.group(1) for match in re.finditer(r"\[[^\]]+\]\(([^)]+)\)", text)]
+                candidates.extend(
+                    match.group(1)
+                    for match in re.finditer(r"<img\s+[^>]*src=[\"']([^\"']+)[\"']", text, flags=re.I)
+                )
+                for raw_candidate in candidates:
+                    candidate = raw_candidate.strip().strip("<>").split("#", 1)[0]
                     if not candidate or candidate.startswith(("http://", "https://", "mailto:", "#")):
                         continue
                     if markdown.parent == skill_root and candidate.startswith(("assets/", "references/", "scripts/", "tools/")):
@@ -306,8 +372,12 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--json", action="store_true")
+    parser.add_argument("--sync-skill-references", action="store_true", help="Refresh existing canonical copies and portable links before checking")
     args = parser.parse_args()
-    result = check(Path(args.repo_root).resolve())
+    root = Path(args.repo_root).resolve()
+    if args.sync_skill_references:
+        sync_skill_references(root)
+    result = check(root)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["ok"] else 1
 

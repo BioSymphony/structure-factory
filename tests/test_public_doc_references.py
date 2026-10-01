@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.structure_factory.public_doc_reference_check import check
+from scripts.structure_factory.public_doc_reference_check import check, sync_skill_references
 from scripts.structure_factory.runpod_public_template_check import check_manifest
 
 
@@ -85,6 +85,82 @@ class PublicDocReferenceTests(unittest.TestCase):
                 any(item["check_id"] == "missing-bundled-skill-link" for item in result["findings"]),
                 result,
             )
+
+    def test_portable_sync_keeps_local_references_and_links_omitted_targets_publicly(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Makefile").write_text("release-check:\n\ttrue\n")
+            (root / "docs").mkdir()
+            (root / "tools").mkdir()
+            (root / "tools" / "method.md").write_text("# Method\n")
+            (root / "docs" / "included.md").write_text("# Included\n")
+            (root / "docs" / "plot.svg").write_text("<svg/>\n")
+            (root / "docs" / "guide.md").write_text(
+                "Read [included](included.md#included), [method](../tools/method.md#method), "
+                "and [tools](../tools/).\n![plot](plot.svg)\n<img src=\"plot.svg\">\n"
+            )
+            bundled = root / "skills" / "biosymphony-structure-factory" / "references" / "docs"
+            bundled.mkdir(parents=True)
+            for name in ("guide.md", "included.md"):
+                (bundled / name).write_text("stale\n")
+            sync_skill_references(root)
+            rendered = (bundled / "guide.md").read_text()
+            self.assertIn("[included](included.md#included)", rendered)
+            self.assertIn("https://github.com/BioSymphony/structure-factory/blob/main/tools/method.md#method", rendered)
+            self.assertIn("https://github.com/BioSymphony/structure-factory/tree/main/tools", rendered)
+            self.assertEqual(rendered.count("https://raw.githubusercontent.com/BioSymphony/structure-factory/main/docs/plot.svg"), 2)
+            self.assertFalse((bundled.parent / "tools").exists())
+            self.assertTrue(check(root)["ok"], check(root))
+            sync_skill_references(root)
+            self.assertEqual((bundled / "guide.md").read_text(), rendered)
+            (root / "docs" / "guide.md").write_text("Updated canonical prose.\n")
+            self.assertTrue(any(item["check_id"] == "stale-skill-reference-copy" for item in check(root)["findings"]))
+
+    def test_main_portable_skill_reports_unresolvable_local_links(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Makefile").write_text("release-check:\n\ttrue\n")
+            bundled = root / "skills" / "biosymphony-structure-factory" / "references" / "docs"
+            bundled.mkdir(parents=True)
+            (bundled / "guide.md").write_text("See [missing](missing.md).\n")
+            self.assertTrue(any(item["check_id"] == "missing-bundled-skill-link" for item in check(root)["findings"]))
+
+    def test_other_skill_mirrors_stay_byte_exact(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Makefile").write_text("release-check:\n\ttrue\n")
+            (root / "docs").mkdir()
+            canonical = root / "docs" / "guide.md"
+            canonical.write_text("Read [guide](guide.md).\n")
+            bundled = root / "skills" / "binder-lane-round" / "references" / "docs"
+            bundled.mkdir(parents=True)
+            (bundled / "guide.md").write_text("stale\n")
+            sync_skill_references(root)
+            self.assertEqual((bundled / "guide.md").read_bytes(), canonical.read_bytes())
+            self.assertTrue(check(root)["ok"], check(root))
+
+    def test_portable_html_images_require_existing_contained_targets(self) -> None:
+        for skill_name in ("biosymphony-structure-factory", "binder-lane-round"):
+            with self.subTest(skill=skill_name), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                (root / "Makefile").write_text("release-check:\n\ttrue\n")
+                (root / "outside.svg").write_text("<svg/>\n")
+                bundled = root / "skills" / skill_name / "references" / "docs"
+                bundled.mkdir(parents=True)
+                (bundled / "included.svg").write_text("<svg/>\n")
+                (bundled / "guide.md").write_text(
+                    "<img src='missing.svg'>\n"
+                    '<img src="../../../../outside.svg">\n'
+                    "<img src='included.svg'>\n"
+                )
+                findings = check(root)["findings"]
+                self.assertEqual(
+                    {(item["check_id"], item["message"]) for item in findings},
+                    {
+                        ("missing-bundled-skill-link", "missing.svg"),
+                        ("escaping-bundled-skill-link", "../../../../outside.svg"),
+                    },
+                )
 
     def test_runpod_public_template_check_rejects_launchable_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

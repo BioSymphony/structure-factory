@@ -2,66 +2,79 @@
 
 ## Purpose
 
-Plan cyclic or constrained peptide design lanes in the RFdiffusion family. RFpeptides extends the RFdiffusion approach to peptide-scale binders (6-15 amino acids), including head-to-tail cyclization, disulfide constraints, and other backbone-link patterns that small-molecule-style peptides require.
+Plan head-to-tail macrocyclic peptide design using the RFpeptides protocol in
+RFdiffusion. Keep backbone generation, sequence design, and cyclic-aware
+refolding as distinct stages. Other covalent topologies need their own reviewed
+implementation and input contract.
 
 ## Public-Safe Status
 
-Public scaffold: yes. Runtime use requires current RFdiffusion-family code, weight, and dependency review. Store weights and generated peptides under ignored runtime storage or in a user-selected artifact store.
+Public scaffold: yes. The reviewed official RFdiffusion source and README-linked
+weights carry a BSD license. Selected dependencies, containers, and downstream
+predictors retain their own terms. Runtime execution requires a validated adapter;
+store weights and generated peptides outside public git.
 
 ## When To Use
 
-- Short cyclic peptide binders (6-15 aa) against a defined target hotspot window.
-- Peptidomimetic design where backbone constraints (head-to-tail cyclization, disulfide bridges) are non-negotiable.
-- Cases where a linear miniprotein is too large for the target geometry but a small constrained peptide could thread the interface.
+- Head-to-tail macrocyclic peptide backbone generation, with or without a target.
+- Site-conditioned macrocycle design against a declared target window.
+- A comparison arm with explicitly preserved cyclic topology through sequence
+  design, refolding, and geometry review.
 
 ## Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill with the RFpeptides tool card. For target <PDB:ID> with hotspot window <residues>, prepare a cyclic or constrained peptide design lane. Specify cyclization style (head-to-tail, disulfide), residue length range, the ProteinMPNN cyclic-mode sequence pass, and the cofold handoff.
+Use the BioSymphony Structure Factory skill with the RFpeptides tool card. For target <PDB:ID> and site <residues>, prepare the official head-to-tail macrocycle route. Declare length, generated cyclic-chain mapping, backbone generation, sequence design, cyclic-aware refolding, and computational geometry/confidence checks.
 ```
 
 ## Typical Inputs
 
-- Public target structure and hotspot window (3-5 critical residues).
-- Peptide length range (6-15 aa typical).
-- Cyclization specification: head-to-tail backbone closure, disulfide pair, or other backbone link constraint.
-- Sample count.
-- Optional template peptide when refining a known starting point.
+- Target PDB and an explicit native-to-generated chain/residue map.
+- Contig specification, declared peptide length, and target hotspots.
+- Generator cyclic-chain selection, checkpoint identity, seeds, and sample count.
+- Separate sequence-design and refolding configurations preserving the topology.
 
 ## Typical Outputs
 
-- Generated peptide backbones (PDB) outside git, often shown as ribbon/cartoon rather than all-atom because side chains come from the downstream MPNN pass.
-- Per-design constraint satisfaction summary: cyclization closure RMSD, hotspot contact count, clash count.
-- Sequence-design handoff (typically ProteinMPNN in cyclic mode) and cofold ranking input manifest.
+- Generated backbone PDBs and `.trb` mapping/configuration records.
+- Sequence children linked to each backbone parent.
+- Cyclic-aware refolding structures, confidence sidecars, and geometry review.
 
 ## Repo And References
 
-- RFdiffusion family: https://github.com/RosettaCommons/RFdiffusion
-- Cyclic peptide / macrocycle design with RFdiffusion is described in the RFdiffusion all-atom and follow-up Baker lab papers (Krishna et al. 2024; cyclic-peptide methods preprints).
+Reviewed official RFdiffusion source pin:
+`86507b6538f51fce57b5a72477165f03999ed7ae`.
+
+- [Macrocycle documentation](https://github.com/RosettaCommons/RFdiffusion/blob/86507b6538f51fce57b5a72477165f03999ed7ae/README.md#macrocyclic-peptide-design-with-rfpeptides).
+- [Official binder example](https://github.com/RosettaCommons/RFdiffusion/blob/86507b6538f51fce57b5a72477165f03999ed7ae/examples/design_macrocyclic_binder.sh).
+- Rettie, Juergens, Adebomi et al., [RFpeptides paper](https://doi.org/10.1038/s41589-025-01929-w), Nature Chemical Biology (2025): backbone generation with cyclic offsets, ProteinMPNN sequence design, then AfCycDesign and/or cyclic-offset RoseTTAFold prediction.
+- [License covering source and README-linked weights](https://github.com/RosettaCommons/RFdiffusion/blob/86507b6538f51fce57b5a72477165f03999ed7ae/LICENSE).
 
 ## Key Knobs
 
-| Setting | Recommendation | Why |
-| --- | --- | --- |
-| Peptide length | 6-12 aa for cyclics | Above ~15 aa, switch to HelixDiff / PepGLAD or miniproteins. |
-| Cyclization mode | head-to-tail or disulfide | Match the chemistry the downstream synthesis lane supports. |
-| `ppi.hotspot_res` | 3-5 hotspot residues | Too few = weak interface; too many = over-constrained. |
-| `inference.num_designs` | 100-500 | Small backbones; sample density matters. |
-| Backbone-link RMSD gate | < 0.5 Å closure | Fail-closed: reject designs that do not close cleanly. |
-| Downstream ProteinMPNN cyclic | mandatory | Sequence pass for cyclic backbones must respect closure. |
+| Setting | Contract |
+| --- | --- |
+| `contigmap.contigs` | Declare length and target mapping; the official binder example samples 12–18 residues, which is an example rather than a universal range. |
+| `inference.cyclic=True` | Enables macrocycle generation in RFdiffusion. |
+| `inference.cyc_chains` | Names the generated chains to cyclize; the example uses `'a'`. Verify the output chain map. |
+| `ppi.hotspot_res` | References residues in the input target PDB. |
+| `inference.num_designs` | Set within the declared campaign quota and authorization. |
 
 ## Gotchas
 
-- Cyclic backbones that look closed in the generated PDB may still have unsatisfied valences; verify the bond geometry before sequence assignment.
-- ProteinMPNN must be invoked in cyclic mode (`--cyclic 1` or equivalent) or the resulting sequence will treat the peptide as linear.
-- Cofold validators were largely trained on linear sequences; their iPTM may under-report binder quality on cyclic peptides. Use ipSAE on the PAE matrix and visual inspection alongside iPTM.
-- Disulfide-constrained designs need explicit cysteine positions specified ahead of time; otherwise the sequence pass will not place them where the constraint expects.
-- Wet-lab synthesis of cyclic peptides has its own constraints (residue tolerances, head-to-tail cyclization yield); cap claims at `computational_candidate` and consult chemistry before promotion.
+- These cyclization settings belong to RFdiffusion, not stock ProteinMPNN.
+  The [ProteinMPNN card](proteinmpnn.md) records its actual supported operations.
+- Preserve head-to-tail connectivity across structure conversion and refolding;
+  a plain linear FASTA does not communicate that topology to every predictor.
+- Check bond geometry, clashes, and exact-site contacts under a declared policy.
+  This card supplies no universal closure RMSD or confidence cutoff.
+- Disulfides and other backbone links are separate topology arms; the official
+  head-to-tail example does not establish support for every constrained peptide.
 
 ## Gates
 
-- Check cyclization closure RMSD and target hotspot contacts before downstream spend.
-- Do not commit generated PDBs, trajectories, or candidate batches.
-- Keep claims at `computational_candidate` until orthogonal cofold + chemistry review.
-- Rebuild public launch packets from tracked source; never publish embedded payload manifests with private synthesis routes.
-- Run a currency check before any paid GPU dispatch: upstream repo HEAD (releases + recent commits), current release notes, and recent preprints (biorxiv / chemrxiv / arxiv) on cyclic peptide design and the RFdiffusion family. Record the version pin and the date of the check in the candidate ranking or validation notes.
+- Validate generated-chain selection and target mapping before scaling.
+- Require sequence and topology-preserving refold artifacts with hashes/counts.
+- Calibrate confidence and geometry checks using matched controls.
+- Keep generated artifacts outside public git and claims at
+  `computational_candidate` or lower until independent validation exists.

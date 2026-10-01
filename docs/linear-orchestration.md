@@ -186,7 +186,7 @@ provider:neocloud
 | `generic-cloud` | adapter contract only | required for VM/pod mutation | `make provider-check` |
 | `neocloud` | adapter contract and scope posture | required for pod mutation | `make neocloud-scope-check` |
 
-RunPod is the default reviewed paid-pod provider for the first Structure Factory demos. AWS Batch is the reviewed cloud-scale provider after adapter closeout parity. SSH/HPC, generic cloud, and neocloud labels are for adapter planning or local prep unless a task explicitly authorizes provider-specific execution.
+RunPod supplies the reference paid-pod contract, and AWS Batch supplies a cloud-scale profile. Select the task's provider through a qualified adapter and its declared budget, data, artifact, and cleanup requirements. Provider profiles and routing labels establish planning coverage; execution requires runtime readiness and authorization for the selected route.
 
 ## State Policy
 

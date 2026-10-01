@@ -33,8 +33,8 @@ Symphony executes bounded worker issues and reports artifact paths, hashes, comm
 Structure Factory should support multiple execution backends:
 
 - local macOS review and visualization
-- RunPod GPU pods for Structure Factory design, validation, report, and visualization work, as the default reviewed remote path
-- AWS Batch GPU jobs for reviewed cloud-scale lanes
+- RunPod GPU pods as the reference contract for design, validation, report, and visualization work
+- AWS Batch GPU jobs through the cloud-scale profile
 - SSH/HPC workers for institutional data/license boundaries
 - generic cloud VM and neocloud pod adapters when they satisfy the same provider contract
 - future object-storage backed artifact exchange
@@ -42,6 +42,7 @@ Structure Factory should support multiple execution backends:
 Raw cryo-EM movie intake, EMPIAR subset execution, RELION/CryoSPARC reconstruction, and map-to-model build execution are CryoCore-owned. Structure Factory records handoff contracts and consumes validated deposited or downstream artifacts for evidence, design, and reporting workflows.
 
 Every backend must emit the same artifact tree and pass the same input-audit and contract-self-check gates. Provider completion is not scientific completion.
+Select the task's provider through a qualified adapter and its declared budget, data, artifact, and cleanup requirements.
 
 ## Artifact Shape
 

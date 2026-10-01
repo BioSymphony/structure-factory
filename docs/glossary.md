@@ -24,9 +24,9 @@ Structural biology and Structure Factory terms a newcomer or general-purpose age
 
 ## Confidence Metrics
 
-- **pLDDT.** Predicted Local Distance Difference Test. Per-residue confidence score from structure-prediction models, range 0 to 100. Higher is better.
+- **pLDDT.** Predicted Local Distance Difference Test. Local confidence score; higher is better. Record the native output scale (0 to 100 or normalized 0 to 1) and any conversion before comparing values or applying thresholds.
 - **iPTM.** Interface Predicted TM-score. Confidence in the predicted protein-protein interface, range 0 to 1. Higher is better.
-- **ipSAE.** Interface Predicted Aligned Error variant. Local interface error metric in Ångström. Lower is better.
+- **ipSAE.** PAE-derived interface confidence score, dimensionless and ranging from 0 to 1; higher is better. Record its directional aggregation and PAE/distance cutoffs, whose units are Ångström. See the [upstream score definitions](https://github.com/DunbrackLab/IPSAE/blob/6174cf9e71cb1bd660cc805856a18c4871a6dec3/README.md#output-chain-chain-score-file).
 - **TM-score.** Template Modeling score for global fold similarity. Range 0 to 1.
 
 ## Structure Factory Vocabulary

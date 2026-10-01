@@ -2,7 +2,7 @@
 
 Structure Factory helps you and your AI agent turn a public accession or synthetic fixture plus a structured site into concrete lanes for binder design, protein modeling, structure mapping, screening, rendering, and execution.
 
-Start with the [copyable campaign brief](../README.md#copyable-campaign-brief): choose the target and site, study mode, tools and routes, budget, rounds, primary metric, stopping rule, and closeout outputs. The repo supplies reusable scaffolds, fixtures, provider contracts, and report shapes. Your runtime holds any live credentials, paid execution, generated structures, accepted-license state, and private data.
+Start with the [copyable campaign brief](../README.md#how-to-use-this): choose the target and site, study mode, tools and routes, budget, rounds, primary metric, stopping rule, and closeout outputs. The repo supplies reusable scaffolds, fixtures, provider contracts, and report shapes. Your runtime holds any live credentials, paid execution, generated structures, accepted-license state, and private data.
 
 Raw cryo-EM movie intake, EMPIAR subset execution, RELION or CryoSPARC reconstruction, and map-to-model build execution belong to BioSymphony CryoCore. Structure Factory owns the handoff, downstream structure-mapping workflow, design lanes, validation checks, and report/figure packaging.
 

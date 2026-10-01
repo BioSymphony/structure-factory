@@ -5,7 +5,7 @@ Structure Factory ships two portable agent-instruction entry points:
 - `skills/biosymphony-structure-factory/SKILL.md` for campaign planning and orchestration
 - `skills/binder-lane-round/SKILL.md` for binder study-shape replay and toolchain comparison
 
-Use that file directly from this repository, or copy the skill directory into another agent environment.
+Use the appropriate entry point directly from this repository, or copy its skill directory into another agent environment.
 
 ## Repo-Local Use
 
@@ -36,4 +36,4 @@ bsf harness-check .
 bsf audit .
 ```
 
-The agent should report that the skill is a planning/control-plane harness, not a license bypass, wet-lab protocol system, or unsupported-result generator.
+The agent should report tool-selection, planning, and validation coverage, plus configured adapter execution where the selected runtime is qualified and authorized. Scientific tools, model assets, provider access, and biological validation have separate requirements.

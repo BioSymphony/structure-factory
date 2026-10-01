@@ -51,7 +51,7 @@ If more information is needed, proceed with defaults for non-destructive prep an
 
 When the user does not specify:
 
-- provider: `runpod` for remote demos, `local` for prep/validation
+- provider: `local` for prep/validation; use the campaign-qualified provider profile for remote execution
 - execution profile: `no-download-smoke` for readiness, `map-model-report` for a 4-hour public map/model demo, and CryoCore handoff for raw-subset work only after explicit authorization
 - operator gate: `yes` for paid compute, raw downloads, cloud/neocloud launch, SSH/HPC submission, or license-gated tools
 - artifact style: small report with figures, methods, provenance, validation notes, input audit, and contract self-check
@@ -72,8 +72,10 @@ Never ask the user to paste secrets into chat or Linear. Ask for a secure runtim
 
 Good intake is concise and option-oriented:
 
+This example illustrates a proposed RunPod profile; select the provider from the campaign requirements and existing authorization.
+
 ```text
-I can proceed with defaults: RunPod, 4-hour cap, PDB/EMDB structure-mapping report, no raw movies.
+I can prepare this proposed run: RunPod, 4-hour cap, PDB/EMDB structure-mapping report, no raw movies.
 Before I set that up, confirm only these blockers:
 1. Is RunPod launch authorized up to 4 hours?
 2. Should the output prioritize visual story figures or validation tables?

@@ -55,10 +55,12 @@ Treat very short peptides (under ~30 aa) as out-of-distribution until a campaign
 | `direction_scale` | Explicitly set the value from the selected source pin; the pinned binder example uses `0.0` | Treat a changed value as a separate sampling arm and retain its configuration. |
 | Hotspot residues | 3-8 on target | Anchors the binder placement. |
 | Extended interface residues | 5-20 on target | Defines the surface region the binder can engage. |
-| Downstream ProteinMPNN | SolubleMPNN for soluble targets | Sequence pass on the binder using target as context. |
-| Cofold validator | Boltz + Chai-1 slate | iPTM + ipSAE consensus; single-cofolder iPTM is unreliable for binder ranking. |
+| Downstream ProteinMPNN | CA ProteinMPNN for C-alpha-only outputs | Use its CA checkpoint and mapped receptor context; full-backbone soluble mode is a distinct supported-input arm. |
+| Cofold validator | Declared Boltz + Chai-1 slate | Retain per-model iPTM, ipSAE and geometry; select aggregation and thresholds from campaign controls. |
 
 ## Gotchas
+
+- Select [CA ProteinMPNN](proteinmpnn.md) for a C-alpha-only handoff. The [pinned runner](https://github.com/dauparas/ProteinMPNN/blob/8907e6671bfbfc92303b5f79c4b5e6ce47cdef57/protein_mpnn_run.py#L38) rejects CA-only plus soluble weights; do not add `--use_soluble_model` to that route.
 
 - Explicitly set `generation.dataset.cond_strategy` and validate the selected interface list. At the source pin above, the target dataset defaults to `extended`; the feature builder selects only that named list. Populating `hotspot` does not populate `extended`. For a site-conditioned arm, reject an empty selected list and verify its resolved residue mask before scaling. See the [dataset defaults](https://github.com/aqlaboratory/genie3/blob/d77ae5ac04212ff1e8b29b585859a3244c614804/src/genie3/generation/config/data/sample_dataset.py) and [feature builder](https://github.com/aqlaboratory/genie3/blob/d77ae5ac04212ff1e8b29b585859a3244c614804/src/genie3/generation/utils/feat_utils.py).
 - At this pin, the native seed key is `experiment.seed`. Record the resolved native configuration and seed-delivery evidence before calling an arm seeded. Recheck the key when changing source revisions.

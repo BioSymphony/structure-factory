@@ -626,8 +626,11 @@ software:
   rfdiffusion:
     role: protein_backbone_generation
     image_family: ai-design
-    install_method: source_after_terms_review
-    license_class: restricted_or_noncommercial_verify
+    install_method: source_after_dependency_review
+    upstream_repo: "https://github.com/RosettaCommons/RFdiffusion"
+    reviewed_source_revision: "86507b6538f51fce57b5a72477165f03999ed7ae"
+    primary_source_checked: "2026-09-30; the pinned LICENSE covers source code and model weights referenced in its README under BSD-3-Clause: https://github.com/RosettaCommons/RFdiffusion/blob/86507b6538f51fce57b5a72477165f03999ed7ae/LICENSE"
+    license_class: bsd_3_clause_source_and_readme_weights
     license_gate: terms_review
     runpod_fit: strong
     gpu_class: "A100/H100 preferred"
@@ -635,7 +638,7 @@ software:
     runtime_artifacts: "rfdiffusion_outputs/, design_manifest.json"
     citation_notes: "Record repo commit, model weights, and design settings."
     status: gated
-    notes: "Potential design lane; terms must be explicit."
+    notes: "Source and README-referenced weights have reviewed BSD terms. Runtime qualification and dependency/container review remain separate requirements."
   rfdiffusion3:
     role: atom_level_codesign_generation
     image_family: ai-design

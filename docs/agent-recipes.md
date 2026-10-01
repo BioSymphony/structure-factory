@@ -17,7 +17,7 @@ Use the schema enum values in manifests, task packs, and closeouts. A friendly l
 | Blocked | `blocked` | A lane could not proceed |
 | Insufficient support | `insufficient_support` | Outputs do not support the requested statement |
 
-If you see older machine values such as `candidate`, `processed`, `fixture_or_demo`, `validated`, `insufficient_support`, or `publishable` in schema-level artifacts, translate them to the public labels before writing public prose or a final closeout.
+If you see older machine values such as `candidate`, `processed`, `fixture_or_demo`, `validated`, `insufficient_evidence`, or `publishable` in schema-level artifacts, translate them to the public labels before writing public prose or a final closeout.
 
 ## Recipe: Scaffold A Campaign
 

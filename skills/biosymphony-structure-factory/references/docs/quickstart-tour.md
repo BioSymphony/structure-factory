@@ -24,8 +24,8 @@ For the full local-to-Linear-to-cloud ladder, see [`workflow-map.md`](workflow-m
 | --- | --- | --- |
 | Local CLI | You want to inspect the repository locally | Run `bsf scaffold-campaign` into `.runtime/` |
 | Agent skill | You want Codex or another agent to plan the work | Ask it to use the Structure Factory skill |
-| Claude binder lane | You want Claude Code or another agent to replay or compare a public binder workflow | Start with the [Claude binder lane](claude-binder-lane.md) and its [`binder-lane-round` skill](../skills/binder-lane-round/SKILL.md) |
-| Recipe | You want a known workflow shape | Start from [`recipes/`](../recipes/) |
+| Claude binder lane | You want Claude Code or another agent to replay or compare a public binder workflow | Start with the [Claude binder lane](https://github.com/BioSymphony/structure-factory/blob/main/docs/claude-binder-lane.md) and its [`binder-lane-round` skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) |
+| Recipe | You want a known workflow shape | Start from [`recipes/`](https://github.com/BioSymphony/structure-factory/tree/main/recipes) |
 
 You can use your chosen AI agent and assign a different route to each stage. Binder rounds support platform skills, hosted APIs, local or self-hosted tools, and cloud routes.
 
