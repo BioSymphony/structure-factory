@@ -29,6 +29,12 @@ The pinned public reference is [`published-binder-comparison-workflow.json`](../
 
 ## Choose The Execution Mix
 
+For additional candidate filters, use the
+[binder filtering card](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md) and
+[filter qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md). Record the
+endpoint and accepted protein format. Compare proposed rejection rules at
+matched selection capacity before changing the round's decision rule.
+
 Choose each stage independently. The plan can combine:
 
 - an installed platform skill that prepares or operates the selected tool

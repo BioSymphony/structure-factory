@@ -50,6 +50,7 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 ### Cofold, Structure Prediction, And Scoring
 
 - [Cofold scoring stack](cofold-scoring-stack.md). Multi-validator slate plus ipSAE rescore. Reads from the individual cards below.
+- [Binder filtering](binder-filtering.md). Interface diagnostics, pKa methods, and format-specific developability annotations with matched filter qualification.
 - [AtlasFold-M](atlasfold.md). MSA-free protein-complex prediction with a dated source and checkpoint review.
 - [DeCAF-Boltz](decaf.md). Released few-step cofolding sampler with separate structure-only and confidence-enabled checkpoints.
 - [Boltz](boltz.md). Open biomolecular cofold with confidence and full PAE outputs.
@@ -58,6 +59,7 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 - [OpenFold3 and OpenBind v0](openfold3.md). All-atom biomolecular structure prediction with the current default OpenBind v0 parameters and an explicit no-affinity boundary.
 - [ESMFold2](esmfold2.md). Biohub structure prediction and foldability review lane; local full/Fast execution requires a stable-package adapter port, while the Biohub API remains a separately governed route.
 - [BioNeMo Inference Runtime](bioir.md). Optimized runtime posture for supported scientific model contracts, with checkpoint identity, confidence scale, and matched-comparison requirements.
+- [BioNeMo Structure Prediction Pipeline](bionemo-structure-prediction-pipeline.md). Slurm MSA search, folding, and postprocessing with verified phase handoffs.
 - [Anthropic inference optimization kits](anthropic-optimization-kits.md). Pinned runtime acceleration layers with mode, activation, isolation, compatibility, and matched-qualification contracts.
 - [SimpleFold-Turbo](simplefold-turbo.md). TeaCache acceleration evaluation for SimpleFold with matched baseline, uncached, and cached arms.
 - [PATCHR](patchr.md). Missing-region completion with explicit fixed, movable-boundary, and generated atom masks plus coordinate-drift checks.
@@ -75,6 +77,7 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 
 ### Screening And Pose Review
 
+- [Protein-ligand affinity scoring](ligand-affinity.md). AEV-PLIG, Nesso-1, FLOWR.root, and Vinardo with separate pose, endpoint, and scale checks.
 - [MolPAL](molpal.md). Active-learning tranche planner for large ligand libraries.
 - [PoseBusters](posebusters.md). Pose plausibility checks for generated or docked ligand poses.
 - [PLACER](placer.md). Focused protein-ligand local conformational ensemble lane.

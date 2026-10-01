@@ -60,6 +60,14 @@ Keep confidence, reference-interface accuracy, target-site geometry, and
 conformational-state checks as separate fields. A candidate with missing or
 contradictory evidence retains its support limitation in the closeout.
 
+## Additional Filters
+
+Use the [binder filtering card](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md) for Pinc, AFM-LIS,
+pKa methods, and format-specific developability models. PAE-derived metrics
+share predictor uncertainty; retain them as correlated diagnostics. Apply the
+[filter qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md) before
+using additional annotations to reject candidates.
+
 ## Result record
 
 A compact comparison table contains the candidate ID, predictor/model identity,

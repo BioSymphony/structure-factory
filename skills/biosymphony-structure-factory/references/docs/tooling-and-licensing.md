@@ -150,6 +150,25 @@ For no-license-application Structure Factory demos, prefer:
 
 ChimeraX can remain a strong visual lane for internal or private demos when the operator's use context permits it, but it is not part of the public no-license-needed stack.
 
+## Candidate Filtering And Affinity Sources
+
+Source review on 2026-10-01 adds [binder filtering](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md),
+[protein-ligand affinity scoring](https://github.com/BioSymphony/structure-factory/blob/main/tools/ligand-affinity.md), and the
+[BioNeMo prediction pipeline](https://github.com/BioSymphony/structure-factory/blob/main/tools/bionemo-structure-prediction-pipeline.md).
+Each card records endpoint, input-format, and component requirements.
+
+Pinc and AFM-LIS have reviewed MIT source without neural checkpoints. Pro4S
+weights and KaML-ESM carry noncommercial terms. MEpKa preprocessing and
+MViewEMA feature generation use separately governed software. DELPHI's released
+PSR/SEC weights have a dated MIT deposit; that release does not establish
+transfer calibration for another protein format.
+
+For affinity methods, review the exact ensemble/checkpoint and output endpoint.
+FLOWR.root's visualization application has separate source-available terms.
+smina binary redistribution requires a build-specific notices review. The
+BioNeMo pipeline's Apache-2.0 code does not replace selected database, container,
+or checkpoint terms.
+
 ## Required Artifact Notes
 
 Any run using these tools should emit:

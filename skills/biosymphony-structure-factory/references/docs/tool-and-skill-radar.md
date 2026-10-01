@@ -1,6 +1,6 @@
 # Tool and skill radar
 
-Reviewed 2026-09-22. These source reviews identify useful additions and changed
+Updated 2026-10-01. These source reviews identify useful additions and changed
 releases. Dates in the table refer to papers or releases; they do not establish
 installation or measured performance. The software registry (`references/software-registry.yaml`) records tool
 posture, and the tool index (`tools/README.md`) describes existing contracts.
@@ -17,6 +17,13 @@ posture, and the tool index (`tools/README.md`) describes existing contracts.
 | [OpenFold3 v0.5.0 / OpenBind-0](https://github.com/aqlaboratory/openfold-3/releases/tag/v0.5.0), August 2026 release | Existing all-atom predictor | Preserve source, parameter filename/hash, and model identity. Distinguish the parameter set from the separate OpenBind benchmark dataset. |
 
 ## Evaluation and deposited evidence
+
+For interface diagnostics, pKa methods, and format-specific developability
+models, use the [binder filtering card](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md) and
+[filter qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md). The card
+distinguishes ProtDBench verifier evaluation, FoldBench native-reference
+challenges, and PXMeter reference scoring. Protein-ligand methods have a
+separate [affinity scoring card](https://github.com/BioSymphony/structure-factory/blob/main/tools/ligand-affinity.md).
 
 | Tool and dated evidence | Useful addition | Required record or unresolved question |
 | --- | --- | --- |
@@ -39,7 +46,7 @@ report per-model scores and missing outputs.
 | [EMICSS](https://www.ebi.ac.uk/emdb/emicss), [September 2025 paper](https://academic.oup.com/bioinformaticsadvances/article/5/1/vbaf203/8248485) | EMDB cross-references for metadata handoffs | Entry and collection dates, linked accessions, annotation conflicts, and source terms. Retain compact records rather than maps. |
 | [Prosculpt](https://github.com/ajasja/prosculpt), [June 2026 preprint](https://www.biorxiv.org/content/10.64898/2026.06.25.732351v1) | YAML orchestration of existing design and prediction tools | Component versions, stage outputs, and restart state. BSD-3-Clause wrapper; components keep their terms. |
 | [ProteinDJ v3](https://github.com/PapenfussLab/proteindj), [January 2026 publication](https://doi.org/10.1002/pro.70464) | Nextflow/Apptainer design workflow | Preserve major version, container identities, model-cache terms, and output mapping. Upstream labels its license MIT (Modified). |
-| [BioNeMo Structure Prediction Pipeline](https://github.com/NVIDIA-BioNeMo/BioNeMo-Structure-Prediction-Pipeline/blob/cb14f6eb3302b6701884123b6b5453ba5fe8cdf9/docs/pipeline-overview.md), source reviewed September 30, 2026 | Slurm preprocessing, folding, and postprocessing with content-addressed MSA handoffs and separate phase receipts | Cluster, container, database, checkpoint, chain mapping, and artifact-acceptance records. The pinned overview lists executable `bioir`, `openfold-cli`, and `colabfold` backends; `openfold-trt` is an accepted contract that fails closed before handoff. Execution needs a qualified site profile and adapter. |
+| [BioNeMo Structure Prediction Pipeline](https://github.com/NVIDIA-BioNeMo/BioNeMo-Structure-Prediction-Pipeline/blob/cb14f6eb3302b6701884123b6b5453ba5fe8cdf9/docs/pipeline-overview.md), source reviewed October 1, 2026 | Slurm preprocessing, folding, and postprocessing with content-addressed MSA handoffs and separate phase receipts | Cluster, container, database, checkpoint, chain mapping, and artifact-acceptance records. The [pipeline card](https://github.com/BioSymphony/structure-factory/blob/main/tools/bionemo-structure-prediction-pipeline.md) records backend and chain-count policies. Execution needs a qualified site profile and adapter. |
 | [RO-Crate 1.3](https://github.com/ResearchObject/ro-crate/releases), June 2026 recommendation | Versioned provenance envelope | Pin the [Workflow Run profile](https://www.researchobject.org/workflow-run-crate/), context, validator, and artifact hashes. Review payload licenses separately. |
 
 ## Ensembles and model inputs
@@ -54,6 +61,30 @@ report per-model scores and missing outputs.
 | [Foldseek](https://github.com/steineggerlab/foldseek) and [FoldMason](https://github.com/steineggerlab/foldmason), 2025 tagged releases | Structure search and multiple-structure alignment | Source tag, database/split identity, accession ledger, and bounded TSV/alignment report. GPL-3.0 code; search and alignment remain separate operations. |
 
 ## Further source review
+
+### Format-Specific Generation Sources
+
+The following sources were checked on 2026-10-01. Select the generation
+operation and output format before comparing these methods with a minibinder
+workflow.
+
+| Source | Useful Operation | Required Record |
+| --- | --- | --- |
+| [IgGM](https://github.com/TencentAI4S/IgGM/tree/06abc563b3fc8c7ea020543add16b69b6f8a1c8d) | Antibody/nanobody sequence and structure design, maturation, and inverse design | Framework/CDR masks, epitope, checkpoint terms and hashes, and optional PyRosetta access. MIT code; initial execution can download weights. |
+| [DPLM-2 Bit](https://github.com/bytedance/dplm/tree/8a2e15e53416b4536f03f79ad1f6f6a9cbd5e19d) | Sequence/structure co-generation, inverse folding, and motif scaffolding | Exact `airkingbd/dplm2_bit_650m` snapshot, decoder, prompt masks, and output mapping. This operation differs from target-conditioned binder generation. |
+| [UniMoMo](https://github.com/kxz18/UniMoMo/tree/f58f117d43975d45dc2521b34ae3066a095582f0) | Small-molecule, peptide, and antibody-CDR design | Selected modality, framework numbering, released checkpoint hash, and component terms. MIT code; qualify the selected input/output path. |
+| [AnewOmni](https://github.com/bytedance/AnewOmni/tree/926e99818ea18cf9d9b2064ce0319fe691b7a1f1) | All-atom molecular and CDR design, with a separate antibody/nanobody pipeline | Exact operation, design masks, heavy/light order, framework numbering, checkpoint, and downstream predictor. MIT code. |
+| [APM](https://github.com/bytedance/apm/tree/a98e59b17df29aec9424b598c5fac4bdc492b3e7) | All-atom complex generation and conditional design | Selected backbone/side-chain/refinement modules, receptor context, checkpoint hashes, and output counts. Upstream declares Apache-2.0 code and CC BY 4.0 weights/data. |
+| [MoMPNN](https://github.com/Qivon7/MoMPNN/tree/10d7d6c62189ade4686d8d0cb7fc7408c61510e9) | Property-guided fixed-backbone sequence design | Released checkpoint identity, property objective, inference host, and explicit project use terms. The reviewed root has no project license. |
+
+[SimpleDesign](https://arxiv.org/abs/2609.03377) describes joint sequence and
+structure design; qualify an official source/checkpoint release before adding
+an executable route. [FlexEvo](https://arxiv.org/html/2609.33726v1) studies
+design across target conformations. Distinguish frozen-coordinate reranking
+from coordinate adaptation, which creates a different design artifact.
+Record exact released software and assets before runtime evaluation.
+
+### Other Sources
 
 [ORI](https://github.com/TencentAI4S/ori) needs reconciliation of its repository
 license label with the [paper's code terms](https://www.nature.com/articles/s41467-026-69855-6)

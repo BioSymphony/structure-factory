@@ -36,6 +36,7 @@ weights, and provider access are configured separately.
 | Give your agent a scientific task | [Structure Factory skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/biosymphony-structure-factory/SKILL.md) and [example request](#hand-a-mission-to-an-agent) |
 | Run the Claude binder lane | [Claude binder lane](https://github.com/BioSymphony/structure-factory/blob/main/docs/claude-binder-lane.md) and [binder-lane skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) |
 | Choose a tool or model | [Tool cards](https://github.com/BioSymphony/structure-factory/blob/main/tools/README.md) and [tool radar](docs/tool-and-skill-radar.md) |
+| Review candidate filters | [Binder filtering](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md) and [qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md) |
 | Call tools and connect stages | [Execution guide](docs/binder-lane-round.md) |
 | Inspect the CLI locally | [Install and inspect](#inspect-or-run-the-repo-yourself) |
 

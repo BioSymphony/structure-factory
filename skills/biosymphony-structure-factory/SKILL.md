@@ -41,6 +41,9 @@ selected repository checkout for CLI commands and runtime files.
 | Select tools and compute | `references/docs/tooling-and-licensing.md`, `references/docs/compute-backends.md` |
 | Plan binder comparisons | `references/docs/binder-lane-round.md`, `references/docs/binder-study-decision-loop.md` |
 | Choose measured controls | `references/docs/binder-controls.md` |
+| Qualify candidate filters | [Binder filtering](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md), [filter qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md) |
+| Compare protein-ligand scores | [Affinity scoring card](https://github.com/BioSymphony/structure-factory/blob/main/tools/ligand-affinity.md): input modality, endpoint, scale, and pose controls |
+| Plan Slurm prediction phases | [BioNeMo pipeline card](https://github.com/BioSymphony/structure-factory/blob/main/tools/bionemo-structure-prediction-pipeline.md): MSA handoffs, backend policy, and phase receipts |
 | Use BindCraft2 | `references/tools/bindcraft2.md`: presets, resource limits, output tables, score scales, and license |
 | Qualify Anthropic acceleration | `references/tools/anthropic-optimization-kits.md`: stock revision, runtime isolation, activation, and matched comparisons |
 | Score or render predictions | `references/docs/confidence-sidecars.md` |

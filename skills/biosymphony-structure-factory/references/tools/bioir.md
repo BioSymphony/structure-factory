@@ -18,6 +18,11 @@ AlphaFold2/OpenFold2 variants, Boltz-1/2, and OpenFold3. Protenix-v2 and
 Boltz-2 affinity expose model modules without complete pipelines. A model
 module alone is not an executable end-to-end route.
 
+For Slurm phase orchestration around supported backends, use the
+[BioNeMo Structure Prediction Pipeline card](https://github.com/BioSymphony/structure-factory/blob/main/tools/bionemo-structure-prediction-pipeline.md).
+Its phase receipts and benchmark validation complement the model-specific
+runtime checks described here.
+
 ## Selection Rules
 
 - Preserve the requested scientific model and checkpoint when changing the
