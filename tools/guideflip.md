@@ -1,5 +1,8 @@
 # GuideFlip
 
+Use the [input and measurement guide](../docs/guideflip-input-review.md) to
+check resolved masks, final sequences, score reducers, and refold geometry.
+
 ## Purpose
 
 Plan binder sequence and structure co-design for flexible or intrinsically

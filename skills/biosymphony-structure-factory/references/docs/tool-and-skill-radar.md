@@ -1,6 +1,6 @@
 # Tool and skill radar
 
-Updated 2026-10-01. These source reviews identify useful additions and changed
+Updated 2026-10-06. These source reviews identify useful additions and changed
 releases. Dates in the table refer to papers or releases; they do not establish
 installation or measured performance. The software registry (`references/software-registry.yaml`) records tool
 posture, and the tool index (`tools/README.md`) describes existing contracts.
@@ -9,6 +9,7 @@ posture, and the tool index (`tools/README.md`) describes existing contracts.
 
 | Tool and dated evidence | Useful addition | Required record or unresolved question |
 | --- | --- | --- |
+| [ProtonPottsMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/protonpottsmpnn.md), source reviewed October 6, 2026 | Protonation-conditioned fixed-backbone sequence design with explicit His/Asp/Glu states | Checkpoint/vocabulary, center and mutation masks, partner grouping, and independent final-sequence refolds. Numerical-pH populations require separate calibration. |
 | [AtlasFold-M](https://github.com/SeonghwanSeo/atlasfold/blob/8ab3aca0e18c8b814d5ca6756b2617a07d72c68d/README.md), [September 2026 preprint](https://www.biorxiv.org/content/10.64898/2026.09.04.749352v2) | MSA-free protein-complex prediction | Model/AtlasLM hashes, chain mapping, emitted confidence fields, and reference comparison. Code and weights state MIT terms. |
 | [DeCAF-Boltz](https://github.com/genesistherapeutics/decaf/blob/471477e0e786f91bae77d4cebf4b7d14901bc174/README.md), [June 2026 preprint](https://arxiv.org/abs/2606.08375) | Released few-step cofolding code and weights | Structure-only and confidence-enabled checkpoints differ. Compare geometry, confidence, and timing at matched budgets. |
 | [Odin-Multi](https://github.com/DigBioLab/odin_multi), [September 2026 preprint](https://www.biorxiv.org/content/10.64898/2026.09.08.749745v1) | Shared-sequence design across multiple contexts | Per-context results and input hashes; MIT source with separate AF2/ColabDesign and optional AF3 terms. Source review only. |
@@ -75,7 +76,7 @@ workflow.
 | [UniMoMo](https://github.com/kxz18/UniMoMo/tree/f58f117d43975d45dc2521b34ae3066a095582f0) | Small-molecule, peptide, and antibody-CDR design | Selected modality, framework numbering, released checkpoint hash, and component terms. MIT code; qualify the selected input/output path. |
 | [AnewOmni](https://github.com/bytedance/AnewOmni/tree/926e99818ea18cf9d9b2064ce0319fe691b7a1f1) | All-atom molecular and CDR design, with a separate antibody/nanobody pipeline | Exact operation, design masks, heavy/light order, framework numbering, checkpoint, and downstream predictor. MIT code. |
 | [APM](https://github.com/bytedance/apm/tree/a98e59b17df29aec9424b598c5fac4bdc492b3e7) | All-atom complex generation and conditional design | Selected backbone/side-chain/refinement modules, receptor context, checkpoint hashes, and output counts. Upstream declares Apache-2.0 code and CC BY 4.0 weights/data. |
-| [MoMPNN](https://github.com/Qivon7/MoMPNN/tree/10d7d6c62189ade4686d8d0cb7fc7408c61510e9) | Property-guided fixed-backbone sequence design | Released checkpoint identity, property objective, inference host, and explicit project use terms. The reviewed root has no project license. |
+| [MoMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/mompnn.md) | Property-guided fixed-backbone sequence design | The authors document ProteinMPNN-compatible checkpoints and inference through LigandMPNN. Record the exact checkpoint, property objective, masks, and terms; qualify downstream properties independently. |
 
 [SimpleDesign](https://arxiv.org/abs/2609.03377) describes joint sequence and
 structure design; qualify an official source/checkpoint release before adding

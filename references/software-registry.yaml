@@ -13,6 +13,43 @@
 # references/binder-execution-adapters.json for bundled binder execution.
 
 software:
+  protonpottsmpnn:
+    role: protonation_conditioned_inverse_folding
+    image_family: ai-design
+    install_method: pinned_source_after_operation_qualification
+    upstream_repo: "https://github.com/christian-creator/ProtonPottsMPNN"
+    upstream_commit_sha: "09682abfa7d20e0abcdeea0490b7a4b1c190aee3"
+    primary_source_checked: "2026-10-06; pinned README, LICENSE, Foundry LICENSE and native pH design/scoring engine"
+    license_class: mit_authored_code_and_checkpoints_bsd3_foundry
+    license_basis: "https://github.com/christian-creator/ProtonPottsMPNN/blob/09682abfa7d20e0abcdeea0490b7a4b1c190aee3/LICENSE ; https://github.com/christian-creator/ProtonPottsMPNN/blob/09682abfa7d20e0abcdeea0490b7a4b1c190aee3/foundry/LICENSE.md"
+    license_gate: exact_labeling_refolding_and_dependency_terms
+    runpod_fit: provider_neutral_operation_qualification_required
+    gpu_class: operation_dependent
+    smoke_command: adapter_required
+    runtime_artifacts: "planned: canonical/state FASTA, center assignments, energies, trajectory, sequence and partner integrity, independent refolds"
+    citation_notes: "Record v6 vocabulary, code/checkpoint hashes, centers, mutable masks, state assignments, partner grouping, seeds and score definitions."
+    status: planned
+    lane_binding: "Source-reviewed method record. No registered Structure Factory ProtonPottsMPNN execution adapter or served binder-round operation."
+    notes: "Supplied-backbone design and learned proton-state scores. Numeric-pH populations and affinity calibration are separate operations. Native preparation includes EV6/HBPLUS labeling; packaged RF3 requires separate assets. Review exact BioIR operation support before selecting a runtime."
+  mompnn:
+    role: multiobjective_inverse_folding
+    image_family: ai-design
+    install_method: custom_proteinmpnn_checkpoint_after_terms_review
+    upstream_repo: "https://github.com/Qivon7/MoMPNN"
+    upstream_commit_sha: "10d7d6c62189ade4686d8d0cb7fc7408c61510e9"
+    upstream_sources: "https://github.com/Qivon7/MoMPNN ; https://github.com/dauparas/LigandMPNN"
+    primary_source_checked: "2026-10-06; pinned author README and LigandMPNN native ProteinMPNN checkpoint interface"
+    license_class: verify_mompnn_checkpoint_terms_ligandmpnn_mit
+    license_basis: "not-verifiable: reason=the pinned MoMPNN root has no project license file; required_source=checkpoint-specific use and redistribution terms. Documented inference: https://github.com/Qivon7/MoMPNN/blob/10d7d6c62189ade4686d8d0cb7fc7408c61510e9/README.md. Host MIT: https://github.com/dauparas/LigandMPNN/blob/26ec57ac976ade5379920dbd43c7f97a91cf82de/LICENSE"
+    license_gate: exact_checkpoint_use_and_redistribution_review
+    runpod_fit: provider_neutral_operation_qualification_required
+    gpu_class: operation_dependent
+    smoke_command: adapter_required
+    runtime_artifacts: "planned: checkpoint/input hashes, masks, sequences, native scores, repeats and fixed-residue checks"
+    citation_notes: "Record property objective, inference host, ProteinMPNN model type, custom checkpoint, chains, fixed positions and nonzero seed."
+    status: planned
+    lane_binding: "Method and checkpoint-loading contract documented; no bundled executable adapter for this checkpoint family."
+    notes: "ProteinMPNN-compatible checkpoints loaded through LigandMPNN's ProteinMPNN operation. Ligand-context features require a different declared operation. Property gains require matched independent assessment."
   relion:
     role: cryoem_reconstruction
     image_family: cryo-core

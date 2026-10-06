@@ -42,6 +42,9 @@ selected repository checkout for CLI commands and runtime files.
 | Plan binder comparisons | `references/docs/binder-lane-round.md`, `references/docs/binder-study-decision-loop.md` |
 | Choose measured controls | `references/docs/binder-controls.md` |
 | Qualify candidate filters | [Binder filtering](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md), [filter qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md) |
+| Compare pH contributions | [pH comparison](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-ph-comparison.md), [ProtonPottsMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/protonpottsmpnn.md) |
+| Review design inputs | [GuideFlip measurements](https://github.com/BioSymphony/structure-factory/blob/main/docs/guideflip-input-review.md), [glycan context](https://github.com/BioSymphony/structure-factory/blob/main/docs/glycan-context-review.md) |
+| Select property-aligned sequence design | [MoMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/mompnn.md) |
 | Compare protein-ligand scores | [Affinity scoring card](https://github.com/BioSymphony/structure-factory/blob/main/tools/ligand-affinity.md): input modality, endpoint, scale, and pose controls |
 | Plan Slurm prediction phases | [BioNeMo pipeline card](https://github.com/BioSymphony/structure-factory/blob/main/tools/bionemo-structure-prediction-pipeline.md): MSA handoffs, backend policy, and phase receipts |
 | Use BindCraft2 | `references/tools/bindcraft2.md`: presets, resource limits, output tables, score scales, and license |
@@ -50,7 +53,7 @@ selected repository checkout for CLI commands and runtime files.
 | Prepare provider execution | `references/docs/preflight-checklist.md`, `references/docs/operational-gotchas.md`; add `references/docs/runpod-stack.md` for RunPod |
 | Coordinate workers | `references/docs/agentic-biology-harness.md`, `references/docs/linear-orchestration.md` |
 | Define run completion checks | `references/docs/no-false-success-hardening.md`, `references/docs/agent-run-learnings.md` |
-| Publish artifacts | `references/docs/public-export-shape.md` |
+| Verify prediction artifacts | [Prediction handoff contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/prediction-handoff-contract.md) |
 
 ## Prepare a campaign
 

@@ -311,7 +311,7 @@ class PublicCliTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "workshop.md").write_text(
-                "BSF-" + "PRIVATE-" + "NEVER-" + "PUBLISH\n",
+                "TEST-" + "PRIVATE-" + "NEVER-" + "PUBLISH\n",
                 encoding="utf-8",
             )
             ok, findings = audit_tree(root)
@@ -319,12 +319,12 @@ class PublicCliTests(unittest.TestCase):
             self.assertTrue(any(finding.check_id == "private-never-publish-sentinel" for finding in findings))
 
             (root / "workshop.md").write_text(
-                "See biosymphony-writing-" + "brief.md.\n",
+                "[notes](internal/" + "private/notes.md).\n",
                 encoding="utf-8",
             )
             ok, findings = audit_tree(root)
             self.assertFalse(ok)
-            self.assertTrue(any(finding.check_id == "private-only-document" for finding in findings))
+            self.assertTrue(any(finding.check_id == "private-document-reference" for finding in findings))
 
     def test_audit_rejects_private_and_runtime_work_paths(self) -> None:
         for rel in [

@@ -24,6 +24,8 @@ weights, and provider access are configured separately.
 | Capability | What You And Your Agent Can Do | Start With |
 | --- | --- | --- |
 | Find tools | Compare roles, inputs, outputs, runtime needs, licenses, source repos, and papers | [Tool cards](https://github.com/BioSymphony/structure-factory/blob/main/tools/README.md), [software registry](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml), [tool radar](docs/tool-and-skill-radar.md) |
+| Compare pH contributions | Paired electrostatic contrasts with state, pose, and grid sensitivity | [pH comparison](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-ph-comparison.md), [ProtonPottsMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/protonpottsmpnn.md) |
+| Review design context | Resolved GuideFlip inputs and chemically checked glycan sampling | [GuideFlip measurements](https://github.com/BioSymphony/structure-factory/blob/main/docs/guideflip-input-review.md), [glycan context](https://github.com/BioSymphony/structure-factory/blob/main/docs/glycan-context-review.md) |
 | Call tools | Invoke a configured local program or an API, cloud, scheduler, or container client through an adapter | [Adapter guide](docs/binder-lane-round.md#run-tools-through-adapters) |
 | Chain calls | Connect stage dependencies and pass checked files or directory bundles into downstream tools | [Controller guide](docs/binder-lane-round.md#prepare-a-controller-request) |
 | Compare methods | Freeze native protocols, verify site conditioning, and track parent backbones through a common screen | [Comparison contract](docs/binder-comparison-contract.md), [execution guide](docs/binder-lane-round.md), [scoring stack](tools/cofold-scoring-stack.md) |

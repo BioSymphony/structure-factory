@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added ProtonPottsMPNN and MoMPNN tool cards with checkpoint, input, output, and terms requirements.
+- Added guides for paired pH contrasts, GuideFlip measurements, and glycan preparation and sampling.
+
 - Added BindCraft2 documentation and a pinned registry record covering modalities,
   settings, GPU limits, output files, score scales, and hosting-license terms.
 - Reorganized the Structure Factory and binder-round skills around task selection,

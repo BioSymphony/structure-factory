@@ -8,6 +8,12 @@ identities attached to every score.
 Sources reviewed 2026-10-01. These are tool-selection records; execution needs
 a qualified adapter, model assets where applicable, and campaign controls.
 
+For paired electrostatic calculations, use the [pH comparison guide](../docs/binder-ph-comparison.md).
+Review [glycan preparation and sampling](../docs/glycan-context-review.md) before
+comparing accessibility. [ProtonPottsMPNN](protonpottsmpnn.md) and
+[MoMPNN](mompnn.md) provide separate sequence-design proposals for downstream
+assessment.
+
 ## Interface Diagnostics
 
 | Method | Inputs And Outputs | Interpretation |

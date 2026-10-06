@@ -479,8 +479,8 @@ HARNESS_TEXT_REQUIREMENTS = {
 }
 
 CONTENT_PATTERNS = [
-    ("private-never-publish-sentinel", re.compile("BSF-" + "PRIVATE-" + "NEVER-" + "PUBLISH")),
-    ("private-only-document", re.compile(r"\b(biosymphony-writing-" + r"brief|cinematic-video-" + r"playbook)\.md\b", re.I)),
+    ("private-never-publish-sentinel", re.compile(r"\b[A-Z][A-Z0-9_]*-" + r"PRIVATE-NEVER-PUBLISH\b")),
+    ("private-document-reference", re.compile(r"\]\((?:\.\.?/)*internal/(?:private|run-notes)/", re.I)),
     ("private-workstation-path", re.compile(r"(/" + r"Users/|/" + r"Volumes/|C:\\Users\\)")),
     ("local-user-or-private-root", re.compile(r"\b(github_[0-9]+|SSK_[A-Za-z0-9_]+)\b", re.I)),
     ("assigned-api-key", re.compile(r"\b([A-Z0-9_]*(API_KEY|SECRET|PASSWORD|ACCESS_TOKEN|AUTH_TOKEN|BEARER_TOKEN)[A-Z0-9_]*)\s*[:=]\s*['\"]?[A-Za-z0-9_\-]{8,}", re.I)),

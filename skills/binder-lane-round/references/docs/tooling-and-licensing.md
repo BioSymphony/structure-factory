@@ -8,6 +8,12 @@ This is engineering guidance, not legal advice. Mentioning a tool in public docs
 
 For result-boundary vocabulary that tool outputs may support, see [`result-boundaries.md`](result-boundaries.md).
 
+[ProtonPottsMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/protonpottsmpnn.md) records MIT-authored code and
+checkpoints with BSD-3-Clause Foundry; external labeling and refolding components
+retain separate terms. [MoMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/mompnn.md) documents checkpoint inference
+through LigandMPNN. Review MoMPNN checkpoint use and redistribution terms
+separately from the host's MIT license.
+
 ## Agent Rule
 
 Before selecting a tool lane, you and your agent must record:

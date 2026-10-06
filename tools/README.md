@@ -33,6 +33,8 @@ The wider tool knowledge base lives in [`references/software-registry.yaml`](../
 
 ### Sequence Design
 
+- [ProtonPottsMPNN](protonpottsmpnn.md). Protonation-conditioned sequence design and learned state-score interpretation.
+- [MoMPNN](mompnn.md). Property-aligned ProteinMPNN checkpoints with explicit host, mask, and terms checks.
 - [ProteinMPNN](proteinmpnn.md). Backbone-to-sequence design. Includes SolubleMPNN for soluble targets.
 
 ### Antibody Sequence Evolution And Scoring

@@ -12,9 +12,10 @@ from urllib.parse import quote, urlsplit
 
 
 DOC_SUFFIXES = {".md", ".qmd", ".yaml", ".yml", ".toml", ".json"}
-PRIVATE_REPO_URL_PATTERN = re.compile(
-    r"https://(?:github\.com|raw\.githubusercontent\.com)/BioSymphony/biosymphony-structure-factory(?!-public)"
+PROJECT_REPO_URL_PATTERN = re.compile(
+    r"https://(?:github\.com|raw\.githubusercontent\.com)/BioSymphony/([A-Za-z0-9_.-]+)"
 )
+PUBLIC_PROJECT_REPOS = {"structure-factory"}
 SKIP_DIRS = {".git", ".runtime", ".venv", "venv", "__pycache__", ".pytest_cache", "build", "dist"}
 REPO_PREFIXES = (
     ".github/",
@@ -254,7 +255,6 @@ def check(root: Path) -> dict[str, object]:
         "runpod" + "-bridge " + "create-pod",
         "cloud" + "-bridge " + "create-pod",
         "symphony-neocloud-bridge " + "create-pod",
-        "https://github.com/BioSymphony/biosymphony-" + "structure-factory.git",
     ]
 
     checked_make_refs: set[tuple[str, str]] = set()
@@ -262,14 +262,16 @@ def check(root: Path) -> dict[str, object]:
     for path in iter_docs(root):
         rel = path.relative_to(root).as_posix()
         text = path.read_text(encoding="utf-8")
-        for private_repo_url in PRIVATE_REPO_URL_PATTERN.finditer(text):
-            findings.append(
-                {
-                    "path": rel,
-                    "check_id": "private-package-url" if rel == "pyproject.toml" else "private-repo-url",
-                    "message": private_repo_url.group(0),
-                }
-            )
+        for project_url in PROJECT_REPO_URL_PATTERN.finditer(text):
+            repository = project_url.group(1).removesuffix(".git")
+            if repository not in PUBLIC_PROJECT_REPOS:
+                findings.append(
+                    {
+                        "path": rel,
+                        "check_id": "unrecognized-project-url",
+                        "message": "Project link is outside the declared public repositories.",
+                    }
+                )
         for marker in stale_text:
             if marker in text:
                 findings.append({"path": rel, "check_id": "stale-or-unsafe-public-text", "message": marker})
