@@ -54,8 +54,17 @@
         "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[a-z0-9-]*[a-z0-9])?$"},
         "kind": {"enum": ["directory", "fasta", "json", "jsonl", "pdb", "cif"]},
         "path_template": {"type": "string", "minLength": 1},
+        "content_validator": {"const": "boltz-predictions-v1"},
+        "input_binding": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "expected_model_count": {"type": "integer", "minimum": 1},
         "minimum_count": {"type": "integer", "minimum": 1}
-      }
+      },
+      "dependentRequired": {
+        "content_validator": ["input_binding", "expected_model_count"],
+        "input_binding": ["content_validator", "expected_model_count"],
+        "expected_model_count": ["content_validator", "input_binding"]
+      },
+      "allOf": [{"if": {"required": ["content_validator"]}, "then": {"properties": {"kind": {"const": "directory"}}}}]
     },
     "supported_route": {
       "type": "object",

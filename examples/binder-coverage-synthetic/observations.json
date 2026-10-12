@@ -1,0 +1,51 @@
+{
+  "schema_version": "structure-factory-candidate-observations-v1",
+  "contract_sha256": "6a168216b97caf81828b71185d03b4575ae65739605b10ec816a808dda7bfe0c",
+  "observations": [
+    {
+      "candidate_id": "candidate-001",
+      "stage_id": "screen",
+      "protocol_sha256": "6550aef97895e03bf6a81543bffe39776c9f9dd665e3a3be2988a04bcb4ea1f1",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": "evidence.json",
+          "sha256": "c8a31a1d254c943b34fa7137045b9d86d1a3d629ff1a53408758941e089713ff"
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate-001",
+      "stage_id": "assess",
+      "protocol_sha256": "6550aef97895e03bf6a81543bffe39776c9f9dd665e3a3be2988a04bcb4ea1f1",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": "evidence.json",
+          "sha256": "c8a31a1d254c943b34fa7137045b9d86d1a3d629ff1a53408758941e089713ff"
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate-002",
+      "stage_id": "screen",
+      "protocol_sha256": "6550aef97895e03bf6a81543bffe39776c9f9dd665e3a3be2988a04bcb4ea1f1",
+      "status": "scientifically_rejected",
+      "evidence": [
+        {
+          "path": "evidence.json",
+          "sha256": "c8a31a1d254c943b34fa7137045b9d86d1a3d629ff1a53408758941e089713ff"
+        }
+      ],
+      "rule_id": "invalid-input"
+    },
+    {
+      "candidate_id": "candidate-002",
+      "stage_id": "assess",
+      "protocol_sha256": "6550aef97895e03bf6a81543bffe39776c9f9dd665e3a3be2988a04bcb4ea1f1",
+      "status": "upstream_excluded",
+      "evidence": [],
+      "upstream_stage_id": "screen"
+    }
+  ]
+}

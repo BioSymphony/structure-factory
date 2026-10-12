@@ -58,6 +58,9 @@ Plan, check, and close a binder toolchain comparison:
 
 ```bash
 bsf binder-lane menu --workspace .
+bsf binder-lane coverage-check examples/binder-coverage-synthetic/contract.json \
+  --observations examples/binder-coverage-synthetic/observations.json \
+  --evidence-root examples/binder-coverage-synthetic
 bsf binder-lane plan-request examples/pd-l1-binder-design-public/binder-round-request.json \
   --workspace . --out .runtime/pd-l1-binder-round/plan.json
 bsf binder-lane plan .runtime/pd-l1-binder-round/plan.json \
@@ -96,6 +99,7 @@ bsf binder-lane target-check .runtime/pd-l1-binder-round/target/target.cif \
 ```
 
 - `menu` lists public tool evidence, license gates, and provider profiles.
+- `coverage-check` validates candidate-stage coverage, protocol identities, dependencies, scientific exclusions, and evidence hashes. It writes no files. Exit 0 means complete coverage; exit 1 means unfinished work or invalid evidence; exit 2 means invalid input. See [Candidate Coverage](https://github.com/BioSymphony/structure-factory/blob/main/docs/candidate-coverage.md).
 - `plan-request` validates toolchain arms, controls, constraints, license policy, and per-stage routes.
 - `plan` writes a hash-bound plan, round contract, and execution handoff. Each work package requires explicit authorization at execution time.
 - `preflight` revalidates paths, routes, semantic contracts, and hashes without external calls.

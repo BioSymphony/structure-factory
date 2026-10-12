@@ -55,6 +55,13 @@ Sequence children sharing a parent remain linked in the analysis. An equal
 unique-sequence quota can cover different numbers of parent backbones. State
 that coverage when reporting pass rates and diversity.
 
+Before assessment, freeze the candidate IDs, required stages, protocol hashes,
+dependencies, and scientific rejection rules in a
+[candidate coverage contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/candidate-coverage.md). Run `bsf binder-lane
+coverage-check` before declaring the comparison complete. The check accounts
+for every candidate-stage pair and verifies evidence hashes. Report fully
+assessed, scientifically excluded, and unfinished populations separately.
+
 ## Assessment policy
 
 Freeze the common predictor's model, checkpoint, construct, MSA posture, seeds,

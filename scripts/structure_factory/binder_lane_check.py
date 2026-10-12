@@ -18,13 +18,14 @@ def main() -> int:
 
     root = args.repo_root.resolve()
     sys.path.insert(0, str(root / "src"))
-    from biosymphony_structure_factory import binder_executor, binder_lane
+    from biosymphony_structure_factory import binder_executor, binder_lane, candidate_coverage
 
     findings: list[str] = []
     ledger_path = root / "references" / "binder-lane-capability-ledger.json"
     request_path = root / "examples" / "pd-l1-binder-design-public" / "binder-round-request.json"
     fixture_path = root / "examples" / "pd-l1-binder-design-public" / "candidate-ranking.example.json"
     execution_registry_path = root / "references" / "binder-execution-adapters.json"
+    coverage_root = root / "examples" / "binder-coverage-synthetic"
     schema_paths = [
         root / "schemas" / "binder-api-adapter-contract.schema.json",
         root / "schemas" / "binder-round-request.schema.json",
@@ -33,6 +34,8 @@ def main() -> int:
         root / "schemas" / "binder-round-decision.schema.json",
         root / "schemas" / "binder-round-report.schema.json",
         root / "schemas" / "binder-execution-adapters.schema.json",
+        root / "schemas" / "candidate-coverage.schema.json",
+        root / "schemas" / "candidate-observations.schema.json",
         root / "modules" / "schemas" / "binder-round-contract.v1.schema.json",
         root / "modules" / "schemas" / "binder-execution-handoff.v1.schema.json",
     ]
@@ -44,6 +47,11 @@ def main() -> int:
         execution_registry = binder_lane.read_json(execution_registry_path)
         binder_lane.validate_ledger(ledger, root)
         binder_executor.validate_registry(execution_registry)
+        coverage_contract = binder_lane.read_json(coverage_root / "contract.json")
+        coverage_observations = binder_lane.read_json(coverage_root / "observations.json")
+        coverage_report = candidate_coverage.check_coverage(coverage_contract, coverage_observations, coverage_root)
+        if not coverage_report["ok"]:
+            findings.append("synthetic candidate coverage is incomplete or invalid")
         plan = binder_lane.plan_request(
             request,
             ledger,
@@ -110,6 +118,8 @@ def main() -> int:
                 "binder-round-decision.schema.json": decision,
                 "binder-round-report.schema.json": report,
                 "binder-execution-adapters.schema.json": execution_registry,
+                "candidate-coverage.schema.json": coverage_contract,
+                "candidate-observations.schema.json": coverage_observations,
                 "binder-round-contract.v1.schema.json": contract,
                 "binder-execution-handoff.v1.schema.json": handoff,
             }
@@ -120,7 +130,7 @@ def main() -> int:
                     Draft202012Validator(schema).validate(instances[schema_path.name])
                 except Exception:
                     findings.append(f"JSON Schema validation failed: {schema_path.name}")
-    except (binder_lane.BinderLaneError, OSError, KeyError, TypeError) as exc:
+    except (binder_lane.BinderLaneError, binder_executor.BinderExecutorError, candidate_coverage.CandidateCoverageError, OSError, KeyError, TypeError) as exc:
         findings.append(str(exc))
 
     for path in schema_paths:

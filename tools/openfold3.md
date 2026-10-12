@@ -92,5 +92,8 @@ public git.
   not enough to reproduce a run.
 - Record whether MSAs, templates, and pocket constraints were used, together
   with every seed and sample count.
+- For the BioIR route, record feature `random_seed` and diffusion `sampling_seed`
+  separately and verify delivery at the native calls. See the
+  [BioIR seed contract](bioir.md#openfold3-seed-delivery).
 - Use public accessions, synthetic fixtures, or operator-approved runtime
   inputs. Treat every output as `computational_candidate` evidence.

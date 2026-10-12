@@ -36,6 +36,24 @@ runtime checks described here.
 
 ## Runtime Requirements
 
+### OpenFold3 Seed Delivery
+
+At source revision `fd5ccc2bab0d50e6d0bb0279c411fec9a2b7b9fd`, OpenFold3 has
+separate seed inputs: the feature factory consumes `random_seed`, and model
+execution accepts `sampling_seed` for diffusion. Record both requested and
+delivered values. A feature seed alone does not demonstrate delivery of the
+diffusion seed.
+
+An adapter qualification test should inspect the arguments delivered to both
+native calls and confirm that OpenFold3-only arguments remain confined to that
+route. A runtime comparison also needs parsed prediction outputs for repeated
+and changed seeds; mocked argument checks establish forwarding only.
+
+Sources: [feature initialization](https://github.com/NVIDIA-BioNeMo/BioNeMo-Inference-Runtime/blob/fd5ccc2bab0d50e6d0bb0279c411fec9a2b7b9fd/bionemo_ir/pipeline/models/openfold3/feature_factory.py#L40)
+and [OpenFold3 model execution](https://github.com/NVIDIA-BioNeMo/BioNeMo-Inference-Runtime/blob/fd5ccc2bab0d50e6d0bb0279c411fec9a2b7b9fd/bionemo_ir/models/openfold3/modeling.py#L430).
+
+### Environment
+
 The reviewed upstream prerequisites specify Linux, Python 3.12, glibc 2.34 or
 newer, and a compatible NVIDIA driver and GPU. Check the current upstream
 support matrix before choosing hardware. A successful import proves dependency

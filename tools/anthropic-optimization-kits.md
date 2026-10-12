@@ -145,6 +145,32 @@ Before inference:
 
 ## Qualification Matrix
 
+### Chai Startup And Parity
+
+The pinned Chai kit's `run.sh pred` / `chai1-opt pred` path checks activation
+requirements and starts its driver in a child process. The driver applies
+allocator and memory settings before importing Torch. Use this supported entry
+point for qualification; applying allocator settings after CUDA initialization
+does not reproduce its startup contract.
+
+Run the kit's check for the selected card, weights, and mode, and enable strict
+stack checking during qualification. Preserve the requested MSA, ESM-embedding,
+recycle, diffusion, and sample settings. Record the driver route and any feature
+reuse along with activation and lever records.
+
+For `exact`, compare `off --det 1` with `exact --det 1` using matched inputs and
+the same seed within the kit's documented shape and device support. Define the
+output fields and equality criteria before comparison. Missing comparison
+fields or empty output sets fail qualification. Parse coordinates and confidence
+outputs; file hashes can also change because of metadata. Include a changed-seed
+stock arm when assessing stochastic variation.
+
+Sources: [Chai kit run and mode contract](https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/chai1/README.md#run),
+[CLI preflight and subprocess](https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/chai1/opt/chai1_opt/cli.py#L160),
+and [driver initialization](https://github.com/anthropics/uplifting-biomolecular-modeling/blob/f4f62fa6592ae4938d49b1757bea0cfeff9f468e/chai1/opt/chai1_opt/driver.py#L98).
+
+### Matched Runs
+
 Use the same public or synthetic input, checkpoint, seed, model settings,
 sampling settings, confidence outputs, and artifact validators in every arm:
 

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added prediction-content checks to the Boltz adapter and a candidate-stage coverage validator with synthetic examples.
+- Corrected ESMFold2 adapter readiness guidance and documented OpenFold3 seed delivery, Chai startup ordering, and remote import qualification.
+
 - Added ProtonPottsMPNN and MoMPNN tool cards with checkpoint, input, output, and terms requirements.
 - Added guides for paired pH contrasts, GuideFlip measurements, and glycan preparation and sampling.
 

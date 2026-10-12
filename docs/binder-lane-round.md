@@ -122,7 +122,7 @@ If a selected stage lacks a runnable adapter or complete bindings, the command r
 
 ## Run Tools Through Adapters
 
-The shipped registry is [`../references/binder-execution-adapters.json`](../references/binder-execution-adapters.json). The Boltz, ESMFold2 full, ESMFold2 Fast, supplied-backbone, status-filter, and diversity-filter records contain complete fixed-argument commands. Other records describe stable inputs and outputs even when this repository does not bundle a command for that installation.
+The shipped registry is [`../references/binder-execution-adapters.json`](../references/binder-execution-adapters.json). The Boltz, supplied-backbone, status-filter, and diversity-filter records contain complete fixed-argument commands. ESMFold2 full and Fast remain `adapter_required` pending a port and dry run against the recorded package interface. Other records describe stable inputs and outputs even when this repository does not bundle a command for that installation.
 
 `adapter_required` means that the repository has no bundled command for that installation. Supply a validated registry below `.runtime/` for an installed program, API client, cloud client, scheduler, or container entry point, or select a platform-skill route. Each adapter declares the supported tool and variant identities plus backend and execution-method pairs. A runnable record also declares a literal program, typed placeholders, argument arrays, environment-variable names, network policy, expected outputs, and public evidence. Keep credential values, service addresses, and private resource identifiers in runtime state.
 
@@ -142,6 +142,19 @@ For `boltz-local-v1`, the bindings file has this shape:
   "output_dir": "outputs"
 }
 ```
+
+The Boltz output contract checks every input record for native prediction files
+and matching confidence JSON. It parses finite atom coordinates and requires
+`confidence_score`, `complex_plddt`, `ptm`, and `iptm` on the native `0..1` scale.
+Missing inputs, orphaned summaries, duplicate model identities, and a directory
+containing only logs or documentation fail the check. `expected_model_count`
+requires exactly one model per input for the bundled command. A runtime adapter
+that changes `--diffusion_samples` must declare the corresponding model count.
+The receipt hashes the bundle members. PAE-dependent scoring still requires the additional sidecars
+specified in [Confidence Sidecars](https://github.com/BioSymphony/structure-factory/blob/main/docs/confidence-sidecars.md). Use a fresh output
+directory for each attempt; this check does not establish when a file was made.
+Coordinate parsing checks atom records; sequence coverage and molecular geometry
+need the campaign's structure-validation checks.
 
 ```bash
 bsf binder-lane adapter boltz-local-v1 \
@@ -181,16 +194,16 @@ For a platform-skill route, the user's agent runs the selected skill under the h
 
 ### Bundled ESMFold2 Predictor
 
-Installing this package exposes `bsf-esmfold2-predict`. The full and Fast registry records call the same wrapper with different pinned model identities. Each record prohibits network access and reads cached snapshots only.
+Installing this package exposes the legacy `bsf-esmfold2-predict` CLI. The full and Fast registry records are `external_adapter` entries with no executable command; the binder executor cannot run them. Port the wrapper to the recorded Biohub package interface, qualify its outputs, and supply a validated runtime registry before selecting either route.
 
-The wrapper's presence makes the fixed-argument contract ready. It does not prove that the optional model runtime is ready. The `readiness` operation checks these runtime requirements without loading a model or sending a network request:
+The retained wrapper describes the input/output contract below. Its presence does not establish compatibility with the recorded package. During the port, update and verify the `readiness` operation against these requirements without loading a model or sending a network request:
 
 - the pinned Biohub `esm` package, `torch`, `transformers`, and `huggingface_hub`
 - a CUDA device visible to `torch`
 - the selected ESMFold2 snapshot and the pinned ESMC-6B snapshot under `HF_HOME`
 - a reviewed cached `ccd.pkl` file named by `ESMFOLD2_CCD_PATH`
 
-The bundled local records need no provider account or API token. To permit a weight download, create a reviewed runtime registry that adds `--allow-weight-download` and sets `network_policy` to `runtime_review_required`.
+The declared local route uses cached snapshots and requires no provider account or API token. A replacement adapter that permits weight downloads must declare that network use in its runtime registry.
 
 The input is JSONL with one row per candidate. Every row has a unique `candidate_id` and `status`. An eligible row also has at least two protein chains:
 
@@ -205,7 +218,7 @@ The input is JSONL with one row per candidate. Every row has a unique `candidate
 }
 ```
 
-Use these bindings below the adapter run root:
+Use these bindings when qualifying the replacement adapter below its run root:
 
 ```json
 {

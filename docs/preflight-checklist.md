@@ -231,6 +231,33 @@ dpkg -i /workspace/installers/apt-packages/*.deb || apt-get install -f -y
 
 ---
 
+### G11 — Remote Entrypoint Imports (HARD For Remote Python Adapters)
+
+**What it does:** checks the staged source layout and selected SDK in a fresh,
+isolated process before a paid dispatch. Record the source digest, dependency
+versions, entrypoint, and check result.
+
+**Why it matters:** a command can import locally while its remote module or
+callback fails to load after packaging or serialization.
+
+**Fix recipe:** implement these checks in the selected provider adapter:
+
+1. Reconstruct the declared remote module layout without relying on the
+   workstation's current directory or undeclared import paths.
+2. Import the entrypoint and inspect callback signatures against their callers.
+3. When the SDK serializes callables, round-trip a synthetic request through its
+   serializer and deserialize in a separate process using the staged layout.
+4. Keep the probe free of provider creation, model loading, and downloads.
+   If importing triggers those actions, separate initialization from import.
+5. Run the authorized provider canary after this preparation check passes.
+
+**Operator approval:** use the existing execution authorization for the later
+canary. This preparation check starts no provider work. It does not establish
+GPU, checkpoint, or live-service readiness. The selected adapter implements
+G11; `make preflight` checks repository contracts only.
+
+---
+
 ## Config schema
 
 The preflight script expects a JSON file with this shape. All fields are optional except where noted; missing fields cause the relevant gate to SKIP.
@@ -298,6 +325,7 @@ Gate sign-off (initial each row after preflight PASS):
   [ ]  G8   Validation gates
   [ ]  G9   Apt deps pre-staged
   [ ]  G10  Operator approval
+  [ ]  G11  Remote entrypoint imports (when applicable)
 
 Operator signature: ___________________________________________
 ```
@@ -316,7 +344,7 @@ The launcher should refuse `--skip` for HARD gates without an explicit operator 
 
 When a campaign hits a new failure class, add it here:
 
-1. Pick a gate number (G11 onward).
+1. Pick a gate number (G12 onward).
 2. Write the gate following the same template (What it does / Why it matters / Fix recipe / Operator approval).
 3. Add the corresponding entry to [`docs/operational-gotchas.md`](operational-gotchas.md).
 4. Implement the check in your preflight script.

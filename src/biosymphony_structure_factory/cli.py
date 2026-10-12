@@ -18,6 +18,7 @@ from . import (
     binder_executor,
     binder_lane,
     binder_receipts,
+    candidate_coverage,
     remediation,
     remote_tool_contract,
     target_verifier,
@@ -1881,6 +1882,7 @@ def _binder_command(callable_: Any) -> int:
         binder_execution_prep.BinderExecutionPreparationError,
         binder_executor.BinderExecutorError,
         binder_receipts.BinderReceiptError,
+        candidate_coverage.CandidateCoverageError,
         remote_tool_contract.RemoteToolContractError,
         target_verifier.TargetVerificationError,
     ) as exc:
@@ -1917,6 +1919,17 @@ def _binder_command(callable_: Any) -> int:
         return 2
     write_json(result)
     return 0 if result.get("ok", True) else 1
+
+
+def cmd_binder_lane_coverage_check(args: argparse.Namespace) -> int:
+    def operation() -> dict[str, Any]:
+        workspace = _binder_workspace(args)
+        contract = binder_lane.read_json(_binder_input(workspace, args.contract, "coverage contract"))
+        observations = binder_lane.read_json(_binder_input(workspace, args.observations, "coverage observations"))
+        root = binder_lane.contained_path(workspace, args.evidence_root, "coverage evidence root")
+        return candidate_coverage.check_coverage(contract, observations, root)
+
+    return _binder_command(operation)
 
 
 def cmd_binder_lane_menu(args: argparse.Namespace) -> int:
@@ -2575,6 +2588,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="confirm that the declared use passed its required license and terms review",
     )
     binder_execute.set_defaults(func=cmd_binder_lane_execute)
+
+    binder_coverage = binder_commands.add_parser(
+        "coverage-check", help="check every declared candidate and stage without writing files",
+    )
+    binder_coverage.add_argument("contract", help="workspace-relative coverage contract JSON")
+    binder_coverage.add_argument("--observations", required=True, help="workspace-relative observations JSON")
+    binder_coverage.add_argument("--evidence-root", required=True, help="workspace-relative evidence directory")
+    binder_coverage.add_argument("--workspace", default=".")
+    binder_coverage.set_defaults(func=cmd_binder_lane_coverage_check)
 
     binder_closeout = binder_commands.add_parser(
         "closeout",

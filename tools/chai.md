@@ -56,6 +56,11 @@ Use the BioSymphony Structure Factory skill with the Chai-1 tool card. For targe
 
 ## Gates
 
+When using the Anthropic optimization kit, follow the
+[Chai startup and parity checks](anthropic-optimization-kits.md#chai-startup-and-parity).
+Qualify the kit's fresh-process driver and strict stack check before inference;
+record its activation and preserved native inference settings.
+
 - Weight download and runtime use require current upstream license terms.
 - Public targets only in public examples.
 - Multi-validator slate recommended. Do not promote candidates from Chai alone.

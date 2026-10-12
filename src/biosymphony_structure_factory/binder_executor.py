@@ -20,6 +20,8 @@ import uuid
 from pathlib import Path, PurePath
 from typing import Any, Mapping, Sequence
 
+from .prediction_artifacts import PredictionArtifactError, validate_boltz_bundle
+
 
 REGISTRY_SCHEMA_VERSION = "structure-factory-binder-execution-adapters-v1"
 LOCAL_EXECUTION_AUTHORIZATION = "authorize_local_execution"
@@ -167,7 +169,7 @@ def _validate_expected_outputs(value: Any, label: str) -> list[dict[str, Any]]:
         _require_exact_keys(
             item,
             {"id", "path_template", "kind", "minimum_count"},
-            {"maximum_count"},
+            {"maximum_count", "content_validator", "input_binding", "expected_model_count"},
             row_label,
         )
         output_id = item.get("id")
@@ -189,6 +191,17 @@ def _validate_expected_outputs(value: Any, label: str) -> list[dict[str, Any]]:
             raise BinderExecutorError(f"{row_label}.path_template has a malformed placeholder")
         if item.get("kind") not in _OUTPUT_KINDS:
             raise BinderExecutorError(f"{row_label}.kind is not supported")
+        if {"content_validator", "input_binding", "expected_model_count"}.intersection(item):
+            if (
+                item.get("content_validator") != "boltz-predictions-v1"
+                or item.get("kind") != "directory"
+                or not isinstance(item.get("input_binding"), str)
+                or not _PLACEHOLDER_NAME_RE.fullmatch(item["input_binding"])
+                or isinstance(item.get("expected_model_count"), bool)
+                or not isinstance(item.get("expected_model_count"), int)
+                or item["expected_model_count"] < 1
+            ):
+                raise BinderExecutorError(f"{row_label} has an invalid content validator or input binding")
         minimum = item.get("minimum_count")
         maximum = item.get("maximum_count")
         if isinstance(minimum, bool) or not isinstance(minimum, int) or minimum < 1:
@@ -364,6 +377,8 @@ def validate_registry(registry: Any) -> dict[str, Any]:
                 raise BinderExecutorError(
                     f"{label}.expected_outputs[{output_index}].path_template uses an undeclared placeholder"
                 )
+            if "input_binding" in output and placeholders.get(output["input_binding"], {}).get("type") != "path":
+                raise BinderExecutorError(f"{label}.expected_outputs input binding must name a declared path placeholder")
         public_evidence = _validate_string_list(
             item.get("public_evidence"), f"{label}.public_evidence", allow_empty=True
         )
@@ -500,6 +515,7 @@ def _render_values(
             for contract in adapter["expected_outputs"]
             for name in _PLACEHOLDER_RE.findall(contract["path_template"])
         )
+        needed.update(contract["input_binding"] for contract in adapter["expected_outputs"] if "input_binding" in contract)
     return {
         name: _binding_value(name, spec, bindings, runtime_root)
         for name, spec in adapter["placeholders"].items()
@@ -675,9 +691,11 @@ def _validate_outputs(
                 members: list[dict[str, Any]] | None = None
                 if contract["kind"] == "directory":
                     digest, bytes_count, members = _directory_manifest(resolved)
+                    if contract.get("content_validator") == "boltz-predictions-v1":
+                        validate_boltz_bundle(resolved, Path(values[contract["input_binding"]]), contract["expected_model_count"])
                 else:
                     digest, bytes_count = _sha256(resolved), resolved.stat().st_size
-            except (BinderExecutorError, OSError, UnicodeError, json.JSONDecodeError):
+            except (BinderExecutorError, PredictionArtifactError, OSError, UnicodeError, json.JSONDecodeError):
                 findings.append("declared output failed content validation")
                 continue
             artifact = {

@@ -35,6 +35,9 @@
           "id": "prediction-directory",
           "kind": "directory",
           "path_template": "{{output_dir}}",
+          "content_validator": "boltz-predictions-v1",
+          "input_binding": "input_path",
+          "expected_model_count": 1,
           "minimum_count": 1
         }
       ],

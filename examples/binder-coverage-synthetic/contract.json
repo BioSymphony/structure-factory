@@ -1,0 +1,28 @@
+{
+  "schema_version": "structure-factory-candidate-coverage-v1",
+  "candidate_ids": [
+    "candidate-001",
+    "candidate-002"
+  ],
+  "stages": [
+    {
+      "stage_id": "screen",
+      "protocol_sha256": "6550aef97895e03bf6a81543bffe39776c9f9dd665e3a3be2988a04bcb4ea1f1",
+      "depends_on": [],
+      "rejection_rules": [
+        {
+          "rule_id": "invalid-input",
+          "description": "Synthetic input does not meet the declared format."
+        }
+      ]
+    },
+    {
+      "stage_id": "assess",
+      "protocol_sha256": "6550aef97895e03bf6a81543bffe39776c9f9dd665e3a3be2988a04bcb4ea1f1",
+      "depends_on": [
+        "screen"
+      ],
+      "rejection_rules": []
+    }
+  ]
+}

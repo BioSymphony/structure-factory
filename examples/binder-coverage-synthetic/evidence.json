@@ -1,0 +1,16 @@
+{
+  "source_posture": "synthetic_demo",
+  "result_boundary": "public_synthetic_demo",
+  "observations": [
+    {
+      "candidate_id": "candidate-001",
+      "screen": "completed",
+      "assess": "completed"
+    },
+    {
+      "candidate_id": "candidate-002",
+      "screen": "scientifically_rejected",
+      "rule_id": "invalid-input"
+    }
+  ]
+}

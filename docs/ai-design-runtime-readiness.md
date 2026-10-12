@@ -47,6 +47,11 @@ full model on one GPU. Record worker count and input assignment; a replica
 configuration does not split one prediction across devices. Pin the installed
 wheel separately from a source-review commit.
 
+For BioIR OpenFold3, qualify feature `random_seed` and diffusion `sampling_seed`
+delivery separately using the [model-specific seed contract](../tools/bioir.md#openfold3-seed-delivery).
+For a Chai optimization kit, qualify the [fresh-process driver](../tools/anthropic-optimization-kits.md#chai-startup-and-parity)
+before changing activation or allocator settings.
+
 ## Repo Guardrails
 
 - `make harness-check` is the no-download control-plane check. It validates registry pins, lane modules, binder-manifest posture, bootstrap gates, provider posture, and stage contracts.

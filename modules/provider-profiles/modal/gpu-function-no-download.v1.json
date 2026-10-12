@@ -20,6 +20,7 @@
     "input_audit",
     "contract_self_check",
     "stage_contract_check",
+    "remote_import_probe",
     "explicit_operator_launch"
   ],
   "modal": {

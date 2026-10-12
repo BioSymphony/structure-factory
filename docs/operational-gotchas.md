@@ -1,6 +1,6 @@
 # Operational Gotchas Catalog
 
-This catalog describes 45 documented failure classes for multi-stage structural-biology campaigns on RunPod and other cloud GPU providers. Read it before a dispatch that costs money or wall-clock time.
+This catalog describes 46 documented failure classes for multi-stage structural-biology campaigns on RunPod and other cloud GPU providers. Read it before a dispatch that costs money or wall-clock time.
 
 The goal is to detect each class **before** a dispatch burns time and money, and to have a one-line fix ready when it does fire. Most classes have a paste-ready pre-flight probe.
 
@@ -57,6 +57,7 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 | 43 | PepGLAD combined output | Binder extractor reads wrong chain | Resolve `pep_chain` from `summary.jsonl`; verify `pep_seq` |
 | 44 | Cyclic topology lost at handoff | A closed backbone is evaluated as linear | Record topology and use a supported cyclic validation route |
 | 45 | Monitor pgrep race            | False-positive workload-dead detection | multi-process pgrep + heartbeat-age |
+| 46 | Remote entrypoint import failure | Packaged worker fails before inference | Isolated staged imports and SDK serialization checks |
 
 ---
 
@@ -442,6 +443,19 @@ This catalog is target-agnostic. The lessons apply to any binder-design, cofold,
 ---
 
 ## Orchestration and dispatch
+
+### 46. Remote Entrypoint Import Failure
+
+- **Symptom:** the local launcher imports, but the packaged remote worker fails
+  to load its module or callback before inference.
+- **Root cause:** source layout, dependencies, callback signatures, or serialized
+  references differ between the launching process and the worker.
+- **Pre-flight probe:** import the staged entrypoint in a fresh process, inspect
+  callback signatures, and round-trip a synthetic request through the selected
+  SDK serializer when applicable. The probe must start no provider work.
+- **Fix:** package the required modules and dependencies explicitly, then repeat
+  the isolated check before the provider canary. Follow G11 in the
+  [preflight checklist](preflight-checklist.md).
 
 ### 34. STAGE_COMPLETE emitted on zero outputs
 
