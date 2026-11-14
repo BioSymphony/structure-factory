@@ -310,7 +310,7 @@ HARNESS_TEXT_REQUIREMENTS = {
         "skill",
         "candidate ranking",
         "How To Use This",
-        "Hand A Mission To An Agent",
+        "Compare Binder-Design Methods",
         "docs/assets/structure-factory-banner.png",
         "skills/biosymphony-structure-factory/SKILL.md",
         "tools/README.md",

@@ -29,33 +29,20 @@ checkout, tool selection, dependency setup, and execution within those limits.
 [Repository](https://github.com/BioSymphony/structure-factory),
 [Structure Factory skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/biosymphony-structure-factory/SKILL.md)
 
-### Hand A Mission To An Agent
+### Compare Binder-Design Methods
 
 ```text
-Use BioSymphony Structure Factory to plan and run a comparative binder-design
-campaign for the public PD-L1 interface in PDB 4ZQK.
-
-Compare RFdiffusion3, BoltzGen, and BindCraft2. Use ProteinMPNN to complete
-backbone-only designs. Preserve native sequence-structure pairs and record
-any redesign as a separate arm. Define a common candidate quota, controls,
-and assessment policy within my compute budget and runtime limit.
-
-Configure the tools and connect their outputs. Evaluate the agreed candidate
-set with Boltz and Chai, save the confidence matrices, and compare interface
-scores and target-site geometry against matched controls. Keep each method's
-scores, failed candidates, and predictor disagreements in the results.
-
-Return a candidate ranking with diversity groups, structure overlays, and
-counts of attempts, unique sequences, fully assessed candidates, and selections.
-Use the results to propose the next computational experiment and a validation
-plan. Carry out the authorized work through reporting and resource cleanup.
+Use Structure Factory to compare RFdiffusion3, BoltzGen, and BindCraft2 for
+the PD-L1 interface in PDB 4ZQK. Set up and run the comparison within my
+compute limits, with matched controls and a shared Boltz/Chai assessment.
+Return ranked candidates, structure overlays, failure rates, and diversity
+by method. Investigate predictor disagreement and propose the next experiment
+to resolve it.
 ```
 
-This request combines generation, sequence design, prediction, and analysis in
-one experiment. The agent configures the selected tools through adapters or
-installed skills and uses the comparison contract to keep the methods comparable.
-[Binder comparison contract](docs/binder-comparison-contract.md),
-[Execution guide](docs/binder-lane-round.md)
+The comparison contract guides candidate quotas, native sequence handling,
+and assessment settings. The execution guide covers tool setup and handoffs.
+[Comparison contract](docs/binder-comparison-contract.md), [Execution guide](docs/binder-lane-round.md)
 
 ## How The Tools Work Together
 
