@@ -1,40 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="460" height="336" viewBox="0 0 460 336" role="img" aria-labelledby="title desc">
-  <title id="title">A structure prediction and review workflow</title>
-  <desc id="desc">Prepare Boltz YAML from the public 1UBQ sequence. Predict with Boltz and check the model and confidence JSON. Compare the model to 1UBQ and report aligned residues, RMSD, and confidence.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="640" viewBox="0 0 520 640" role="img" aria-labelledby="title desc">
+  <title id="title">Compare design methods in one computational experiment</title>
+  <desc id="desc">Define a common target, controls, quota, and budget. Run RFdiffusion3 with ProteinMPNN sequence completion where needed, alongside separate BoltzGen and BindCraft2 arms. Evaluate candidates with a shared Boltz and Chai panel. Compare interface scores, site geometry, and diversity to select candidates and plan the next experiment.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M1 1 6 4 1 7" fill="none" stroke="#6adce5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="519" height="639" rx="18" fill="#101c2d" stroke="#486680"/>
 
-  <rect x="0.5" y="0.5" width="459" height="335" rx="17" fill="#101c2d" stroke="#486680"/>
-  <g fill="#192b42" stroke="#3a5874">
-    <rect x="14.5" y="14.5" width="431" height="91" rx="11"/>
-    <rect x="14.5" y="122.5" width="431" height="91" rx="11"/>
-    <rect x="14.5" y="230.5" width="431" height="91" rx="11"/>
-  </g>
-  <g fill="none" stroke="#6adce5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M42 108v12m-4-4 4 4 4-4"/>
-    <path d="M42 216v12m-4-4 4 4 4-4"/>
-  </g>
-
-  <g fill="#101c2d" stroke="#51748f">
-    <rect x="26.5" y="44.5" width="31" height="31" rx="7"/>
-    <rect x="26.5" y="152.5" width="31" height="31" rx="7"/>
-    <rect x="26.5" y="260.5" width="31" height="31" rx="7"/>
-  </g>
-  <g fill="none" stroke="#6adce5" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M36 51.5h8l4 4v13H36zM44 51.5v4h4M39 60h6m-6 4h6"/>
-    <path d="M33 170l4-9 5 7 4-7 5 10m-12 5 3 3 6-6"/>
-    <path d="M32.5 282l6-11 6 5 6-7"/>
-    <path d="M32.5 278l6 2 6-9 6 10" stroke="#f2ba79"/>
+  <g fill="none" stroke="#6adce5" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M260 104v18H136v18"/>
+    <path d="M260 122h124v18"/>
+    <path d="M136 280v20h124v22"/>
+    <path d="M384 280v20H260" marker-end="none"/>
+    <path d="M260 414v28"/>
+    <path d="M260 534v28"/>
   </g>
 
-  <g font-family="Inter, Arial, sans-serif">
+  <g stroke="#486680" fill="#192b42">
+    <rect x="16.5" y="16.5" width="487" height="87" rx="11"/>
+    <rect x="16.5" y="146.5" width="239" height="133" rx="11"/>
+    <rect x="264.5" y="146.5" width="239" height="133" rx="11"/>
+    <rect x="16.5" y="328.5" width="487" height="85" rx="11"/>
+    <rect x="16.5" y="448.5" width="487" height="85" rx="11"/>
+    <rect x="16.5" y="568.5" width="487" height="55" rx="11" fill="#183b46" stroke="#50979d"/>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif" text-anchor="middle">
     <g fill="#f5f8fc" font-size="24" font-weight="700">
-      <text x="75" y="53">Prepare the input</text>
-      <text x="75" y="161">Predict with Boltz</text>
-      <text x="75" y="269">Compare to PDB 1UBQ</text>
+      <text x="260" y="51">Define the experiment</text>
+      <text x="136" y="181">RFdiffusion3</text>
+      <text x="384" y="181">BoltzGen</text>
+      <text x="384" y="213">BindCraft2</text>
+      <text x="260" y="363">Shared Boltz + Chai assessment</text>
+      <text x="260" y="483">Compare evidence</text>
     </g>
-    <g fill="#c7d9e9" font-size="20">
-      <text x="75" y="80">1UBQ sequence to Boltz YAML</text>
-      <text x="75" y="188">Model, confidence JSON, receipt</text>
-      <text x="75" y="296">Aligned residues, RMSD, confidence</text>
+    <g fill="#c7d9e9" font-size="21">
+      <text x="260" y="82">Target, controls, quota, budget</text>
+      <text x="136" y="213">ProteinMPNN</text>
+      <text x="136" y="252">Design sequences</text>
+      <text x="384" y="252">Separate design arms</text>
+      <text x="260" y="395">Structures + confidence matrices</text>
+      <text x="260" y="515">Interface, site geometry, diversity</text>
     </g>
+    <text x="260" y="603" fill="#f5f8fc" font-size="22" font-weight="600">Select candidates + next experiment</text>
   </g>
 </svg>

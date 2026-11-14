@@ -38,11 +38,13 @@ Use this to introduce a design-and-review toolchain.
 
 ## `system-context.svg`
 
-Text equivalent: prepare Boltz YAML from the public ubiquitin sequence.
-The Boltz adapter returns a checked model, confidence JSON, and receipt.
-Compare the model with PDB 1UBQ and report aligned residues, RMSD, and confidence.
+Text equivalent: a common target and comparison plan feed RFdiffusion3 with
+sequence completion and separate BoltzGen and BindCraft2 design arms. A shared
+Boltz/Chai assessment produces structures and confidence matrices. Interface
+scores, site geometry, and diversity inform candidate selection and the next
+experiment.
 
-Use this alongside the README's copyable agent request.
+Use this alongside the README's comparative design campaign request.
 
 ## `agent-lanes.svg`
 
