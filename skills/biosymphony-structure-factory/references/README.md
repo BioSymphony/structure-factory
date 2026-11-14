@@ -1,234 +1,158 @@
+![BioSymphony Structure Factory. Pixel-art lab with a protein model.](docs/assets/structure-factory-banner.png)
+
 # BioSymphony Structure Factory
 
-![BioSymphony Structure Factory: a pixel-art lab with a conceptual protein model](docs/assets/structure-factory-banner.png)
+Give your AI agent this repository and a structural biology task. Your agent
+can use the tool cards to choose methods, configure and call tools, and pass
+checked structures, scores, and other files to the next stage. The repository
+provides portable agent instructions and the `bsf` CLI.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
-[![Status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange.svg)](#status)
+[![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange.svg)](#status)
 
-BioSymphony Structure Factory helps scientists and AI agents select, call, and
-chain structural biology tools. It combines a tool knowledge base with a CLI,
-agent skills, and an adapter executor for design, structure prediction, and
-model comparison.
-
-Use tool cards to choose a method, bind an installed tool or service client,
-and pass its checked outputs to the next stage. Scientific tools, model
-weights, and provider access are configured separately.
-
-## What Is Included
-
-<p align="center">
-  <img src="docs/assets/system-context.svg" width="560" alt="The tool knowledge base informs your agent's choices. The CLI and skills call configured tools, connect their outputs, and produce structures, scores, rankings, and figures.">
-</p>
-
-| Capability | What You And Your Agent Can Do | Start With |
-| --- | --- | --- |
-| Find tools | Compare roles, inputs, outputs, runtime needs, licenses, source repos, and papers | [Tool cards](https://github.com/BioSymphony/structure-factory/blob/main/tools/README.md), [software registry](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml), [tool radar](docs/tool-and-skill-radar.md) |
-| Compare pH contributions | Paired electrostatic contrasts with state, pose, and grid sensitivity | [pH comparison](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-ph-comparison.md), [ProtonPottsMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/protonpottsmpnn.md) |
-| Review design context | Resolved GuideFlip inputs and chemically checked glycan sampling | [GuideFlip measurements](https://github.com/BioSymphony/structure-factory/blob/main/docs/guideflip-input-review.md), [glycan context](https://github.com/BioSymphony/structure-factory/blob/main/docs/glycan-context-review.md) |
-| Call tools | Invoke a configured local program or an API, cloud, scheduler, or container client through an adapter | [Adapter guide](docs/binder-lane-round.md#run-tools-through-adapters) |
-| Chain calls | Connect stage dependencies and pass checked files or directory bundles into downstream tools | [Controller guide](docs/binder-lane-round.md#prepare-a-controller-request) |
-| Compare methods | Freeze native protocols, verify site conditioning, and track parent backbones through a common screen | [Comparison contract](docs/binder-comparison-contract.md), [execution guide](docs/binder-lane-round.md), [scoring stack](tools/cofold-scoring-stack.md) |
-| Add a tool | Supply an adapter with typed inputs and expected outputs, or use an installed platform skill | [Custom tools and routes](docs/binder-lane-round.md) |
-
-## Start Here
-
-| To | Start With |
-| --- | --- |
-| Give your agent a scientific task | [Structure Factory skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/biosymphony-structure-factory/SKILL.md) and [example request](#hand-a-mission-to-an-agent) |
-| Run the Claude binder lane | [Claude binder lane](https://github.com/BioSymphony/structure-factory/blob/main/docs/claude-binder-lane.md) and [binder-lane skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) |
-| Choose a tool or model | [Tool cards](https://github.com/BioSymphony/structure-factory/blob/main/tools/README.md) and [tool radar](docs/tool-and-skill-radar.md) |
-| Review candidate filters | [Binder filtering](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md) and [qualification contract](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-filter-qualification.md) |
-| Call tools and connect stages | [Execution guide](docs/binder-lane-round.md) |
-| Inspect the CLI locally | [Install and inspect](#inspect-or-run-the-repo-yourself) |
+[Tool menu](#what-your-agent-can-do), [Example tasks](#more-tasks-to-give-your-agent),
+[How tool calls work](#how-your-agent-calls-and-chains-tools)
 
 ## How To Use This
 
-Give your agent the [Structure Factory skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/biosymphony-structure-factory/SKILL.md)
-and describe the result you need.
+Point Codex, Claude Code, or another command-capable agent at the
+[repository checkout](https://github.com/BioSymphony/structure-factory). Ask it
+to read the [Structure Factory skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/biosymphony-structure-factory/SKILL.md)
+and give it your scientific question, inputs, desired outputs, and execution
+limits.
+
+### Hand A Mission To An Agent
 
 ```text
-Use the BioSymphony Structure Factory skill.
-Goal: <design candidates, predict structures, compare models, screen, or render>.
-Inputs: <public accessions or synthetic fixtures>.
-Tools: <choose from the knowledge base, or use these named tools>.
-Workflow: <which tool outputs feed which later steps>.
-Compute: <local tools, installed skills, or selected hosted services>.
-Limits: <budget, runtime, candidate count, metric, and stopping rule>.
-Results: <structures, score tables, candidate rankings, or figures>.
-Check tool availability and input compatibility, then dry-run the toolchain.
-Identify any missing adapter, installation, or authorization before execution.
+Use the Structure Factory skill in this checkout. Predict the structure of
+human ubiquitin from the public PDB 1UBQ sequence, then compare the prediction
+with the deposited structure.
+
+Check the Boltz tool card and local adapter. Record the installed version
+and alignment source, then prepare and dry-run the call.
+Run the prediction if my configured runtime is ready and authorized.
+Use the deposited coordinates as the comparison reference.
+
+Return the checked model, confidence summary, and execution receipt. Include
+aligned residue coverage, C-alpha RMSD, and any failed or missing outputs.
+If execution is blocked, report the missing setup and the next action.
 ```
 
-The public CLI uses `bsf binder-lane adapter` for one tool call and
-`bsf binder-lane execute` for a prepared adapter chain. Its `run` command
-exercises the included synthetic fixture. Installed platform skills are called
-by your agent, then checked against the declared stage outputs.
-
-Obtain explicit human authorization before a paid provider start, non-public
-upload, terms acceptance, or large or license-gated download. The approval
-names the route, data posture, budget, runtime, and applicable terms.
-
-## Hand A Mission To An Agent
-
-> Use the Structure Factory skill to compare structure-prediction tools for public inputs. Read the tool cards, explain which methods fit the inputs, and configure separate prediction arms with the same review criteria. Connect prediction outputs to scoring and visualization. Return a comparison table, failed-input list, and selected figures. Dry-run the calls before execution.
-
-[Use cases](docs/use-cases.md) includes requests for binder comparison,
-state atlases, screening, and structure mapping.
-
-## Workflow Stages
-
 <p align="center">
-  <img src="docs/assets/workflow-ladder.svg" width="560" alt="Example design workflow: prepare inputs, generate candidates, predict structures, score and filter, then review rankings and figures. Each stage consumes outputs from the preceding stage.">
+  <img src="docs/assets/system-context.svg" width="500" alt="Prepare Boltz YAML from the public ubiquitin sequence. The Boltz adapter returns a checked model, confidence JSON, and receipt. Compare the model with PDB 1UBQ and report aligned residues, RMSD, and confidence.">
 </p>
 
-Select tools and execution routes for the stages you need. The binder controller runs configured adapters in
-dependency order and verifies file hashes and output counts before passing
-results downstream. A failed tool or invalid handoff stops the remaining
-stages and returns a failure record with next actions.
+The bundled `boltz-local-v1` adapter calls the installed Boltz executable.
+It checks for one parseable structure and a matching confidence JSON per
+input and hashes the output bundle. [Boltz adapter guide](docs/binder-lane-round.md#run-tools-through-adapters),
+[RCSB PDB 1UBQ](https://www.rcsb.org/structure/1UBQ)
 
-A tool card supplies method knowledge. A runnable adapter supplies the
-command and input/output mapping for your installation. Check both when
-building a chain; the [execution guide](docs/binder-lane-round.md) explains
-how to resolve missing bindings and connect installed skills.
+## What Your Agent Can Do
 
-## When To Use This
+Each tool card describes when to use the method, its inputs and outputs, and
+its runtime and license requirements. The [tool card index](https://github.com/BioSymphony/structure-factory/blob/main/tools/README.md)
+routes by scientific task. The [software registry](https://github.com/BioSymphony/structure-factory/blob/main/references/software-registry.yaml)
+and [tool radar](docs/tool-and-skill-radar.md) provide source and version records.
 
-Use Structure Factory when a scientific question needs several tools, a
-comparison between methods, or an agent that can inspect and continue the
-work. Choose the steps that answer the question: prediction and review,
-design and scoring, screening, or structural visualization.
-
-## What Users And Their Agents Can Run
-
-Inspect command bindings with
-`bsf binder-lane adapters`, then dry-run the selected adapter to check your
-installation.
-
-| Role | Example Tool Records | Output To Use Downstream |
+| Scientific task | Methods to consider | Outputs to pass downstream |
 | --- | --- | --- |
-| Generate candidate structures | [RFdiffusion3](https://github.com/BioSymphony/structure-factory/blob/main/tools/rfdiffusion3.md), [Genie3](https://github.com/BioSymphony/structure-factory/blob/main/tools/genie3-peptides.md), [BindCraft2](tools/bindcraft2.md) | Candidate structures or designs |
-| Design sequences | [ProteinMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/proteinmpnn.md) | Sequences for selected backbones |
-| Predict complexes | [Boltz](https://github.com/BioSymphony/structure-factory/blob/main/tools/boltz.md), [Chai](https://github.com/BioSymphony/structure-factory/blob/main/tools/chai.md), [ESMFold2](https://github.com/BioSymphony/structure-factory/blob/main/tools/esmfold2.md) | Predicted structures and confidence fields |
-| Score and filter | [Cofold scoring stack](tools/cofold-scoring-stack.md), [refinement stack](https://github.com/BioSymphony/structure-factory/blob/main/tools/refinement-stack.md) | Per-tool scores, filter decisions, and failure rows |
-| Review poses and screens | [PoseBusters](https://github.com/BioSymphony/structure-factory/blob/main/tools/posebusters.md), [MolPAL](https://github.com/BioSymphony/structure-factory/blob/main/tools/molpal.md) | Pose checks and selected screening candidates |
-| Render structures | [ChimeraX](https://github.com/BioSymphony/structure-factory/blob/main/tools/chimerax-peptide-viz.md), [MolViewSpec](https://github.com/BioSymphony/structure-factory/blob/main/tools/molviewspec.md) | Structural figures and reusable molecular views |
+| Generate backbones or paired designs | [RFdiffusion3](https://github.com/BioSymphony/structure-factory/blob/main/tools/rfdiffusion3.md), [Genie3](https://github.com/BioSymphony/structure-factory/blob/main/tools/genie3-peptides.md), [BindCraft2](tools/bindcraft2.md), [BoltzGen](https://github.com/BioSymphony/structure-factory/blob/main/tools/boltzgen.md) | Backbones for sequence design or paired sequences and structures for evaluation |
+| Design helical or cyclic peptides | [HelixDiff](https://github.com/BioSymphony/structure-factory/blob/main/tools/helixdiff.md), [PepGLAD](https://github.com/BioSymphony/structure-factory/blob/main/tools/pepglad.md), [RFpeptides](https://github.com/BioSymphony/structure-factory/blob/main/tools/rfpeptides.md) | Peptide backbones or sequence-structure pairs for prediction and scoring |
+| Design sequences for a backbone | [ProteinMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/proteinmpnn.md), [MoMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/mompnn.md), [ProtonPottsMPNN](https://github.com/BioSymphony/structure-factory/blob/main/tools/protonpottsmpnn.md) | Sequence sets for structure prediction or property comparisons |
+| Plan designs for flexible targets or multiple states | [GuideFlip](https://github.com/BioSymphony/structure-factory/blob/main/tools/guideflip.md), [SwitchCraft](https://github.com/BioSymphony/structure-factory/blob/main/tools/switchcraft.md) | Candidate sequences and models for evaluation across target states |
+| Predict structures or complexes | [Boltz](https://github.com/BioSymphony/structure-factory/blob/main/tools/boltz.md), [Chai](https://github.com/BioSymphony/structure-factory/blob/main/tools/chai.md), [ESMFold2](https://github.com/BioSymphony/structure-factory/blob/main/tools/esmfold2.md), [OpenFold3](https://github.com/BioSymphony/structure-factory/blob/main/tools/openfold3.md) | Structure files and model confidence data for scoring or review |
+| Sample alternative conformations | [BioEmu](https://github.com/BioSymphony/structure-factory/blob/main/tools/bioemu.md), [SimpleFold](https://github.com/BioSymphony/structure-factory/blob/main/tools/simplefold.md) | Monomer ensembles for comparing flexibility and conformations |
+| Score models and qualify filters | [Cofold scoring stack](tools/cofold-scoring-stack.md), [binder filtering](https://github.com/BioSymphony/structure-factory/blob/main/tools/binder-filtering.md), [refinement stack](https://github.com/BioSymphony/structure-factory/blob/main/tools/refinement-stack.md) | Per-model scores, filter decisions, and failure rows for candidate review |
+| Prioritize compounds and review poses | [MolPAL](https://github.com/BioSymphony/structure-factory/blob/main/tools/molpal.md), [PoseBusters](https://github.com/BioSymphony/structure-factory/blob/main/tools/posebusters.md), [PLACER](https://github.com/BioSymphony/structure-factory/blob/main/tools/placer.md) | Compounds for the next screening round, pose checks, and local conformational ensembles |
+| Compare and render structures | [ChimeraX](https://github.com/BioSymphony/structure-factory/blob/main/tools/chimerax-peptide-viz.md), [MolViewSpec](https://github.com/BioSymphony/structure-factory/blob/main/tools/molviewspec.md) | Structure overlays, figures, and reusable molecular views |
 
-The bundled execution registry includes command records for Boltz, ESMFold2
-full/Fast, supplied-backbone input, and status and diversity filters. Other
-tool records may need an installation-specific adapter or platform skill.
-See [capabilities](docs/capabilities.md) for execution coverage and the
-[tool radar](docs/tool-and-skill-radar.md) for dated research leads.
+## More Tasks To Give Your Agent
 
-## Works With Your Stack
+- "Compare Boltz and Chai on the same public protein complexes. Use the same
+  reference structures and reporting criteria. Return the models, confidence
+  fields, and failed inputs." [Model comparison guide](docs/agent-recipes.md#recipe-model-comparison-or-structure-mapping)
+- "Compare published binder-design workflows for the PD-L1 interface in PDB 4ZQK.
+  Keep target, controls, predictor panel, and ranking criteria fixed. Return
+  a validated run plan and the tool bindings each arm needs."
+  [PD-L1 fast path](https://github.com/BioSymphony/structure-factory/blob/main/recipes/pd-l1-binder-design-fast-path.md), [Binder comparison contract](docs/binder-comparison-contract.md)
+- "Build a state atlas from public active and inactive GPCR structures.
+  Align comparable chains, label the regions that move, and return an overlay
+  plus a table of differences." [State atlas guide](docs/use-cases.md#gpcr-or-multimer-state-atlas)
+- "Use this public PDB/EMDB pair to plan structure mapping. Return accession
+  provenance, map/model checks, and a figure outline."
+  [Structure mapping guide](docs/use-cases.md#public-pdbemdb-structure-mapping)
+- "Use existing scores for a public compound library to plan the next MolPAL
+  screening batch. Include the selection rule and PoseBusters checks for
+  the available poses." [MolPAL](https://github.com/BioSymphony/structure-factory/blob/main/tools/molpal.md), [PoseBusters](https://github.com/BioSymphony/structure-factory/blob/main/tools/posebusters.md)
 
-Use the Markdown skills with Codex, Claude Code, or another agent that reads
-files and calls commands. Use `bsf` directly when you prefer a terminal.
+For more requests, see [agent use cases](docs/use-cases.md) and the guides to
+[pH comparisons](https://github.com/BioSymphony/structure-factory/blob/main/docs/binder-ph-comparison.md),
+[GuideFlip inputs](https://github.com/BioSymphony/structure-factory/blob/main/docs/guideflip-input-review.md), and
+[glycan context](https://github.com/BioSymphony/structure-factory/blob/main/docs/glycan-context-review.md).
 
-A toolchain can mix local programs, hosted APIs, installed platform skills,
-and compute on RunPod, FAL, Modal, Lambda Cloud, AWS, or SSH/HPC. Configure a
-matching adapter or skill for each stage. [Provider profiles](docs/compute-backends.md)
-record setup requirements; the selected route determines runtime availability.
+## How Your Agent Calls And Chains Tools
 
-Optional [task packs](https://github.com/BioSymphony/structure-factory/tree/main/packs) let OpenAI's Symphony with Linear, GitHub Issues,
-or another queue coordinate the same work.
+1. **Find the execution route.** `bsf binder-lane adapters --workspace .` lists
+   command bindings and their implementation status. The bundled registry has
+   command bindings for local Boltz, supplied-backbone input, the status-preserving
+   filter, and the diversity filter. Each command needs its executable in the
+   selected runtime. The registry marks Chai and both ESMFold2 variants as
+   `adapter_required`. Supply an adapter to run them through `bsf binder-lane`.
+2. **Check or run one tool.** In a dry run, `bsf binder-lane adapter` checks typed
+   bindings and looks up the executable. An authorized run calls the program,
+   validates its outputs, and records artifact counts and hashes in a receipt.
+3. **Connect tools.** `bsf binder-lane prepare-execution` binds a verified plan to
+   adapter inputs. `bsf binder-lane execute` runs the prepared chain of local
+   commands and checks declared file or directory handoffs before starting
+   dependent stages. For example, an interface scorer can use a cofold model
+   and its full predicted aligned error (PAE) matrix when the predictor saves
+   that matrix.
+
+[Adapter registry](references/binder-execution-adapters.json),
+[Controller guide](docs/binder-lane-round.md#prepare-a-controller-request),
+[Confidence files for scoring](docs/confidence-sidecars.md)
+
+A local command can call a scientific tool or a configured API, cloud, container,
+or scheduler client. Your agent can invoke a platform skill directly and use
+the stage closeout contract to verify its outputs. Before a paid start,
+non-public upload, terms acceptance, or large or license-gated download,
+obtain explicit human authorization. [Compute routes, including RunPod and HPC](docs/compute-backends.md),
+[Remote request and receipt contracts](docs/binder-lane-round.md#run-a-remote-tool-through-a-fixed-contract)
+
+## Binder Toolchain Comparisons
+
+Use the [binder-lane skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) to hold target,
+controls, and scoring criteria fixed while you compare selected tools. The
+[Claude binder lane](https://github.com/BioSymphony/structure-factory/blob/main/docs/claude-binder-lane.md) supports comparisons that reuse
+published tool identities, follow the published workflow with different tools,
+or test a specific substitution. The
+[PD-L1 planning example](examples/pd-l1-binder-design-public) includes a public
+target window, generation and cofold plans, and a candidate ranking schema.
+[Published workflow reference](references/published-binder-comparison-workflow.json)
 
 ## Inspect Or Run The Repo Yourself
 
-Install the CLI and inspect tools and adapters. These commands run locally
-without a GPU or provider account:
-
-```bash
-git clone https://github.com/BioSymphony/structure-factory.git
-cd structure-factory
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-
-bsf doctor .
-bsf binder-lane menu --workspace .
-bsf binder-lane adapters --workspace .
-bsf catalog . --format markdown
-bsf validate examples/pd-l1-binder-design-public
-```
-
-Follow the [execution guide](docs/binder-lane-round.md) to bind inputs,
-dry-run one adapter, or prepare and execute a chain. Planning and validation
-need Python 3.10+; each scientific tool has its own runtime requirements.
+To check a local checkout, use `bsf doctor .` and
+`bsf binder-lane adapters --workspace .`.
+[CLI reference](docs/cli-reference.md), [Local CLI tour](docs/quickstart-tour.md),
+[Agent setup](docs/skill-install.md), [FAQ](docs/faq.md),
+[Glossary](docs/glossary.md)
 
 <details>
-<summary>Campaign scaffolding and optional tracker tasks</summary>
+<summary>Campaign planning, coordination, and release checks</summary>
 
-```bash
-bsf scaffold-campaign .runtime/pd-l1-binder-demo \
-  --campaign-id pd-l1-binder-demo \
-  --target-label "PD-L1 public interface demo" \
-  --public-accession "PDB:4ZQK" \
-  --window "public PD-1/PD-L1 interface window"
-bsf validate .runtime/pd-l1-binder-demo
-bsf issue-dry-run examples/pd-l1-binder-design-public \
-  --out .runtime/pd-l1-issues
-```
+Use `bsf catalog .` to discover workflows, `bsf scaffold-campaign` to write a
+campaign plan, and `bsf validate` to check it. Use `bsf issue-dry-run` to draft
+tracker tasks. [Workflow map](docs/workflow-map.md),
+[Campaign capabilities](docs/capabilities.md), [Task packs](https://github.com/BioSymphony/structure-factory/tree/main/packs),
+[Symphony and Linear](docs/linear-orchestration.md)
 
-The [workflow map](docs/workflow-map.md) and [agent harness guide](docs/agentic-biology-harness.md)
-cover task dependencies and worker handoffs.
-
-</details>
-
-## Claude Binder Lane And Binder-Design Fast Path
-
-The [Claude binder lane](https://github.com/BioSymphony/structure-factory/blob/main/docs/claude-binder-lane.md) is part of this public
-Structure Factory repository. Give its [binder-lane skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md)
-to Claude Code, Codex, or another command-capable agent to plan an Anthropic
-study-shape comparison, replay selected published tool identities, or compare
-declared tool swaps. It connects the public workflow reference, tool ledger,
-adapter registry, target check, controls, and output closeout in one path.
-
-The [PD-L1 example](examples/pd-l1-binder-design-public) includes a target
-window for PDB `4ZQK`, generation and cofold plans, and a candidate ranking
-schema. The [fast-path recipe](https://github.com/BioSymphony/structure-factory/blob/main/recipes/pd-l1-binder-design-fast-path.md) covers
-local preparation. Verify coordinate inputs with `target-check --plan <plan.json>`
-before a comparative generation run.
-
-The [binder-lane skill](https://github.com/BioSymphony/structure-factory/blob/main/skills/binder-lane-round/SKILL.md) also supports an
-independent comparison workflow based on [Anthropic's public report](https://www-cdn.anthropic.com/30bf50e22a01388bb29bf077ee3f244531594b7a.pdf)
-and [released dataset](https://huggingface.co/datasets/Anthropic/claude-protein-binder-design).
-Choose source-tool replay, workflow-shape replay, or deliberate tool swaps.
-
-## Newcomer Resources
-
-- [FAQ](docs/faq.md): GPUs, agents, trackers, and adding tools.
-- [Glossary](docs/glossary.md): scientific and workflow terms.
-- [Quickstart tour](docs/quickstart-tour.md): a local CLI walkthrough.
-- [CLI reference](docs/cli-reference.md): commands and options.
-- [Skill installation](docs/skill-install.md): agent setup.
-
-<details>
-<summary>Operations, repository layout, and release checks</summary>
-
-Read the [preflight checklist](docs/preflight-checklist.md) before paid
-execution. [Operational checks](docs/operational-gotchas.md) and
-[output validation](docs/no-false-success-hardening.md) cover failed tools,
-incomplete results, and cleanup.
-
-| Directory | Contents |
-| --- | --- |
-| `tools/`, `references/` | Tool knowledge base, registries, and source records |
-| `skills/`, `src/` | Agent instructions and the `bsf` CLI |
-| `recipes/`, `examples/`, `demos/` | Workflows, fixtures, and curated examples |
-| `campaigns/`, `modules/`, `schemas/` | Campaign definitions and reusable stage contracts |
-| `runpod/`, `packs/`, `templates/` | Provider templates and optional task coordination |
-| `scripts/`, `tests/`, `docs/` | Validators, tests, and guides |
-
-Before publishing, follow [PUBLIC_RELEASE.md](https://github.com/BioSymphony/structure-factory/blob/main/PUBLIC_RELEASE.md) and run
-`make public-switch-check`, then `make clean`. Keep credentials, private data,
-provider logs, model weights, and generated structures in runtime storage.
+Follow the [public release checklist](https://github.com/BioSymphony/structure-factory/blob/main/PUBLIC_RELEASE.md) before publishing.
 
 </details>
 
 ## Status
 
-Pre-alpha. Local checks cover planning, adapter execution, stage handoffs,
-fixtures, and release scans. Scientific tool availability depends on the
-configured installation or service. [NON_CLAIMS.md](NON_CLAIMS.md) and
-[BIOSAFETY.md](https://github.com/BioSymphony/structure-factory/blob/main/BIOSAFETY.md) define the result boundaries.
+Pre-alpha. The `bsf` CLI requires Python 3.10+. Scientific execution depends on
+the configured tool and route. Computational results need independent
+validation. [Result boundaries](NON_CLAIMS.md), [Biosafety](https://github.com/BioSymphony/structure-factory/blob/main/BIOSAFETY.md)

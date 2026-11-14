@@ -1,27 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="568" viewBox="0 0 560 568" role="img" aria-labelledby="title desc">
-<title id="title">Tool Knowledge, Calls, And Chains</title>
-<desc id="desc">Tool cards and source references inform tool selection. The agent and CLI bind configured commands. Adapters connect checked outputs between stages. Scientific outputs include structures, scores, candidate rankings, and figures.</desc>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#425b70" stroke-width="1.5"/></marker></defs>
-<rect width="560" height="568" rx="16" fill="#ffffff"/>
-<g font-family="Arial, Helvetica, sans-serif">
-<rect x="20" y="16" width="520" height="112" rx="12" fill="#f2f6fa" stroke="#aebfce" stroke-width="1.5"/>
-<text x="40" y="51" font-size="25" fill="#2563a6">Tool Knowledge Base</text>
-<text x="40" y="86" font-size="21" fill="#425b70">Method roles, inputs, outputs, and licenses</text>
-<text x="40" y="115.4" font-size="21" fill="#425b70">Source repositories and papers</text>
-<rect x="20" y="156" width="520" height="112" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
-<text x="40" y="191" font-size="25" fill="#087e8b">Your Agent + Structure Factory</text>
-<text x="40" y="226" font-size="21" fill="#425b70">Select tools and bind their inputs</text>
-<text x="40" y="255.4" font-size="21" fill="#425b70">Choose local commands or hosted routes</text>
-<rect x="20" y="296" width="520" height="112" rx="12" fill="#e9f7f8" stroke="#aebfce" stroke-width="1.5"/>
-<text x="40" y="331" font-size="25" fill="#087e8b">Tool Calls And Chains</text>
-<text x="40" y="366" font-size="21" fill="#425b70">Run configured adapters or installed skills</text>
-<text x="40" y="395.4" font-size="21" fill="#425b70">Pass checked outputs to the next stage</text>
-<rect x="20" y="436" width="520" height="112" rx="12" fill="#f0f5fc" stroke="#aebfce" stroke-width="1.5"/>
-<text x="40" y="471" font-size="25" fill="#2563a6">Scientific Outputs</text>
-<text x="40" y="506" font-size="21" fill="#425b70">Predicted structures and scores</text>
-<text x="40" y="535.4" font-size="21" fill="#425b70">Candidate rankings and selected figures</text>
-<path d="M280 132 l0 18" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M280 272 l0 18" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M280 412 l0 18" fill="none" stroke="#425b70" stroke-width="2" marker-end="url(#arrow)"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="336" viewBox="0 0 460 336" role="img" aria-labelledby="title desc">
+  <title id="title">A structure prediction and review workflow</title>
+  <desc id="desc">Prepare Boltz YAML from the public 1UBQ sequence. Predict with Boltz and check the model and confidence JSON. Compare the model to 1UBQ and report aligned residues, RMSD, and confidence.</desc>
+
+  <rect x="0.5" y="0.5" width="459" height="335" rx="17" fill="#101c2d" stroke="#486680"/>
+  <g fill="#192b42" stroke="#3a5874">
+    <rect x="14.5" y="14.5" width="431" height="91" rx="11"/>
+    <rect x="14.5" y="122.5" width="431" height="91" rx="11"/>
+    <rect x="14.5" y="230.5" width="431" height="91" rx="11"/>
+  </g>
+  <g fill="none" stroke="#6adce5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 108v12m-4-4 4 4 4-4"/>
+    <path d="M42 216v12m-4-4 4 4 4-4"/>
+  </g>
+
+  <g fill="#101c2d" stroke="#51748f">
+    <rect x="26.5" y="44.5" width="31" height="31" rx="7"/>
+    <rect x="26.5" y="152.5" width="31" height="31" rx="7"/>
+    <rect x="26.5" y="260.5" width="31" height="31" rx="7"/>
+  </g>
+  <g fill="none" stroke="#6adce5" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M36 51.5h8l4 4v13H36zM44 51.5v4h4M39 60h6m-6 4h6"/>
+    <path d="M33 170l4-9 5 7 4-7 5 10m-12 5 3 3 6-6"/>
+    <path d="M32.5 282l6-11 6 5 6-7"/>
+    <path d="M32.5 278l6 2 6-9 6 10" stroke="#f2ba79"/>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g fill="#f5f8fc" font-size="24" font-weight="700">
+      <text x="75" y="53">Prepare the input</text>
+      <text x="75" y="161">Predict with Boltz</text>
+      <text x="75" y="269">Compare to PDB 1UBQ</text>
+    </g>
+    <g fill="#c7d9e9" font-size="20">
+      <text x="75" y="80">1UBQ sequence to Boltz YAML</text>
+      <text x="75" y="188">Model, confidence JSON, receipt</text>
+      <text x="75" y="296">Aligned residues, RMSD, confidence</text>
+    </g>
+  </g>
 </svg>

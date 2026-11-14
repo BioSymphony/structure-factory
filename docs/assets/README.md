@@ -38,11 +38,11 @@ Use this to introduce a design-and-review toolchain.
 
 ## `system-context.svg`
 
-Text equivalent: tool knowledge informs the agent's choices. The CLI and
-skills call configured tools, connect checked outputs, and produce structures,
-scores, candidate rankings, and figures.
+Text equivalent: prepare Boltz YAML from the public ubiquitin sequence.
+The Boltz adapter returns a checked model, confidence JSON, and receipt.
+Compare the model with PDB 1UBQ and report aligned residues, RMSD, and confidence.
 
-Use this to explain tool discovery, invocation, and chaining.
+Use this alongside the README's copyable agent request.
 
 ## `agent-lanes.svg`
 
